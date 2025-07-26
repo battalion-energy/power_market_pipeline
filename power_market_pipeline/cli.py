@@ -113,26 +113,33 @@ def backfill(iso, start_date, output_dir):
 
 
 @cli.command()
-@click.option("--iso", multiple=True, default=["ERCOT"])
-@click.option("--output-dir", default="./data", help="Output directory")
-def realtime(iso, output_dir):
-    """Start real-time data updates."""
+@click.option("--iso", multiple=True, default=["ERCOT"], help="ISOs to update")
+@click.option("--data-types", default="lmp,load", help="Comma-separated data types")
+@click.option("--ercot-only", is_flag=True, help="Use specialized ERCOT updater")
+def realtime(iso, data_types, ercot_only):
+    """Start real-time data updates with 5-minute intervals."""
+    from services.realtime_updater import RealtimeUpdater, ERCOTRealtimeUpdater
+    
     click.echo("Starting real-time updates...")
     click.echo(f"ISOs: {', '.join(iso)}")
     
-    # Create config
-    config = DownloadConfig(
-        start_date=datetime.now(),
-        end_date=datetime.now(),
-        data_types=["lmp", "load", "generation"],
-        output_dir=output_dir
-    )
-    
-    # Run real-time updates
-    fetcher = DataFetcher(config)
+    # Parse data types
+    data_type_list = [dt.strip() for dt in data_types.split(",")]
+    click.echo(f"Data types: {', '.join(data_type_list)}")
     
     async def run():
-        await fetcher.run_real_time_updates(list(iso))
+        # Initialize database
+        init_db()
+        
+        # Create appropriate updater
+        if ercot_only or (len(iso) == 1 and iso[0] == "ERCOT"):
+            click.echo("Using specialized ERCOT real-time updater")
+            updater = ERCOTRealtimeUpdater()
+        else:
+            updater = RealtimeUpdater(isos=list(iso), data_types=data_type_list)
+        
+        # Run forever
+        await updater.run_forever()
     
     try:
         asyncio.run(run())
