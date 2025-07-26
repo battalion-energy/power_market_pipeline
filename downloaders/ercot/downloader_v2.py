@@ -24,10 +24,14 @@ class ERCOTDownloaderV2(BaseDownloaderV2):
         super().__init__("ERCOT", config)
         
         # Initialize clients
+        # Use selenium-specific credentials if available, otherwise fall back to general ones
+        selenium_username = os.getenv("ERCOT_SELENIUM_USERNAME") or os.getenv("ERCOT_USERNAME")
+        selenium_password = os.getenv("ERCOT_SELENIUM_PASSWORD") or os.getenv("ERCOT_PASSWORD")
+        
         self.selenium_client = ERCOTSeleniumClient(
             download_dir=os.path.join(config.output_dir, "ercot", "raw"),
-            username=os.getenv("ERCOT_USERNAME"),
-            password=os.getenv("ERCOT_PASSWORD")
+            username=selenium_username,
+            password=selenium_password
         )
         
         # Initialize webservice client if credentials are available

@@ -3,7 +3,7 @@
 import asyncio
 import os
 from datetime import datetime, timedelta
-from typing import Dict, List, Optional
+from typing import Any, Dict, List, Optional
 
 import httpx
 import pandas as pd
@@ -19,6 +19,8 @@ class ERCOTWebServiceClient:
     """Client for ERCOT's official REST API."""
     
     BASE_URL = "https://api.ercot.com"
+    AUTH_URL = "https://ercotb2c.b2clogin.com/ercotb2c.onmicrosoft.com/B2C_1_PUBAPI-ROPC-FLOW/oauth2/v2.0/token"
+    CLIENT_ID = "fec253ea-0d06-4272-a5e6-b478baeecd70"
     
     def __init__(self):
         self.username = os.getenv("ERCOT_USERNAME")
@@ -30,6 +32,7 @@ class ERCOTWebServiceClient:
         
         self.rate_limit_delay = 2  # seconds between requests
         self.last_request_time = 0
+        self.token_data = None
     
     async def _rate_limit(self):
         """Implement rate limiting to avoid API throttling."""
@@ -41,6 +44,37 @@ class ERCOTWebServiceClient:
         
         self.last_request_time = asyncio.get_event_loop().time()
     
+    async def _authenticate(self) -> Dict[str, Any]:
+        """Authenticate with ERCOT and get an access token."""
+        params = {
+            "username": self.username,
+            "password": self.password,
+            "grant_type": "password",
+            "scope": f"openid {self.CLIENT_ID} offline_access",
+            "client_id": self.CLIENT_ID,
+            "response_type": "token"
+        }
+        
+        print(f"Authenticating with ERCOT...")
+        
+        async with httpx.AsyncClient() as client:
+            response = await client.post(self.AUTH_URL, data=params)
+            
+            print(f"Auth response status: {response.status_code}")
+            print(f"Auth response body: {response.text}")
+            
+            if response.status_code != 200:
+                raise Exception(f"Authentication failed: {response.status_code} - {response.text}")
+            
+            self.token_data = response.json()
+            print(f"Authentication successful! Got token with keys: {list(self.token_data.keys())}")
+            return self.token_data
+    
+    async def _ensure_authenticated(self):
+        """Ensure we have a valid token."""
+        if not self.token_data or not self.token_data.get("access_token"):
+            await self._authenticate()
+    
     @retry(stop=stop_after_attempt(3), wait=wait_exponential(min=1, max=10))
     async def _make_request(
         self, 
@@ -49,8 +83,10 @@ class ERCOTWebServiceClient:
     ) -> Dict:
         """Make an authenticated request to ERCOT API."""
         await self._rate_limit()
+        await self._ensure_authenticated()
         
         headers = {
+            "Authorization": f"Bearer {self.token_data['access_token']}",
             "Ocp-Apim-Subscription-Key": self.subscription_key,
             "Accept": "application/json"
         }
@@ -60,9 +96,15 @@ class ERCOTWebServiceClient:
                 f"{self.BASE_URL}{endpoint}",
                 params=params,
                 headers=headers,
-                auth=(self.username, self.password),
                 timeout=30.0
             )
+            
+            # Log full response details for debugging
+            if response.status_code != 200:
+                print(f"Error response status: {response.status_code}")
+                print(f"Error response headers: {dict(response.headers)}")
+                print(f"Error response body: {response.text}")
+            
             response.raise_for_status()
             return response.json()
     
@@ -76,43 +118,60 @@ class ERCOTWebServiceClient:
         if start_date < WEBSERVICE_CUTOFF_DATE:
             raise ValueError(f"Web service only available after {WEBSERVICE_CUTOFF_DATE}")
         
-        endpoint = "/api/public/dam-lmp"
+        # Use the working endpoint
+        endpoint = "/api/public-reports/np4-183-cd/dam_hourly_lmp"
         all_data = []
         
-        # If no specific points requested, use trading hubs
-        if not settlement_points:
-            settlement_points = TRADING_HUBS
-        
-        # Process in daily chunks
+        # Process in daily chunks - get all data and filter client-side if needed
         current_date = start_date
         while current_date <= end_date:
             date_str = current_date.strftime("%Y-%m-%d")
             
-            for sp in settlement_points:
-                params = {
-                    "deliveryDate": date_str,
-                    "settlementPoint": sp
-                }
-                
-                try:
-                    data = await self._make_request(endpoint, params)
-                    if "data" in data:
-                        all_data.extend(data["data"])
-                except Exception as e:
-                    print(f"Error fetching DAM SPP for {sp} on {date_str}: {str(e)}")
+            params = {
+                "deliveryDateFrom": date_str,
+                "deliveryDateTo": date_str
+            }
+            
+            try:
+                response = await self._make_request(endpoint, params)
+                if isinstance(response, dict) and "data" in response:
+                    raw_data = response["data"]
+                    
+                    # Convert array format to dictionary format
+                    for record in raw_data:
+                        if len(record) >= 5:  # Ensure we have all fields
+                            record_dict = {
+                                "delivery_date": record[0],
+                                "hour_ending": record[1], 
+                                "bus_name": record[2],
+                                "lmp": record[3],
+                                "dst_flag": record[4]
+                            }
+                            all_data.append(record_dict)
+                            
+            except Exception as e:
+                print(f"Error fetching DAM LMP for {date_str}: {str(e)}")
             
             current_date += timedelta(days=1)
         
         if all_data:
             df = pd.DataFrame(all_data)
-            # Standardize column names
+            
+            # Filter by settlement points if specified
+            if settlement_points:
+                # Convert to set for faster lookup
+                points_set = set(settlement_points)
+                df = df[df['bus_name'].isin(points_set)]
+            
+            # Rename columns to match standard format
             df.rename(columns={
-                "deliveryDate": "delivery_date",
-                "deliveryHour": "hour_ending",
-                "settlementPoint": "settlement_point",
-                "settlementPointPrice": "spp",
-                "dstFlag": "dst_flag"
+                "delivery_date": "delivery_date",
+                "hour_ending": "hour_ending",
+                "bus_name": "settlement_point", 
+                "lmp": "spp",
+                "dst_flag": "dst_flag"
             }, inplace=True)
+            
             return df
         
         return pd.DataFrame()
@@ -218,14 +277,35 @@ class ERCOTWebServiceClient:
     async def test_connection(self) -> bool:
         """Test the API connection and credentials."""
         try:
-            # Try a simple request
-            endpoint = "/api/public/dam-lmp"
-            params = {
-                "deliveryDate": datetime.now().strftime("%Y-%m-%d"),
-                "settlementPoint": "HB_BUSAVG"
-            }
-            await self._make_request(endpoint, params)
-            return True
+            # Try different endpoints
+            endpoints_to_try = [
+                ("/api/public/dam-lmp", {
+                    "deliveryDate": datetime.now().strftime("%Y-%m-%d"),
+                    "settlementPoint": "HB_BUSAVG"
+                }),
+                ("/api/public-reports/np4-190-cd/dam_stlmnt_pnt_prices", {
+                    "deliveryDateFrom": datetime.now().strftime("%Y-%m-%d"),
+                    "deliveryDateTo": datetime.now().strftime("%Y-%m-%d"),
+                    "settlementPointName": "HB_BUSAVG"
+                }),
+                ("/api/public-reports/np4-183-cd/dam_hourly_lmp", {
+                    "busName": "HB_BUSAVG",
+                    "deliveryDateFrom": datetime.now().strftime("%Y-%m-%d"),
+                    "deliveryDateTo": datetime.now().strftime("%Y-%m-%d")
+                })
+            ]
+            
+            for endpoint, params in endpoints_to_try:
+                try:
+                    print(f"Trying endpoint: {endpoint}")
+                    await self._make_request(endpoint, params)
+                    print(f"Success with endpoint: {endpoint}")
+                    return True
+                except Exception as e:
+                    print(f"Failed {endpoint}: {str(e)}")
+                    continue
+                    
+            return False
         except Exception as e:
             print(f"Connection test failed: {str(e)}")
             return False
