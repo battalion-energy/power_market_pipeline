@@ -42,7 +42,7 @@ def get_db() -> Generator[Session, None, None]:
 
 def init_db():
     """Initialize database tables."""
-    from .models import Base
+    from .models_v2 import Base
     
     Base.metadata.create_all(bind=engine)
 
