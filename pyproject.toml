@@ -26,6 +26,9 @@ dependencies = [
     "structlog>=23.2.0",
 ]
 
+[project.scripts]
+pmp = "cli:cli"
+
 [project.optional-dependencies]
 dev = [
     "pytest>=7.4.0",
