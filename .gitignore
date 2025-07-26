@@ -47,9 +47,13 @@ logs/
 
 # Data
 data/
-*.csv
 *.parquet
 *.arrow
+
+# CSV files (except reference data)
+*.csv
+!downloaders/*/nodes_*.csv
+!reference_data/*.csv
 
 # Database
 *.db

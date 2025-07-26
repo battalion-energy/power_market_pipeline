@@ -1,0 +1,11 @@
+Node ID,Node Type,Node Name
+TH_NP15_GEN-APND,TH,NP15 Trading Hub
+TH_SP15_GEN-APND,TH,SP15 Trading Hub
+TH_ZP26_GEN-APND,TH,ZP26 Trading Hub
+DLAP_PGAE,DLAP,PG&E Default LAP
+DLAP_SCE,DLAP,SCE Default LAP
+DLAP_SDGE,DLAP,SDG&E Default LAP
+DLAP_VEA,DLAP,Valley Electric Default LAP
+PGAE-APND,ASP,PG&E Aggregated System Price
+SCE-APND,ASP,SCE Aggregated System Price
+SDGE-APND,ASP,SDG&E Aggregated System Price
