@@ -269,8 +269,17 @@ def store_lmp_batch(df: pd.DataFrame) -> int:
                     location_type=loc['location_type']
                 )
                 db.add(location)
-                
-        db.flush()
+                try:
+                    db.flush()
+                except Exception:
+                    # Handle race condition where location was created by another process
+                    db.rollback()
+                    existing = db.query(Location).filter(
+                        Location.iso_id == iso_id,
+                        Location.location_id == loc['location']
+                    ).first()
+                    if not existing:
+                        raise
         
         # Prepare records for bulk insert (skip duplicates)
         records = []
