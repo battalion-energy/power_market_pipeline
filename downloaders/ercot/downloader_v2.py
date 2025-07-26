@@ -11,7 +11,7 @@ import pandas as pd
 from database import AncillaryServices, LMP, Load, get_db
 from processors.ercot import ERCOTProcessor
 
-from ..base_v2 import BaseDownloaderV2, DownloadConfig
+from downloaders.base_v2 import BaseDownloaderV2, DownloadConfig
 from .constants import WEBSERVICE_CUTOFF_DATE
 from .selenium_client import ERCOTSeleniumClient
 from .webservice_client import ERCOTWebServiceClient
@@ -30,7 +30,12 @@ class ERCOTDownloaderV2(BaseDownloaderV2):
             password=os.getenv("ERCOT_PASSWORD")
         )
         
-        self.webservice_client = ERCOTWebServiceClient()
+        # Initialize webservice client if credentials are available
+        try:
+            self.webservice_client = ERCOTWebServiceClient()
+        except ValueError:
+            self.logger.warning("ERCOT webservice credentials not found, webservice downloads will be skipped")
+            self.webservice_client = None
         self.processor = ERCOTProcessor()
     
     async def download_lmp(
@@ -59,7 +64,7 @@ class ERCOTDownloaderV2(BaseDownloaderV2):
         
         for interval_start, interval_end in missing_intervals:
             try:
-                if interval_end >= WEBSERVICE_CUTOFF_DATE:
+                if interval_end >= WEBSERVICE_CUTOFF_DATE and self.webservice_client:
                     # Use web service for recent data
                     records = await self._download_lmp_webservice(
                         ercot_market,

@@ -6,12 +6,12 @@ from typing import Dict, List, Optional
 
 import structlog
 
-from database import get_db
-from downloaders.caiso import CAISODownloader
-from downloaders.ercot import ERCOTDownloaderV2
-from downloaders.isone import ISONEDownloader
-from downloaders.nyiso import NYISODownloader
-from downloaders.base_v2 import DownloadConfig
+from ..database import get_db
+from ..downloaders.caiso import CAISODownloader
+from ..downloaders.ercot.downloader_v2 import ERCOTDownloaderV2
+from ..downloaders.isone import ISONEDownloader
+from ..downloaders.nyiso import NYISODownloader
+from ..downloaders.base_v2 import DownloadConfig
 
 
 class DataFetcher:

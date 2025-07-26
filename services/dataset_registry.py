@@ -7,8 +7,8 @@ from typing import Dict, List, Optional
 from sqlalchemy import func
 from sqlalchemy.orm import Session
 
-from database import get_db
-from database.dataset_models import (
+from ..database import get_db
+from ..database.dataset_models import (
     Dataset,
     DatasetCategory,
     DatasetColumn,
@@ -137,7 +137,7 @@ class DatasetRegistry:
         
         with get_db() as db:
             # Get ISO
-            from database.models import ISO
+            from ..database import ISO
             iso = db.query(ISO).filter(ISO.code == iso_code).first()
             if not iso:
                 raise ValueError(f"ISO {iso_code} not found")
@@ -206,16 +206,16 @@ class DatasetRegistry:
                 return
             
             # Update based on table type
-            if dataset.table_name == "energy_prices":
-                from database.models import EnergyPrice
+            if dataset.table_name == "lmp":
+                from ..database import LMP
                 
                 # Get statistics
                 stats = db.query(
-                    func.count(EnergyPrice.timestamp).label("total_rows"),
-                    func.min(EnergyPrice.timestamp).label("earliest"),
-                    func.max(EnergyPrice.timestamp).label("latest")
+                    func.count(LMP.interval_start).label("total_rows"),
+                    func.min(LMP.interval_start).label("earliest"),
+                    func.max(LMP.interval_start).label("latest")
                 ).filter(
-                    EnergyPrice.iso_id == dataset.iso_id
+                    LMP.iso == dataset.iso.code
                 ).first()
                 
                 if stats:
@@ -242,11 +242,11 @@ class DatasetRegistry:
                 for column in dataset.columns:
                     if column.column_name == "lmp":
                         col_stats = db.query(
-                            func.count(EnergyPrice.lmp).label("non_null_count"),
-                            func.avg(EnergyPrice.lmp).label("avg_value"),
-                            func.stddev(EnergyPrice.lmp).label("std_dev")
+                            func.count(LMP.lmp).label("non_null_count"),
+                            func.avg(LMP.lmp).label("avg_value"),
+                            func.stddev(LMP.lmp).label("std_dev")
                         ).filter(
-                            EnergyPrice.iso_id == dataset.iso_id
+                            LMP.iso == dataset.iso.code
                         ).first()
                         
                         if col_stats:
@@ -293,7 +293,7 @@ class DatasetRegistry:
             query = db.query(Dataset).filter(Dataset.is_active == True)
             
             if iso_code:
-                from database.models import ISO
+                from ..database import ISO
                 iso = db.query(ISO).filter(ISO.code == iso_code).first()
                 if iso:
                     query = query.filter(Dataset.iso_id == iso.id)

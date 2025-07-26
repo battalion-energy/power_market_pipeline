@@ -8,10 +8,10 @@ from pathlib import Path
 import click
 from dotenv import load_dotenv
 
-from database import init_db
-from downloaders.base_v2 import DownloadConfig
-from services.data_fetcher import DataFetcher
-from services.dataset_registry import DatasetRegistry
+from power_market_pipeline.database import init_db
+from power_market_pipeline.downloaders.base_v2 import DownloadConfig
+from power_market_pipeline.services.data_fetcher import DataFetcher
+from power_market_pipeline.services.dataset_registry import DatasetRegistry
 
 load_dotenv()
 

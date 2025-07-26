@@ -43,8 +43,15 @@ def get_db() -> Generator[Session, None, None]:
 def init_db():
     """Initialize database tables."""
     from .models_v2 import Base
+    from .dataset_models import Base as DatasetBase
     
+    # Create all tables
     Base.metadata.create_all(bind=engine)
+    DatasetBase.metadata.create_all(bind=engine)
+    
+    # Seed initial data
+    from .seed_data import seed_all
+    seed_all()
 
 
 def get_engine():

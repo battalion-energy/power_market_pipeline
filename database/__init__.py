@@ -13,6 +13,7 @@ from .models_v2 import (
     Load,
     Location,
 )
+from .models import DownloadHistory
 
 __all__ = [
     "get_db",
@@ -28,4 +29,5 @@ __all__ = [
     "InterconnectionFlow",
     "DataCatalog",
     "DataCatalogColumn",
+    "DownloadHistory",
 ]
