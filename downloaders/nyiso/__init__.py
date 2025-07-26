@@ -1,5 +1,5 @@
 """NYISO data downloaders."""
 
-from .downloader import NYISODownloader
+from .downloader_v2 import NYISODownloaderV2
 
-__all__ = ["NYISODownloader"]
+__all__ = ["NYISODownloaderV2"]

@@ -6,12 +6,12 @@ from typing import Dict, List, Optional
 
 import structlog
 
-from ..database import get_db
-from ..downloaders.caiso import CAISODownloader
-from ..downloaders.ercot.downloader_v2 import ERCOTDownloaderV2
-from ..downloaders.isone import ISONEDownloader
-from ..downloaders.nyiso import NYISODownloader
-from ..downloaders.base_v2 import DownloadConfig
+from database import get_db
+from downloaders.caiso.downloader_v2 import CAISODownloaderV2
+from downloaders.ercot.downloader_v2 import ERCOTDownloaderV2
+from downloaders.isone.downloader_v2 import ISONEDownloaderV2
+from downloaders.nyiso.downloader_v2 import NYISODownloaderV2
+from downloaders.base_v2 import DownloadConfig
 
 
 class DataFetcher:
@@ -24,9 +24,9 @@ class DataFetcher:
         # Initialize downloaders
         self.downloaders = {
             "ERCOT": ERCOTDownloaderV2(config),
-            "CAISO": CAISODownloader(config),
-            "ISONE": ISONEDownloader(config),
-            "NYISO": NYISODownloader(config),
+            "CAISO": CAISODownloaderV2(config),
+            "ISONE": ISONEDownloaderV2(config),
+            "NYISO": NYISODownloaderV2(config),
         }
     
     async def fetch_all_data(
