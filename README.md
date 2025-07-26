@@ -235,6 +235,8 @@ The mock tests demonstrate:
 
 ## Architecture
 
+For detailed information about the database design, schema, and management practices, see [Database Design Documentation](database/docs/DATABASE_DESIGN.md).
+
 ```
 power_market_pipeline/
 ├── downloaders/              # ISO-specific downloaders
@@ -250,9 +252,14 @@ power_market_pipeline/
 │   └── nyiso/
 │       └── downloader_v2.py # NYISO implementation
 ├── database/
+│   ├── docs/                # Database documentation
+│   │   └── DATABASE_DESIGN.md # Schema design philosophy
+│   ├── migrations/          # Versioned schema changes
+│   ├── seeds/               # Reference data
+│   ├── scripts/             # Database management scripts
+│   ├── utils/               # Migration and seed utilities
 │   ├── models_v2.py         # SQLAlchemy models
 │   ├── connection.py        # Database connection
-│   ├── seed_data.py         # Initial data seeding
 │   └── schema_v2.sql        # SQL schema definition
 ├── services/
 │   ├── data_fetcher.py      # Orchestrates downloads
