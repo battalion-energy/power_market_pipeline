@@ -7,8 +7,8 @@ from typing import Dict, List, Optional
 from sqlalchemy import func
 from sqlalchemy.orm import Session
 
-from ..database import get_db
-from ..database.dataset_models import (
+from database import get_db
+from database.dataset_models import (
     Dataset,
     DatasetCategory,
     DatasetColumn,

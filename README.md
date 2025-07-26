@@ -237,6 +237,8 @@ The mock tests demonstrate:
 
 For detailed information about the database design, schema, and management practices, see [Database Design Documentation](database/docs/DATABASE_DESIGN.md).
 
+For deployment instructions on AWS EC2, see [Deployment Guide](deployment/README.md).
+
 ```
 power_market_pipeline/
 ├── downloaders/              # ISO-specific downloaders

@@ -36,7 +36,10 @@ class BaseDownloaderV2(ABC):
             iso = db.query(ISO).filter(ISO.code == iso_code).first()
             if not iso:
                 raise ValueError(f"ISO {iso_code} not found in database")
-            self.iso = iso
+            # Store only the ID to avoid detached instance errors
+            self.iso_id = iso.id
+            self.iso_name = iso.name
+            self.iso_timezone = iso.timezone
     
     @abstractmethod
     async def download_lmp(
@@ -89,13 +92,13 @@ class BaseDownloaderV2(ABC):
         """Get or create a location in the database."""
         with get_db() as db:
             location = db.query(Location).filter(
-                Location.iso_id == self.iso.id,
+                Location.iso_id == self.iso_id,
                 Location.location_id == location_id
             ).first()
             
             if not location:
                 location = Location(
-                    iso_id=self.iso.id,
+                    iso_id=self.iso_id,
                     location_id=location_id,
                     location_name=location_name or location_id,
                     location_type=location_type or self._infer_location_type(location_id)

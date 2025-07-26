@@ -42,16 +42,32 @@ class DatabaseSetup:
             with open(config_path, 'r') as f:
                 return yaml.safe_load(f)
         
-        # Default configuration from environment
-        return {
-            'database': {
+        # Parse DATABASE_URL if available
+        database_url = os.getenv('DATABASE_URL')
+        if database_url:
+            from urllib.parse import urlparse
+            parsed = urlparse(database_url)
+            db_config = {
+                'host': parsed.hostname or 'localhost',
+                'port': parsed.port or 5432,
+                'name': parsed.path.lstrip('/') if parsed.path else 'power_market',
+                'user': parsed.username or os.getenv('USER', ''),
+                'password': parsed.password or '',
+                'timezone': 'UTC'
+            }
+        else:
+            # Default configuration from environment
+            db_config = {
                 'host': os.getenv('DB_HOST', 'localhost'),
                 'port': int(os.getenv('DB_PORT', 5432)),
                 'name': os.getenv('DB_NAME', 'power_market'),
-                'user': os.getenv('DB_USER', 'postgres'),
+                'user': os.getenv('DB_USER', os.getenv('USER', '')),
                 'password': os.getenv('DB_PASSWORD', ''),
                 'timezone': 'UTC'
-            },
+            }
+        
+        return {
+            'database': db_config,
             'setup': {
                 'create_extensions': True,
                 'run_migrations': True,

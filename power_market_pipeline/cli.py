@@ -2,16 +2,20 @@
 
 import asyncio
 import os
-from datetime import datetime
+import sys
+from datetime import datetime, timedelta
 from pathlib import Path
 
 import click
 from dotenv import load_dotenv
 
-from power_market_pipeline.database import init_db
-from power_market_pipeline.downloaders.base_v2 import DownloadConfig
-from power_market_pipeline.services.data_fetcher import DataFetcher
-from power_market_pipeline.services.dataset_registry import DatasetRegistry
+# Add parent directory to Python path
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from database import init_db
+from downloaders.base_v2 import DownloadConfig
+from services.data_fetcher import DataFetcher
+from services.dataset_registry import DatasetRegistry
 
 load_dotenv()
 
@@ -43,15 +47,20 @@ def init():
 
 @cli.command()
 @click.option("--iso", multiple=True, default=["ERCOT"], help="ISO(s) to download data for")
-@click.option("--start-date", default="2024-01-01", help="Start date (YYYY-MM-DD)")
+@click.option("--start-date", default=None, help="Start date (YYYY-MM-DD)")
 @click.option("--end-date", default=None, help="End date (YYYY-MM-DD), defaults to today")
+@click.option("--days", type=int, default=None, help="Number of days to download (from today backwards)")
 @click.option("--data-types", multiple=True, default=["lmp"], help="Data types to download")
 @click.option("--output-dir", default="./data", help="Output directory for raw files")
-async def download(iso, start_date, end_date, data_types, output_dir):
+def download(iso, start_date, end_date, days, data_types, output_dir):
     """Download data from ISOs."""
     # Parse dates
-    start_dt = datetime.strptime(start_date, "%Y-%m-%d")
-    end_dt = datetime.strptime(end_date, "%Y-%m-%d") if end_date else datetime.now()
+    if days:
+        end_dt = datetime.now()
+        start_dt = end_dt - timedelta(days=days)
+    else:
+        start_dt = datetime.strptime(start_date, "%Y-%m-%d") if start_date else datetime.now() - timedelta(days=7)
+        end_dt = datetime.strptime(end_date, "%Y-%m-%d") if end_date else datetime.now()
     
     # Create config
     config = DownloadConfig(
@@ -70,12 +79,12 @@ async def download(iso, start_date, end_date, data_types, output_dir):
     
     # Run data fetcher
     fetcher = DataFetcher(config)
-    results = await fetcher.fetch_all_data(
+    results = asyncio.run(fetcher.fetch_all_data(
         isos=list(iso),
         start_date=start_dt,
         end_date=end_dt,
         data_types=list(data_types)
-    )
+    ))
     
     # Display results
     for iso_code, iso_results in results.items():

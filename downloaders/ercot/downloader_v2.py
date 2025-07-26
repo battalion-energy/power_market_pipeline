@@ -156,15 +156,31 @@ class ERCOTDownloaderV2(BaseDownloaderV2):
             records = []
             
             for _, row in df.iterrows():
-                # Get or create location
-                location = self.get_or_create_location(
-                    row.get('settlement_point', row.get('node', row.get('location'))),
+                # Get location ID
+                location_id = row.get('settlement_point', row.get('node', row.get('location')))
+                if not location_id:
+                    self.logger.error(f"No location ID found in row: {row.to_dict()}")
+                    continue
+                    
+                # Get or create location (but just use the ID for the record)
+                self.get_or_create_location(
+                    location_id,
                     row.get('settlement_point_name'),
-                    self._infer_location_type(row.get('settlement_point', ''))
+                    self._infer_location_type(location_id)
                 )
                 
-                # Calculate intervals
-                timestamp = pd.to_datetime(row['timestamp'])
+                # Calculate intervals based on market type
+                if 'timestamp' in row:
+                    timestamp = pd.to_datetime(row['timestamp'])
+                elif 'delivery_date' in row and 'hour_ending' in row:
+                    # Combine delivery_date and hour_ending for ERCOT format
+                    delivery_date = pd.to_datetime(row['delivery_date'])
+                    hour = int(row['hour_ending'].split(':')[0]) if ':' in str(row['hour_ending']) else int(row['hour_ending'])
+                    timestamp = delivery_date + timedelta(hours=hour-1)
+                else:
+                    self.logger.error(f"No timestamp found in row: {row.to_dict()}")
+                    continue
+                    
                 if market == "DAM":
                     interval_start = timestamp
                     interval_end = timestamp + timedelta(hours=1)
@@ -179,8 +195,8 @@ class ERCOTDownloaderV2(BaseDownloaderV2):
                     'interval_start': interval_start,
                     'interval_end': interval_end,
                     'iso': self.iso_code,
-                    'location': location.location_id,
-                    'location_type': location.location_type,
+                    'location': location_id,
+                    'location_type': self._infer_location_type(location_id),
                     'market': market_code,
                     'lmp': row.get('lmp', row.get('spp')),
                     'energy': row.get('energy_component', row.get('mw')),
