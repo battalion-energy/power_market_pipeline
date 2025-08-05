@@ -33,8 +33,9 @@ mod ercot_unified_processor;
 mod unified_processor;
 mod csv_extractor;
 mod annual_processor;
-mod bess_daily_revenue_simple;
-mod bess_daily_revenue_fixed;
+// mod bess_daily_revenue_simple;
+// mod bess_daily_revenue_fixed;
+mod ercot_price_processor;
 
 fn verify_data_quality(_dir: &Path) -> Result<()> {
     println!("\n🔍 Data Quality Verification");
@@ -383,6 +384,8 @@ fn main() -> Result<()> {
     // Debug: print arguments
     if args.len() > 1 {
         println!("Debug: Received argument: '{}'", args[1]);
+        println!("Debug: All arguments: {:?}", args);
+        println!("Debug: Checking if '{}' == '--process-ercot-prices': {}", args[1], args[1] == "--process-ercot-prices");
     }
     
     if args.len() > 1 && args[1] == "--all" {
@@ -450,12 +453,12 @@ fn main() -> Result<()> {
     } else if args.len() > 1 && args[1] == "--bess-daily-revenue" {
         // Process BESS daily revenues from 60-day disclosure data
         bess_daily_revenue_processor::process_bess_daily_revenues()?;
-    } else if args.len() > 1 && args[1] == "--bess-daily-test" {
-        // Test simple BESS daily revenue processing
-        bess_daily_revenue_simple::process_simple_daily_revenues()?;
-    } else if args.len() > 1 && args[1] == "--bess-daily-fixed" {
-        // Process BESS daily revenues with fixed schema
-        bess_daily_revenue_fixed::process_daily_revenues_fixed()?;
+    // } else if args.len() > 1 && args[1] == "--bess-daily-test" {
+    //     // Test simple BESS daily revenue processing
+    //     bess_daily_revenue_simple::process_simple_daily_revenues()?;
+    // } else if args.len() > 1 && args[1] == "--bess-daily-fixed" {
+    //     // Process BESS daily revenues with fixed schema
+    //     bess_daily_revenue_fixed::process_daily_revenues_fixed()?;
     } else if args.len() > 1 && args[1] == "--process-ercot" {
         // Process all ERCOT data from source directories
         ercot_unified_processor::process_all_ercot_data()?;
@@ -483,6 +486,19 @@ fn main() -> Result<()> {
     } else if args.len() > 1 && args[1] == "--process-annual" {
         // Process extracted CSV files into annual CSV, Parquet, and Arrow files
         annual_processor::process_all_annual_data()?;
+    } else if args.len() > 1 && args[1] == "--process-ercot-prices" {
+        println!("DEBUG: Inside --process-ercot-prices branch!");
+        // Process ERCOT price data into annual parquet files
+        use ercot_price_processor::ErcotPriceProcessor;
+        if args.len() > 2 {
+            let base_path = PathBuf::from(&args[2]);
+            let processor = ErcotPriceProcessor::new(base_path);
+            processor.process_all()?;
+        } else {
+            println!("Usage: --process-ercot-prices <base_directory>");
+            println!("Example: --process-ercot-prices /Users/enrico/data/ERCOT_data");
+        }
+        return Ok(());
     } else if args.len() > 1 && args[1] == "--verify-results" {
         // Verify data quality of processed files
         verify_data_quality(&PathBuf::from("."))?;
