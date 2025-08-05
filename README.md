@@ -9,8 +9,10 @@ A world-class data pipeline for downloading and storing historical and real-time
 - **Real-Time Updates**: Smart polling system with 5-minute interval updates
 - **Historical Backfill**: Download data back to January 1, 2019
 - **TimescaleDB Ready**: Optimized for time-series data with compression support
+- **High-Performance Rust Processor**: Process millions of records in seconds
 - **Data Types Supported**:
   - Locational Marginal Prices (LMP) - Day-ahead and real-time
+  - Settlement Point Prices (ERCOT)
   - Ancillary Services pricing
   - Load data and forecasts
   - Generation by fuel type (planned)
@@ -120,6 +122,36 @@ uv run pmp backfill --iso ERCOT --start 2019-01-01
 uv run pmp catalog
 uv run pmp catalog --iso ERCOT
 ```
+
+### High-Performance Rust Processor
+
+For processing large ERCOT datasets, use the Rust processor:
+
+```bash
+cd rt_rust_processor
+
+# Build the processor
+cargo build --release
+
+# Extract all CSV files from ERCOT ZIP archives
+cargo run --release -- --extract-all-ercot /path/to/ERCOT_data
+
+# Process extracted data into annual Parquet files
+SKIP_CSV=1 cargo run --release -- --process-annual
+
+# Other commands
+cargo run --release -- --dam              # Process DAM data
+cargo run --release -- --ancillary        # Process ancillary services
+cargo run --release -- --lmp              # Process LMP data
+cargo run --release -- --bess             # Analyze BESS resources
+```
+
+Features:
+- Processes millions of records in seconds
+- Automatic schema evolution handling (e.g., 2011 DSTFlag addition)
+- Forces all price columns to Float64 to prevent type mismatches
+- Outputs compressed Parquet files (95%+ compression ratio)
+- Handles nested ZIP extraction efficiently
 
 ### Real-Time Updates
 
@@ -267,7 +299,14 @@ power_market_pipeline/
 │   ├── data_fetcher.py      # Orchestrates downloads
 │   ├── realtime_updater.py  # Real-time scheduler
 │   └── dataset_registry.py  # Dataset metadata
-├── processors/              # Data transformation
+├── processors/              # Data transformation (Python)
+├── rt_rust_processor/       # High-performance Rust processor
+│   ├── src/
+│   │   ├── main.rs         # CLI entry point
+│   │   ├── annual_processor.rs # Annual data aggregation
+│   │   ├── csv_extractor.rs # ZIP/CSV extraction
+│   │   └── ...             # Other processors
+│   └── annual_output/      # Processed Parquet files
 └── power_market_pipeline/
     └── cli.py              # Command-line interface
 ```

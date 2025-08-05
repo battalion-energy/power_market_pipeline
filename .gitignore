@@ -76,3 +76,8 @@ credentials/
 *.pem
 *.key
 *.cert
+
+.history
+
+#Rust
+target

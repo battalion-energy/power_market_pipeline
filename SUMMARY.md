@@ -122,3 +122,24 @@ OTEL_EXPORTER_OTLP_ENDPOINT=your_endpoint
 6. **Monitor**: Track pipeline health
 
 This pipeline provides a solid foundation for building a comprehensive power market data platform similar to commercial offerings, but with full control over the data and processing logic.
+
+## Recent Improvements (August 2024)
+
+### High-Performance Rust Processor
+- Added `rt_rust_processor` for processing millions of ERCOT records
+- Processes entire years of data in seconds
+- Outputs compressed Parquet files (95%+ compression ratio)
+- Handles nested ZIP extraction efficiently
+
+### Data Quality Fixes
+1. **Float64 Type Enforcement**: All price columns forced to Float64 to prevent integer inference
+2. **Schema Evolution Handling**: Gracefully handles mid-year column additions (e.g., 2011 DSTFlag)
+3. **File Type Separation**: Properly separates LMP and Settlement Point Price files in DAM_Hourly_LMPs
+4. **Memory Efficiency**: Batch processing with configurable output formats
+
+### Processing Capabilities
+- Annual data aggregation by year
+- CSV extraction from nested ZIP files
+- BESS (Battery Energy Storage) analysis
+- Market reports and visualizations
+- Support for all ERCOT data types

@@ -1,0 +1,549 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+      "title": "ERCOT Public API Client/Developer Documentation",
+      "description": "Client/Developer RESTFul web services documentation for ERCOT Market Information List (EMIL) products.",
+      "version": "1.0"
+  },
+  "servers": [
+      {
+          "url": "https://api.ercot.com/api/public-reports"
+      }
+  ],
+  "paths": {
+    "/np4-190-cd/dam_stlmnt_pnt_prices": {
+      "get": {
+        "tags": [
+          "NP4-190-CD"
+        ],
+        "summary": "DAM Settlement Point Prices",
+        "description": "DAM Settlement Point Prices",
+        "operationId": "getData_dam_stlmnt_pnt_prices",
+        "parameters": [
+          {
+            "name": "deliveryDateFrom",
+            "in": "query",
+            "description": "Format - yyyy-MM-dd.",
+            "schema": {
+              "type": "string",
+              "format": "yyyy-MM-dd"
+            }
+          },
+          {
+            "name": "deliveryDateTo",
+            "in": "query",
+            "description": "Format - yyyy-MM-dd.",
+            "schema": {
+              "type": "string",
+              "format": "yyyy-MM-dd"
+            }
+          },
+          {
+            "name": "hourEnding",
+            "in": "query",
+            "description": "Format - abc123.",
+            "schema": {
+              "type": "string",
+              "format": "abc123"
+            }
+          },
+          {
+            "name": "settlementPoint",
+            "in": "query",
+            "description": "Format - abc123.",
+            "schema": {
+              "type": "string",
+              "format": "abc123"
+            }
+          },
+          {
+            "name": "settlementPointPriceFrom",
+            "in": "query",
+            "description": "Format - ####.###.",
+            "schema": {
+              "type": "number",
+              "format": "####.###"
+            }
+          },
+          {
+            "name": "settlementPointPriceTo",
+            "in": "query",
+            "description": "Format - ####.###.",
+            "schema": {
+              "type": "number",
+              "format": "####.###"
+            }
+          },
+          {
+            "name": "DSTFlag",
+            "in": "query",
+            "description": "Format - true | false.",
+            "schema": {
+              "type": "boolean",
+              "format": "true | false"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Format - ###. Page number of returned values in the collection.",
+            "schema": {
+              "type": "integer",
+              "format": "###"
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "Format - ###. Number of returned items per page.",
+            "schema": {
+              "type": "integer",
+              "format": "###"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Format - abc123. Defines field by which to sort the returned resource values.",
+            "schema": {
+              "type": "string",
+              "format": "abc123"
+            }
+          },
+          {
+            "name": "dir",
+            "in": "query",
+            "description": "Format - abc123. Defines sort order of returned values based on the primary business key of the resource.",
+            "schema": {
+              "type": "string",
+              "format": "abc123"
+            }
+          },
+          {
+            "name": "Ocp-Apim-Subscription-Key",
+            "in": "header",
+            "description": "The subscription key assigned to your ERCOT Public API account.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "90796ffc22254fa89ad8400d996c992f"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK The operation completed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Report"
+                },
+                "example": {
+                  "_meta": {
+                    "totalRecords": 0,
+                    "pageSize": 0,
+                    "totalPages": 0,
+                    "currentPage": 0,
+                    "query": {
+                      "parameterCount": 0,
+                      "parameters": {},
+                      "sortedBy": "string"
+                    }
+                  },
+                  "report": {
+                    "reportName": "string",
+                    "reportDisplayName": "string",
+                    "reportId": "string",
+                    "reportEMIL": "string",
+                    "downloadLimit": 0
+                  },
+                  "fields": [
+                    {
+                      "name": "string",
+                      "label": "string",
+                      "cardinality": 0,
+                      "dataType": "BOOLEAN",
+                      "searchable": true,
+                      "sortable": true,
+                      "hasRange": true
+                    }
+                  ],
+                  "data": {},
+                  "links": [
+                    {
+                      "rel": "string",
+                      "href": "string",
+                      "hreflang": "string",
+                      "media": "string",
+                      "title": "string",
+                      "type": "string",
+                      "deprecation": "string",
+                      "profile": "string",
+                      "name": "string"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request operation failed. The request and/or one or more of its parameters are invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Exception"
+                },
+                "example": {
+                  "timestamp": "string",
+                  "code": 0,
+                  "status": "string",
+                  "message": "string",
+                  "data": {}
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The request operation failed. You do not have access to the requested resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Exception"
+                },
+                "example": {
+                  "timestamp": "string",
+                  "code": 0,
+                  "status": "string",
+                  "message": "string",
+                  "data": {}
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The request operation failed. The requested resource does not exist.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Exception"
+                },
+                "example": {
+                  "timestamp": "string",
+                  "code": 0,
+                  "status": "string",
+                  "message": "string",
+                  "data": {}
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/np6-788-cd/dam_shadow_prices": {
+      "get": {
+        "tags": [
+          "NP6-788-CD"
+        ],
+        "summary": "DAM Shadow Prices",
+        "description": "Day-Ahead Market Shadow Prices (constraint prices)",
+        "operationId": "getData_dam_shadow_prices",
+        "parameters": [
+          {
+            "name": "deliveryDateFrom",
+            "in": "query",
+            "description": "Format - yyyy-MM-dd.",
+            "schema": {
+              "type": "string",
+              "format": "yyyy-MM-dd"
+            }
+          },
+          {
+            "name": "deliveryDateTo",
+            "in": "query",
+            "description": "Format - yyyy-MM-dd.",
+            "schema": {
+              "type": "string",
+              "format": "yyyy-MM-dd"
+            }
+          },
+          {
+            "name": "Ocp-Apim-Subscription-Key",
+            "in": "header",
+            "description": "The subscription key assigned to your ERCOT Public API account.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK The operation completed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Report"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/np6-785-cd/rtm_spp": {
+      "get": {
+        "tags": [
+          "NP6-785-CD"
+        ],
+        "summary": "Real-Time Market Settlement Point Prices",
+        "description": "Real-Time Market Settlement Point Prices",
+        "operationId": "getData_rtm_spp",
+        "parameters": [
+          {
+            "name": "operatingDateFrom",
+            "in": "query",
+            "description": "Format - yyyy-MM-dd.",
+            "schema": {
+              "type": "string",
+              "format": "yyyy-MM-dd"
+            }
+          },
+          {
+            "name": "operatingDateTo",
+            "in": "query",
+            "description": "Format - yyyy-MM-dd.",
+            "schema": {
+              "type": "string",
+              "format": "yyyy-MM-dd"
+            }
+          },
+          {
+            "name": "settlementPoint",
+            "in": "query",
+            "description": "Format - abc123.",
+            "schema": {
+              "type": "string",
+              "format": "abc123"
+            }
+          },
+          {
+            "name": "Ocp-Apim-Subscription-Key",
+            "in": "header",
+            "description": "The subscription key assigned to your ERCOT Public API account.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK The operation completed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Report"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/np6-793-cd/reg_up_down_prices": {
+      "get": {
+        "tags": [
+          "NP6-793-CD"
+        ],
+        "summary": "Regulation Up and Down Prices",
+        "description": "Regulation Up and Down Prices",
+        "operationId": "getData_reg_up_down_prices",
+        "parameters": [
+          {
+            "name": "operatingDateFrom",
+            "in": "query",
+            "description": "Format - yyyy-MM-dd.",
+            "schema": {
+              "type": "string",
+              "format": "yyyy-MM-dd"
+            }
+          },
+          {
+            "name": "operatingDateTo",
+            "in": "query",
+            "description": "Format - yyyy-MM-dd.",
+            "schema": {
+              "type": "string",
+              "format": "yyyy-MM-dd"
+            }
+          },
+          {
+            "name": "Ocp-Apim-Subscription-Key",
+            "in": "header",
+            "description": "The subscription key assigned to your ERCOT Public API account.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK The operation completed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Report"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/np6-794-cd/reserve_prices": {
+      "get": {
+        "tags": [
+          "NP6-794-CD"
+        ],
+        "summary": "Reserve Service Prices",
+        "description": "Responsive Reserve Service (RRS), Non-Spinning Reserve, and ERCOT Contingency Reserve Service (ECRS) Prices",
+        "operationId": "getData_reserve_prices",
+        "parameters": [
+          {
+            "name": "operatingDateFrom",
+            "in": "query",
+            "description": "Format - yyyy-MM-dd.",
+            "schema": {
+              "type": "string",
+              "format": "yyyy-MM-dd"
+            }
+          },
+          {
+            "name": "operatingDateTo",
+            "in": "query",
+            "description": "Format - yyyy-MM-dd.",
+            "schema": {
+              "type": "string",
+              "format": "yyyy-MM-dd"
+            }
+          },
+          {
+            "name": "Ocp-Apim-Subscription-Key",
+            "in": "header",
+            "description": "The subscription key assigned to your ERCOT Public API account.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK The operation completed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Report"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Report": {
+        "type": "object",
+        "properties": {
+          "_meta": {
+            "type": "object",
+            "properties": {
+              "totalRecords": {
+                "type": "integer"
+              },
+              "pageSize": {
+                "type": "integer"
+              },
+              "totalPages": {
+                "type": "integer"
+              },
+              "currentPage": {
+                "type": "integer"
+              },
+              "query": {
+                "type": "object"
+              }
+            }
+          },
+          "report": {
+            "type": "object",
+            "properties": {
+              "reportName": {
+                "type": "string"
+              },
+              "reportDisplayName": {
+                "type": "string"
+              },
+              "reportId": {
+                "type": "string"
+              },
+              "reportEMIL": {
+                "type": "string"
+              },
+              "downloadLimit": {
+                "type": "integer"
+              }
+            }
+          },
+          "fields": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "data": {
+            "type": "object"
+          }
+        }
+      },
+      "Exception": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string"
+          },
+          "code": {
+            "type": "integer"
+          },
+          "status": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "apiKeyHeader": {
+        "type": "apiKey",
+        "name": "Ocp-Apim-Subscription-Key",
+        "in": "header"
+      }
+    }
+  },
+  "security": [
+    {
+      "apiKeyHeader": []
+    }
+  ]
+}
+
+
