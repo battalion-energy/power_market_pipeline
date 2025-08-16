@@ -52,7 +52,7 @@ def check_time_intervals(df):
 if __name__ == "__main__":
     # Inspect different types of files
     print("Checking Real-Time 5-minute data:")
-    rt_file = "rt_rust_processor/annual_output/LMPs_by_Resource_Nodes__Load_Zones_and_Trading_Hubs/LMPs_by_Resource_Nodes__Load_Zones_and_Trading_Hubs_2023.parquet"
+    rt_file = "ercot_data_processor/annual_output/LMPs_by_Resource_Nodes__Load_Zones_and_Trading_Hubs/LMPs_by_Resource_Nodes__Load_Zones_and_Trading_Hubs_2023.parquet"
     try:
         df_rt = inspect_parquet(rt_file)
         check_time_intervals(df_rt)
@@ -61,7 +61,7 @@ if __name__ == "__main__":
     
     print("\n" + "="*80 + "\n")
     print("Checking Day-Ahead Hourly data:")
-    dam_file = "rt_rust_processor/annual_output/Settlement_Point_Prices_at_Resource_Nodes__Hubs_and_Load_Zones/Settlement_Point_Prices_at_Resource_Nodes__Hubs_and_Load_Zones_2023.parquet"
+    dam_file = "ercot_data_processor/annual_output/Settlement_Point_Prices_at_Resource_Nodes__Hubs_and_Load_Zones/Settlement_Point_Prices_at_Resource_Nodes__Hubs_and_Load_Zones_2023.parquet"
     try:
         df_dam = inspect_parquet(dam_file)
     except Exception as e:
@@ -70,7 +70,7 @@ if __name__ == "__main__":
     # Check for DAM files
     print("\n" + "="*80 + "\n")
     print("Looking for DAM files:")
-    dam_bus_file = "rt_rust_processor/annual_output/DAM_Hourly_LMPs_BusLevel/DAM_Hourly_LMPs_BusLevel_2023.parquet"
+    dam_bus_file = "ercot_data_processor/annual_output/DAM_Hourly_LMPs_BusLevel/DAM_Hourly_LMPs_BusLevel_2023.parquet"
     try:
         df_dam_bus = pd.read_parquet(dam_bus_file)
         print(f"DAM Bus Level columns: {list(df_dam_bus.columns)}")

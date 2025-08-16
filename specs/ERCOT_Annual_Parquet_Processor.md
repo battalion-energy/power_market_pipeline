@@ -23,6 +23,28 @@ The program processes data from the following ERCOT directories:
 - **File Pattern**: `cdr.00012329.*.DAMCPCNP4188.csv`
 - **Description**: Day-ahead ancillary services clearing prices
 
+### 60-Day Disclosure Data Sources (for BESS Analysis)
+
+#### DAM Generation Resource Data
+- **Source**: `/Users/enrico/data/ERCOT_data/60-Day_DAM_Disclosure_Reports`
+- **File Pattern**: `60d_DAM_Gen_Resource_Data-DD-MMM-YY.csv`
+- **Description**: Day-ahead awards and resource data including BESS (PWRSTR type)
+
+#### SCED Generation Resource Data
+- **Source**: `/Users/enrico/data/ERCOT_data/60-Day_SCED_Disclosure_Reports`
+- **File Pattern**: `60d_SCED_Gen_Resource_Data-DD-MMM-YY.csv`
+- **Description**: 5-minute real-time dispatch and telemetered output
+
+#### COP Adjustment Period Snapshot
+- **Source**: `/Users/enrico/data/ERCOT_data/60-Day_COP_Adjustment_Period_Snapshot`
+- **File Pattern**: `60d_COP_Adjustment_Period_Snapshot-DD-MMM-YY.csv`
+- **Description**: Current operating plan snapshots with SOC data
+
+#### SASM Generation Resource AS Offers
+- **Source**: `/Users/enrico/data/ERCOT_data/60-Day_SASM_Disclosure_Reports`
+- **File Pattern**: `60d_SASM_Generation_Resource_AS_Offers-DD-MMM-YY.csv`
+- **Description**: Supplemental ancillary services market offers
+
 ## Output Structure
 
 The program creates the following directory structure:
@@ -34,19 +56,47 @@ The program creates the following directory structure:
 │   ├── 2020.parquet
 │   ├── ...
 │   ├── 2025.parquet
-│   └── schema.json
+│   ├── schema.json
+│   └── gaps_report.md
 ├── DA_prices/
 │   ├── 2019.parquet
 │   ├── 2020.parquet
 │   ├── ...
 │   ├── 2025.parquet
-│   └── schema.json
-└── AS_prices/
-    ├── 2019.parquet
-    ├── 2020.parquet
-    ├── ...
-    ├── 2025.parquet
-    └── schema.json
+│   ├── schema.json
+│   └── gaps_report.md
+├── AS_prices/
+│   ├── 2019.parquet
+│   ├── 2020.parquet
+│   ├── ...
+│   ├── 2025.parquet
+│   ├── schema.json
+│   └── gaps_report.md
+├── DAM_Gen_Resources/
+│   ├── 2019.parquet
+│   ├── 2020.parquet
+│   ├── ...
+│   ├── 2025.parquet
+│   ├── schema.json
+│   └── gaps_report.md
+├── SCED_Gen_Resources/
+│   ├── 2019.parquet
+│   ├── 2020.parquet
+│   ├── ...
+│   ├── 2025.parquet
+│   ├── schema.json
+│   └── gaps_report.md
+├── COP_Snapshots/
+│   ├── 2019.parquet
+│   ├── 2020.parquet
+│   ├── ...
+│   ├── 2025.parquet
+│   ├── schema.json
+│   └── gaps_report.md
+├── processing_status_report.md
+└── util/
+    ├── parquet_util (binary)
+    └── Makefile
 ```
 
 ## Processing Logic
@@ -188,6 +238,13 @@ The program creates the following directory structure:
 - Handle schema evolution (e.g., missing DSTFlag in older files)
 - Continue processing on individual file failures
 - Log all errors to console with file names
+
+### Critical Data Type Requirements
+- **IMPORTANT**: All price columns MUST be cast to Float64
+- Polars may incorrectly infer price columns as i64 from CSV
+- Always use `with_column(col("price_column").cast(DataType::Float64))` 
+- This prevents type mismatches when combining data across years
+- Applies to: SettlementPointPrice, MCPC, and all price-related fields
 
 ### Performance Optimizations
 - Use parallel processing with Rayon for file parsing

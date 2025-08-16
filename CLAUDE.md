@@ -14,8 +14,8 @@ uv run ruff format                        # Format Python code
 uv run ruff check                         # Lint Python code
 uv run mypy .                             # Type check Python code
 
-# Rust development (in rt_rust_processor directory)
-cd rt_rust_processor
+# Rust development (in ercot_data_processor directory)
+cd ercot_data_processor
 cargo build --release                     # Build optimized binary
 cargo run --release -- <args>             # Run Rust processor
 cargo test                                # Run Rust tests
@@ -80,7 +80,7 @@ power_market_pipeline/
 ├── power_market_pipeline/  # CLI package
 │   └── cli.py             # Click-based command interface
 │
-└── rt_rust_processor/     # High-performance Rust data processor
+└── ercot_data_processor/     # High-performance Rust data processor
     └── src/              # Various specialized processors
 ```
 
@@ -174,14 +174,35 @@ NYISO_PASSWORD
 - Always test with multiple ISOs to ensure standardization
 
 ### Rust Processor Usage
-The `rt_rust_processor` is used for high-performance data processing:
+The `ercot_data_processor` is used for high-performance data processing:
 - Handles large CSV/Excel files efficiently
 - Converts between formats (CSV, Parquet, Arrow)
-- Performs BESS (Battery Energy Storage) analysis
+- Performs BESS (Battery Energy Storage) **HISTORICAL REVENUE ANALYSIS**
 - Generates market reports and visualizations
 - Automatic schema evolution handling (e.g., 2011 DSTFlag column addition)
 - Forces all price columns to Float64 to prevent type mismatches
 - Processes millions of records per year in seconds
+
+### IMPORTANT: BESS Revenue Analysis Clarification
+**We are doing HISTORICAL ANALYSIS and REVENUE ACCOUNTING, not optimization!**
+
+These batteries already operated in ERCOT. They already made decisions, already got paid. Our job is to:
+- **RECONSTRUCT what actually happened** from 60-day disclosure data
+- **CALCULATE actual revenues earned** from DAM awards and RT operations
+- **TRACK actual state of charge** from telemetered output
+- **This is forensic accounting, NOT optimization**
+
+We DO NOT need to:
+- ❌ Optimize battery dispatch schedules
+- ❌ Predict optimal arbitrage points
+- ❌ Solve Linear Programming problems
+- ❌ Make operational decisions
+
+We DO need to:
+- ✅ Read actual awards from `60d_DAM_Gen_Resource_Data-*.csv`
+- ✅ Read actual dispatch from `60d_SCED_Gen_Resource_Data-*.csv`
+- ✅ Calculate revenues: Awards × Prices = Revenue
+- ✅ Track SOC from actual operations
 
 ### Recent Fixes and Improvements (August 2024)
 1. **Float64 Type Enforcement**: All price columns now forced to Float64 at CSV reading stage

@@ -22,6 +22,22 @@ share/python-wheels/
 *.egg
 MANIFEST
 
+# Temporary files
+*.log
+*.tmp
+*.bak
+*~
+.DS_Store
+
+# Generated output
+*.csv
+!specs/screenshots/*.csv  # Keep reference data
+annual_output/
+test_daily_output/
+bess_analysis/
+bess_complete_analysis/
+battery_analysis_output/
+
 # Virtual Environment
 .venv/
 venv/

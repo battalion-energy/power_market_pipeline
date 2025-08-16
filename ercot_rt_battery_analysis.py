@@ -131,7 +131,7 @@ class ERCOTRTBatteryAnalyzer:
         'SAN_ANTONIO': 'LZ_CPS'
     }
     
-    def __init__(self, data_path: Path = Path("rt_rust_processor/annual_output")):
+    def __init__(self, data_path: Path = Path("ercot_data_processor/annual_output")):
         self.data_path = data_path
         self.rt_data = None
         

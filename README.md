@@ -128,7 +128,7 @@ uv run pmp catalog --iso ERCOT
 For processing large ERCOT datasets, use the Rust processor:
 
 ```bash
-cd rt_rust_processor
+cd ercot_data_processor
 
 # Build the processor
 cargo build --release
@@ -300,7 +300,7 @@ power_market_pipeline/
 │   ├── realtime_updater.py  # Real-time scheduler
 │   └── dataset_registry.py  # Dataset metadata
 ├── processors/              # Data transformation (Python)
-├── rt_rust_processor/       # High-performance Rust processor
+├── ercot_data_processor/       # High-performance Rust processor
 │   ├── src/
 │   │   ├── main.rs         # CLI entry point
 │   │   ├── annual_processor.rs # Annual data aggregation

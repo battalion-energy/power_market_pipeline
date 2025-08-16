@@ -126,7 +126,7 @@ This pipeline provides a solid foundation for building a comprehensive power mar
 ## Recent Improvements (August 2024)
 
 ### High-Performance Rust Processor
-- Added `rt_rust_processor` for processing millions of ERCOT records
+- Added `ercot_data_processor` for processing millions of ERCOT records
 - Processes entire years of data in seconds
 - Outputs compressed Parquet files (95%+ compression ratio)
 - Handles nested ZIP extraction efficiently

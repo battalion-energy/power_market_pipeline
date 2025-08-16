@@ -4,7 +4,7 @@
 import pandas as pd
 
 # Load DA data
-da_file = "rt_rust_processor/annual_output/Settlement_Point_Prices_at_Resource_Nodes__Hubs_and_Load_Zones/Settlement_Point_Prices_at_Resource_Nodes__Hubs_and_Load_Zones_2023.parquet"
+da_file = "ercot_data_processor/annual_output/Settlement_Point_Prices_at_Resource_Nodes__Hubs_and_Load_Zones/Settlement_Point_Prices_at_Resource_Nodes__Hubs_and_Load_Zones_2023.parquet"
 df = pd.read_parquet(da_file)
 
 # Check date range

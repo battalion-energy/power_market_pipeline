@@ -1,0 +1,193 @@
+{
+  "title": "Average monthly BESS revenues in ERCOT ($/kW-year)",
+  "source": "Modo Energy",
+  "note": "Revenues shown in March and April of 2025 are a projection - these values are yet to be confirmed",
+  "data_points": [
+    {
+      "month": "Feb '24",
+      "total": 17,
+      "day_ahead_energy": 2,
+      "real_time_energy": 6,
+      "ecrs": 0,
+      "rrs": 7,
+      "reg_up": 2,
+      "reg_down": 0,
+      "non_spin": 0
+    },
+    {
+      "month": "Mar '24",
+      "total": 39,
+      "day_ahead_energy": 3,
+      "real_time_energy": 14,
+      "ecrs": 0,
+      "rrs": 15,
+      "reg_up": 5,
+      "reg_down": 2,
+      "non_spin": 0
+    },
+    {
+      "month": "Apr '24",
+      "total": 67,
+      "day_ahead_energy": 4,
+      "real_time_energy": 22,
+      "ecrs": 15,
+      "rrs": 14,
+      "reg_up": 8,
+      "reg_down": 3,
+      "non_spin": 1
+    },
+    {
+      "month": "May '24",
+      "total": 162,
+      "day_ahead_energy": 5,
+      "real_time_energy": 33,
+      "ecrs": 66,
+      "rrs": 26,
+      "reg_up": 15,
+      "reg_down": 5,
+      "non_spin": 12
+    },
+    {
+      "month": "Jun '24",
+      "total": 45,
+      "day_ahead_energy": 4,
+      "real_time_energy": 9,
+      "ecrs": 16,
+      "rrs": 6,
+      "reg_up": 6,
+      "reg_down": 3,
+      "non_spin": 1
+    },
+    {
+      "month": "Jul '24",
+      "total": 23,
+      "day_ahead_energy": 3,
+      "real_time_energy": 5,
+      "ecrs": 6,
+      "rrs": 4,
+      "reg_up": 3,
+      "reg_down": 1,
+      "non_spin": 1
+    },
+    {
+      "month": "Aug '24",
+      "total": 87,
+      "day_ahead_energy": 9,
+      "real_time_energy": 29,
+      "ecrs": 25,
+      "rrs": 14,
+      "reg_up": 6,
+      "reg_down": 3,
+      "non_spin": 1
+    },
+    {
+      "month": "Sep '24",
+      "total": 22,
+      "day_ahead_energy": 3,
+      "real_time_energy": 7,
+      "ecrs": 5,
+      "rrs": 3,
+      "reg_up": 2,
+      "reg_down": 1,
+      "non_spin": 1
+    },
+    {
+      "month": "Oct '24",
+      "total": 41,
+      "day_ahead_energy": 10,
+      "real_time_energy": 12,
+      "ecrs": 7,
+      "rrs": 6,
+      "reg_up": 3,
+      "reg_down": 2,
+      "non_spin": 1
+    },
+    {
+      "month": "Nov '24",
+      "total": 33,
+      "day_ahead_energy": 4,
+      "real_time_energy": 14,
+      "ecrs": 5,
+      "rrs": 5,
+      "reg_up": 3,
+      "reg_down": 1,
+      "non_spin": 1
+    },
+    {
+      "month": "Dec '24",
+      "total": 16,
+      "day_ahead_energy": 3,
+      "real_time_energy": 5,
+      "ecrs": 3,
+      "rrs": 2,
+      "reg_up": 2,
+      "reg_down": 1,
+      "non_spin": 0
+    },
+    {
+      "month": "Jan '25",
+      "total": 19,
+      "day_ahead_energy": 3,
+      "real_time_energy": 6,
+      "ecrs": 4,
+      "rrs": 3,
+      "reg_up": 2,
+      "reg_down": 1,
+      "non_spin": 0
+    },
+    {
+      "month": "Feb '25",
+      "total": 26,
+      "day_ahead_energy": 4,
+      "real_time_energy": 7,
+      "ecrs": 6,
+      "rrs": 4,
+      "reg_up": 3,
+      "reg_down": 1,
+      "non_spin": 1
+    },
+    {
+      "month": "Mar '25",
+      "total": 20,
+      "day_ahead_energy": 3,
+      "real_time_energy": 5,
+      "ecrs": 5,
+      "rrs": 3,
+      "reg_up": 2,
+      "reg_down": 1,
+      "non_spin": 1,
+      "projected": true
+    },
+    {
+      "month": "Apr '25",
+      "total": 23,
+      "day_ahead_energy": 3,
+      "real_time_energy": 6,
+      "ecrs": 6,
+      "rrs": 4,
+      "reg_up": 2,
+      "reg_down": 1,
+      "non_spin": 1,
+      "projected": true
+    }
+  ],
+  "key_insights": {
+    "april_2025_vs_2024": {
+      "april_2024": 67,
+      "april_2025_projected": 23,
+      "reduction_percentage": 65.7,
+      "reduction_absolute": 44
+    },
+    "peak_month": {
+      "month": "May '24",
+      "value": 162,
+      "primary_driver": "ECRS at $66/kW-year"
+    },
+    "revenue_composition_trends": [
+      "Energy revenues (DA + RT) are becoming more significant",
+      "ECRS emerged as major revenue source in mid-2024",
+      "RRS revenues declining over time",
+      "AS market saturation driving overall revenue decline"
+    ]
+  }
+}

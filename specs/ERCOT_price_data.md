@@ -11,7 +11,7 @@ DAM_Hour_LMPs
 DAM_Settlement_Point_Prices
 
 Ancillary Services
-/Users/enrico/data/ERCOT_data/DAM_Clearing_Prices_for_Capacity
+DAM_Clearing_Prices_for_Capacity
 
 Realtime Prices:
 Settlement_Point_Prices_at_Resource_Nodes,_Hubs_and_Load_Zones
@@ -23,9 +23,8 @@ DAM_Shadow_Prices
 System Lambda:
 SCED_System_Lambda
 
-Mapping of Settlement Points:
+Mapping of Settlement Points: (To determine which settlement point each BESS (generator should use for Settlment Point Pricing))
 Settlement_Points_List_and_Electrical_Buses_Mapping
-
 
 Aggregated Ancillary Service Offer Curve (not sure how to use this):
 SASM_Aggregated_Ancillary_Service_Offer_Curve

@@ -26,6 +26,8 @@ dependencies = [
     "apscheduler>=3.10.0",
     "structlog>=23.2.0",
     "pyyaml>=6.0.0",
+    "matplotlib>=3.10.5",
+    "seaborn>=0.13.2",
 ]
 
 [project.scripts]
