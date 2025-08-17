@@ -1,5 +1,5 @@
 use anyhow::Result;
-use rt_rust_processor::gap_analyzer::GapAnalyzer;
+use ercot_data_processor::gap_analyzer::GapAnalyzer;
 use std::env;
 use std::path::PathBuf;
 

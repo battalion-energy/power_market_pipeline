@@ -2,8 +2,8 @@ use anyhow::Result;
 use std::path::PathBuf;
 
 // Import from the main crate
-extern crate rt_rust_processor;
-use rt_rust_processor::ercot_price_processor::ErcotPriceProcessor;
+extern crate ercot_data_processor;
+use ercot_data_processor::ercot_price_processor::ErcotPriceProcessor;
 
 fn main() -> Result<()> {
     let args: Vec<String> = std::env::args().collect();

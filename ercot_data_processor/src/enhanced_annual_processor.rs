@@ -361,7 +361,9 @@ impl EnhancedAnnualProcessor {
                 col("SettlementPointPrice").cast(DataType::Float64)  // Critical: Force Float64
             )
             .with_column(
-                col("HourEnding").cast(DataType::Float64).alias("hour")
+                // Parse HourEnding to extract integer hour value
+                // HourEnding is typically numeric like "1" or "24"
+                col("HourEnding").cast(DataType::Int32).alias("hour")
             )
             .with_column(
                 (col("DeliveryDate").cast(DataType::Datetime(TimeUnit::Milliseconds, None)) +
@@ -480,7 +482,9 @@ impl EnhancedAnnualProcessor {
                 col("MCPC").cast(DataType::Float64)  // Critical: Force Float64
             )
             .with_column(
-                col("HourEnding").cast(DataType::Float64).alias("hour")
+                // Parse HourEnding to extract integer hour value
+                // HourEnding is typically numeric like "1" or "24"
+                col("HourEnding").cast(DataType::Int32).alias("hour")
             )
             .with_column(
                 (col("DeliveryDate").cast(DataType::Datetime(TimeUnit::Milliseconds, None)) +
@@ -588,6 +592,10 @@ impl EnhancedAnnualProcessor {
         schema_overrides.with_column("RRS MCPC".into(), DataType::Float64);
         schema_overrides.with_column("NonSpin MCPC".into(), DataType::Float64);
         
+        // Keep Delivery Date as Utf8 to parse it properly
+        schema_overrides.with_column("Delivery Date".into(), DataType::Utf8);
+        schema_overrides.with_column("Hour Ending".into(), DataType::Utf8);
+        
         let df = CsvReader::from_path(file)?
             .has_header(true)
             .with_dtypes(Some(Arc::new(schema_overrides)))
@@ -596,10 +604,20 @@ impl EnhancedAnnualProcessor {
         
         // Get available columns
         let columns = df.get_column_names();
-        let mut select_cols = vec![
-            col("Delivery Date").alias("DeliveryDate"),
-            col("Hour Ending").alias("HourEnding"),
-        ];
+        let mut select_cols = vec![];
+        
+        // Add date columns first - these are critical
+        if columns.contains(&"Delivery Date") {
+            select_cols.push(col("Delivery Date").alias("DeliveryDate"));
+        } else {
+            select_cols.push(lit("").alias("DeliveryDate"));
+        }
+        
+        if columns.contains(&"Hour Ending") {
+            select_cols.push(col("Hour Ending").alias("HourEnding"));
+        } else {
+            select_cols.push(lit("1").alias("HourEnding"));
+        }
         
         // Add columns with consistent schema - use default values for missing columns
         // This ensures all DataFrames have the same columns for vstack
@@ -710,12 +728,31 @@ impl EnhancedAnnualProcessor {
         let df = df.lazy()
             .select(select_cols)
             .with_column(
+                // Parse HourEnding as integer (it's a string like "1", "2", etc.)
+                col("HourEnding").cast(DataType::Int32).alias("hour")
+            )
+            .collect()?;
+        
+        // Now create a proper datetime from date string and hour
+        // The DeliveryDate is in MM/DD/YYYY format
+        let df = df.lazy()
+            .with_column(
+                // Cast DeliveryDate string to proper date
+                col("DeliveryDate")
+                    .cast(DataType::Utf8)
+                    .alias("DeliveryDate")
+            )
+            .collect()?;
+        
+        // Create datetime column by parsing and combining
+        let df = df.lazy()
+            .with_column(
+                // Cast the date string to proper Date type
                 col("DeliveryDate").cast(DataType::Date)
             )
             .with_column(
-                col("HourEnding").cast(DataType::Float64).alias("hour")
-            )
-            .with_column(
+                // Create datetime by combining date and hour
+                // Hour Ending 1 = 00:00-01:00, so we subtract 1 hour
                 (col("DeliveryDate").cast(DataType::Datetime(TimeUnit::Milliseconds, None)) +
                  duration_hours(col("hour") - lit(1)))
                 .alias("datetime")
@@ -997,8 +1034,38 @@ impl EnhancedAnnualProcessor {
     }
     
     fn read_cop_file(&self, file: &Path) -> Result<DataFrame> {
+        // Check if file has header by reading first line
+        let first_line = std::fs::read_to_string(file)?
+            .lines()
+            .next()
+            .unwrap_or("") 
+            .to_string();
+        
+        let has_header = first_line.contains("Delivery Date");
+        
         // Force ALL columns to have explicit types to prevent inference errors
         let mut schema_overrides = Schema::new();
+        
+        // Define column names for files without headers
+        let column_names = if !has_header {
+            vec![
+                "Delivery Date".to_string(),
+                "QSE Name".to_string(),
+                "Resource Name".to_string(),
+                "Hour Ending".to_string(),
+                "Status".to_string(),
+                "High Sustained Limit".to_string(),
+                "Low Sustained Limit".to_string(),
+                "High Emergency Limit".to_string(),
+                "Low Emergency Limit".to_string(),
+                "Reg Up".to_string(),
+                "Reg Down".to_string(),
+                "RRS".to_string(),
+                "NSPIN".to_string(),
+            ]
+        } else {
+            vec![]
+        };
         
         // String columns that must NOT be parsed as numbers
         schema_overrides.with_column("Delivery Date".into(), DataType::Utf8);
@@ -1014,6 +1081,7 @@ impl EnhancedAnnualProcessor {
         schema_overrides.with_column("Low Emergency Limit".into(), DataType::Float64);
         schema_overrides.with_column("Reg Up".into(), DataType::Float64);
         schema_overrides.with_column("Reg Down".into(), DataType::Float64);
+        schema_overrides.with_column("RRS".into(), DataType::Float64);
         schema_overrides.with_column("RRSPFR".into(), DataType::Float64);
         schema_overrides.with_column("RRSFFR".into(), DataType::Float64);
         schema_overrides.with_column("RRSUFR".into(), DataType::Float64);
@@ -1025,11 +1093,17 @@ impl EnhancedAnnualProcessor {
         schema_overrides.with_column("Maximum SOC".into(), DataType::Float64);
         schema_overrides.with_column("Hour Beginning Planned SOC".into(), DataType::Float64);
         
-        let df = CsvReader::from_path(file)?
-            .has_header(true)
+        let mut reader = CsvReader::from_path(file)?
+            .has_header(has_header)
             .with_dtypes(Some(Arc::new(schema_overrides)))
-            .infer_schema(None)  // Don't infer - use our explicit schema
-            .finish()?;
+            .infer_schema(None);  // Don't infer - use our explicit schema
+            
+        // If no header, provide column names
+        if !has_header {
+            reader = reader.with_columns(Some(column_names.into()));
+        }
+        
+        let df = reader.finish()?;
         
         // Check which columns exist in the file
         let columns = df.get_column_names();
@@ -1062,6 +1136,17 @@ impl EnhancedAnnualProcessor {
             .select(select_exprs)
             .with_column(
                 col("DeliveryDate").cast(DataType::Date)
+            )
+            .with_column(
+                // Parse HourEnding to extract integer hour value
+                // HourEnding is typically numeric like "1" or "24"
+                col("HourEnding").cast(DataType::Int32).alias("hour")
+            )
+            .with_column(
+                // Create proper datetime from date + hour
+                (col("DeliveryDate").cast(DataType::Datetime(TimeUnit::Milliseconds, None)) +
+                 duration_hours(col("hour") - lit(1)))
+                .alias("datetime")
             )
             .collect()?;
         

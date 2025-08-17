@@ -114,7 +114,7 @@ impl BessDailyRevenueProcessor {
         let possible_paths = vec![
             PathBuf::from("bess_complete_analysis/bess_resources_master_list.csv"),
             PathBuf::from("bess_analysis/bess_resources_master_list.csv"),
-            PathBuf::from("/Users/enrico/proj/power_market_pipeline/rt_rust_processor/bess_complete_analysis/bess_resources_master_list.csv"),
+            PathBuf::from("/Users/enrico/proj/power_market_pipeline/ercot_data_processor/bess_complete_analysis/bess_resources_master_list.csv"),
         ];
         
         let mut master_list_path = None;

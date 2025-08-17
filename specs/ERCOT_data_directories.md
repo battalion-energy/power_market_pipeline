@@ -1,13 +1,14 @@
+#Data Directories for BESS Performance Analysis
 
 #Day Ahead Energy Market Settlement Point Prices
-/Users/enrico/data/ERCOT_data/DAM_Settlement_Point_Prices
+/Users/enrico/data/ERCOT_data/DAM_Settlement_Point_Prices/csv
 
 
 #Ancillary Services Market Prices
-/Users/enrico/data/ERCOT_data/DAM_Clearing_Prices_for_Capacity
+/Users/enrico/data/ERCOT_data/DAM_Clearing_Prices_for_Capacity/csv
 
 #Realtime Energy Prices Prices:
-/Users/enrico/data/ERCOT_data/Settlement_Point_Prices_at_Resource_Nodes,_Hubs_and_Load_Zones
+/Users/enrico/data/ERCOT_data/Settlement_Point_Prices_at_Resource_Nodes,_Hubs_and_Load_Zones/csv
 
 
 # **Operational Data (60-Day Disclosure)**:

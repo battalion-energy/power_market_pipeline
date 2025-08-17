@@ -130,6 +130,10 @@ bess: build
 	@echo "💰 Running BESS revenue analysis..."
 	cd ercot_data_processor && ./target/debug/ercot_data_processor --bess-parquet
 
+bess-leaderboard: build-release
+	@echo "🏆 Running BESS daily revenue leaderboard analysis..."
+	cd ercot_data_processor && ./target/release/ercot_data_processor --bess-daily-revenue
+
 verify: build
 	@echo "✔️ Verifying data quality..."
 	cd ercot_data_processor && ./target/debug/ercot_data_processor --verify-results
