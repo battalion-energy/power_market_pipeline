@@ -30,6 +30,7 @@ pub struct EnhancedAnnualProcessor {
     base_dir: PathBuf,
     output_dir: PathBuf,
     processing_stats: Arc<Mutex<HashMap<String, ProcessingStats>>>,
+    selected_dataset: Option<String>,
 }
 
 impl EnhancedAnnualProcessor {
@@ -39,7 +40,13 @@ impl EnhancedAnnualProcessor {
             base_dir,
             output_dir,
             processing_stats: Arc::new(Mutex::new(HashMap::new())),
+            selected_dataset: None,
         }
+    }
+    
+    pub fn with_dataset(mut self, dataset: String) -> Self {
+        self.selected_dataset = Some(dataset);
+        self
     }
     
     pub fn process_all_data(&self) -> Result<()> {
@@ -48,13 +55,16 @@ impl EnhancedAnnualProcessor {
         println!("🚀 Enhanced Annual Parquet Processor");
         println!("📁 Base directory: {}", self.base_dir.display());
         println!("📂 Output directory: {}", self.output_dir.display());
+        if let Some(ref dataset) = self.selected_dataset {
+            println!("🎯 Selected dataset: {}", dataset);
+        }
         println!("{}", "=".repeat(80));
         
         // Create output directory
         fs::create_dir_all(&self.output_dir)?;
         
         // Process each data type - RT prices last since they're the most voluminous
-        let processors = vec![
+        let mut processors = vec![
             ("DA_prices", "DAM_Settlement_Point_Prices", ProcessorType::DayAheadPrice),
             ("AS_prices", "DAM_Clearing_Prices_for_Capacity", ProcessorType::AncillaryService),
             ("DAM_Gen_Resources", "60-Day_DAM_Disclosure_Reports", ProcessorType::DAMGenResource),
@@ -62,6 +72,22 @@ impl EnhancedAnnualProcessor {
             ("COP_Snapshots", "60-Day_COP_Adjustment_Period_Snapshot", ProcessorType::COPSnapshot),
             ("RT_prices", "Settlement_Point_Prices_at_Resource_Nodes,_Hubs_and_Load_Zones", ProcessorType::RealTimePrice),
         ];
+        
+        // Filter to selected dataset if specified
+        if let Some(ref dataset) = self.selected_dataset {
+            processors.retain(|(name, _, _)| name == dataset);
+            if processors.is_empty() {
+                println!("❌ Unknown dataset: {}", dataset);
+                println!("Available datasets:");
+                println!("  - DA_prices (Day-Ahead Settlement Point Prices)");
+                println!("  - AS_prices (Ancillary Services Clearing Prices)");
+                println!("  - DAM_Gen_Resources (60-Day DAM Generation Resources)");
+                println!("  - SCED_Gen_Resources (60-Day SCED Generation Resources)");
+                println!("  - COP_Snapshots (60-Day COP Adjustment Period Snapshots)");
+                println!("  - RT_prices (Real-Time Settlement Point Prices)");
+                return Ok(());
+            }
+        }
         
         for (output_name, source_dir, processor_type) in processors {
             println!("\n📊 Processing: {}", output_name);

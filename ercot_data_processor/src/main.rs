@@ -345,12 +345,28 @@ fn main() -> Result<()> {
     } else if args.len() > 1 && args[1] == "--annual-rollup" {
         // Enhanced annual rollup with gap tracking and schema normalization
         use enhanced_annual_processor::EnhancedAnnualProcessor;
-        let base_dir = if args.len() > 2 {
-            PathBuf::from(&args[2])
-        } else {
-            PathBuf::from("/Users/enrico/data/ERCOT_data")
-        };
-        let processor = EnhancedAnnualProcessor::new(base_dir);
+        
+        // Parse arguments
+        let mut base_dir = PathBuf::from("/Users/enrico/data/ERCOT_data");
+        let mut dataset = None;
+        
+        let mut i = 2;
+        while i < args.len() {
+            if args[i] == "--dataset" && i + 1 < args.len() {
+                dataset = Some(args[i + 1].clone());
+                i += 2;
+            } else if !args[i].starts_with("--") {
+                base_dir = PathBuf::from(&args[i]);
+                i += 1;
+            } else {
+                i += 1;
+            }
+        }
+        
+        let mut processor = EnhancedAnnualProcessor::new(base_dir);
+        if let Some(ds) = dataset {
+            processor = processor.with_dataset(ds);
+        }
         processor.process_all_data()?;
         return Ok(());
     } else if args.len() > 1 && args[1] == "--bess-parquet" {
@@ -364,11 +380,22 @@ fn main() -> Result<()> {
         // Default to annual rollup with enhanced processor
         println!("Usage: {} [command] [options]", args[0]);
         println!("\nCommands:");
-        println!("  --annual-rollup [dir]     Process annual ERCOT data with gap tracking");
-        println!("  --bess-parquet           Analyze BESS revenues from parquet files");
-        println!("  --extract-all-ercot dir  Extract all ERCOT CSV files from zips");
-        println!("  --process-annual         Process extracted CSV to annual parquet");
-        println!("  --verify-results         Verify data quality of processed files");
+        println!("  --annual-rollup [dir] [--dataset NAME]  Process ERCOT data (optional: specific dataset)");
+        println!("  --bess-parquet                          Analyze BESS revenues from parquet files");
+        println!("  --extract-all-ercot dir                 Extract all ERCOT CSV files from zips");
+        println!("  --process-annual                        Process extracted CSV to annual parquet");
+        println!("  --verify-results                        Verify data quality of processed files");
+        println!("\nDataset options for --annual-rollup:");
+        println!("  DA_prices          Day-Ahead Settlement Point Prices");
+        println!("  AS_prices          Ancillary Services Clearing Prices");
+        println!("  DAM_Gen_Resources  60-Day DAM Generation Resources");
+        println!("  SCED_Gen_Resources 60-Day SCED Generation Resources");
+        println!("  COP_Snapshots      60-Day COP Adjustment Period Snapshots");
+        println!("  RT_prices          Real-Time Settlement Point Prices");
+        println!("\nExamples:");
+        println!("  {} --annual-rollup", args[0]);
+        println!("  {} --annual-rollup --dataset DA_prices", args[0]);
+        println!("  {} --annual-rollup /path/to/data --dataset COP_Snapshots", args[0]);
         println!("\nRunning default: --annual-rollup");
         
         // Run enhanced annual processor as default

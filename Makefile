@@ -14,11 +14,23 @@ help:
 	@echo "  make build-release   Build Rust processor (release mode)"
 	@echo "  make clean           Clean build artifacts and temp files"
 	@echo ""
-	@echo "Data Processing:"
+	@echo "Data Processing - Full:"
 	@echo "  make extract         Extract all ERCOT CSV files from zips"
-	@echo "  make rollup          Run annual rollup with gap tracking"
+	@echo "  make rollup          Run annual rollup with gap tracking (debug)"
+	@echo "  make rollup-release  Run annual rollup (ALL datasets, optimized)"
 	@echo "  make rollup-test     Test rollup on 2011 data (DST flag test)"
+	@echo ""
+	@echo "Data Processing - Individual Datasets (FAST):"
+	@echo "  make rollup-da-prices    Day-Ahead Settlement Point Prices"
+	@echo "  make rollup-as-prices    Ancillary Services Clearing Prices"
+	@echo "  make rollup-dam-gen      60-Day DAM Generation Resources"
+	@echo "  make rollup-sced-gen     60-Day SCED Generation Resources"
+	@echo "  make rollup-cop          60-Day COP Adjustment Snapshots"
+	@echo "  make rollup-rt-prices    Real-Time Prices (WARNING: Large!)"
+	@echo ""
+	@echo "Analysis:"
 	@echo "  make bess            Run BESS revenue analysis"
+	@echo "  make bess-leaderboard Run BESS daily revenue leaderboard"
 	@echo "  make verify          Verify data quality of processed files"
 	@echo ""
 	@echo "Python Pipeline:"
@@ -118,8 +130,33 @@ rollup-release: build-release
 	@echo "📊 Running annual rollup with release build..."
 	cd ercot_data_processor && ./target/release/ercot_data_processor --annual-rollup /Users/enrico/data/ERCOT_data
 
+# Individual dataset rollup targets for faster iteration
+rollup-da-prices: build-release
+	@echo "📊 Processing Day-Ahead Prices only..."
+	cd ercot_data_processor && ./target/release/ercot_data_processor --annual-rollup /Users/enrico/data/ERCOT_data --dataset DA_prices
+
+rollup-as-prices: build-release
+	@echo "📊 Processing Ancillary Services Prices only..."
+	cd ercot_data_processor && ./target/release/ercot_data_processor --annual-rollup /Users/enrico/data/ERCOT_data --dataset AS_prices
+
+rollup-dam-gen: build-release
+	@echo "📊 Processing DAM Generation Resources only..."
+	cd ercot_data_processor && ./target/release/ercot_data_processor --annual-rollup /Users/enrico/data/ERCOT_data --dataset DAM_Gen_Resources
+
+rollup-sced-gen: build-release
+	@echo "📊 Processing SCED Generation Resources only..."
+	cd ercot_data_processor && ./target/release/ercot_data_processor --annual-rollup /Users/enrico/data/ERCOT_data --dataset SCED_Gen_Resources
+
 rollup-cop: build-release
-	@echo "📊 Processing COP files only (handles both CompleteCOP and 60d_COP formats)..."
+	@echo "📊 Processing COP Snapshots only..."
+	cd ercot_data_processor && ./target/release/ercot_data_processor --annual-rollup /Users/enrico/data/ERCOT_data --dataset COP_Snapshots
+
+rollup-rt-prices: build-release
+	@echo "📊 Processing Real-Time Prices only (WARNING: Large dataset!)..."
+	cd ercot_data_processor && ./target/release/ercot_data_processor --annual-rollup /Users/enrico/data/ERCOT_data --dataset RT_prices
+
+rollup-cop-old: build-release
+	@echo "📊 Processing COP files only (old method - specific directory)..."
 	cd ercot_data_processor && ./target/release/ercot_data_processor --annual-rollup /Users/enrico/data/ERCOT_data/60-Day_COP_Adjustment_Period_Snapshot
 
 rollup-test: build
@@ -213,6 +250,24 @@ check-rust:
 	cd ercot_data_processor && cargo check
 
 # ============= Utilities =============
+
+list-datasets:
+	@echo "Available datasets for selective processing:"
+	@echo "============================================"
+	@echo ""
+	@echo "Dataset Name         | Description"
+	@echo "--------------------|------------------------------------------"
+	@echo "DA_prices           | Day-Ahead Settlement Point Prices"
+	@echo "AS_prices           | Ancillary Services Clearing Prices"
+	@echo "DAM_Gen_Resources   | 60-Day DAM Generation Resources"
+	@echo "SCED_Gen_Resources  | 60-Day SCED Generation Resources"
+	@echo "COP_Snapshots       | 60-Day COP Adjustment Period Snapshots"
+	@echo "RT_prices           | Real-Time Settlement Point Prices (LARGE!)"
+	@echo ""
+	@echo "Usage examples:"
+	@echo "  make rollup-da-prices     # Process only Day-Ahead prices"
+	@echo "  make rollup-cop           # Process only COP snapshots"
+	@echo "  make rollup-release       # Process ALL datasets"
 
 parquet-stats:
 	@echo "📊 Parquet file statistics:"
