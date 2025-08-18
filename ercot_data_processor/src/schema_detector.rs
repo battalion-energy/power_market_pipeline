@@ -5,6 +5,7 @@ use std::collections::HashMap;
 use std::fs::{self, File};
 use std::io::{BufWriter, BufRead, BufReader};
 use std::path::{Path, PathBuf};
+use rayon::prelude::*;
 
 #[derive(Debug, Clone, Serialize)]
 #[serde(rename_all = "PascalCase")]
@@ -136,28 +137,42 @@ impl SchemaDetector {
             ("60-Day_COP_Adjustment_Period_Snapshot/csv", "60d_COP_Adjustment_Period_Snapshot*.csv"),
             ("60-Day_SCED_Disclosure_Reports/csv", "60d_SCED_Gen_Resource_Data*.csv"),
             ("60-Day_DAM_Disclosure_Reports/csv", "60d_DAM_Gen_Resource_Data*.csv"),
+            ("60-Day_SCED_Disclosure_Reports/csv", "60d_SCED_Load_Resource_Data*.csv"),
+            ("60-Day_DAM_Disclosure_Reports/csv", "60d_DAM_Load_Resource_Data*.csv"),
             ("DA_prices", "*.csv"),
             ("AS_prices", "*.csv"),
             ("Settlement_Point_Prices_at_Resource_Nodes,_Hubs_and_Load_Zones", "*.csv"),
         ];
 
-        for (dir_path, pattern) in patterns {
-            let full_dir = self.base_dir.join(dir_path);
-            if !full_dir.exists() {
-                println!("Skipping non-existent directory: {:?}", full_dir);
-                continue;
-            }
+        // Process patterns in parallel
+        let schemas: Vec<FileSchema> = patterns
+            .par_iter()
+            .filter_map(|(dir_path, pattern)| {
+                let full_dir = self.base_dir.join(dir_path);
+                if !full_dir.exists() {
+                    println!("Skipping non-existent directory: {:?}", full_dir);
+                    return None;
+                }
 
-            println!("Scanning directory: {:?}", full_dir);
-            let sample_file = self.find_sample_file(&full_dir, pattern)?;
-            
-            if let Some(file_path) = sample_file {
-                println!("  Analyzing sample file: {:?}", file_path);
-                let schema = self.detect_file_schema(&file_path, pattern)?;
-                registry.schemas.push(schema);
-            }
-        }
-
+                println!("Scanning directory: {:?}", full_dir);
+                let sample_file = self.find_sample_file(&full_dir, pattern).ok()?;
+                
+                if let Some(file_path) = sample_file {
+                    println!("  Analyzing sample file: {:?}", file_path);
+                    match self.detect_file_schema(&file_path, pattern) {
+                        Ok(schema) => Some(schema),
+                        Err(e) => {
+                            eprintln!("  Error detecting schema: {}", e);
+                            None
+                        }
+                    }
+                } else {
+                    None
+                }
+            })
+            .collect();
+        
+        registry.schemas = schemas;
         Ok(registry)
     }
 

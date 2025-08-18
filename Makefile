@@ -23,15 +23,31 @@ help:
 	@echo "Data Processing - Individual Datasets (FAST):"
 	@echo "  make rollup-da-prices    Day-Ahead Settlement Point Prices"
 	@echo "  make rollup-as-prices    Ancillary Services Clearing Prices"
-	@echo "  make rollup-dam-gen      60-Day DAM Generation Resources"
-	@echo "  make rollup-sced-gen     60-Day SCED Generation Resources"
+	@echo "  make rollup-dam-gen      60-Day DAM Generation Resources (discharge)"
+	@echo "  make rollup-dam-load     60-Day DAM Load Resources (charging)"
+	@echo "  make rollup-sced-gen     60-Day SCED Generation Resources (discharge)"
+	@echo "  make rollup-sced-load    60-Day SCED Load Resources (charging)"
 	@echo "  make rollup-cop          60-Day COP Adjustment Snapshots"
 	@echo "  make rollup-rt-prices    Real-Time Prices (WARNING: Large!)"
+	@echo ""
+	@echo "Price Data Processing:"
+	@echo "  make flatten-prices      Flatten DA/RT/AS prices (RT keeps 5-min)"
+	@echo "  make aggregate-rt-hourly Create hourly RT from 5-min data"
+	@echo "  make combine-prices      Combine prices and create monthly files"
+	@echo "  make process-prices      Run full price processing pipeline"
+	@echo ""
+	@echo "ERCOT Price Service:"
+	@echo "  make build-price-service Build the Rust price service"
+	@echo "  make run-price-service   Run the price service (ports 8080, 50051)"
+	@echo "  make price-service-docker Build Docker image for price service"
 	@echo ""
 	@echo "Analysis:"
 	@echo "  make bess            Run BESS revenue analysis"
 	@echo "  make bess-leaderboard Run BESS daily revenue leaderboard"
+	@echo "  make bess-match      Create BESS resource matching file"
 	@echo "  make verify          Verify data quality of processed files"
+	@echo "  make verify-parquet  Check parquet files (Rust version)"
+	@echo "  make verify-all-parquet  Comprehensive parallel verification (Python)"
 	@echo ""
 	@echo "Python Pipeline:"
 	@echo "  make download        Download recent ERCOT data (7 days)"
@@ -73,13 +89,22 @@ install-rust:
 	cd ercot_data_processor && cargo fetch
 
 build:
-	@echo "🔨 Building Rust processor (debug)..."
-	cd ercot_data_processor && cargo build
+	@echo "🔨 Building Rust processor (debug) with 24 cores..."
+	cd ercot_data_processor && \
+		PATH="$$HOME/.cargo/bin:$$PATH" \
+		CARGO_BUILD_JOBS=24 \
+		RUSTFLAGS="-C codegen-units=256" \
+		cargo build --jobs 24
 	@echo "✅ Debug build complete: ercot_data_processor/target/debug/ercot_data_processor"
 
 build-release:
-	@echo "🔨 Building Rust processor (release)..."
-	cd ercot_data_processor && cargo build --release
+	@echo "🔨 Building Rust processor (release) with 24 cores..."
+	@echo "🚀 Using maximum parallelism for compilation..."
+	cd ercot_data_processor && \
+		PATH="$$HOME/.cargo/bin:$$PATH" \
+		CARGO_BUILD_JOBS=24 \
+		RUSTFLAGS="-C codegen-units=256 -C target-cpu=native" \
+		cargo build --release --jobs 24
 	@echo "✅ Release build complete: ercot_data_processor/target/release/ercot_data_processor"
 
 clean:
@@ -122,13 +147,85 @@ extract:
 	@echo "📂 Extracting all ERCOT CSV files from zips..."
 	cd ercot_data_processor && ./target/debug/ercot_data_processor --extract-all-ercot $(DATA_DIR)
 
+# ============= Price Data Flattening & Combining =============
+
+flatten-prices:
+	@echo "📊 Flattening ERCOT price data to wide format..."
+	@echo "  • DA prices: Each row = 1 hour, columns = HBs, LZs, DCs"
+	@echo "  • RT prices: 15-minute intervals preserved (4 per hour)"
+	@echo "  • AS prices: Each row = 1 hour, columns = AS types"
+	uv run python flatten_ercot_prices.py
+	@echo "✅ Flattened files saved to: $(ROLLUP_DIR)/flattened/"
+	@echo "  • RT files: RT_prices_15min_YYYY.parquet"
+
+aggregate-rt-hourly:
+	@echo "📊 Creating hourly aggregated RT prices from 15-min data..."
+	uv run python flatten_ercot_prices_hourly.py
+	@echo "✅ Hourly RT files saved to: $(ROLLUP_DIR)/flattened/"
+	@echo "  • Files: RT_prices_hourly_YYYY.parquet"
+
+combine-prices:
+	@echo "🔀 Combining and splitting price files..."
+	@echo "  • Creating DA+AS combined files"
+	@echo "  • Creating DA+AS+RT combined files"
+	@echo "  • Splitting into monthly files"
+	uv run python combine_ercot_prices.py
+	@echo "✅ Combined files saved to: $(ROLLUP_DIR)/combined/"
+	@echo "✅ Monthly files saved to: $(ROLLUP_DIR)/combined/monthly/"
+
+process-prices: flatten-prices aggregate-rt-hourly combine-prices
+	@echo "✅ Price processing pipeline complete!"
+	@echo "📁 Output locations:"
+	@echo "  • Flattened: $(ROLLUP_DIR)/flattened/"
+	@echo "    - DA_prices_YYYY.parquet (hourly)"
+	@echo "    - RT_prices_15min_YYYY.parquet (15-minute intervals, 4 per hour)"
+	@echo "    - RT_prices_hourly_YYYY.parquet (hourly avg)"
+	@echo "    - AS_prices_YYYY.parquet (hourly)"
+	@echo "  • Combined:  $(ROLLUP_DIR)/combined/"
+	@echo "    - DA_AS_combined_YYYY.parquet"
+	@echo "    - DA_AS_RT_combined_YYYY.parquet (hourly aligned)"
+	@echo "    - DA_AS_RT_15min_combined_YYYY.parquet (15-min with DA/AS repeated)"
+	@echo "  • Monthly:   $(ROLLUP_DIR)/combined/monthly/"
+
+# ============= ERCOT Price Service (Rust) =============
+
+build-price-service:
+	@echo "🔨 Building ERCOT Price Service..."
+	cd ercot_price_service && cargo build --release
+	@echo "✅ Binary: ercot_price_service/target/release/ercot-price-server"
+
+run-price-service: build-price-service
+	@echo "🚀 Starting ERCOT Price Service..."
+	@echo "  • JSON API: http://localhost:8080"
+	@echo "  • Arrow Flight: grpc://localhost:50051"
+	cd ercot_price_service && ./target/release/ercot-price-server \
+		--data-dir $(ROLLUP_DIR) \
+		--json-addr 0.0.0.0:8080 \
+		--flight-addr 0.0.0.0:50051
+
+price-service-docker:
+	@echo "🐳 Building Price Service Docker image..."
+	cd ercot_price_service && docker build -t ercot-price-service:latest .
+
+price-service-compose:
+	@echo "🐳 Starting Price Service with Docker Compose..."
+	cd ercot_price_service && docker-compose up -d
+	@echo "✅ Services running:"
+	@echo "  • JSON API: http://localhost:8080/api/health"
+	@echo "  • Arrow Flight: grpc://localhost:50051"
+
 rollup: build
 	@echo "📊 Running annual rollup with gap tracking..."
 	cd ercot_data_processor && ./target/debug/ercot_data_processor --annual-rollup
 
 rollup-release: build-release
 	@echo "📊 Running annual rollup with release build..."
-	cd ercot_data_processor && ./target/release/ercot_data_processor --annual-rollup
+	@echo "🚀 Optimizing for 24 cores / 32 threads..."
+	cd ercot_data_processor && \
+		RAYON_NUM_THREADS=32 \
+		POLARS_MAX_THREADS=24 \
+		RUST_MIN_STACK=8388608 \
+		./target/release/ercot_data_processor --annual-rollup
 
 # Individual dataset rollup targets for faster iteration
 rollup-da-prices: build-release
@@ -152,8 +249,22 @@ rollup-cop: build-release
 	cd ercot_data_processor && ./target/release/ercot_data_processor --annual-rollup $(DATA_DIR) --dataset COP_Snapshots
 
 rollup-rt-prices: build-release
-	@echo "📊 Processing Real-Time Prices only (WARNING: Large dataset!)..."
-	cd ercot_data_processor && ./target/release/ercot_data_processor --annual-rollup $(DATA_DIR) --dataset RT_prices
+	@echo "📊 Processing Real-Time Prices only (WARNING: 500K+ files!)..."
+	@echo "🚀 Using controlled parallelism to avoid file descriptor exhaustion..."
+	@echo "📁 Files to process: ~515,814"
+	cd ercot_data_processor && \
+		RAYON_NUM_THREADS=16 \
+		POLARS_MAX_THREADS=24 \
+		RUST_MIN_STACK=8388608 \
+		./target/release/ercot_data_processor --annual-rollup $(DATA_DIR) --dataset RT_prices
+
+rollup-dam-load: build-release
+	@echo "📊 Processing DAM Load Resources only..."
+	cd ercot_data_processor && ./target/release/ercot_data_processor --annual-rollup $(DATA_DIR) --dataset DAM_Load_Resources
+
+rollup-sced-load: build-release
+	@echo "📊 Processing SCED Load Resources only..."
+	cd ercot_data_processor && ./target/release/ercot_data_processor --annual-rollup $(DATA_DIR) --dataset SCED_Load_Resources
 
 rollup-cop-old: build-release
 	@echo "📊 Processing COP files only (old method - specific directory)..."
@@ -171,9 +282,37 @@ bess-leaderboard: build-release
 	@echo "🏆 Running BESS daily revenue leaderboard analysis..."
 	cd ercot_data_processor && ./target/release/ercot_data_processor --bess-daily-revenue
 
+bess-match:
+	@echo "🔗 Creating BESS resource matching file..."
+	uv run python create_bess_match_file.py
+	@echo "✅ Created: bess_match_file.csv and bess_match_rules.json"
+
 verify: build
 	@echo "✔️ Verifying data quality..."
 	cd ercot_data_processor && ./target/debug/ercot_data_processor --verify-results
+
+verify-parquet: build-release
+	@echo "🔍 Verifying parquet files for data integrity..."
+	@echo "📊 Checking for duplicates, gaps, and corruption..."
+	cd ercot_data_processor && \
+		PATH="$$HOME/.cargo/bin:$$PATH" \
+		./target/release/ercot_data_processor --verify-parquet $(DATA_DIR)
+	@echo "📝 Check verification_report.md for detailed results"
+
+verify-all-parquet:
+	@echo "🔍 Comprehensive Parquet Verification"
+	@echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+	@echo "📊 Checking all parquet files in rollup directory..."
+	@echo "   • Data integrity"
+	@echo "   • Duplicate detection"
+	@echo "   • Time series gaps"
+	@echo "   • Schema consistency"
+	@echo ""
+	@uv run python verify_parquet_files.py $(DATA_DIR)
+	@echo ""
+	@echo "📝 Reports generated:"
+	@echo "   • $(DATA_DIR)/rollup_files/verification_report.md"
+	@echo "   • $(DATA_DIR)/rollup_files/verification_report.json"
 
 # ============= Python Pipeline =============
 

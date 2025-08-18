@@ -68,7 +68,9 @@ impl EnhancedAnnualProcessor {
             ("DA_prices", "DAM_Settlement_Point_Prices", ProcessorType::DayAheadPrice),
             ("AS_prices", "DAM_Clearing_Prices_for_Capacity", ProcessorType::AncillaryService),
             ("DAM_Gen_Resources", "60-Day_DAM_Disclosure_Reports", ProcessorType::DAMGenResource),
+            ("DAM_Load_Resources", "60-Day_DAM_Disclosure_Reports", ProcessorType::DAMLoadResource),
             ("SCED_Gen_Resources", "60-Day_SCED_Disclosure_Reports", ProcessorType::SCEDGenResource),
+            ("SCED_Load_Resources", "60-Day_SCED_Disclosure_Reports", ProcessorType::SCEDLoadResource),
             ("COP_Snapshots", "60-Day_COP_Adjustment_Period_Snapshot", ProcessorType::COPSnapshot),
             ("RT_prices", "Settlement_Point_Prices_at_Resource_Nodes,_Hubs_and_Load_Zones", ProcessorType::RealTimePrice),
         ];
@@ -82,7 +84,9 @@ impl EnhancedAnnualProcessor {
                 println!("  - DA_prices (Day-Ahead Settlement Point Prices)");
                 println!("  - AS_prices (Ancillary Services Clearing Prices)");
                 println!("  - DAM_Gen_Resources (60-Day DAM Generation Resources)");
+                println!("  - DAM_Load_Resources (60-Day DAM Load Resources)");
                 println!("  - SCED_Gen_Resources (60-Day SCED Generation Resources)");
+                println!("  - SCED_Load_Resources (60-Day SCED Load Resources)");
                 println!("  - COP_Snapshots (60-Day COP Adjustment Period Snapshots)");
                 println!("  - RT_prices (Real-Time Settlement Point Prices)");
                 return Ok(());
@@ -107,7 +111,9 @@ impl EnhancedAnnualProcessor {
                 ProcessorType::DayAheadPrice => self.process_da_prices(&source_path, &output_path)?,
                 ProcessorType::AncillaryService => self.process_as_prices(&source_path, &output_path)?,
                 ProcessorType::DAMGenResource => self.process_dam_gen_resources(&source_path, &output_path)?,
+                ProcessorType::DAMLoadResource => self.process_dam_load_resources(&source_path, &output_path)?,
                 ProcessorType::SCEDGenResource => self.process_sced_gen_resources(&source_path, &output_path)?,
+                ProcessorType::SCEDLoadResource => self.process_sced_load_resources(&source_path, &output_path)?,
                 ProcessorType::COPSnapshot => self.process_cop_snapshots(&source_path, &output_path)?,
             }
         }
@@ -334,7 +340,20 @@ impl EnhancedAnnualProcessor {
             pb.finish_with_message("done");
             
             if !all_dfs.is_empty() {
+                println!("    Debug: Combining {} dataframes", all_dfs.len());
+                let total_rows_before: usize = all_dfs.iter().map(|df| df.height()).sum();
+                println!("    Debug: Total rows before combining: {}", total_rows_before);
+                
                 let combined_df = self.combine_dataframes(all_dfs)?;
+                println!("    Debug: Rows after combining: {}", combined_df.height());
+                
+                // Check unique dates in the combined dataframe
+                if combined_df.get_column_names().contains(&"DeliveryDate") {
+                    let delivery_dates = combined_df.column("DeliveryDate")?;
+                    let unique_dates = delivery_dates.unique()?;
+                    println!("    Debug: Unique DeliveryDate values: {}", unique_dates.len());
+                }
+                
                 let gaps = self.detect_gaps(&combined_df, "datetime")?;
                 
                 let output_file = output_dir.join(format!("{}.parquet", year));
@@ -364,37 +383,79 @@ impl EnhancedAnnualProcessor {
     }
     
     fn read_da_price_file(&self, file: &Path) -> Result<DataFrame> {
-        // Read CSV with Float64 for price column
+        // Read CSV with Float64 for price column and string for dates initially
         let schema_overrides = Schema::from_iter([
             Field::new("SettlementPointPrice", DataType::Float64),
+            Field::new("DeliveryDate", DataType::Utf8),  // Read as string first
+            Field::new("HourEnding", DataType::Utf8),     // Read as string first
         ]);
         
         let df = CsvReader::from_path(file)?
             .has_header(true)
-            .with_try_parse_dates(true)
+            .with_try_parse_dates(false)  // Don't auto-parse dates
             .with_dtypes(Some(Arc::new(schema_overrides)))
             .finish()?;
         
         // Normalize the dataframe to handle schema evolution (DST flag added in 2011)
         let df = crate::schema_normalizer::normalize_dam_prices(df)?;
         
-        // Parse HourEnding and create datetime, ensure price is Float64
-        let df = df.lazy()
-            .with_column(
-                col("DeliveryDate").cast(DataType::Date)
-            )
+        // Process the dataframe - first collect then parse dates
+        let mut df = df.lazy()
             .with_column(
                 col("SettlementPointPrice").cast(DataType::Float64)  // Critical: Force Float64
             )
             .with_column(
-                // Parse HourEnding to extract integer hour value
-                // HourEnding is typically numeric like "1" or "24"
-                col("HourEnding").cast(DataType::Int32).alias("hour")
+                col("HourEnding").alias("hour")
             )
+            .collect()?;
+        
+        // Now parse the dates from MM/DD/YYYY string to Date type
+        let mut parsed_dates: Vec<Option<i32>> = Vec::new();
+        let mut date_strings: Vec<Option<String>> = Vec::new();
+        
+        // Unix epoch date for calculating days since epoch
+        let epoch = NaiveDate::from_ymd_opt(1970, 1, 1).unwrap();
+        
+        // Extract dates and process them
+        {
+            let delivery_dates = df.column("DeliveryDate")?;
+            if let Ok(dates_str) = delivery_dates.utf8() {
+                for i in 0..dates_str.len() {
+                    if let Some(date_str) = dates_str.get(i) {
+                        if let Ok(date) = NaiveDate::parse_from_str(date_str, "%m/%d/%Y") {
+                            // Calculate days since Unix epoch (1970-01-01)
+                            let days_since_epoch = (date - epoch).num_days() as i32;
+                            parsed_dates.push(Some(days_since_epoch));
+                            
+                            // Format as ISO date with timezone indicator
+                            // ERCOT operates in Central Time (CT)
+                            let formatted = format!("{}T00:00:00-06:00", date.format("%Y-%m-%d"));
+                            date_strings.push(Some(formatted));
+                        } else {
+                            parsed_dates.push(None);
+                            date_strings.push(None);
+                        }
+                    } else {
+                        parsed_dates.push(None);
+                        date_strings.push(None);
+                    }
+                }
+            }
+        }
+        
+        // Create new Date column and replace the string one
+        let date_series = Series::new("DeliveryDate", parsed_dates);
+        df.with_column(date_series.cast(&DataType::Date)?)?;
+        
+        // Add string representation with timezone
+        let date_str_series = Series::new("DeliveryDateStr", date_strings);
+        df.with_column(date_str_series)?;
+        
+        // Add datetime column as unix timestamp (milliseconds since epoch)
+        // This will be computed from DeliveryDate + HourEnding
+        let df = df.lazy()
             .with_column(
-                (col("DeliveryDate").cast(DataType::Datetime(TimeUnit::Milliseconds, None)) +
-                 duration_hours(col("hour") - lit(1)))
-                .alias("datetime")
+                lit(NULL).cast(DataType::Int64).alias("datetime_ms")
             )
             .collect()?;
         
@@ -486,36 +547,78 @@ impl EnhancedAnnualProcessor {
     }
     
     fn read_as_price_file(&self, file: &Path) -> Result<DataFrame> {
-        // Read CSV with Float64 for price column
+        // Read CSV with Float64 for price column and string for dates initially
         let schema_overrides = Schema::from_iter([
             Field::new("MCPC", DataType::Float64),
+            Field::new("DeliveryDate", DataType::Utf8),  // Read as string first
+            Field::new("HourEnding", DataType::Utf8),     // Read as string first
         ]);
         
         let df = CsvReader::from_path(file)?
             .has_header(true)
-            .with_try_parse_dates(true)
+            .with_try_parse_dates(false)  // Don't auto-parse dates
             .with_dtypes(Some(Arc::new(schema_overrides)))
             .finish()?;
         
         // Normalize the dataframe to handle schema evolution (DST flag added in 2011)
         let df = crate::schema_normalizer::normalize_as_prices(df)?;
         
-        let df = df.lazy()
-            .with_column(
-                col("DeliveryDate").cast(DataType::Date)
-            )
+        // Process the dataframe - first collect then parse dates
+        let mut df = df.lazy()
             .with_column(
                 col("MCPC").cast(DataType::Float64)  // Critical: Force Float64
             )
             .with_column(
-                // Parse HourEnding to extract integer hour value
-                // HourEnding is typically numeric like "1" or "24"
-                col("HourEnding").cast(DataType::Int32).alias("hour")
+                col("HourEnding").alias("hour")
             )
+            .collect()?;
+        
+        // Now parse the dates from MM/DD/YYYY string to Date type
+        let mut parsed_dates: Vec<Option<i32>> = Vec::new();
+        let mut date_strings: Vec<Option<String>> = Vec::new();
+        
+        // Unix epoch date for calculating days since epoch
+        let epoch = NaiveDate::from_ymd_opt(1970, 1, 1).unwrap();
+        
+        // Extract dates and process them
+        {
+            let delivery_dates = df.column("DeliveryDate")?;
+            if let Ok(dates_str) = delivery_dates.utf8() {
+                for i in 0..dates_str.len() {
+                    if let Some(date_str) = dates_str.get(i) {
+                        if let Ok(date) = NaiveDate::parse_from_str(date_str, "%m/%d/%Y") {
+                            // Calculate days since Unix epoch (1970-01-01)
+                            let days_since_epoch = (date - epoch).num_days() as i32;
+                            parsed_dates.push(Some(days_since_epoch));
+                            
+                            // Format as ISO date with timezone indicator
+                            // ERCOT operates in Central Time (CT)
+                            let formatted = format!("{}T00:00:00-06:00", date.format("%Y-%m-%d"));
+                            date_strings.push(Some(formatted));
+                        } else {
+                            parsed_dates.push(None);
+                            date_strings.push(None);
+                        }
+                    } else {
+                        parsed_dates.push(None);
+                        date_strings.push(None);
+                    }
+                }
+            }
+        }
+        
+        // Create new Date column and replace the string one
+        let date_series = Series::new("DeliveryDate", parsed_dates);
+        df.with_column(date_series.cast(&DataType::Date)?)?;
+        
+        // Add string representation with timezone
+        let date_str_series = Series::new("DeliveryDateStr", date_strings);
+        df.with_column(date_str_series)?;
+        
+        // Add datetime column as unix timestamp (milliseconds since epoch)
+        let df = df.lazy()
             .with_column(
-                (col("DeliveryDate").cast(DataType::Datetime(TimeUnit::Milliseconds, None)) +
-                 duration_hours(col("hour") - lit(1)))
-                .alias("datetime")
+                lit(NULL).cast(DataType::Int64).alias("datetime_ms")
             )
             .collect()?;
         
@@ -748,6 +851,19 @@ impl EnhancedAnnualProcessor {
             select_cols.push(col("NonSpin Awarded").cast(DataType::Float64).alias("NonSpinAwarded"));
         } else {
             select_cols.push(lit(0.0).alias("NonSpinAwarded"));
+        }
+        
+        // Add QSE submitted bid curve points (up to 10 pairs for DAM)
+        for i in 1..=10 {
+            let mw_col = format!("QSE submitted Curve-MW{}", i);
+            let price_col = format!("QSE submitted Curve-Price{}", i);
+            
+            if columns.contains(&mw_col.as_str()) {
+                select_cols.push(col(&mw_col).cast(DataType::Float64));
+            }
+            if columns.contains(&price_col.as_str()) {
+                select_cols.push(col(&price_col).cast(DataType::Float64));
+            }
         }
         
         // Build dataframe with available columns
@@ -992,6 +1108,32 @@ impl EnhancedAnnualProcessor {
             select_cols.push(col("Ancillary Service ECRSSD").cast(DataType::Float64).alias("AS_ECRSSD"));
         }
         
+        // Add SCED1 bid curve points (up to 35 pairs)
+        for i in 1..=35 {
+            let mw_col = format!("SCED1 Curve-MW{}", i);
+            let price_col = format!("SCED1 Curve-Price{}", i);
+            
+            if columns.contains(&mw_col.as_str()) {
+                select_cols.push(col(&mw_col).cast(DataType::Float64));
+            }
+            if columns.contains(&price_col.as_str()) {
+                select_cols.push(col(&price_col).cast(DataType::Float64));
+            }
+        }
+        
+        // Add SCED2 bid curve points (up to 35 pairs)
+        for i in 1..=35 {
+            let mw_col = format!("SCED2 Curve-MW{}", i);
+            let price_col = format!("SCED2 Curve-Price{}", i);
+            
+            if columns.contains(&mw_col.as_str()) {
+                select_cols.push(col(&mw_col).cast(DataType::Float64));
+            }
+            if columns.contains(&price_col.as_str()) {
+                select_cols.push(col(&price_col).cast(DataType::Float64));
+            }
+        }
+        
         // Apply selection and add datetime column
         let df = df.lazy()
             .select(select_cols)
@@ -1001,6 +1143,333 @@ impl EnhancedAnnualProcessor {
             .collect()?;
         
         Ok(df)
+    }
+    
+    fn process_sced_load_resources(&self, source_dir: &Path, output_dir: &Path) -> Result<()> {
+        let csv_dir = source_dir.join("csv");
+        let csv_dir = if csv_dir.exists() { csv_dir } else { source_dir.to_path_buf() };
+        
+        // Pattern: 60d_Load_Resource_Data_in_SCED-DD-MMM-YY.csv
+        let pattern = csv_dir.join("60d_Load_Resource_Data_in_SCED-*.csv");
+        let files = glob::glob(pattern.to_str().unwrap())?
+            .filter_map(Result::ok)
+            .collect::<Vec<_>>();
+        
+        println!("  Found {} SCED Load Resource files", files.len());
+        
+        // Group by year
+        let mut files_by_year: BTreeMap<i32, Vec<PathBuf>> = BTreeMap::new();
+        for file in files {
+            if let Some(year) = extract_year_from_60day_filename(&file) {
+                files_by_year.entry(year).or_default().push(file);
+            }
+        }
+        
+        for (year, year_files) in files_by_year {
+            println!("  Processing year {}: {} files", year, year_files.len());
+            
+            let mut all_dfs = Vec::new();
+            
+            for file in &year_files {
+                match self.read_sced_load_file(file) {
+                    Ok(df) => all_dfs.push(df),
+                    Err(e) => eprintln!("    Error reading {}: {}", file.display(), e),
+                }
+            }
+            
+            if !all_dfs.is_empty() {
+                let combined_df = self.combine_dataframes(all_dfs)?;
+                
+                let output_file = output_dir.join(format!("{}.parquet", year));
+                let mut file = std::fs::File::create(&output_file)?;
+                ParquetWriter::new(&mut file).finish(&mut combined_df.clone())?;
+                
+                println!("    ✅ Saved {} rows to {}", combined_df.height(), output_file.display());
+                
+                self.update_stats("SCED_Load_Resources", year, year_files.len(), combined_df.height(), vec![]);
+            }
+        }
+        
+        Ok(())
+    }
+    
+    fn read_sced_load_file(&self, file: &Path) -> Result<DataFrame> {
+        // Force critical numeric columns to be Float64
+        let mut schema_overrides = Schema::new();
+        schema_overrides.with_column("Max Power Consumption".into(), DataType::Float64);
+        schema_overrides.with_column("LDL".into(), DataType::Float64);
+        schema_overrides.with_column("HDL".into(), DataType::Float64);
+        schema_overrides.with_column("Base Point".into(), DataType::Float64);
+        schema_overrides.with_column("Telemetered Load".into(), DataType::Float64);
+        schema_overrides.with_column("AS LRS".into(), DataType::Float64);
+        schema_overrides.with_column("HASL".into(), DataType::Float64);
+        schema_overrides.with_column("LASL".into(), DataType::Float64);
+        
+        // Add bid curve columns
+        for i in 1..=10 {
+            schema_overrides.with_column(format!("SCED Bid to Buy Curve-MW{}", i).into(), DataType::Float64);
+            schema_overrides.with_column(format!("SCED Bid to Buy Curve-Price{}", i).into(), DataType::Float64);
+        }
+        
+        // Define null values - empty strings should be treated as null for numeric columns
+        let null_values = NullValues::AllColumns(vec!["".to_string(), "NA".to_string(), "N/A".to_string()]);
+        
+        let df = CsvReader::from_path(file)?
+            .has_header(true)
+            .with_dtypes(Some(Arc::new(schema_overrides)))
+            .infer_schema(None)  // Don't infer - we have explicit schema
+            .with_null_values(Some(null_values))  // Treat empty strings as null
+            .finish()?;
+        
+        // Get available columns
+        let columns = df.get_column_names();
+        
+        // Build select list - include ALL columns that exist
+        let mut select_cols = vec![];
+        
+        // Always include key columns if they exist
+        if columns.contains(&"SCED Time Stamp") {
+            select_cols.push(col("SCED Time Stamp").alias("SCEDTimeStamp"));
+        }
+        if columns.contains(&"Load Resource Name") {
+            select_cols.push(col("Load Resource Name").alias("LoadResourceName"));
+        }
+        if columns.contains(&"Settlement Point Name") {
+            select_cols.push(col("Settlement Point Name").alias("SettlementPointName"));
+        }
+        
+        // Add numeric columns
+        if columns.contains(&"Max Power Consumption") {
+            select_cols.push(col("Max Power Consumption").cast(DataType::Float64).alias("MaxPowerConsumption"));
+        }
+        if columns.contains(&"LDL") {
+            select_cols.push(col("LDL").cast(DataType::Float64));
+        }
+        if columns.contains(&"HDL") {
+            select_cols.push(col("HDL").cast(DataType::Float64));
+        }
+        if columns.contains(&"Base Point") {
+            select_cols.push(col("Base Point").cast(DataType::Float64).alias("BasePoint"));
+        }
+        if columns.contains(&"Telemetered Load") {
+            select_cols.push(col("Telemetered Load").cast(DataType::Float64).alias("TelemeteredLoad"));
+        }
+        if columns.contains(&"AS LRS") {
+            select_cols.push(col("AS LRS").cast(DataType::Float64).alias("AS_LRS"));
+        }
+        if columns.contains(&"HASL") {
+            select_cols.push(col("HASL").cast(DataType::Float64));
+        }
+        if columns.contains(&"LASL") {
+            select_cols.push(col("LASL").cast(DataType::Float64));
+        }
+        
+        // Add SCED Bid to Buy curve points (up to 10 pairs)
+        for i in 1..=10 {
+            let mw_col = format!("SCED Bid to Buy Curve-MW{}", i);
+            let price_col = format!("SCED Bid to Buy Curve-Price{}", i);
+            
+            if columns.contains(&mw_col.as_str()) {
+                select_cols.push(col(&mw_col).cast(DataType::Float64));
+            }
+            if columns.contains(&price_col.as_str()) {
+                select_cols.push(col(&price_col).cast(DataType::Float64));
+            }
+        }
+        
+        // Apply selection and add datetime column
+        let df = df.lazy()
+            .select(select_cols)
+            .with_column(
+                col("SCEDTimeStamp").cast(DataType::Utf8).alias("datetime")
+            )
+            .collect()?;
+        
+        Ok(df)
+    }
+    
+    fn process_dam_load_resources(&self, source_dir: &Path, output_dir: &Path) -> Result<()> {
+        let csv_dir = source_dir.join("csv");
+        let csv_dir = if csv_dir.exists() { csv_dir } else { source_dir.to_path_buf() };
+        
+        // Pattern: 60d_DAM_Load_Resource_Data-DD-MMM-YY.csv
+        let pattern = csv_dir.join("60d_DAM_Load_Resource_Data-*.csv");
+        let files = glob::glob(pattern.to_str().unwrap())?
+            .filter_map(Result::ok)
+            .collect::<Vec<_>>();
+        
+        println!("  Found {} DAM Load Resource files", files.len());
+        
+        // Group by year
+        let mut files_by_year: BTreeMap<i32, Vec<PathBuf>> = BTreeMap::new();
+        for file in files {
+            if let Some(year) = extract_year_from_60day_filename(&file) {
+                files_by_year.entry(year).or_default().push(file);
+            }
+        }
+        
+        for (year, year_files) in files_by_year {
+            println!("  Processing year {}: {} files", year, year_files.len());
+            
+            let pb = ProgressBar::new(year_files.len() as u64);
+            pb.set_style(ProgressStyle::default_bar()
+                .template("[{elapsed_precise}] {bar:40.cyan/blue} {pos}/{len} {msg}")
+                .unwrap());
+            
+            let mut all_dfs = Vec::new();
+            
+            for file in &year_files {
+                pb.inc(1);
+                match self.read_dam_load_file(file) {
+                    Ok(df) => all_dfs.push(df),
+                    Err(e) => eprintln!("    Error reading {}: {}", file.display(), e),
+                }
+            }
+            
+            pb.finish_with_message("done");
+            
+            if !all_dfs.is_empty() {
+                // Normalize all DataFrames to have the same columns before combining
+                let normalized_dfs = self.normalize_dam_load_dataframes(all_dfs)?;
+                let combined_df = self.combine_dataframes(normalized_dfs)?;
+                let gaps = self.detect_gaps(&combined_df, "datetime")?;
+                
+                let output_file = output_dir.join(format!("{}.parquet", year));
+                let mut file = std::fs::File::create(&output_file)?;
+                ParquetWriter::new(&mut file).finish(&mut combined_df.clone())?;
+                
+                println!("    ✅ Saved {} rows to {}", combined_df.height(), output_file.display());
+                
+                self.save_gaps_report(output_dir, year, &gaps)?;
+                self.update_stats("DAM_Load_Resources", year, year_files.len(), combined_df.height(), gaps);
+            }
+        }
+        
+        Ok(())
+    }
+    
+    fn read_dam_load_file(&self, file: &Path) -> Result<DataFrame> {
+        // Force critical numeric columns to be Float64
+        let mut schema_overrides = Schema::new();
+        
+        // Load resource specific columns
+        schema_overrides.with_column("Max Power Consumption for Load Resource".into(), DataType::Float64);
+        schema_overrides.with_column("Low Power Consumption for Load Resource".into(), DataType::Float64);
+        
+        // Award columns - ALL must be Float64
+        schema_overrides.with_column("Energy Bid Award".into(), DataType::Float64);
+        schema_overrides.with_column("AS Physical Responsive Awards".into(), DataType::Float64);
+        schema_overrides.with_column("RRS Awarded".into(), DataType::Float64);
+        schema_overrides.with_column("RRSPFR Awarded".into(), DataType::Float64);
+        schema_overrides.with_column("RRSFFR Awarded".into(), DataType::Float64);
+        schema_overrides.with_column("RRSUFR Awarded".into(), DataType::Float64);
+        schema_overrides.with_column("RegUp Awarded".into(), DataType::Float64);
+        schema_overrides.with_column("RegDown Awarded".into(), DataType::Float64);
+        schema_overrides.with_column("NonSpin Awarded".into(), DataType::Float64);
+        schema_overrides.with_column("ECRS Awarded".into(), DataType::Float64);
+        schema_overrides.with_column("ECRSSD Awarded".into(), DataType::Float64);
+        schema_overrides.with_column("ECRSMD Awarded".into(), DataType::Float64);
+        
+        // MCPC columns - ALL must be Float64
+        schema_overrides.with_column("RRS MCPC".into(), DataType::Float64);
+        schema_overrides.with_column("RRSPFR MCPC".into(), DataType::Float64);
+        schema_overrides.with_column("RRSFFR MCPC".into(), DataType::Float64);
+        schema_overrides.with_column("RRSUFR MCPC".into(), DataType::Float64);
+        schema_overrides.with_column("RegUp MCPC".into(), DataType::Float64);
+        schema_overrides.with_column("RegDown MCPC".into(), DataType::Float64);
+        schema_overrides.with_column("NonSpin MCPC".into(), DataType::Float64);
+        schema_overrides.with_column("ECRS MCPC".into(), DataType::Float64);
+        
+        // Read CSV with explicit schema
+        let df = CsvReader::from_path(file)?
+            .has_header(true)
+            .with_dtypes(Some(Arc::new(schema_overrides)))
+            .infer_schema(None)  // Don't infer - use our explicit schema
+            .finish()?;
+        
+        // Build dataframe with ALL available columns
+        let df = df.lazy()
+            .with_column(
+                // Parse HourEnding as integer
+                col("Hour Ending").cast(DataType::Int32).alias("hour")
+            )
+            .collect()?;
+        
+        // Create datetime column by parsing and combining
+        let df = df.lazy()
+            .with_column(
+                col("Delivery Date").cast(DataType::Date).alias("DeliveryDate")
+            )
+            .with_column(
+                // Create datetime by combining date and hour
+                // Hour Ending 1 = 00:00-01:00, so we subtract 1 hour
+                (col("DeliveryDate").cast(DataType::Datetime(TimeUnit::Milliseconds, None)) +
+                 duration_hours(col("hour") - lit(1)))
+                .alias("datetime")
+            )
+            .collect()?;
+        
+        Ok(df)
+    }
+    
+    fn normalize_dam_load_dataframes(&self, dfs: Vec<DataFrame>) -> Result<Vec<DataFrame>> {
+        if dfs.is_empty() {
+            return Ok(vec![]);
+        }
+        
+        // Find all unique columns across all DataFrames
+        let mut all_columns = std::collections::HashSet::new();
+        for df in &dfs {
+            for col in df.get_column_names() {
+                all_columns.insert(col.to_string());
+            }
+        }
+        
+        // Sort columns for consistent ordering
+        let mut all_columns: Vec<String> = all_columns.into_iter().collect();
+        all_columns.sort();
+        
+        println!("    Normalizing to {} columns", all_columns.len());
+        
+        // Normalize each DataFrame to have all columns
+        let mut normalized = Vec::new();
+        for df in dfs {
+            let mut select_exprs = Vec::new();
+            let existing_cols = df.get_column_names();
+            
+            for col_name in &all_columns {
+                if existing_cols.contains(&col_name.as_str()) {
+                    select_exprs.push(col(col_name));
+                } else {
+                    // Create with appropriate default
+                    if col_name.contains("Awarded") || col_name.contains("MCPC") || 
+                       col_name.contains("Power") || col_name.contains("Consumption") {
+                        select_exprs.push(lit(0.0f64).alias(col_name));
+                    } else if col_name == "hour" || col_name.contains("Hour") {
+                        select_exprs.push(lit(0i32).alias(col_name));
+                    } else if col_name == "datetime" || col_name == "DeliveryDate" {
+                        // Use existing datetime/date column
+                        if existing_cols.contains(&"datetime") {
+                            select_exprs.push(col("datetime").alias(col_name));
+                        } else if existing_cols.contains(&"DeliveryDate") {
+                            select_exprs.push(col("DeliveryDate").alias(col_name));
+                        } else {
+                            select_exprs.push(lit(NULL).alias(col_name));
+                        }
+                    } else {
+                        select_exprs.push(lit("").alias(col_name));
+                    }
+                }
+            }
+            
+            let normalized_df = df.lazy()
+                .select(select_exprs)
+                .collect()?;
+                
+            normalized.push(normalized_df);
+        }
+        
+        Ok(normalized)
     }
     
     fn process_cop_snapshots(&self, source_dir: &Path, output_dir: &Path) -> Result<()> {
@@ -1205,6 +1674,89 @@ impl EnhancedAnnualProcessor {
                 .alias("datetime")
             )
             .collect()?;
+        
+        Ok(df)
+    }
+    
+    fn read_csv_with_schema_detection(&self, file: &Path) -> Result<DataFrame> {
+        // Step 1: Read a sample to detect the actual columns
+        let sample_df = CsvReader::from_path(file)?
+            .has_header(true)
+            .infer_schema(Some(2000))  // Sample enough rows to understand the data
+            .finish()?;
+        
+        // Step 2: Build intelligent schema based on column name patterns
+        let mut schema_overrides = Schema::new();
+        
+        // Define patterns for different data types
+        let text_patterns = vec![
+            "Date", "Hour", "Name", "Type", "QSE", "Settlement", "Status", 
+            "Resource Name", "Load Resource", "Gen Resource", "Point"
+        ];
+        
+        let numeric_patterns = vec![
+            "Awarded", "MCPC", "Power", "Consumption", "MW", "Price", "Curve",
+            "LSL", "HSL", "LDL", "HDL", "Base Point", "Output", "Telemetered",
+            "Limit", "Schedule", "Bid", "Offer", "Quantity", "Capacity",
+            "AS ", "RegUp", "RegDown", "RRS", "ECRS", "NonSpin", "NSRS"
+        ];
+        
+        for col_name in sample_df.get_column_names() {
+            let col_str = col_name.to_string();
+            let col_lower = col_str.to_lowercase();
+            
+            // Check if it's definitely a text column
+            let is_text = text_patterns.iter().any(|pattern| {
+                col_lower.contains(&pattern.to_lowercase())
+            }) && !numeric_patterns.iter().any(|pattern| {
+                col_lower.contains(&pattern.to_lowercase())
+            });
+            
+            // Check if it's definitely a numeric column  
+            let is_numeric = numeric_patterns.iter().any(|pattern| {
+                col_lower.contains(&pattern.to_lowercase())
+            });
+            
+            let dtype = if is_text {
+                DataType::Utf8
+            } else if is_numeric {
+                DataType::Float64
+            } else {
+                // For unknown columns, check the actual data in the sample
+                match sample_df.column(col_name) {
+                    Ok(col) => {
+                        // Check if the column contains numeric-looking data
+                        match col.dtype() {
+                            DataType::Int64 | DataType::Float64 | 
+                            DataType::Int32 | DataType::Float32 => DataType::Float64,
+                            _ => DataType::Utf8,
+                        }
+                    },
+                    Err(_) => DataType::Utf8,  // Default to string if we can't determine
+                }
+            };
+            
+            schema_overrides.with_column(col_str.into(), dtype);
+        }
+        
+        // Step 3: Define comprehensive null values
+        let null_values = NullValues::AllColumns(vec![
+            "".to_string(),
+            "NA".to_string(), 
+            "N/A".to_string(),
+            "null".to_string(),
+            "NULL".to_string(),
+            "#N/A".to_string(),
+            "NaN".to_string(),
+        ]);
+        
+        // Step 4: Read the file with the determined schema
+        let df = CsvReader::from_path(file)?
+            .has_header(true)
+            .with_dtypes(Some(Arc::new(schema_overrides)))
+            .infer_schema(None)  // Don't infer - use our schema
+            .with_null_values(Some(null_values))
+            .finish()?;
         
         Ok(df)
     }
@@ -1422,7 +1974,9 @@ enum ProcessorType {
     DayAheadPrice,
     AncillaryService,
     DAMGenResource,
+    DAMLoadResource,
     SCEDGenResource,
+    SCEDLoadResource,
     COPSnapshot,
 }
 

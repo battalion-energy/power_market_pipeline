@@ -2,7 +2,6 @@ use anyhow::Result;
 use glob::glob;
 use polars::prelude::*;
 use std::path::{Path, PathBuf};
-use std::env;
 
 mod ercot_processor;
 mod comprehensive_processor;
@@ -38,6 +37,7 @@ mod schema_normalizer;
 mod bess_historical_analyzer;
 mod schema_detector;
 mod enhanced_annual_processor_validated;
+mod parquet_verifier;
 
 fn verify_data_quality(_dir: &Path) -> Result<()> {
     println!("\n🔍 Data Quality Verification");
@@ -346,6 +346,19 @@ fn main() -> Result<()> {
         let processor = ValidatedAnnualProcessor::new(base_dir)?;
         processor.process_all_with_validation()?;
         return Ok(());
+    } else if args.len() > 1 && args[1] == "--verify-parquet" {
+        // Verify parquet files for data integrity
+        use parquet_verifier::ParquetVerifier;
+        let base_dir = if args.len() > 2 {
+            PathBuf::from(&args[2])
+        } else {
+            get_ercot_data_dir()
+        };
+        
+        println!("🔍 Starting parquet verification...");
+        let mut verifier = ParquetVerifier::new(base_dir);
+        verifier.verify_all_datasets()?;
+        return Ok(());
     } else if args.len() > 1 && args[1] == "--annual-rollup" {
         // Enhanced annual rollup with gap tracking and schema normalization
         use enhanced_annual_processor::EnhancedAnnualProcessor;
@@ -385,6 +398,7 @@ fn main() -> Result<()> {
         println!("Usage: {} [command] [options]", args[0]);
         println!("\nCommands:");
         println!("  --annual-rollup [dir] [--dataset NAME]  Process ERCOT data (optional: specific dataset)");
+        println!("  --verify-parquet [dir]                  Verify parquet files for integrity & duplicates");
         println!("  --bess-parquet                          Analyze BESS revenues from parquet files");
         println!("  --extract-all-ercot dir                 Extract all ERCOT CSV files from zips");
         println!("  --process-annual                        Process extracted CSV to annual parquet");

@@ -1,0 +1,130 @@
+#!/bin/bash
+# Performance optimization script for ERCOT processor
+
+cat << 'EOF' > /tmp/optimize_performance.rs
+// Add this to the beginning of process_rt_prices method to replace sequential year processing
+
+    fn process_rt_prices_optimized(&self, source_dir: &Path, output_dir: &Path) -> Result<()> {
+        let csv_dir = source_dir.join("csv");
+        let csv_dir = if csv_dir.exists() { csv_dir } else { source_dir.to_path_buf() };
+        
+        // Get all CSV files
+        let pattern = csv_dir.join("*.csv");
+        let files = glob::glob(pattern.to_str().unwrap())?
+            .filter_map(Result::ok)
+            .collect::<Vec<_>>();
+        
+        if files.is_empty() {
+            println!("  No RT price files found");
+            return Ok(());
+        }
+        
+        println!("  Found {} RT price files", files.len());
+        
+        // Group by year
+        let mut files_by_year: BTreeMap<i32, Vec<PathBuf>> = BTreeMap::new();
+        for file in files {
+            if let Some(year) = extract_year_from_filename(&file) {
+                files_by_year.entry(year).or_default().push(file);
+            }
+        }
+        
+        let total_files: usize = files_by_year.values().map(|v| v.len()).sum();
+        println!("  🚀 Processing {} files across {} years using ALL CPU cores", 
+                 total_files, files_by_year.len());
+        
+        // Create thread-safe progress bar
+        let pb = Arc::new(ProgressBar::new(total_files as u64));
+        pb.set_style(ProgressStyle::default_bar()
+            .template("[{elapsed_precise}] {bar:40.cyan/blue} {pos}/{len} {msg} Speed: {per_sec}")
+            .unwrap()
+            .progress_chars("█▓░"));
+        
+        // Process ALL years in parallel - this is the key optimization!
+        let results: Vec<_> = files_by_year
+            .into_par_iter()
+            .map(|(year, year_files)| {
+                let pb_clone = Arc::clone(&pb);
+                pb_clone.set_message(format!("Year {}", year));
+                
+                // Process all files for this year in parallel
+                let all_dfs: Vec<DataFrame> = year_files
+                    .into_par_iter()
+                    .filter_map(|file| {
+                        pb_clone.inc(1);
+                        match self.read_rt_price_file(&file) {
+                            Ok(df) => Some(df),
+                            Err(e) => {
+                                eprintln!("Error reading {}: {}", file.display(), e);
+                                None
+                            }
+                        }
+                    })
+                    .collect();
+                
+                if all_dfs.is_empty() {
+                    return Ok((year, 0));
+                }
+                
+                // Combine and save
+                let combined_df = self.combine_dataframes(all_dfs)?;
+                let row_count = combined_df.height();
+                
+                let output_file = output_dir.join(format!("{}.parquet", year));
+                let mut file = std::fs::File::create(&output_file)?;
+                ParquetWriter::new(&mut file).finish(&mut combined_df.clone())?;
+                
+                Ok((year, row_count))
+            })
+            .collect();
+        
+        pb.finish_with_message("✅ All files processed!");
+        
+        // Report results
+        for result in results {
+            match result {
+                Ok((year, rows)) => {
+                    println!("    ✅ Year {}: {} rows", year, rows);
+                    self.update_stats("RT_prices", year, 1, rows, vec![]);
+                }
+                Err(e) => eprintln!("    ❌ Error: {}", e),
+            }
+        }
+        
+        Ok(())
+    }
+EOF
+
+echo "Performance optimizations for 24 cores and 256GB RAM:"
+echo "=================================================="
+echo ""
+echo "1. PARALLEL YEAR PROCESSING"
+echo "   - Process all years simultaneously instead of sequentially"
+echo "   - Each year gets its own thread pool workers"
+echo ""
+echo "2. INCREASED BATCH SIZES"
+echo "   - Batch size increased from 100 to 2000+ files"
+echo "   - Better memory utilization with 256GB available"
+echo ""
+echo "3. RAYON THREAD POOL CONFIGURATION"
+echo "   - Configure thread pool to use all 24 cores"
+echo "   - Increase stack size to 8MB per thread"
+echo ""
+echo "4. POLARS OPTIMIZATION"
+echo "   - Set POLARS_MAX_THREADS to match CPU count"
+echo "   - Enable parallel CSV reading"
+echo ""
+echo "5. MEMORY OPTIMIZATIONS"
+echo "   - Process entire years in memory before writing"
+echo "   - Use Arc for shared progress tracking"
+echo ""
+echo "To apply optimizations:"
+echo "1. The code already has thread pool configuration"
+echo "2. Batch sizes have been increased"
+echo "3. For maximum performance, also set these environment variables:"
+echo ""
+echo "export RAYON_NUM_THREADS=24"
+echo "export POLARS_MAX_THREADS=24"
+echo "export RUST_MIN_STACK=8388608"
+echo ""
+echo "Then run: make rollup-rt-prices"

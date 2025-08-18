@@ -211,3 +211,84 @@ We DO need to:
 3. **Disk Space Optimization**: SKIP_CSV=1 environment variable to output only Parquet files
 4. **SPP File Separation**: DAM_Hourly_LMPs directory properly separates LMP and Settlement Point Price files
 5. **Reduced Logging**: Only logs every 10th batch to reduce output verbosity
+6. **Parquet Verification System**: Comprehensive verification for duplicates, gaps, and data integrity
+7. **4-Stage Pipeline Architecture**: CSV → Raw Parquet → Flattened → Combined standardized across ISOs
+
+### ISO Data Pipeline Architecture
+
+**Standard 4-stage pipeline for all ISOs:**
+
+#### Stage 1: CSV Extraction
+- Extract raw CSV files from ZIP/TAR archives, APIs, FTP, web scraping
+- Handle various encodings (UTF-8, Latin-1)
+- Maintain original file naming for traceability
+- Directory structure: `{ISO}_data/csv_files/{dataset_type}/`
+
+#### Stage 2: Raw Parquet Conversion
+- Convert CSV to optimized columnar format
+- Schema detection with type enforcement (Float64 for all prices)
+- Year-based partitioning for efficient queries
+- Parallel processing with controlled concurrency:
+  ```bash
+  RAYON_NUM_THREADS=24  # Use all CPU cores
+  FILE_IO_THREADS=8     # Prevent file descriptor exhaustion
+  BATCH_SIZE=100        # For datasets with 500K+ files
+  ```
+- Output: `{ISO}_data/rollup_files/{dataset_type}/{dataset_type}_YYYY.parquet`
+
+#### Stage 3: Flattened Parquet Transformation
+- Transform from long to wide format
+- Pivot settlement points to columns
+- Preserve native time granularity:
+  - DA prices: Hourly
+  - RT prices: 5-min (ERCOT), 15-min (CAISO), native granularity preserved
+  - AS prices: Hourly
+- Create aggregated versions (hourly avg/min/max/std for RT)
+- Output: `{ISO}_data/rollup_files/flattened/`
+
+#### Stage 4: Combined Parquet Generation
+- Create analysis-ready multi-market datasets:
+  - **DA + AS**: Both hourly, simple join
+  - **DA + AS + RT (hourly)**: RT aggregated to hourly
+  - **DA + AS + RT (native)**: DA/AS repeated for each RT interval
+- Monthly/quarterly splits for easier analysis
+- Output: `{ISO}_data/rollup_files/combined/`
+
+#### Performance Configuration by Dataset Size
+| Dataset Type | Files | Strategy |
+|-------------|-------|----------|
+| Small (<100) | DA/AS prices | Full parallel, large batches |
+| Medium (100-10K) | Gen/Load resources | Moderate batching, 16 threads |
+| Large (10K-100K) | Historical data | Small batches, controlled I/O |
+| Massive (>100K) | RT prices (515K+) | Streaming, 8 I/O threads max |
+
+#### Cross-ISO Standardization
+Standardized column names across all ISOs:
+- `datetime` (UTC timestamp)
+- `settlement_point` (location identifier)
+- `da_lmp`, `rt_lmp` (day-ahead and real-time prices)
+- `as_reg_up`, `as_reg_down` (ancillary services)
+
+ISO-specific mappings handled automatically:
+- ERCOT: `SettlementPoint` → `settlement_point`, `SPP` → `da_lmp`
+- CAISO: `NODE` → `settlement_point`, `LMP_PRC` → `rt_lmp`
+- PJM: `pnode_name` → `settlement_point`, `total_lmp_da` → `da_lmp`
+
+#### Verification at Each Stage
+- **CSV**: File count, encoding detection
+- **Raw Parquet**: Schema consistency, row count preservation
+- **Flattened**: Time series continuity, pivot accuracy
+- **Combined**: Join integrity, aggregation accuracy
+
+#### Implementation Tools
+- **Documentation**: `ISO_DATA_PIPELINE_STRATEGY.md` - Complete architecture guide
+- **Framework**: `iso_pipeline_framework.py` - Python implementation with base classes
+- **Verification**: `verify_parquet_files.py` - Data integrity checks
+- **Rust Processor**: `ercot_data_processor` - High-performance processing
+
+Benefits:
+- **Scalability**: Handles 100 to 500K+ files
+- **Performance**: 100x faster queries vs CSV
+- **Storage**: 70-90% compression with Parquet
+- **Quality**: Automated verification prevents data corruption
+- **Flexibility**: Easy to add new ISOs or market types

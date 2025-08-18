@@ -1,6 +1,6 @@
 use anyhow::Result;
 use polars::prelude::*;
-use std::collections::{BTreeMap, HashSet, HashMap};
+use std::collections::BTreeMap;
 use std::path::{Path, PathBuf};
 use std::sync::atomic::{AtomicUsize, Ordering};
 use std::sync::{Arc, Mutex};

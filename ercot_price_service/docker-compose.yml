@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  ercot-price-service:
+    build: .
+    image: ercot-price-service:latest
+    container_name: ercot-price-service
+    ports:
+      - "8080:8080"   # JSON API
+      - "50051:50051" # Arrow Flight gRPC
+    volumes:
+      - /home/enrico/data/ERCOT_data/rollup_files:/data:ro
+    environment:
+      - RUST_LOG=info
+      - DATA_DIR=/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
