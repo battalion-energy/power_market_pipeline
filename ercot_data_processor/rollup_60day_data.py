@@ -10,6 +10,11 @@ import re
 import logging
 from typing import Dict, List, Optional
 import sys
+import os
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 # Configure logging
 logging.basicConfig(
@@ -18,8 +23,20 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+# Get base directory from environment or use default
+def get_ercot_data_dir():
+    """Get ERCOT data directory from environment or platform-specific default."""
+    data_dir = os.getenv("ERCOT_DATA_DIR")
+    if data_dir:
+        return Path(data_dir)
+    # Default based on platform
+    if sys.platform == "linux":
+        return Path("/home/enrico/data/ERCOT_data")
+    else:
+        return Path("/Users/enrico/data/ERCOT_data")
+
 # Base paths
-BASE_DIR = Path("/Users/enrico/data/ERCOT_data")
+BASE_DIR = get_ercot_data_dir()
 
 class SixtyDayRollup:
     """Handler for rolling up 60-day ERCOT data files."""

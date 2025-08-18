@@ -22,8 +22,8 @@ cargo test                                # Run Rust tests
 cargo clippy                              # Lint Rust code
 cargo fmt                                 # Format Rust code
 
-# Extract and process ERCOT data
-cargo run --release -- --extract-all-ercot /Users/enrico/data/ERCOT_data
+# Extract and process ERCOT data (uses ERCOT_DATA_DIR from .env)
+cargo run --release -- --extract-all-ercot  # Uses ERCOT_DATA_DIR env var
 SKIP_CSV=1 cargo run --release -- --process-annual  # Skip CSV, only Parquet
 
 # Database commands
@@ -131,6 +131,7 @@ power_market_pipeline/
 ### Environment Variables Required
 ```bash
 DATABASE_URL          # PostgreSQL connection string
+ERCOT_DATA_DIR       # Path to ERCOT data directory (e.g. /home/enrico/data/ERCOT_data)
 ERCOT_USERNAME       # ERCOT WebService credentials
 ERCOT_PASSWORD
 ERCOT_SUBSCRIPTION_KEY

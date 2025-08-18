@@ -95,69 +95,69 @@ clean:
 
 detect-schema:
 	@echo "🔍 Running first pass type detection on ERCOT files..."
-	@echo "📂 Scanning: /Users/enrico/data/ERCOT_data"
-	cd ercot_data_processor && ./target/release/ercot_data_processor --detect-schema /Users/enrico/data/ERCOT_data
-	@echo "✅ Schema registry created: /Users/enrico/data/ERCOT_data/ercot_schema_registry.json"
+	@echo "📂 Scanning: $(DATA_DIR)"
+	cd ercot_data_processor && ./target/release/ercot_data_processor --detect-schema $(DATA_DIR)
+	@echo "✅ Schema registry created: $(DATA_DIR)/ercot_schema_registry.json"
 
 test-schema:
 	@echo "🧪 Testing schema registry with sample files..."
-	cd ercot_data_processor && ./target/release/ercot_data_processor --test-schema /Users/enrico/data/ERCOT_data
+	cd ercot_data_processor && ./target/release/ercot_data_processor --test-schema $(DATA_DIR)
 	@echo "✅ Schema validation complete"
 
 validate-rollup:
 	@echo "🚀 Running rollup with schema registry validation..."
-	cd ercot_data_processor && SKIP_CSV=1 ./target/release/ercot_data_processor --annual-rollup-validated /Users/enrico/data/ERCOT_data 2>&1 | tee /tmp/validated_rollup.log
+	cd ercot_data_processor && SKIP_CSV=1 ./target/release/ercot_data_processor --annual-rollup-validated $(DATA_DIR) 2>&1 | tee /tmp/validated_rollup.log
 	@echo "📊 Checking for type errors..."
 	@grep -c "Could not parse" /tmp/validated_rollup.log || echo "✅ NO TYPE ERRORS FOUND!"
 
 rollup-validated: build-release
 	@echo "🚀 Running validated annual rollup with schema registry..."
-	@echo "📂 Using schema: /Users/enrico/data/ERCOT_data/ercot_schema_registry.json"
-	cd ercot_data_processor && ./target/release/ercot_data_processor --annual-rollup-validated /Users/enrico/data/ERCOT_data
+	@echo "📂 Using schema: $(DATA_DIR)/ercot_schema_registry.json"
+	cd ercot_data_processor && ./target/release/ercot_data_processor --annual-rollup-validated $(DATA_DIR)
 	@echo "✅ Validated rollup complete"
 
 # ============= Data Processing =============
 
 extract:
 	@echo "📂 Extracting all ERCOT CSV files from zips..."
-	cd ercot_data_processor && ./target/debug/ercot_data_processor --extract-all-ercot /Users/enrico/data/ERCOT_data
+	cd ercot_data_processor && ./target/debug/ercot_data_processor --extract-all-ercot $(DATA_DIR)
 
 rollup: build
 	@echo "📊 Running annual rollup with gap tracking..."
-	cd ercot_data_processor && ./target/debug/ercot_data_processor --annual-rollup /Users/enrico/data/ERCOT_data
+	cd ercot_data_processor && ./target/debug/ercot_data_processor --annual-rollup
 
 rollup-release: build-release
 	@echo "📊 Running annual rollup with release build..."
-	cd ercot_data_processor && ./target/release/ercot_data_processor --annual-rollup /Users/enrico/data/ERCOT_data
+	cd ercot_data_processor && ./target/release/ercot_data_processor --annual-rollup
 
 # Individual dataset rollup targets for faster iteration
 rollup-da-prices: build-release
 	@echo "📊 Processing Day-Ahead Prices only..."
-	cd ercot_data_processor && ./target/release/ercot_data_processor --annual-rollup /Users/enrico/data/ERCOT_data --dataset DA_prices
+	cd ercot_data_processor && ./target/release/ercot_data_processor --annual-rollup $(DATA_DIR) --dataset DA_prices
 
 rollup-as-prices: build-release
 	@echo "📊 Processing Ancillary Services Prices only..."
-	cd ercot_data_processor && ./target/release/ercot_data_processor --annual-rollup /Users/enrico/data/ERCOT_data --dataset AS_prices
+	cd ercot_data_processor && ./target/release/ercot_data_processor --annual-rollup $(DATA_DIR) --dataset AS_prices
 
 rollup-dam-gen: build-release
 	@echo "📊 Processing DAM Generation Resources only..."
-	cd ercot_data_processor && ./target/release/ercot_data_processor --annual-rollup /Users/enrico/data/ERCOT_data --dataset DAM_Gen_Resources
+	cd ercot_data_processor && ./target/release/ercot_data_processor --annual-rollup $(DATA_DIR) --dataset DAM_Gen_Resources
 
 rollup-sced-gen: build-release
 	@echo "📊 Processing SCED Generation Resources only..."
-	cd ercot_data_processor && ./target/release/ercot_data_processor --annual-rollup /Users/enrico/data/ERCOT_data --dataset SCED_Gen_Resources
+	cd ercot_data_processor && ./target/release/ercot_data_processor --annual-rollup $(DATA_DIR) --dataset SCED_Gen_Resources
 
 rollup-cop: build-release
 	@echo "📊 Processing COP Snapshots only..."
-	cd ercot_data_processor && ./target/release/ercot_data_processor --annual-rollup /Users/enrico/data/ERCOT_data --dataset COP_Snapshots
+	cd ercot_data_processor && ./target/release/ercot_data_processor --annual-rollup $(DATA_DIR) --dataset COP_Snapshots
 
 rollup-rt-prices: build-release
 	@echo "📊 Processing Real-Time Prices only (WARNING: Large dataset!)..."
-	cd ercot_data_processor && ./target/release/ercot_data_processor --annual-rollup /Users/enrico/data/ERCOT_data --dataset RT_prices
+	cd ercot_data_processor && ./target/release/ercot_data_processor --annual-rollup $(DATA_DIR) --dataset RT_prices
 
 rollup-cop-old: build-release
 	@echo "📊 Processing COP files only (old method - specific directory)..."
-	cd ercot_data_processor && ./target/release/ercot_data_processor --annual-rollup /Users/enrico/data/ERCOT_data/60-Day_COP_Adjustment_Period_Snapshot
+	cd ercot_data_processor && ./target/release/ercot_data_processor --annual-rollup $(DATA_DIR)/60-Day_COP_Adjustment_Period_Snapshot
 
 rollup-test: build
 	@echo "🧪 Testing rollup on 2011 data (DST flag evolution)..."
@@ -271,15 +271,15 @@ list-datasets:
 
 parquet-stats:
 	@echo "📊 Parquet file statistics:"
-	@find /Users/enrico/data/ERCOT_data/rollup_files -name "*.parquet" -exec du -h {} \; | sort -hr | head -20
+	@find $(DATA_DIR)/rollup_files -name "*.parquet" -exec du -h {} \; | sort -hr | head -20
 
 gaps-report:
 	@echo "📋 Data gaps report:"
-	@find /Users/enrico/data/ERCOT_data/rollup_files -name "gaps_report.md" -exec echo "=== {} ===" \; -exec cat {} \; | head -100
+	@find $(DATA_DIR)/rollup_files -name "gaps_report.md" -exec echo "=== {} ===" \; -exec cat {} \; | head -100
 
 disk-usage:
 	@echo "💾 Disk usage by directory:"
-	@du -sh /Users/enrico/data/ERCOT_data/* | sort -hr | head -20
+	@du -sh $(DATA_DIR)/* | sort -hr | head -20
 
 logs:
 	@echo "📜 Recent processing logs:"
@@ -287,9 +287,9 @@ logs:
 
 count-files:
 	@echo "📁 File counts:"
-	@echo -n "CSV files: " && find /Users/enrico/data/ERCOT_data -name "*.csv" 2>/dev/null | wc -l
-	@echo -n "Parquet files: " && find /Users/enrico/data/ERCOT_data -name "*.parquet" 2>/dev/null | wc -l
-	@echo -n "ZIP files: " && find /Users/enrico/data/ERCOT_data -name "*.zip" 2>/dev/null | wc -l
+	@echo -n "CSV files: " && find $(DATA_DIR) -name "*.csv" 2>/dev/null | wc -l
+	@echo -n "Parquet files: " && find $(DATA_DIR) -name "*.parquet" 2>/dev/null | wc -l
+	@echo -n "ZIP files: " && find $(DATA_DIR) -name "*.zip" 2>/dev/null | wc -l
 
 # ============= Quick Processing Chains =============
 
@@ -310,11 +310,11 @@ docker-build:
 
 docker-run:
 	@echo "🐳 Running pipeline in Docker..."
-	docker run -v /Users/enrico/data:/data -e DATABASE_URL=${DATABASE_URL} ercot-pipeline
+	docker run -v $(dir $(DATA_DIR)):/data -e DATABASE_URL=${DATABASE_URL} ercot-pipeline
 
 docker-shell:
 	@echo "🐳 Opening shell in Docker container..."
-	docker run -it -v /Users/enrico/data:/data -e DATABASE_URL=${DATABASE_URL} ercot-pipeline /bin/bash
+	docker run -it -v $(dir $(DATA_DIR)):/data -e DATABASE_URL=${DATABASE_URL} ercot-pipeline /bin/bash
 
 # ============= Database =============
 
@@ -400,7 +400,7 @@ profile:
 
 monitor:
 	@echo "📈 Monitoring system resources..."
-	@watch -n 1 "ps aux | grep ercot_data_processor | grep -v grep; echo '---'; df -h /Users/enrico/data; echo '---'; top -l 1 | head -10"
+	@watch -n 1 "ps aux | grep ercot_data_processor | grep -v grep; echo '---'; df -h $(dir $(DATA_DIR)); echo '---'; top -l 1 | head -10"
 
 # ============= Maintenance =============
 
@@ -415,11 +415,11 @@ security-audit:
 
 cleanup-old-data:
 	@echo "🗑️ Cleaning up old data files..."
-	find /Users/enrico/data/ERCOT_data -name "*.csv" -mtime +30 -delete
+	find $(DATA_DIR) -name "*.csv" -mtime +30 -delete
 	find /tmp -name "test_*" -mtime +7 -delete
 
 # Variables for common paths
 RUST_BIN := ercot_data_processor/target/debug/ercot_data_processor
 RUST_BIN_RELEASE := ercot_data_processor/target/release/ercot_data_processor
-DATA_DIR := /Users/enrico/data/ERCOT_data
+DATA_DIR ?= $(shell echo $${ERCOT_DATA_DIR:-/home/enrico/data/ERCOT_data})
 ROLLUP_DIR := $(DATA_DIR)/rollup_files

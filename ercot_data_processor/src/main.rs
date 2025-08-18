@@ -2,6 +2,7 @@ use anyhow::Result;
 use glob::glob;
 use polars::prelude::*;
 use std::path::{Path, PathBuf};
+use std::env;
 
 mod ercot_processor;
 mod comprehensive_processor;
@@ -179,6 +180,9 @@ fn verify_data_quality(_dir: &Path) -> Result<()> {
     Ok(())
 }
 
+// Use the shared helper from lib
+use ercot_data_processor::get_ercot_data_dir;
+
 // Removed old broken functions - now using enhanced_annual_processor exclusively
 
 fn main() -> Result<()> {
@@ -284,7 +288,7 @@ fn main() -> Result<()> {
             csv_extractor::extract_all_ercot_directories(base_dir)?;
         } else {
             println!("Usage: --extract-all-ercot <base_directory>");
-            println!("Example: --extract-all-ercot /Users/enrico/data/ERCOT_data");
+            println!("Example: --extract-all-ercot $ERCOT_DATA_DIR");
         }
     } else if args.len() > 1 && args[1] == "--process-annual" {
         // Process extracted CSV files into annual CSV, Parquet, and Arrow files
@@ -298,7 +302,7 @@ fn main() -> Result<()> {
             processor.process_all()?;
         } else {
             println!("Usage: --process-ercot-prices <base_directory>");
-            println!("Example: --process-ercot-prices /Users/enrico/data/ERCOT_data");
+            println!("Example: --process-ercot-prices $ERCOT_DATA_DIR");
         }
         return Ok(());
     } else if args.len() > 1 && args[1] == "--detect-schema" {
@@ -307,7 +311,7 @@ fn main() -> Result<()> {
         let base_dir = if args.len() > 2 {
             PathBuf::from(&args[2])
         } else {
-            PathBuf::from("/Users/enrico/data/ERCOT_data")
+            get_ercot_data_dir()
         };
         let detector = SchemaDetector::new(base_dir);
         detector.generate_and_save_schema()?;
@@ -318,7 +322,7 @@ fn main() -> Result<()> {
         let base_dir = if args.len() > 2 {
             PathBuf::from(&args[2])
         } else {
-            PathBuf::from("/Users/enrico/data/ERCOT_data")
+            get_ercot_data_dir()
         };
         let registry_path = base_dir.join("ercot_schema_registry.json");
         println!("Loading schema registry from: {:?}", registry_path);
@@ -337,7 +341,7 @@ fn main() -> Result<()> {
         let base_dir = if args.len() > 2 {
             PathBuf::from(&args[2])
         } else {
-            PathBuf::from("/Users/enrico/data/ERCOT_data")
+            get_ercot_data_dir()
         };
         let processor = ValidatedAnnualProcessor::new(base_dir)?;
         processor.process_all_with_validation()?;
@@ -347,7 +351,7 @@ fn main() -> Result<()> {
         use enhanced_annual_processor::EnhancedAnnualProcessor;
         
         // Parse arguments
-        let mut base_dir = PathBuf::from("/Users/enrico/data/ERCOT_data");
+        let mut base_dir = get_ercot_data_dir();
         let mut dataset = None;
         
         let mut i = 2;

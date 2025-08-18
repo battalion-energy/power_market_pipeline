@@ -13,7 +13,13 @@ from typing import Dict, List, Tuple
 import logging
 from concurrent.futures import ProcessPoolExecutor, as_completed
 import warnings
+import os
+import sys
+from dotenv import load_dotenv
 warnings.filterwarnings('ignore')
+
+# Load environment variables
+load_dotenv()
 
 # Configure logging
 logging.basicConfig(
@@ -22,8 +28,20 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+# Get base directory from environment or use default
+def get_ercot_data_dir():
+    """Get ERCOT data directory from environment or platform-specific default."""
+    data_dir = os.getenv("ERCOT_DATA_DIR")
+    if data_dir:
+        return Path(data_dir)
+    # Default based on platform
+    if sys.platform == "linux":
+        return Path("/home/enrico/data/ERCOT_data")
+    else:
+        return Path("/Users/enrico/data/ERCOT_data")
+
 # Base paths
-BASE_DIR = Path("/Users/enrico/data/ERCOT_data")
+BASE_DIR = get_ercot_data_dir()
 DISCLOSURE_DIR = BASE_DIR / "60-Day_DAM_Disclosure_Reports"
 ROLLUP_DIR = BASE_DIR / "rollup_dam_disclosure"
 

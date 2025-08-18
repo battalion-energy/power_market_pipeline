@@ -721,7 +721,7 @@ impl BessParquetAnalyzer {
 }
 
 pub fn analyze_bess_from_parquet() -> Result<()> {
-    let analyzer = BessParquetAnalyzer::new(PathBuf::from("/Users/enrico/data/ERCOT_data"));
+    let analyzer = BessParquetAnalyzer::new(crate::get_ercot_data_dir());
     
     // Analyze 2024 data
     analyzer.analyze_bess_revenues(2024)?;

@@ -47,6 +47,7 @@ regex = "1.10"
 plotters = "0.3"
 walkdir = "2.5"
 tempfile = "3.8"
+dotenv = "0.15"
 
 [profile.release]
 lto = true

@@ -603,7 +603,7 @@ impl UnifiedProcessor {
 }
 
 pub fn process_all_ercot_data() -> Result<()> {
-    let base_dir = PathBuf::from("/Users/enrico/data/ERCOT_data");
+    let base_dir = crate::get_ercot_data_dir();
     let output_dir = PathBuf::from("processed_ercot_data");
     
     let processor = UnifiedProcessor::new(base_dir, output_dir);
