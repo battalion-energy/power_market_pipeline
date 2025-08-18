@@ -282,6 +282,14 @@ bess-leaderboard: build-release
 	@echo "🏆 Running BESS daily revenue leaderboard analysis..."
 	cd ercot_data_processor && ./target/release/ercot_data_processor --bess-daily-revenue
 
+bess-parquet-revenue: build-release
+	@echo "💰 Running high-performance BESS revenue processor (parallel)..."
+	@echo "🚀 Using 24 cores / 32 threads for maximum performance..."
+	cd ercot_data_processor && \
+		RAYON_NUM_THREADS=32 \
+		POLARS_MAX_THREADS=24 \
+		./target/release/ercot_data_processor --bess-parquet-revenue
+
 bess-match:
 	@echo "🔗 Creating BESS resource matching file..."
 	uv run python create_bess_match_file.py

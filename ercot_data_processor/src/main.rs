@@ -38,6 +38,7 @@ mod bess_historical_analyzer;
 mod schema_detector;
 mod enhanced_annual_processor_validated;
 mod parquet_verifier;
+mod bess_parquet_revenue_processor;
 
 fn verify_data_quality(_dir: &Path) -> Result<()> {
     println!("\n🔍 Data Quality Verification");
@@ -390,6 +391,10 @@ fn main() -> Result<()> {
         // Analyze BESS revenues using parquet files
         bess_parquet_analyzer::analyze_bess_from_parquet()?;
         return Ok(());
+    } else if args.len() > 1 && args[1] == "--bess-parquet-revenue" {
+        // High-performance BESS revenue processor using parquet files
+        bess_parquet_revenue_processor::process_bess_revenues_from_parquet()?;
+        return Ok(());
     } else if args.len() > 1 && args[1] == "--verify-results" {
         // Verify data quality of processed files
         verify_data_quality(&PathBuf::from("."))?;
@@ -400,6 +405,7 @@ fn main() -> Result<()> {
         println!("  --annual-rollup [dir] [--dataset NAME]  Process ERCOT data (optional: specific dataset)");
         println!("  --verify-parquet [dir]                  Verify parquet files for integrity & duplicates");
         println!("  --bess-parquet                          Analyze BESS revenues from parquet files");
+        println!("  --bess-parquet-revenue                  High-performance BESS revenue processor (parallel)");
         println!("  --extract-all-ercot dir                 Extract all ERCOT CSV files from zips");
         println!("  --process-annual                        Process extracted CSV to annual parquet");
         println!("  --verify-results                        Verify data quality of processed files");

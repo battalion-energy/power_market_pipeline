@@ -33,12 +33,11 @@ pub fn get_file_key(
     let month = date.month();
     
     if combined {
-        // Use the monthly combined files which have complete data
-        match price_type {
-            PriceType::DayAhead | PriceType::AncillaryServices | PriceType::RealTime | PriceType::Combined => {
-                format!("combined/monthly/DA_AS_RT_combined/DA_AS_RT_combined_{:04}_{:02}", year, month)
-            }
-        }
+        // Use the 15-minute combined files for better granularity
+        // Option 1: Use yearly file (simpler, single file per year)
+        format!("combined/DA_AS_RT_15min_combined_{:04}", year)
+        // Option 2: Use monthly files (would need to handle month)
+        // format!("combined/monthly/DA_AS_RT_15min_combined/DA_AS_RT_15min_combined_{:04}_{:02}", year, month)
     } else {
         match price_type {
             PriceType::DayAhead => {
