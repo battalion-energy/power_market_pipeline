@@ -113,7 +113,7 @@ fn tail_command(file: &Path, rows: usize) -> Result<()> {
 fn print_df_as_csv(df: &DataFrame) -> Result<()> {
     let mut buf = Vec::new();
     CsvWriter::new(&mut buf)
-        .has_header(true)
+        .include_header(true)
         .finish(&mut df.clone())?;
     
     print!("{}", String::from_utf8(buf)?);
@@ -129,7 +129,7 @@ fn convert_command(input: &Path, output: &Path, format: &str) -> Result<()> {
         "csv" => {
             let mut file = File::create(output)?;
             CsvWriter::new(&mut file)
-                .has_header(true)
+                .include_header(true)
                 .finish(&mut df.clone())?;
         },
         "parquet" => {
@@ -208,7 +208,7 @@ fn extract_month(
         "csv" => {
             let mut file = File::create(&output_file)?;
             CsvWriter::new(&mut file)
-                .has_header(true)
+                .include_header(true)
                 .finish(&mut filtered.clone())?;
         },
         "parquet" => {

@@ -199,9 +199,8 @@ impl ParquetVerifier {
                 let datetime_col = df.column("datetime")?;
                 
                 // Check if sorted
-                let is_sorted = datetime_col.clone()
-                    .sort(false)
-                    .series_equal(datetime_col);
+                let sorted = datetime_col.clone().sort(false);
+                let is_sorted = sorted.eq(datetime_col);
                 
                 if !is_sorted {
                     self.add_issue(
@@ -213,8 +212,8 @@ impl ParquetVerifier {
                 }
 
                 // Get date range
-                if let Some(min_val) = datetime_col.min::<i64>() {
-                    if let Some(max_val) = datetime_col.max::<i64>() {
+                if let Ok(Some(min_val)) = datetime_col.min::<i64>() {
+                    if let Ok(Some(max_val)) = datetime_col.max::<i64>() {
                         stats.date_range = Some((min_val, max_val));
                     }
                 }

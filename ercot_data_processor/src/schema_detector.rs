@@ -13,6 +13,7 @@ pub enum ErcotDataType {
     Float64,
     Int64,
     Utf8,
+    String,  // Add String variant
     Date,
     Datetime,
     Boolean,
@@ -41,6 +42,7 @@ impl From<&ErcotDataType> for DataType {
         match ercot_type {
             ErcotDataType::Float64 => DataType::Float64,
             ErcotDataType::Int64 => DataType::Int64,
+            ErcotDataType::Utf8 => DataType::String,
             ErcotDataType::String => DataType::String,
             ErcotDataType::Date => DataType::Date,
             ErcotDataType::Datetime => DataType::Datetime(TimeUnit::Milliseconds, None),
