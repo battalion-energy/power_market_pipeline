@@ -177,10 +177,8 @@ impl TbxCalculator {
             }
         }
         
-        // Limit to top nodes for performance
-        if nodes.len() > 100 {
-            nodes.truncate(100);  // Process top 100 nodes
-        }
+        // Process ALL nodes - no limiting!
+        println!("  📍 Found {} settlement points to process", nodes.len());
         
         Ok(nodes)
     }
@@ -472,11 +470,11 @@ impl TbxCalculator {
             ])
             .sort_by_exprs(
                 vec![col("tb4_total_all_years")],
-                vec![false],
-                false,
-                false,
+                vec![true],  // true = descending (highest values first)
+                false,      // nulls_last
+                false,      // maintain_order
             )
-            .limit(20)  // Top 20 nodes
+            .limit(50)  // Top 50 nodes
             .collect()?;
         
         // Save leaderboard
@@ -485,14 +483,14 @@ impl TbxCalculator {
         ParquetWriter::new(&mut file).finish(&mut leaderboard.clone())?;
         
         // Print top performers
-        println!("\n🏆 TOP 10 NODES BY TB4 REVENUE (All Years):");
+        println!("\n🏆 TOP 20 NODES BY TB4 REVENUE (All Years):");
         println!("{}", "-".repeat(80));
         
         if let (Ok(nodes), Ok(tb4_revenues)) = (
             leaderboard.column("node")?.str(),
             leaderboard.column("tb4_total_all_years")?.f64(),
         ) {
-            for i in 0..10.min(nodes.len()) {
+            for i in 0..20.min(nodes.len()) {
                 if let (Some(node), Some(revenue)) = (nodes.get(i), tb4_revenues.get(i)) {
                     println!("{:3}. {:20} ${:15.2}", i + 1, node, revenue);
                 }
