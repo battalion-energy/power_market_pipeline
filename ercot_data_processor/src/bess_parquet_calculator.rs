@@ -42,8 +42,8 @@ impl BessParquetCalculator {
             .finish()?;
         
         let mut bess_resources = HashMap::new();
-        let names = master_df.column("Resource_Name")?.utf8()?;
-        let settlement_points = master_df.column("Settlement_Point")?.utf8()?;
+        let names = master_df.column("Resource_Name")?.str()?;
+        let settlement_points = master_df.column("Settlement_Point")?.str()?;
         let capacities = master_df.column("Max_Capacity_MW")?.f64()?;
         
         for i in 0..master_df.height() {
@@ -187,10 +187,10 @@ impl BessParquetCalculator {
             df.column("SettlementPointName"),
             df.column("SettlementPointPrice")
         ) {
-            let dates_str = dates.utf8()?;
+            let dates_str = dates.str()?;
             let hours_i64 = hours.i64()?;
             let intervals_i64 = intervals.i64()?;
-            let sps_str = sps.utf8()?;
+            let sps_str = sps.str()?;
             let prices_f64 = prices_col.f64()?;
             
             for i in 0..df.height().min(5_000_000) { // Limit to first 5M rows per year
@@ -241,11 +241,11 @@ impl BessParquetCalculator {
             df.column("BusName"),
             df.column("LMP")
         ) {
-            let dates_str = dates.utf8()?;
+            let dates_str = dates.str()?;
             // HourEnding might be string format like "01:00"
             let hours_parsed = if let Ok(h_i64) = hours.i64() {
                 h_i64.clone()
-            } else if let Ok(h_str) = hours.utf8() {
+            } else if let Ok(h_str) = hours.str() {
                 // Parse string hours like "01:00" to hour number
                 let parsed: Vec<Option<i64>> = (0..h_str.len())
                     .map(|i| {
@@ -259,7 +259,7 @@ impl BessParquetCalculator {
             } else {
                 return Ok(prices);
             };
-            let buses_str = buses.utf8()?;
+            let buses_str = buses.str()?;
             let lmps_f64 = lmps.f64()?;
             
             for i in 0..df.height().min(1_000_000) { // Limit to first 1M rows per year

@@ -69,20 +69,20 @@ impl BessAnalyzer {
             
             // Filter for PWRSTR resource type
             if let Ok(resource_type) = df.column("Resource Type") {
-                if let Ok(rt_utf8) = resource_type.utf8() {
+                if let Ok(rt_utf8) = resource_type.str() {
                     let mask = rt_utf8.equal("PWRSTR");
                     
                     if let Ok(filtered) = df.filter(&mask) {
                         if filtered.height() > 0 {
                             // Extract columns
-                            let resource_names = filtered.column("Resource Name").ok().and_then(|c| c.utf8().ok());
-                            let qses = filtered.column("QSE").ok().and_then(|c| c.utf8().ok());
-                            let dmes = filtered.column("DME").ok().and_then(|c| c.utf8().ok());
-                            let settlement_points = filtered.column("Settlement Point Name").ok().and_then(|c| c.utf8().ok());
+                            let resource_names = filtered.column("Resource Name").ok().and_then(|c| c.str().ok());
+                            let qses = filtered.column("QSE").ok().and_then(|c| c.str().ok());
+                            let dmes = filtered.column("DME").ok().and_then(|c| c.str().ok());
+                            let settlement_points = filtered.column("Settlement Point Name").ok().and_then(|c| c.str().ok());
                             let hsls = filtered.column("HSL").ok();
                             let lsls = filtered.column("LSL").ok();
-                            let statuses = filtered.column("Resource Status").ok().and_then(|c| c.utf8().ok());
-                            let dates = filtered.column("Delivery Date").ok().and_then(|c| c.utf8().ok());
+                            let statuses = filtered.column("Resource Status").ok().and_then(|c| c.str().ok());
+                            let dates = filtered.column("Delivery Date").ok().and_then(|c| c.str().ok());
                             
                             if let (Some(names), Some(qse_col), Some(dme_col), Some(sp_col)) = 
                                 (resource_names, qses, dmes, settlement_points) {

@@ -39,7 +39,7 @@ pub fn process_simple_daily_revenues() -> Result<()> {
     
     // Filter for PWRSTR
     if let Ok(resource_types) = df.column("Resource Type") {
-        let mask = resource_types.utf8()?.equal("PWRSTR");
+        let mask = resource_types.str()?.equal("PWRSTR");
         if let Ok(filtered) = df.filter(&mask) {
             println!("   PWRSTR rows: {}", filtered.height());
             
@@ -49,7 +49,7 @@ pub fn process_simple_daily_revenues() -> Result<()> {
                 filtered.column("Awarded Quantity"),
                 filtered.column("Energy Settlement Point Price")
             ) {
-                let resources_str = resources.utf8()?;
+                let resources_str = resources.str()?;
                 let awards_f64 = parse_numeric_column(awards)?;
                 let prices_f64 = parse_numeric_column(prices)?;
                 
@@ -88,8 +88,8 @@ fn load_bess_resources() -> Result<HashMap<String, String>> {
             df.column("Resource_Name"),
             df.column("Settlement_Point")
         ) {
-            let names_str = names.utf8()?;
-            let sp_str = settlement_points.utf8()?;
+            let names_str = names.str()?;
+            let sp_str = settlement_points.str()?;
             
             for i in 0..df.height() {
                 if let (Some(name), Some(sp)) = (names_str.get(i), sp_str.get(i)) {
@@ -112,8 +112,8 @@ fn parse_numeric_column(series: &Series) -> Result<Float64Chunked> {
                 .clone();
             Ok(f64_values)
         },
-        DataType::Utf8 => {
-            let str_values = series.utf8()?;
+        DataType::String => {
+            let str_values = series.str()?;
             let f64_values: Vec<Option<f64>> = str_values
                 .into_iter()
                 .map(|opt_str| {
@@ -130,7 +130,7 @@ fn parse_numeric_column(series: &Series) -> Result<Float64Chunked> {
         },
         _ => {
             // For any other type, try to convert to string first
-            let str_series = series.cast(&DataType::Utf8)?;
+            let str_series = series.cast(&DataType::String)?;
             parse_numeric_column(&str_series)
         }
     }

@@ -110,7 +110,7 @@ fn process_dam_data_fixed(
         
         // Filter for PWRSTR
         if let Ok(resource_types) = df.column("Resource Type") {
-            let mask = resource_types.utf8()?.equal("PWRSTR");
+            let mask = resource_types.str()?.equal("PWRSTR");
             if let Ok(filtered) = df.filter(&mask) {
                 println!("     PWRSTR rows: {}", filtered.height());
                 
@@ -128,10 +128,10 @@ fn get_dam_schema() -> Schema {
     let mut schema = Schema::new();
     
     // Add key columns
-    schema.with_column("Delivery Date".to_string().into(), DataType::Utf8);
+    schema.with_column("Delivery Date".to_string().into(), DataType::String);
     schema.with_column("Hour Ending".to_string().into(), DataType::Int64);
-    schema.with_column("Resource Name".to_string().into(), DataType::Utf8);
-    schema.with_column("Resource Type".to_string().into(), DataType::Utf8);
+    schema.with_column("Resource Name".to_string().into(), DataType::String);
+    schema.with_column("Resource Type".to_string().into(), DataType::String);
     
     // Numeric columns that might have mixed types
     schema.with_column("LSL".to_string().into(), DataType::Float64);
@@ -154,8 +154,8 @@ fn process_dam_awards(
     daily_revenues: &mut HashMap<(String, NaiveDate), BessDailyRevenue>,
 ) -> Result<()> {
     // Extract date column
-    let dates = df.column("Delivery Date")?.utf8()?;
-    let resources = df.column("Resource Name")?.utf8()?;
+    let dates = df.column("Delivery Date")?.str()?;
+    let resources = df.column("Resource Name")?.str()?;
     let hours = df.column("Hour Ending")?.i64()?;
     
     // Energy awards
@@ -288,8 +288,8 @@ fn load_bess_resources() -> Result<HashMap<String, BessResource>> {
             df.column("Settlement_Point"),
             df.column("Max_Capacity_MW")
         ) {
-            let names_str = names.utf8()?;
-            let sp_str = settlement_points.utf8()?;
+            let names_str = names.str()?;
+            let sp_str = settlement_points.str()?;
             let cap_f64 = capacities.f64()?;
             
             for i in 0..df.height() {

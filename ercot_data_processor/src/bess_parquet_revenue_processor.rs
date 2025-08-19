@@ -112,9 +112,9 @@ impl BessParquetRevenueProcessor {
                 .has_header(true)
                 .finish()?;
             
-            let gen_names = df.column("gen_resource")?.utf8()?;
-            let load_names = df.column("load_resource")?.utf8()?;
-            let settlement_points = df.column("settlement_point")?.utf8()?;
+            let gen_names = df.column("gen_resource")?.str()?;
+            let load_names = df.column("load_resource")?.str()?;
+            let settlement_points = df.column("settlement_point")?.str()?;
             let capacities = df.column("capacity_mw")?.f64()?;
             let durations = df.column("duration_hours")?.f64()?;
             
@@ -157,7 +157,7 @@ impl BessParquetRevenueProcessor {
             
             // Filter for PWRSTR (Power Storage) resources
             if let Ok(resource_types) = df.column("ResourceType") {
-                let mask = resource_types.utf8()?.equal("PWRSTR");
+                let mask = resource_types.str()?.equal("PWRSTR");
                 let filtered = df.filter(&mask)?;
                 
                 // Get unique resource names
@@ -165,7 +165,7 @@ impl BessParquetRevenueProcessor {
                     .column("ResourceName")?
                     .unique()?;
                 
-                let resource_names = unique_resources.utf8()?;
+                let resource_names = unique_resources.str()?;
                 for i in 0..resource_names.len() {
                     if let Some(name) = resource_names.get(i) {
                         // Try to identify matching load resource
@@ -174,11 +174,11 @@ impl BessParquetRevenueProcessor {
                         let load_name = format!("{}_LD{}", base_name, unit_num);
                         
                         // Get settlement point from the data
-                        let sp_mask = filtered.column("ResourceName")?.utf8()?.equal(name);
+                        let sp_mask = filtered.column("ResourceName")?.str()?.equal(name);
                         let sp_filtered = filtered.filter(&sp_mask)?;
                         let settlement_point = sp_filtered
                             .column("SettlementPointName")?
-                            .utf8()?
+                            .str()?
                             .get(0)
                             .unwrap_or("UNKNOWN")
                             .to_string();
@@ -362,13 +362,13 @@ impl BessParquetRevenueProcessor {
         let df = ParquetReader::new(std::fs::File::open(&dam_gen_file)?).finish()?;
         
         // Filter for BESS resources (PWRSTR type)
-        let mask = df.column("ResourceType")?.utf8()?.equal("PWRSTR");
+        let mask = df.column("ResourceType")?.str()?.equal("PWRSTR");
         let bess_df = df.filter(&mask)?;
         
         // Process each BESS resource
         for resource in &self.bess_resources {
             // Filter for this specific resource
-            let resource_mask = bess_df.column("ResourceName")?.utf8()?.equal(resource.gen_resource.as_str());
+            let resource_mask = bess_df.column("ResourceName")?.str()?.equal(resource.gen_resource.as_str());
             if let Ok(resource_df) = bess_df.filter(&resource_mask) {
                 // Process awards for this resource
                 self.calculate_dam_gen_revenues(&resource_df, &resource, prices, &mut revenues)?;
@@ -392,7 +392,7 @@ impl BessParquetRevenueProcessor {
         // Process each BESS resource's load side
         for resource in &self.bess_resources {
             // Filter for this specific load resource
-            let resource_mask = df.column("ResourceName")?.utf8()?.equal(resource.load_resource.as_str());
+            let resource_mask = df.column("ResourceName")?.str()?.equal(resource.load_resource.as_str());
             if let Ok(resource_df) = df.filter(&resource_mask) {
                 // Process load awards (negative revenue for charging)
                 self.calculate_dam_load_revenues(&resource_df, &resource, prices, &mut revenues)?;
@@ -413,7 +413,7 @@ impl BessParquetRevenueProcessor {
             
             // Filter for BESS resources
             for resource in &self.bess_resources {
-                let resource_mask = df.column("ResourceName")?.utf8()?.equal(resource.gen_resource.as_str());
+                let resource_mask = df.column("ResourceName")?.str()?.equal(resource.gen_resource.as_str());
                 if let Ok(resource_df) = df.filter(&resource_mask) {
                     self.calculate_rt_gen_revenues(&resource_df, &resource, prices, &mut revenues)?;
                 }
@@ -427,7 +427,7 @@ impl BessParquetRevenueProcessor {
             
             // Filter for BESS load resources
             for resource in &self.bess_resources {
-                let resource_mask = df.column("ResourceName")?.utf8()?.equal(resource.load_resource.as_str());
+                let resource_mask = df.column("ResourceName")?.str()?.equal(resource.load_resource.as_str());
                 if let Ok(resource_df) = df.filter(&resource_mask) {
                     self.calculate_rt_load_revenues(&resource_df, &resource, prices, &mut revenues)?;
                 }
@@ -451,7 +451,7 @@ impl BessParquetRevenueProcessor {
         } else {
             None
         };
-        let _hours = df.column("HourEnding")?.utf8()?;
+        let _hours = df.column("HourEnding")?.str()?;
         let energy_awards = df.column("AwardedQuantity")?.f64()?;
         let energy_prices = df.column("EnergySettlementPointPrice")?.f64()?;
         

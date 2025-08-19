@@ -191,7 +191,7 @@ impl AnnualProcessor {
                 // Add missing column as null with appropriate type
                 if col.to_lowercase().contains("flag") || col == "DSTFlag" {
                     // String type for flag columns
-                    result = result.with_column(lit(NULL).cast(DataType::Utf8).alias(col));
+                    result = result.with_column(lit(NULL).cast(DataType::String).alias(col));
                 } else if col.to_lowercase().contains("price") || 
                           col.to_lowercase().contains("lmp") || 
                           col.to_lowercase().contains("mcpc") {
@@ -199,7 +199,7 @@ impl AnnualProcessor {
                     result = result.with_column(lit(NULL).cast(DataType::Float64).alias(col));
                 } else {
                     // Default to string
-                    result = result.with_column(lit(NULL).cast(DataType::Utf8).alias(col));
+                    result = result.with_column(lit(NULL).cast(DataType::String).alias(col));
                 }
             }
         }

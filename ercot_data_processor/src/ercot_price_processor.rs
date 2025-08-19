@@ -134,7 +134,7 @@ impl ErcotPriceProcessor {
                             "SettlementPointPrice" => {
                                 Series::full_null(col_name, df.height(), &DataType::Float64)
                             },
-                            _ => Series::full_null(col_name, df.height(), &DataType::Utf8),
+                            _ => Series::full_null(col_name, df.height(), &DataType::String),
                         };
                         df.with_column(null_series)?;
                     }
@@ -181,8 +181,8 @@ impl ErcotPriceProcessor {
         // Parse dates and create datetime column
         let mut datetimes = Vec::new();
         
-        let date_str_series = delivery_date_str.cast(&DataType::Utf8)?;
-        let date_str_ca = date_str_series.utf8()?;
+        let date_str_series = delivery_date_str.cast(&DataType::String)?;
+        let date_str_ca = date_str_series.str()?;
         let hour_ca = hour.u32()?;
         let interval_ca = interval.u32()?;
         
@@ -291,7 +291,7 @@ impl ErcotPriceProcessor {
                             "SettlementPointPrice" => {
                                 Series::full_null(col_name, df.height(), &DataType::Float64)
                             },
-                            _ => Series::full_null(col_name, df.height(), &DataType::Utf8),
+                            _ => Series::full_null(col_name, df.height(), &DataType::String),
                         };
                         df.with_column(null_series)?;
                     }
@@ -336,10 +336,10 @@ impl ErcotPriceProcessor {
 
         // Parse dates and create datetime column
         let mut datetimes = Vec::new();
-        let date_str_series = delivery_date_str.cast(&DataType::Utf8)?;
-        let date_str_ca = date_str_series.utf8()?;
-        let hour_str_series = hour_ending_str.cast(&DataType::Utf8)?;
-        let hour_str_ca = hour_str_series.utf8()?;
+        let date_str_series = delivery_date_str.cast(&DataType::String)?;
+        let date_str_ca = date_str_series.str()?;
+        let hour_str_series = hour_ending_str.cast(&DataType::String)?;
+        let hour_str_ca = hour_str_series.str()?;
         
         for i in 0..df.height() {
             if let (Some(date_str), Some(hour_str)) = (
@@ -451,7 +451,7 @@ impl ErcotPriceProcessor {
                             "MCPC" => {
                                 Series::full_null(col_name, df.height(), &DataType::Float64)
                             },
-                            _ => Series::full_null(col_name, df.height(), &DataType::Utf8),
+                            _ => Series::full_null(col_name, df.height(), &DataType::String),
                         };
                         df.with_column(null_series)?;
                     }
@@ -496,10 +496,10 @@ impl ErcotPriceProcessor {
 
         // Parse dates and create datetime column
         let mut datetimes = Vec::new();
-        let date_str_series = delivery_date_str.cast(&DataType::Utf8)?;
-        let date_str_ca = date_str_series.utf8()?;
-        let hour_str_series = hour_ending_str.cast(&DataType::Utf8)?;
-        let hour_str_ca = hour_str_series.utf8()?;
+        let date_str_series = delivery_date_str.cast(&DataType::String)?;
+        let date_str_ca = date_str_series.str()?;
+        let hour_str_series = hour_ending_str.cast(&DataType::String)?;
+        let hour_str_ca = hour_str_series.str()?;
         
         for i in 0..df.height() {
             if let (Some(date_str), Some(hour_str)) = (

@@ -84,8 +84,8 @@ impl BessComprehensiveCalculator {
         
         let mut resources = HashMap::new();
         
-        let names = df.column("Resource_Name")?.utf8()?;
-        let settlement_points = df.column("Settlement_Point")?.utf8()?;
+        let names = df.column("Resource_Name")?.str()?;
+        let settlement_points = df.column("Settlement_Point")?.str()?;
         let capacities = df.column("Max_Capacity_MW")?.f64()?;
         
         for i in 0..df.height() {
@@ -216,8 +216,8 @@ impl BessComprehensiveCalculator {
             df.column("SettlementPoint"),
             df.column("SettlementPointPrice")
         ) {
-            let timestamps_str = timestamps.utf8()?;
-            let sps_str = sps.utf8()?;
+            let timestamps_str = timestamps.str()?;
+            let sps_str = sps.str()?;
             let prices_f64 = prices_col.f64()?;
             
             for i in 0..df.height() {
@@ -260,9 +260,9 @@ impl BessComprehensiveCalculator {
             df.column("BusName"),
             df.column("LMP")
         ) {
-            let dates_str = dates.utf8()?;
+            let dates_str = dates.str()?;
             let hours_i64 = hours.i64()?;
-            let buses_str = buses.utf8()?;
+            let buses_str = buses.str()?;
             let lmps_f64 = lmps.f64()?;
             
             for i in 0..df.height() {

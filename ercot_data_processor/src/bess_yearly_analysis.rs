@@ -67,7 +67,7 @@ impl BessYearlyAnalysis {
             
         let mut capacities = HashMap::new();
         if let (Ok(names), Ok(caps)) = (
-            df.column("Resource_Name")?.utf8(),
+            df.column("Resource_Name")?.str(),
             df.column("Max_Capacity_MW")?.f64()
         ) {
             for i in 0..df.height() {
@@ -86,7 +86,7 @@ impl BessYearlyAnalysis {
         let mut yearly_data = Vec::new();
         
         // Extract year from date
-        let dates = daily_revenues.column("Date")?.utf8()?;
+        let dates = daily_revenues.column("Date")?.str()?;
         let mut years = Vec::new();
         
         for i in 0..dates.len() {
@@ -105,7 +105,7 @@ impl BessYearlyAnalysis {
         df_with_year = df_with_year.with_column(year_series)?.clone();
         
         // Group by resource and year
-        let resource_names = daily_revenues.column("Resource_Name")?.utf8()?;
+        let resource_names = daily_revenues.column("Resource_Name")?.str()?;
         let unique_resources: Vec<String> = resource_names.into_iter()
             .filter_map(|x| x.map(|s| s.to_string()))
             .collect::<std::collections::HashSet<_>>()
@@ -124,7 +124,7 @@ impl BessYearlyAnalysis {
         for resource in &unique_resources {
             for &year in &unique_years {
                 // Filter for this resource and year
-                let resource_mask = df_with_year.column("Resource_Name")?.utf8()?
+                let resource_mask = df_with_year.column("Resource_Name")?.str()?
                     .into_iter()
                     .map(|v| v == Some(resource.as_str()))
                     .collect::<BooleanChunked>();

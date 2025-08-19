@@ -307,7 +307,7 @@ impl UnifiedDataProcessor {
         
         for col_name in date_columns {
             if let Ok(col) = df.column(col_name) {
-                if let Ok(str_col) = col.utf8() {
+                if let Ok(str_col) = col.str() {
                     if let Some(first_val) = str_col.get(0) {
                         // Try parsing different date formats
                         if let Ok(date) = NaiveDate::parse_from_str(first_val, "%m/%d/%Y") {
@@ -428,13 +428,13 @@ impl UnifiedDataProcessor {
                     ("CongestionPrice", DataType::Float64),
                     ("LossPrice", DataType::Float64),
                     // String columns
-                    ("DSTFlag", DataType::Utf8),
-                    ("SettlementPointName", DataType::Utf8),
-                    ("SettlementPointType", DataType::Utf8),
-                    ("SettlementPoint", DataType::Utf8),
-                    ("BusName", DataType::Utf8),
-                    ("ResourceName", DataType::Utf8),
-                    ("Resource Name", DataType::Utf8),
+                    ("DSTFlag", DataType::String),
+                    ("SettlementPointName", DataType::String),
+                    ("SettlementPointType", DataType::String),
+                    ("SettlementPoint", DataType::String),
+                    ("BusName", DataType::String),
+                    ("ResourceName", DataType::String),
+                    ("Resource Name", DataType::String),
                     // Integer columns
                     ("DeliveryHour", DataType::Int32),
                     ("HourEnding", DataType::Int32),
@@ -577,7 +577,7 @@ impl UnifiedDataProcessor {
         
         for col_name in date_columns {
             if let Ok(col) = df.column(col_name) {
-                if let Ok(str_col) = col.utf8() {
+                if let Ok(str_col) = col.str() {
                     if let Some(first_val) = str_col.get(0) {
                         if let Ok(date) = NaiveDate::parse_from_str(first_val, "%m/%d/%Y") {
                             return Some(date.year());
@@ -652,8 +652,8 @@ impl UnifiedDataProcessor {
                 // Also ensure DSTFlag is string
                 if df.get_column_names().contains(&"DSTFlag") {
                     if let Ok(col) = df.column("DSTFlag") {
-                        if col.dtype() != &DataType::Utf8 {
-                            if let Ok(cast_col) = col.cast(&DataType::Utf8) {
+                        if col.dtype() != &DataType::String {
+                            if let Ok(cast_col) = col.cast(&DataType::String) {
                                 let _ = df.with_column(cast_col);
                             }
                         }
@@ -741,7 +741,7 @@ impl UnifiedDataProcessor {
         if cols.contains(&"SCEDTimestamp") || cols.contains(&"SCED_TIMESTAMP") {
             let timestamp_col = if cols.contains(&"SCEDTimestamp") { "SCEDTimestamp" } else { "SCED_TIMESTAMP" };
             let timestamps = df.column(timestamp_col)?;
-            let timestamps_str = timestamps.utf8()?;
+            let timestamps_str = timestamps.str()?;
             
             let mut datetimes = Vec::new();
             for i in 0..df.height() {
@@ -763,7 +763,7 @@ impl UnifiedDataProcessor {
             result_df.with_column(datetime_series)?;
         } else if cols.contains(&"DeliveryDate") {
             let dates = df.column("DeliveryDate")?;
-            let dates_str = dates.utf8()?;
+            let dates_str = dates.str()?;
             
             let has_hour = cols.contains(&"DeliveryHour") || cols.contains(&"HourEnding");
             let has_interval = cols.contains(&"DeliveryInterval");

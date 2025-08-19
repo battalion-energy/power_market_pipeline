@@ -40,6 +40,9 @@ mod enhanced_annual_processor_validated;
 mod parquet_verifier;
 mod bess_parquet_revenue_processor;
 mod cop_file_reader;
+mod tbx_calculator_polars;
+mod unified_bess_calculator;
+mod simple_bess_calculator;
 
 fn verify_data_quality(_dir: &Path) -> Result<()> {
     println!("\n🔍 Data Quality Verification");
@@ -401,6 +404,64 @@ fn main() -> Result<()> {
     } else if args.len() > 1 && args[1] == "--bess-historical" {
         // Run BESS historical revenue analysis from actual operations
         bess_historical_analyzer::analyze_bess_historical()?;
+    } else if args.len() > 1 && args[1] == "--calculate-tbx" {
+        // Calculate TBX (TB2/TB4) battery arbitrage values
+        use tbx_calculator_polars::{TbxCalculator, TbxConfig};
+        
+        let mut config = TbxConfig::default();
+        
+        // Parse optional arguments
+        let mut i = 2;
+        while i < args.len() {
+            match args[i].as_str() {
+                "--efficiency" => {
+                    if i + 1 < args.len() {
+                        config.efficiency = args[i + 1].parse().unwrap_or(0.9);
+                        i += 2;
+                    } else {
+                        i += 1;
+                    }
+                },
+                "--years" => {
+                    if i + 1 < args.len() {
+                        config.years = args[i + 1]
+                            .split(',')
+                            .filter_map(|y| y.parse().ok())
+                            .collect();
+                        i += 2;
+                    } else {
+                        i += 1;
+                    }
+                },
+                "--data-dir" => {
+                    if i + 1 < args.len() {
+                        config.data_dir = PathBuf::from(&args[i + 1]);
+                        i += 2;
+                    } else {
+                        i += 1;
+                    }
+                },
+                "--output-dir" => {
+                    if i + 1 < args.len() {
+                        config.output_dir = PathBuf::from(&args[i + 1]);
+                        i += 2;
+                    } else {
+                        i += 1;
+                    }
+                },
+                _ => i += 1,
+            }
+        }
+        
+        println!("⚡ TBX Calculator Configuration:");
+        println!("  Efficiency: {:.1}%", config.efficiency * 100.0);
+        println!("  Years: {:?}", config.years);
+        println!("  Data directory: {:?}", config.data_dir);
+        println!("  Output directory: {:?}", config.output_dir);
+        
+        let calculator = TbxCalculator::new(config);
+        calculator.calculate_all()
+            .map_err(|e| anyhow::anyhow!("TBX calculation failed: {}", e))?;
     } else if args.len() > 1 && args[1] == "--annual-rollup-validated" {
         // Run rollup with schema validation
         use enhanced_annual_processor_validated::ValidatedAnnualProcessor;
@@ -459,6 +520,19 @@ fn main() -> Result<()> {
     } else if args.len() > 1 && args[1] == "--bess-parquet-revenue" {
         // High-performance BESS revenue processor using parquet files
         bess_parquet_revenue_processor::process_bess_revenues_from_parquet()?;
+        return Ok(());
+    } else if args.len() > 1 && args[1] == "--bess-unified" {
+        // Unified BESS calculator - high-performance version with all revenue streams
+        unified_bess_calculator::run_unified_bess_analysis()?;
+        return Ok(());
+    } else if args.len() > 1 && args[1] == "--bess-simple" {
+        // Run simple BESS test for comparison
+        simple_bess_calculator::run_simple_bess_test()?;
+        return Ok(());
+    } else if args.len() > 1 && args[1] == "--tbx" {
+        // Run TBX battery arbitrage calculator (Rust high-performance version)
+        use ercot_data_processor::tbx_calculator;
+        tbx_calculator::run_tbx_calculation()?;
         return Ok(());
     } else if args.len() > 1 && args[1] == "--verify-results" {
         // Verify data quality of processed files

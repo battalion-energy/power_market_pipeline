@@ -3,6 +3,10 @@ use std::env;
 
 pub mod ercot_price_processor;
 pub mod gap_analyzer;
+pub mod tbx_calculator_polars;
+pub mod simple_bess_calculator;
+pub mod unified_bess_calculator;
+pub mod tbx_calculator;
 
 /// Helper function to get ERCOT data directory from environment or default
 pub fn get_ercot_data_dir() -> PathBuf {

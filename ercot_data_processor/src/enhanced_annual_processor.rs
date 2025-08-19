@@ -241,7 +241,7 @@ impl EnhancedAnnualProcessor {
         // Read CSV with Float64 for price column, keep dates as strings
         let schema_overrides = Schema::from_iter([
             Field::new("SettlementPointPrice", DataType::Float64),
-            Field::new("DeliveryDate", DataType::Utf8),
+            Field::new("DeliveryDate", DataType::String),
         ]);
         
         let df = CsvReader::from_path(file)?
@@ -266,7 +266,7 @@ impl EnhancedAnnualProcessor {
         
         let mut datetimes = Vec::new();
         for i in 0..df.height() {
-            if let Some(date_str) = delivery_dates.utf8()?.get(i) {
+            if let Some(date_str) = delivery_dates.str()?.get(i) {
                 if let Ok(date) = NaiveDate::parse_from_str(date_str, "%m/%d/%Y") {
                     let hour = hours.get(i).unwrap_or(0) as u32;
                     let minute = minutes.get(i).unwrap_or(0) as u32;
@@ -397,8 +397,8 @@ impl EnhancedAnnualProcessor {
         // Read CSV with Float64 for price column and string for dates initially
         let schema_overrides = Schema::from_iter([
             Field::new("SettlementPointPrice", DataType::Float64),
-            Field::new("DeliveryDate", DataType::Utf8),  // Read as string first
-            Field::new("HourEnding", DataType::Utf8),     // Read as string first
+            Field::new("DeliveryDate", DataType::String),  // Read as string first
+            Field::new("HourEnding", DataType::String),     // Read as string first
         ]);
         
         let df = CsvReader::from_path(file)?
@@ -430,7 +430,7 @@ impl EnhancedAnnualProcessor {
         // Extract dates and process them
         {
             let delivery_dates = df.column("DeliveryDate")?;
-            if let Ok(dates_str) = delivery_dates.utf8() {
+            if let Ok(dates_str) = delivery_dates.str() {
                 for i in 0..dates_str.len() {
                     if let Some(date_str) = dates_str.get(i) {
                         if let Ok(date) = NaiveDate::parse_from_str(date_str, "%m/%d/%Y") {
@@ -561,8 +561,8 @@ impl EnhancedAnnualProcessor {
         // Read CSV with Float64 for price column and string for dates initially
         let schema_overrides = Schema::from_iter([
             Field::new("MCPC", DataType::Float64),
-            Field::new("DeliveryDate", DataType::Utf8),  // Read as string first
-            Field::new("HourEnding", DataType::Utf8),     // Read as string first
+            Field::new("DeliveryDate", DataType::String),  // Read as string first
+            Field::new("HourEnding", DataType::String),     // Read as string first
         ]);
         
         let df = CsvReader::from_path(file)?
@@ -594,7 +594,7 @@ impl EnhancedAnnualProcessor {
         // Extract dates and process them
         {
             let delivery_dates = df.column("DeliveryDate")?;
-            if let Ok(dates_str) = delivery_dates.utf8() {
+            if let Ok(dates_str) = delivery_dates.str() {
                 for i in 0..dates_str.len() {
                     if let Some(date_str) = dates_str.get(i) {
                         if let Ok(date) = NaiveDate::parse_from_str(date_str, "%m/%d/%Y") {
@@ -726,15 +726,15 @@ impl EnhancedAnnualProcessor {
         schema_overrides.with_column("NonSpin Awarded".into(), DataType::Float64);
         
         // Add MCPC columns - treat as Utf8 to handle mixed string/float values
-        schema_overrides.with_column("ECRS MCPC".into(), DataType::Utf8);
+        schema_overrides.with_column("ECRS MCPC".into(), DataType::String);
         schema_overrides.with_column("RegUp MCPC".into(), DataType::Float64);
         schema_overrides.with_column("RegDown MCPC".into(), DataType::Float64);
         schema_overrides.with_column("RRS MCPC".into(), DataType::Float64);
         schema_overrides.with_column("NonSpin MCPC".into(), DataType::Float64);
         
         // Keep Delivery Date as Utf8 to parse it properly
-        schema_overrides.with_column("Delivery Date".into(), DataType::Utf8);
-        schema_overrides.with_column("Hour Ending".into(), DataType::Utf8);
+        schema_overrides.with_column("Delivery Date".into(), DataType::String);
+        schema_overrides.with_column("Hour Ending".into(), DataType::String);
         
         let df = CsvReader::from_path(file)?
             .has_header(true)
@@ -888,23 +888,57 @@ impl EnhancedAnnualProcessor {
         
         // Now create a proper datetime from date string and hour
         // The DeliveryDate is in MM/DD/YYYY format
-        let df = df.lazy()
+        let mut df = df.lazy()
             .with_column(
                 // Cast DeliveryDate string to proper date
                 col("DeliveryDate")
-                    .cast(DataType::Utf8)
+                    .cast(DataType::String)
                     .alias("DeliveryDate")
             )
             .collect()?;
         
-        // Create datetime column by parsing and combining
+        // Parse dates from MM/DD/YYYY format to Date32
+        let mut parsed_dates = Vec::new();
+        let mut date_strings = Vec::new();
+        let epoch = NaiveDate::from_ymd_opt(1970, 1, 1).unwrap();
+        
+        // Extract dates and process them
+        {
+            let delivery_dates = df.column("DeliveryDate")?;
+            if let Ok(dates_str) = delivery_dates.str() {
+                for i in 0..dates_str.len() {
+                    if let Some(date_str) = dates_str.get(i) {
+                        if let Ok(date) = NaiveDate::parse_from_str(date_str, "%m/%d/%Y") {
+                            // Calculate days since Unix epoch (1970-01-01)
+                            let days_since_epoch = (date - epoch).num_days() as i32;
+                            parsed_dates.push(Some(days_since_epoch));
+                            
+                            // Format as ISO date with timezone indicator
+                            let formatted = format!("{}T00:00:00-06:00", date.format("%Y-%m-%d"));
+                            date_strings.push(Some(formatted));
+                        } else {
+                            parsed_dates.push(None);
+                            date_strings.push(None);
+                        }
+                    } else {
+                        parsed_dates.push(None);
+                        date_strings.push(None);
+                    }
+                }
+            }
+        }
+        
+        // Create new Date column and replace the string one
+        let date_series = Series::new("DeliveryDate", parsed_dates);
+        df.with_column(date_series.cast(&DataType::Date)?)?;
+        
+        // Add string representation with timezone
+        let date_str_series = Series::new("DeliveryDateStr", date_strings);
+        df.with_column(date_str_series)?;
+        
+        // Create datetime column by combining date and hour
         let df = df.lazy()
             .with_column(
-                // Cast the date string to proper Date type
-                col("DeliveryDate").cast(DataType::Date)
-            )
-            .with_column(
-                // Create datetime by combining date and hour
                 // Hour Ending 1 = 00:00-01:00, so we subtract 1 hour
                 (col("DeliveryDate").cast(DataType::Datetime(TimeUnit::Milliseconds, None)) +
                  duration_hours(col("hour") - lit(1)))
@@ -1149,7 +1183,7 @@ impl EnhancedAnnualProcessor {
         let df = df.lazy()
             .select(select_cols)
             .with_column(
-                col("SCEDTimeStamp").cast(DataType::Utf8).alias("datetime")
+                col("SCEDTimeStamp").cast(DataType::String).alias("datetime")
             )
             .collect()?;
         
@@ -1292,7 +1326,7 @@ impl EnhancedAnnualProcessor {
         let df = df.lazy()
             .select(select_cols)
             .with_column(
-                col("SCEDTimeStamp").cast(DataType::Utf8).alias("datetime")
+                col("SCEDTimeStamp").cast(DataType::String).alias("datetime")
             )
             .collect()?;
         
@@ -1406,13 +1440,55 @@ impl EnhancedAnnualProcessor {
             )
             .collect()?;
         
-        // Create datetime column by parsing and combining
+        // First rename Delivery Date to DeliveryDate
+        let mut df = df.lazy()
+            .with_column(
+                col("Delivery Date").alias("DeliveryDate")
+            )
+            .collect()?;
+        
+        // Parse dates from MM/DD/YYYY format to Date32
+        let mut parsed_dates = Vec::new();
+        let mut date_strings = Vec::new();
+        let epoch = NaiveDate::from_ymd_opt(1970, 1, 1).unwrap();
+        
+        // Extract dates and process them
+        {
+            let delivery_dates = df.column("DeliveryDate")?;
+            if let Ok(dates_str) = delivery_dates.str() {
+                for i in 0..dates_str.len() {
+                    if let Some(date_str) = dates_str.get(i) {
+                        if let Ok(date) = NaiveDate::parse_from_str(date_str, "%m/%d/%Y") {
+                            // Calculate days since Unix epoch (1970-01-01)
+                            let days_since_epoch = (date - epoch).num_days() as i32;
+                            parsed_dates.push(Some(days_since_epoch));
+                            
+                            // Format as ISO date with timezone indicator
+                            let formatted = format!("{}T00:00:00-06:00", date.format("%Y-%m-%d"));
+                            date_strings.push(Some(formatted));
+                        } else {
+                            parsed_dates.push(None);
+                            date_strings.push(None);
+                        }
+                    } else {
+                        parsed_dates.push(None);
+                        date_strings.push(None);
+                    }
+                }
+            }
+        }
+        
+        // Create new Date column and replace the string one
+        let date_series = Series::new("DeliveryDate", parsed_dates);
+        df.with_column(date_series.cast(&DataType::Date)?)?;
+        
+        // Add string representation with timezone
+        let date_str_series = Series::new("DeliveryDateStr", date_strings);
+        df.with_column(date_str_series)?;
+        
+        // Create datetime column by combining date and hour
         let df = df.lazy()
             .with_column(
-                col("Delivery Date").cast(DataType::Date).alias("DeliveryDate")
-            )
-            .with_column(
-                // Create datetime by combining date and hour
                 // Hour Ending 1 = 00:00-01:00, so we subtract 1 hour
                 (col("DeliveryDate").cast(DataType::Datetime(TimeUnit::Milliseconds, None)) +
                  duration_hours(col("hour") - lit(1)))
@@ -1662,7 +1738,7 @@ impl EnhancedAnnualProcessor {
             });
             
             let dtype = if is_text {
-                DataType::Utf8
+                DataType::String
             } else if is_numeric {
                 DataType::Float64
             } else {
@@ -1673,10 +1749,10 @@ impl EnhancedAnnualProcessor {
                         match col.dtype() {
                             DataType::Int64 | DataType::Float64 | 
                             DataType::Int32 | DataType::Float32 => DataType::Float64,
-                            _ => DataType::Utf8,
+                            _ => DataType::String,
                         }
                     },
-                    Err(_) => DataType::Utf8,  // Default to string if we can't determine
+                    Err(_) => DataType::String,  // Default to string if we can't determine
                 }
             };
             

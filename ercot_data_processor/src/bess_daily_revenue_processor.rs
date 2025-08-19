@@ -130,10 +130,10 @@ impl BessDailyRevenueProcessor {
             let file = std::fs::File::open(&path)?;
             let df = CsvReader::new(file).has_header(true).finish()?;
             
-            let names = df.column("Resource_Name")?.utf8()?;
-            let settlement_points = df.column("Settlement_Point")?.utf8()?;
+            let names = df.column("Resource_Name")?.str()?;
+            let settlement_points = df.column("Settlement_Point")?.str()?;
             let capacities = df.column("Max_Capacity_MW")?.f64()?;
-            let qses = df.column("QSE").ok().and_then(|c| c.utf8().ok());
+            let qses = df.column("QSE").ok().and_then(|c| c.str().ok());
             
             for i in 0..df.height() {
                 if let (Some(name), Some(sp), Some(capacity)) = 
@@ -276,12 +276,12 @@ impl BessDailyRevenueProcessor {
         
         // Filter for BESS resources
         if let Ok(resource_types) = df.column("Resource Type") {
-            let mask = resource_types.utf8()?.equal("PWRSTR");
+            let mask = resource_types.str()?.equal("PWRSTR");
             
             if let Ok(filtered) = df.filter(&mask) {
                 // Process each resource
                 if let Ok(resources) = filtered.column("Resource Name") {
-                    let resources_str = resources.utf8()?;
+                    let resources_str = resources.str()?;
                     
                     for i in 0..filtered.height() {
                         if let Some(resource_name) = resources_str.get(i) {
@@ -470,7 +470,7 @@ impl BessDailyRevenueProcessor {
             df.column("lmp")
         ) {
             let timestamps_i64 = timestamps.i64()?;
-            let names_str = names.utf8()?;
+            let names_str = names.str()?;
             let lmps_f64 = lmps.f64()?;
             
             for i in 0..df.height() {
@@ -506,7 +506,7 @@ impl BessDailyRevenueProcessor {
         
         // Filter for BESS resources
         if let Ok(resource_types) = df.column("Resource Type") {
-            let mask = resource_types.utf8()?.equal("ERCOT_BATT");
+            let mask = resource_types.str()?.equal("ERCOT_BATT");
             
             if let Ok(filtered) = df.filter(&mask) {
                 // Process base points
@@ -515,8 +515,8 @@ impl BessDailyRevenueProcessor {
                     filtered.column("SCED Timestamp"),
                     filtered.column("Base Point")
                 ) {
-                    let resources_str = resources.utf8()?;
-                    let timestamps_str = timestamps.utf8()?;
+                    let resources_str = resources.str()?;
+                    let timestamps_str = timestamps.str()?;
                     let base_points_f64 = Self::parse_numeric_column(base_points)?;
                     
                     for i in 0..filtered.height() {
@@ -819,8 +819,8 @@ impl BessDailyRevenueProcessor {
                     .clone();
                 Ok(f64_values)
             },
-            DataType::Utf8 => {
-                let str_values = series.utf8()?;
+            DataType::String => {
+                let str_values = series.str()?;
                 let f64_values: Vec<Option<f64>> = str_values
                     .into_iter()
                     .map(|opt_str| {
@@ -837,7 +837,7 @@ impl BessDailyRevenueProcessor {
             },
             _ => {
                 // For any other type, try to convert to string first then parse
-                match series.cast(&DataType::Utf8) {
+                match series.cast(&DataType::String) {
                     Ok(str_series) => Self::parse_numeric_column(&str_series),
                     Err(_) => Err(anyhow::anyhow!("Unsupported column type for numeric conversion: {:?}", series.dtype()))
                 }

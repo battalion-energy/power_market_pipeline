@@ -118,10 +118,10 @@ impl BessDisclosureAnalyzer {
         
         let mut resources = HashMap::new();
         
-        let names = df.column("Resource_Name")?.utf8()?;
-        let settlement_points = df.column("Settlement_Point")?.utf8()?;
+        let names = df.column("Resource_Name")?.str()?;
+        let settlement_points = df.column("Settlement_Point")?.str()?;
         let capacities = df.column("Max_Capacity_MW")?.f64()?;
-        let qses = df.column("QSE").ok().and_then(|c| c.utf8().ok());
+        let qses = df.column("QSE").ok().and_then(|c| c.str().ok());
         
         for i in 0..df.height() {
             if let (Some(name), Some(sp), Some(capacity)) = 
@@ -273,10 +273,10 @@ impl BessDisclosureAnalyzer {
                     df.column("SettlementPointName"),
                     df.column("SettlementPointPrice")
                 ) {
-                    let dates_str = dates.utf8()?;
+                    let dates_str = dates.str()?;
                     let hours_i64 = hours.i64()?;
                     let intervals_i64 = intervals.i64()?;
-                    let sps_str = sps.utf8()?;
+                    let sps_str = sps.str()?;
                     let prices_f64 = prices.f64()?;
                     
                     for i in 0..df.height().min(10_000_000) {
@@ -416,8 +416,8 @@ impl BessDisclosureAnalyzer {
             df.column("SCED Timestamp"),
             df.column("Base Point")
         ) {
-            let names_str = names.utf8()?;
-            let timestamps_str = timestamps.utf8()?;
+            let names_str = names.str()?;
+            let timestamps_str = timestamps.str()?;
             let base_points_f64 = base_points.f64()?;
             
             // Group by resource and date

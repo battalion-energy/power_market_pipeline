@@ -106,7 +106,7 @@ impl DisclosureFastProcessor {
             // Check for BESS resources
             for col in &resource_columns {
                 if let Ok(series) = df.column(col) {
-                    if let Ok(values) = series.utf8() {
+                    if let Ok(values) = series.str() {
                         let bess_count = values.into_iter()
                             .flatten()
                             .filter(|v| v.to_lowercase().contains("bess") || 
@@ -224,7 +224,7 @@ impl DisclosureFastProcessor {
                col.to_lowercase().contains("qse") {
                 
                 if let Ok(series) = df.column(col) {
-                    if let Ok(values) = series.utf8() {
+                    if let Ok(values) = series.str() {
                         let bess_resources: Vec<String> = values.into_iter()
                             .flatten()
                             .filter(|v| v.to_lowercase().contains("bess") || 

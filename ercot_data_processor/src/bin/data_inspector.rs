@@ -52,7 +52,7 @@ fn main() -> Result<()> {
         let sample_points = df.column("SettlementPointName")?
             .unique()?
             .head(Some(10));
-        println!("  Sample points: {:?}", sample_points.utf8()?.into_no_null_iter().collect::<Vec<_>>());
+        println!("  Sample points: {:?}", sample_points.str()?.into_no_null_iter().collect::<Vec<_>>());
     }
     
     if df.get_column_names().contains(&"SettlementPoint") {
@@ -66,7 +66,7 @@ fn main() -> Result<()> {
         
         let sample_types = df.column("AncillaryType")?
             .unique()?;
-        println!("  Types: {:?}", sample_types.utf8()?.into_no_null_iter().collect::<Vec<_>>());
+        println!("  Types: {:?}", sample_types.str()?.into_no_null_iter().collect::<Vec<_>>());
     }
     
     // Date range analysis

@@ -69,10 +69,10 @@ impl BessCompleteAnalyzer {
             let file = std::fs::File::open(&master_list_path)?;
             let df = CsvReader::new(file).has_header(true).finish()?;
             
-            let names = df.column("Resource_Name")?.utf8()?;
-            let settlement_points = df.column("Settlement_Point")?.utf8()?;
+            let names = df.column("Resource_Name")?.str()?;
+            let settlement_points = df.column("Settlement_Point")?.str()?;
             let capacities = df.column("Max_Capacity_MW")?.f64()?;
-            let qses = df.column("QSE").ok().and_then(|c| c.utf8().ok());
+            let qses = df.column("QSE").ok().and_then(|c| c.str().ok());
             
             for i in 0..df.height() {
                 if let (Some(name), Some(sp), Some(capacity)) = 
@@ -221,7 +221,7 @@ impl BessCompleteAnalyzer {
         
         // Filter for BESS resources
         if let Ok(resource_types) = df.column("Resource Type") {
-            let mask = resource_types.utf8()?.equal("PWRSTR");
+            let mask = resource_types.str()?.equal("PWRSTR");
             
             if let Ok(filtered) = df.filter(&mask) {
                 // Process energy awards
@@ -230,7 +230,7 @@ impl BessCompleteAnalyzer {
                     filtered.column("Awarded Quantity"),
                     filtered.column("Energy Settlement Point Price")
                 ) {
-                    let resources_str = resources.utf8()?;
+                    let resources_str = resources.str()?;
                     let awards_f64 = Self::parse_numeric_column(awards)?;
                     let prices_f64 = Self::parse_numeric_column(prices)?;
                     
@@ -254,7 +254,7 @@ impl BessCompleteAnalyzer {
     }
     
     fn process_dam_as_awards(&self, df: &DataFrame, annual_revenues: &mut HashMap<String, BessAnnualRevenue>) -> Result<()> {
-        let resources = df.column("Resource Name")?.utf8()?;
+        let resources = df.column("Resource Name")?.str()?;
         
         // RegUp
         if let (Ok(awards), Ok(prices)) = (
@@ -407,10 +407,10 @@ impl BessCompleteAnalyzer {
             df.column("SettlementPointName"),
             df.column("SettlementPointPrice")
         ) {
-            let dates_str = dates.utf8()?;
+            let dates_str = dates.str()?;
             let hours_i64 = hours.i64()?;
             let intervals_i64 = intervals.i64()?;
-            let sps_str = sps.utf8()?;
+            let sps_str = sps.str()?;
             let prices_f64 = prices_col.f64()?;
             
             for i in 0..df.height().min(50_000_000) {  // Limit for memory
@@ -438,7 +438,7 @@ impl BessCompleteAnalyzer {
         
         // Filter for BESS resources
         if let Ok(resource_types) = df.column("Resource Type") {
-            let mask = resource_types.utf8()?.equal("PWRSTR");
+            let mask = resource_types.str()?.equal("PWRSTR");
             
             if let Ok(filtered) = df.filter(&mask) {
                 // Get base point (dispatch) data
@@ -447,8 +447,8 @@ impl BessCompleteAnalyzer {
                     filtered.column("Resource Name"),
                     filtered.column("Base Point")
                 ) {
-                    let timestamps_str = timestamps.utf8()?;
-                    let resources_str = resources.utf8()?;
+                    let timestamps_str = timestamps.str()?;
+                    let resources_str = resources.str()?;
                     let base_points_f64 = Self::parse_numeric_column(base_points)?;
                     
                     for i in 0..filtered.height() {
@@ -483,7 +483,7 @@ impl BessCompleteAnalyzer {
     fn parse_numeric_column(series: &Series) -> Result<Float64Chunked> {
         if let Ok(f64_col) = series.f64() {
             Ok(f64_col.clone())
-        } else if let Ok(utf8_col) = series.utf8() {
+        } else if let Ok(utf8_col) = series.str() {
             // Convert string to float, handling empty strings and NaN
             let values: Vec<Option<f64>> = utf8_col.into_iter()
                 .map(|v| v.and_then(|s| {

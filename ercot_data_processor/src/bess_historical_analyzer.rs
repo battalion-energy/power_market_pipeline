@@ -83,8 +83,8 @@ impl BessHistoricalAnalyzer {
             
             // Filter for PWRSTR (Power Storage) resources
             if let Ok(resource_type) = df.column("Resource Type") {
-                if let Ok(resource_type_str) = resource_type.cast(&DataType::Utf8) {
-                    let mask = resource_type_str.utf8()?.equal_missing("PWRSTR");
+                if let Ok(resource_type_str) = resource_type.cast(&DataType::String) {
+                    let mask = resource_type_str.str()?.equal_missing("PWRSTR");
                     
                     if let Ok(bess_df) = df.filter(&mask) {
                         if let (Ok(names), Ok(hsls), Ok(lsls)) = (
@@ -93,11 +93,11 @@ impl BessHistoricalAnalyzer {
                             bess_df.column("LSL"),
                         ) {
                             if let (Ok(names_str), Ok(hsls_f64), Ok(lsls_f64)) = (
-                                names.cast(&DataType::Utf8),
+                                names.cast(&DataType::String),
                                 hsls.cast(&DataType::Float64),
                                 lsls.cast(&DataType::Float64),
                             ) {
-                                let names_arr = names_str.utf8()?;
+                                let names_arr = names_str.str()?;
                                 let hsls_arr = hsls_f64.f64()?;
                                 let lsls_arr = lsls_f64.f64()?;
                                 
@@ -304,9 +304,9 @@ impl BessHistoricalAnalyzer {
         
         // Filter for this resource and PWRSTR type
         if let (Ok(names), Ok(types)) = (df.column("Resource Name"), df.column("Resource Type")) {
-            if let (Ok(names_str), Ok(types_str)) = (names.cast(&DataType::Utf8), types.cast(&DataType::Utf8)) {
-                let name_mask = names_str.utf8()?.equal_missing(resource.name.as_str());
-                let type_mask = types_str.utf8()?.equal_missing("PWRSTR");
+            if let (Ok(names_str), Ok(types_str)) = (names.cast(&DataType::String), types.cast(&DataType::String)) {
+                let name_mask = names_str.str()?.equal_missing(resource.name.as_str());
+                let type_mask = types_str.str()?.equal_missing("PWRSTR");
                 let mask = name_mask & type_mask;
                 let resource_df = df.filter(&mask)?;
                 

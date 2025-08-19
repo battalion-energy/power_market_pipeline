@@ -83,7 +83,7 @@ impl BessVisualizer {
             .limit(10)
             .collect()?;
         
-        let top_resources = sorted.column("Resource_Name")?.utf8()?;
+        let top_resources = sorted.column("Resource_Name")?.str()?;
         
         // Generate chart for each top resource
         for i in 0..sorted.height().min(10) {
@@ -99,11 +99,11 @@ impl BessVisualizer {
         println!("  Creating cumulative revenue chart for {}", resource_name);
         
         // Filter data for this resource
-        let mask = df.column("Resource_Name")?.utf8()?.equal(resource_name);
+        let mask = df.column("Resource_Name")?.str()?.equal(resource_name);
         let resource_df = df.filter(&mask)?;
         
         // Extract data
-        let dates = resource_df.column("Date")?.utf8()?;
+        let dates = resource_df.column("Date")?.str()?;
         let total_revs = resource_df.column("Total_Revenue")?.f64()?;
         let energy_revs = resource_df.column("Energy_Revenue")?.f64()?;
         
@@ -225,7 +225,7 @@ impl BessVisualizer {
             .collect()?;
         
         // Extract data
-        let dates = daily_totals.column("Date")?.utf8()?;
+        let dates = daily_totals.column("Date")?.str()?;
         let totals = daily_totals.column("Market_Total")?.f64()?;
         
         let mut date_revenue_vec: Vec<(NaiveDate, f64)> = Vec::new();
@@ -381,8 +381,8 @@ impl BessVisualizer {
         println!("\n🗓️  Generating Monthly Performance Heatmap...");
         
         // Extract year-month from dates and aggregate
-        let dates = df.column("Date")?.utf8()?;
-        let resources = df.column("Resource_Name")?.utf8()?;
+        let dates = df.column("Date")?.str()?;
+        let resources = df.column("Resource_Name")?.str()?;
         let revenues = df.column("Total_Revenue")?.f64()?;
         
         // Create a map of (resource, year-month) -> total revenue

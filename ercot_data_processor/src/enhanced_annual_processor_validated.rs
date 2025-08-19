@@ -512,16 +512,16 @@ impl ValidatedAnnualProcessor {
                     // Get the type from our column_types map
                     let target_dtype = column_types.get(col_name)
                         .cloned()
-                        .unwrap_or(DataType::Utf8);
+                        .unwrap_or(DataType::String);
                     
                     // Create null column with the correct type
                     let null_col = match target_dtype {
                         DataType::Float64 => lit(NULL).cast(DataType::Float64),
                         DataType::Int64 => lit(NULL).cast(DataType::Int64),
-                        DataType::Utf8 => lit(NULL).cast(DataType::Utf8),
+                        DataType::String => lit(NULL).cast(DataType::String),
                         DataType::Date => lit(NULL).cast(DataType::Date),
                         DataType::Datetime(tu, tz) => lit(NULL).cast(DataType::Datetime(tu, tz)),
-                        _ => lit(NULL).cast(DataType::Utf8),
+                        _ => lit(NULL).cast(DataType::String),
                     };
                     
                     df = df.with_column(null_col.alias(col_name));

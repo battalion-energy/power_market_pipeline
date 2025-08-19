@@ -75,7 +75,7 @@ impl BessMarketReport {
             
         let mut capacities = HashMap::new();
         if let (Ok(names), Ok(caps)) = (
-            df.column("Resource_Name")?.utf8(),
+            df.column("Resource_Name")?.str(),
             df.column("Max_Capacity_MW")?.f64()
         ) {
             for i in 0..df.height() {
@@ -94,7 +94,7 @@ impl BessMarketReport {
         let mut metrics = HashMap::new();
         
         // Manual aggregation by resource
-        let resource_names = daily_revenues.column("Resource_Name")?.utf8()?;
+        let resource_names = daily_revenues.column("Resource_Name")?.str()?;
         let total_revenues = daily_revenues.column("Total_Revenue")?.f64()?;
         let energy_revenues = daily_revenues.column("Energy_Revenue")?.f64()?;
         let reg_up_revenues = daily_revenues.column("RegUp_Revenue")?.f64()?;
@@ -299,7 +299,7 @@ impl BessMarketReport {
         let output_path = self.output_dir.join("bess_monthly_revenue_trends.csv");
         
         // Extract month from date and aggregate
-        let dates = daily_revenues.column("Date")?.utf8()?;
+        let dates = daily_revenues.column("Date")?.str()?;
         let mut months = Vec::new();
         
         for i in 0..dates.len() {
@@ -322,7 +322,7 @@ impl BessMarketReport {
         let mut monthly_as: HashMap<String, f64> = HashMap::new();
         
         for i in 0..df_with_month.height() {
-            if let Some(month) = df_with_month.column("Month")?.utf8()?.get(i) {
+            if let Some(month) = df_with_month.column("Month")?.str()?.get(i) {
                 let total = df_with_month.column("Total_Revenue")?.f64()?.get(i).unwrap_or(0.0);
                 let energy = df_with_month.column("Energy_Revenue")?.f64()?.get(i).unwrap_or(0.0);
                 

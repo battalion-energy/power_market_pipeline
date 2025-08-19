@@ -1,0 +1,1694 @@
+{
+  "OCI_ALM1_ASTRO1": {
+    "settlement_point": "RN_OCI_ALAMO",
+    "qse": "",
+    "first_seen": "2016-04-01 00:00:00",
+    "capacity_mw": 1.0
+  },
+  "RHESS_RABBIT_1": {
+    "settlement_point": "RHESS_1",
+    "qse": "",
+    "first_seen": "2017-04-01 00:00:00",
+    "capacity_mw": 0
+  },
+  "BLSUMMIT_BATTERY": {
+    "settlement_point": "BLSMT1_5_A_6",
+    "qse": "",
+    "first_seen": "2018-04-01 00:00:00",
+    "capacity_mw": 30.0
+  },
+  "INDL_ESS": {
+    "settlement_point": "IND_INADALE1",
+    "qse": "",
+    "first_seen": "2018-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "PYR_ESS": {
+    "settlement_point": "PYR_PYRON1",
+    "qse": "",
+    "first_seen": "2018-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "TOSBATT_UNIT1": {
+    "settlement_point": "RN_TOSBATT",
+    "qse": "",
+    "first_seen": "2018-04-01 00:00:00",
+    "capacity_mw": 2.0
+  },
+  "CASL_GAP_BATTERY1": {
+    "settlement_point": "CASL_GAP_UN1",
+    "qse": "",
+    "first_seen": "2019-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "NWF_NBS": {
+    "settlement_point": "NWF_NWF1",
+    "qse": "",
+    "first_seen": "2019-04-01 00:00:00",
+    "capacity_mw": 34.0
+  },
+  "FLTBES_BESS1": {
+    "settlement_point": "FLTBES1",
+    "qse": "",
+    "first_seen": "2020-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "PTLBES_BESS1": {
+    "settlement_point": "PTLBES_BESS1",
+    "qse": "",
+    "first_seen": "2020-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "RHESS2_ESS_1": {
+    "settlement_point": "RHESS2_ESS1",
+    "qse": "",
+    "first_seen": "2020-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "WCOLLDG_BSS_U1": {
+    "settlement_point": "BSS_U1",
+    "qse": "",
+    "first_seen": "2020-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "WRSBES_BESS1": {
+    "settlement_point": "WRSBES_BESS1",
+    "qse": "",
+    "first_seen": "2020-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "X443ESS1_SWRI": {
+    "settlement_point": "X443ESRN",
+    "qse": "",
+    "first_seen": "2020-04-01 00:00:00",
+    "capacity_mw": 10.0
+  },
+  "BRHEIGHT_UNIT1": {
+    "settlement_point": "BRHEIGHT_RN",
+    "qse": "QBROAD",
+    "first_seen": "2021-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "BRPALVIN_UNIT1": {
+    "settlement_point": "ALVIN_RN",
+    "qse": "QBROAD",
+    "first_seen": "2021-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "BRPANGLE_UNIT1": {
+    "settlement_point": "BRPANGLE_RN",
+    "qse": "QBROAD",
+    "first_seen": "2021-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "BRPMAGNO_UNIT1": {
+    "settlement_point": "BRPMAGNO_RN",
+    "qse": "QBROAD",
+    "first_seen": "2021-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "BRPODESA_UNIT1": {
+    "settlement_point": "ODESW_RN",
+    "qse": "QBROAD",
+    "first_seen": "2021-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "BRP_BRAZ_UNIT1": {
+    "settlement_point": "BRP_BRAZ_RN",
+    "qse": "QBROAD",
+    "first_seen": "2021-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "BRP_DIKN_UNIT1": {
+    "settlement_point": "BRP_DIKN_RN",
+    "qse": "QBROAD",
+    "first_seen": "2021-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "BRP_PBL1_UNIT1": {
+    "settlement_point": "BRP_PBL1_RN",
+    "qse": "QBROAD",
+    "first_seen": "2021-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "BRP_PBL2_UNIT1": {
+    "settlement_point": "BRP_PBL2_RN",
+    "qse": "QBROAD",
+    "first_seen": "2021-04-01 00:00:00",
+    "capacity_mw": 10.0
+  },
+  "BRP_SWNY_UNIT1": {
+    "settlement_point": "BRP_SWNY_RN",
+    "qse": "QBROAD",
+    "first_seen": "2021-04-01 00:00:00",
+    "capacity_mw": 10.0
+  },
+  "BRP_ZPT1_UNIT1": {
+    "settlement_point": "BRP_ZPT1_RN",
+    "qse": "QBROAD",
+    "first_seen": "2021-04-01 00:00:00",
+    "capacity_mw": 10.0
+  },
+  "BRP_ZPT2_UNIT1": {
+    "settlement_point": "BRP_ZPT2_RN",
+    "qse": "QBROAD",
+    "first_seen": "2021-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "EUNICE_BES1": {
+    "settlement_point": "EUNICE_ALL",
+    "qse": "QTENSK",
+    "first_seen": "2021-04-01 00:00:00",
+    "capacity_mw": 40.3
+  },
+  "FLVABES1_FLATU1": {
+    "settlement_point": "FLVABES1_ESR",
+    "qse": "QTENSK",
+    "first_seen": "2021-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "JC_BAT_UNIT_1": {
+    "settlement_point": "JC_BAT_RN",
+    "qse": "QLCRA",
+    "first_seen": "2021-04-01 00:00:00",
+    "capacity_mw": 2.2
+  },
+  "SWOOSE1_SWOOSEU1": {
+    "settlement_point": "SWOOSE1_U1",
+    "qse": "QTENSK",
+    "first_seen": "2021-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "ANCHOR_BESS1": {
+    "settlement_point": "ANCHOR_ALL",
+    "qse": "QENELT",
+    "first_seen": "2022-04-01 00:00:00",
+    "capacity_mw": 35.2
+  },
+  "ANCHOR_BESS2": {
+    "settlement_point": "ANCHOR_ALL",
+    "qse": "QENELT",
+    "first_seen": "2022-04-01 00:00:00",
+    "capacity_mw": 36.3
+  },
+  "AZURE_BESS1": {
+    "settlement_point": "AZURE_RN",
+    "qse": "QENEL6",
+    "first_seen": "2022-04-01 00:00:00",
+    "capacity_mw": 77.6
+  },
+  "BATCAVE_BES1": {
+    "settlement_point": "BATCAVE_RN",
+    "qse": "QBROAD",
+    "first_seen": "2022-04-01 00:00:00",
+    "capacity_mw": 100.5
+  },
+  "BIG_STAR_BESS": {
+    "settlement_point": "BIGSTAR_ALL",
+    "qse": "QECNR",
+    "first_seen": "2022-04-01 00:00:00",
+    "capacity_mw": 80.0
+  },
+  "BRP_4631_UNIT1": {
+    "settlement_point": "BRP_LOOP_RN",
+    "qse": "QBROAD",
+    "first_seen": "2022-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "BRP_LOP1_UNIT1": {
+    "settlement_point": "BRP_LOP1_RN",
+    "qse": "QBROAD",
+    "first_seen": "2022-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "BRP_RNC1_UNIT1": {
+    "settlement_point": "BRP_RN_UNIT1",
+    "qse": "QBROAD",
+    "first_seen": "2022-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "CHISMGRD_BES1": {
+    "settlement_point": "CHISMGRD_RN",
+    "qse": "QTEN25",
+    "first_seen": "2022-04-01 00:00:00",
+    "capacity_mw": 101.7
+  },
+  "CROSSETT_BES1": {
+    "settlement_point": "CROSSETT_ALL",
+    "qse": "QTEN22",
+    "first_seen": "2022-04-01 00:00:00",
+    "capacity_mw": 100.0
+  },
+  "CROSSETT_BES2": {
+    "settlement_point": "CROSSETT_ALL",
+    "qse": "QTEN22",
+    "first_seen": "2022-04-01 00:00:00",
+    "capacity_mw": 100.0
+  },
+  "DCSES_BES1": {
+    "settlement_point": "DC2SES_ALL",
+    "qse": "QLUMN",
+    "first_seen": "2022-04-01 00:00:00",
+    "capacity_mw": 66.5
+  },
+  "DCSES_BES2": {
+    "settlement_point": "DC2SES_ALL",
+    "qse": "QLUMN",
+    "first_seen": "2022-04-01 00:00:00",
+    "capacity_mw": 66.5
+  },
+  "DCSES_BES3": {
+    "settlement_point": "DC2SES_ALL",
+    "qse": "QLUMN",
+    "first_seen": "2022-04-01 00:00:00",
+    "capacity_mw": 63.5
+  },
+  "DCSES_BES4": {
+    "settlement_point": "DC2SES_ALL",
+    "qse": "QLUMN",
+    "first_seen": "2022-04-01 00:00:00",
+    "capacity_mw": 63.5
+  },
+  "FLOWERII_BESS1": {
+    "settlement_point": "FLOWERII_RN",
+    "qse": "QTEN22",
+    "first_seen": "2022-04-01 00:00:00",
+    "capacity_mw": 100.0
+  },
+  "GAMBIT_BESS1": {
+    "settlement_point": "GAMBIT_RN",
+    "qse": "QSUE23",
+    "first_seen": "2022-04-01 00:00:00",
+    "capacity_mw": 100.0
+  },
+  "HRBESS_BESS": {
+    "settlement_point": "HRBESS_BESS",
+    "qse": "QBEEPO",
+    "first_seen": "2022-04-01 00:00:00",
+    "capacity_mw": 2.0
+  },
+  "LILY_BESS1": {
+    "settlement_point": "LILY_RN",
+    "qse": "QENEL5",
+    "first_seen": "2022-04-01 00:00:00",
+    "capacity_mw": 51.7
+  },
+  "MADERO_UNIT1": {
+    "settlement_point": "MADERO_RN",
+    "qse": "QTENSK",
+    "first_seen": "2022-04-01 00:00:00",
+    "capacity_mw": 100.0
+  },
+  "MADERO_UNIT2": {
+    "settlement_point": "MADERO_RN",
+    "qse": "QTENSK",
+    "first_seen": "2022-04-01 00:00:00",
+    "capacity_mw": 100.0
+  },
+  "NCO_ESS1": {
+    "settlement_point": "NCO_RN",
+    "qse": "QSHEL2",
+    "first_seen": "2022-04-01 00:00:00",
+    "capacity_mw": 50.0
+  },
+  "NF_BRP_BES1": {
+    "settlement_point": "NF_BRP_RN",
+    "qse": "QBROAD",
+    "first_seen": "2022-04-01 00:00:00",
+    "capacity_mw": 100.5
+  },
+  "QUEEN_BA_BESS1": {
+    "settlement_point": "QUEEN_BA_RN",
+    "qse": "QENEL2",
+    "first_seen": "2022-04-01 00:00:00",
+    "capacity_mw": 50.0
+  },
+  "RPUBRDS_ESS1": {
+    "settlement_point": "RPUBRDS_RN",
+    "qse": "QSHEL2",
+    "first_seen": "2022-04-01 00:00:00",
+    "capacity_mw": 50.0
+  },
+  "SLCNHLS_ESS1": {
+    "settlement_point": "SLCN_ESS_ALL",
+    "qse": "QSHEL2",
+    "first_seen": "2022-04-01 00:00:00",
+    "capacity_mw": 50.0
+  },
+  "SLCNHLS_ESS2": {
+    "settlement_point": "SLCN_ESS_ALL",
+    "qse": "QSHEL2",
+    "first_seen": "2022-04-01 00:00:00",
+    "capacity_mw": 50.0
+  },
+  "SNY_BESS_UNIT1": {
+    "settlement_point": "SNY_BESS_RN",
+    "qse": "QPERFT",
+    "first_seen": "2022-04-01 00:00:00",
+    "capacity_mw": 10.0
+  },
+  "SWOOSEII_BESS1": {
+    "settlement_point": "SWOOSEII_RN",
+    "qse": "QTEN22",
+    "first_seen": "2022-04-01 00:00:00",
+    "capacity_mw": 100.0
+  },
+  "SWT_BESS_UNIT1": {
+    "settlement_point": "SWT_BESS_RN",
+    "qse": "QPERFT",
+    "first_seen": "2022-04-01 00:00:00",
+    "capacity_mw": 10.0
+  },
+  "TOYAH_BESS": {
+    "settlement_point": "TOYAH_RN",
+    "qse": "QBEEPO",
+    "first_seen": "2022-04-01 00:00:00",
+    "capacity_mw": 10.0
+  },
+  "TRIPBUT1_BELU1": {
+    "settlement_point": "TRIPBUT1_RN",
+    "qse": "QTEN22",
+    "first_seen": "2022-04-01 00:00:00",
+    "capacity_mw": 7.5
+  },
+  "VORTEX_BESS1": {
+    "settlement_point": "VORT_ALL_RN",
+    "qse": "QENELT",
+    "first_seen": "2022-04-01 00:00:00",
+    "capacity_mw": 121.8
+  },
+  "WOV_BESS_UNIT1": {
+    "settlement_point": "WOV_BESS_RN",
+    "qse": "QPERFT",
+    "first_seen": "2022-04-01 00:00:00",
+    "capacity_mw": 10.0
+  },
+  "ALVIN_UNIT1": {
+    "settlement_point": "ALVIN_RN",
+    "qse": "QBROAD",
+    "first_seen": "2023-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "ANGLETON_UNIT1": {
+    "settlement_point": "BRPANGLE_RN",
+    "qse": "QBROAD",
+    "first_seen": "2023-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "BLUEJAY_BESS1": {
+    "settlement_point": "BLUEJAY_RN",
+    "qse": "QENEL7",
+    "first_seen": "2023-04-01 00:00:00",
+    "capacity_mw": 50.0
+  },
+  "BRAZORIA_UNIT1": {
+    "settlement_point": "BRP_BRAZ_RN",
+    "qse": "QBROAD",
+    "first_seen": "2023-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "BYRDR_ES_BESS1": {
+    "settlement_point": "BYRDR_ES_ALL",
+    "qse": "QEONG4",
+    "first_seen": "2023-04-01 00:00:00",
+    "capacity_mw": 50.0
+  },
+  "CATARINA_BESS": {
+    "settlement_point": "CATARINA_B1",
+    "qse": "QBEEP1",
+    "first_seen": "2023-04-01 00:00:00",
+    "capacity_mw": 10.0
+  },
+  "CEDRVALE_BESS": {
+    "settlement_point": "CEDRVALE_RN",
+    "qse": "QBEEP1",
+    "first_seen": "2023-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "COYOTSPR_BESS": {
+    "settlement_point": "COYOTSPR_RN",
+    "qse": "QBEEP1",
+    "first_seen": "2023-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "DICKNSON_UNIT1": {
+    "settlement_point": "BRP_DIKN_RN",
+    "qse": "QBROAD",
+    "first_seen": "2023-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "ENDPARKS_ESS1": {
+    "settlement_point": "ENDPARK_ESS1",
+    "qse": "QSHEL2",
+    "first_seen": "2023-04-01 00:00:00",
+    "capacity_mw": 50.0
+  },
+  "FAULKNER_BESS": {
+    "settlement_point": "FAULKNER_RN",
+    "qse": "QBEEP1",
+    "first_seen": "2023-04-01 00:00:00",
+    "capacity_mw": 10.0
+  },
+  "FLAT_TOP_BESS1": {
+    "settlement_point": "FLTBES1",
+    "qse": "QSHEL2",
+    "first_seen": "2023-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "GRIZZLY_BESS1": {
+    "settlement_point": "POTSVIL_RN",
+    "qse": "QPRIO1",
+    "first_seen": "2023-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "HEIGHTTN_UNIT1": {
+    "settlement_point": "BRHEIGHT_RN",
+    "qse": "QBROAD",
+    "first_seen": "2023-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "HI_LONEB_BESS1": {
+    "settlement_point": "HI_LONEB_RN1",
+    "qse": "QENEL1",
+    "first_seen": "2023-04-01 00:00:00",
+    "capacity_mw": 50.0
+  },
+  "HOLCOMB_BESS": {
+    "settlement_point": "HOLCOMB_RN1",
+    "qse": "QBEEP1",
+    "first_seen": "2023-04-01 00:00:00",
+    "capacity_mw": 10.0
+  },
+  "LONESTAR_BESS": {
+    "settlement_point": "LONESTAR_RN",
+    "qse": "QBEEP1",
+    "first_seen": "2023-04-01 00:00:00",
+    "capacity_mw": 10.0
+  },
+  "MAGNO_TN_UNIT1": {
+    "settlement_point": "BRPMAGNO_RN",
+    "qse": "QBROAD",
+    "first_seen": "2023-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "MUSTNGCK_BES1": {
+    "settlement_point": "MUSTNGCK_ALL",
+    "qse": "QENE10",
+    "first_seen": "2023-04-01 00:00:00",
+    "capacity_mw": 71.0
+  },
+  "NOBLESLR_BESS1": {
+    "settlement_point": "NOBLESLR_ALL",
+    "qse": "QNGREN",
+    "first_seen": "2023-04-01 00:00:00",
+    "capacity_mw": 62.5
+  },
+  "NOBLESLR_BESS2": {
+    "settlement_point": "NOBLESLR_ALL",
+    "qse": "QNGREN",
+    "first_seen": "2023-04-01 00:00:00",
+    "capacity_mw": 62.5
+  },
+  "PYR_ESS2A": {
+    "settlement_point": "PYR_PYRON1",
+    "qse": "QECNR",
+    "first_seen": "2023-04-01 00:00:00",
+    "capacity_mw": 15.1
+  },
+  "PYR_ESS2B": {
+    "settlement_point": "PYR_PYRON1",
+    "qse": "QECNR",
+    "first_seen": "2023-04-01 00:00:00",
+    "capacity_mw": 15.1
+  },
+  "ROSELAND_BESS1": {
+    "settlement_point": "ROSELAND_ALL",
+    "qse": "QENEL9",
+    "first_seen": "2023-04-01 00:00:00",
+    "capacity_mw": 50.0
+  },
+  "RTLSNAKE_BESS": {
+    "settlement_point": "RTLSNAKE_BT",
+    "qse": "QBEEP1",
+    "first_seen": "2023-04-01 00:00:00",
+    "capacity_mw": 10.0
+  },
+  "SADLBACK_BESS": {
+    "settlement_point": "SADLBACK_RN",
+    "qse": "QBEEP1",
+    "first_seen": "2023-04-01 00:00:00",
+    "capacity_mw": 10.0
+  },
+  "SBEAN_BESS": {
+    "settlement_point": "SBEAN_BESS",
+    "qse": "QBEEP1",
+    "first_seen": "2023-04-01 00:00:00",
+    "capacity_mw": 10.0
+  },
+  "SGSA_BESS1": {
+    "settlement_point": "SGSA_DGR",
+    "qse": "QM2SQ1",
+    "first_seen": "2023-04-01 00:00:00",
+    "capacity_mw": 10.0
+  },
+  "SWEENY_UNIT1": {
+    "settlement_point": "BRP_SWNY_RN",
+    "qse": "QBROAD",
+    "first_seen": "2023-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "WORSHAM_BESS1": {
+    "settlement_point": "WRSBES_BESS1",
+    "qse": "QSHEL2",
+    "first_seen": "2023-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "ANG_SLR_BESS1": {
+    "settlement_point": "ANG_ALL",
+    "qse": "QTEN26",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 100.0
+  },
+  "BAY_CITY_BESS": {
+    "settlement_point": "BAYC_BESS_RN",
+    "qse": "QTEN24",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "BELD_BELU1": {
+    "settlement_point": "TRIPBUT1_RN",
+    "qse": "QTEN22",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 7.5
+  },
+  "BR_ARROW_BESS1": {
+    "settlement_point": "BR_ARROW_ALL",
+    "qse": "QECNR",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 51.8
+  },
+  "BR_ARROW_BESS2": {
+    "settlement_point": "BR_ARROW_ALL",
+    "qse": "QECNR",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 51.8
+  },
+  "CAMWIND_BESS1": {
+    "settlement_point": "CAMWIND_RN",
+    "qse": "QTEN26",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 16.4
+  },
+  "CISC_BESS": {
+    "settlement_point": "CISC_RN",
+    "qse": "QBEEP1",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "CORALSLR_BESS1": {
+    "settlement_point": "CORALSLR_ALL",
+    "qse": "QNGRE1",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 47.6
+  },
+  "CORALSLR_BESS2": {
+    "settlement_point": "CORALSLR_ALL",
+    "qse": "QNGRE1",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 51.4
+  },
+  "DAN_BESS1": {
+    "settlement_point": "DAN_ALL",
+    "qse": "QTOTL4",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 76.3
+  },
+  "DAN_BESS2": {
+    "settlement_point": "DAN_ALL",
+    "qse": "QTOTL4",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 73.7
+  },
+  "DIBOL_BESS": {
+    "settlement_point": "DIBOL_RN",
+    "qse": "QBEEP1",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 10.0
+  },
+  "DKNS_ESS_BES1": {
+    "settlement_point": "DKNS_ESS_RN",
+    "qse": "QBRD11",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 50.0
+  },
+  "DKNS_ESS_BES2": {
+    "settlement_point": "DKNS_ESS_RN",
+    "qse": "QBRD11",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 50.0
+  },
+  "DKNS_ESS_BES3": {
+    "settlement_point": "DKNS_ESS_RN",
+    "qse": "QBRD11",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 50.0
+  },
+  "DKNS_ESS_BES4": {
+    "settlement_point": "DKNS_ESS_RN",
+    "qse": "QBRD11",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 50.0
+  },
+  "DPCRK_UNIT1": {
+    "settlement_point": "SNY_BESS_RN",
+    "qse": "QTEN26",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "ELSA_BESS": {
+    "settlement_point": "ELSA_ESR_RN",
+    "qse": "QTEN24",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "ESTONIAN_BES1": {
+    "settlement_point": "ESTONIAN_ALL",
+    "qse": "QENE14",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 101.6
+  },
+  "FALFUR_BESS": {
+    "settlement_point": "FALFUR_RN",
+    "qse": "QBEEP1",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "FENCESLR_BESS1": {
+    "settlement_point": "FENCESLR_ALL",
+    "qse": "QENE13",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 71.0
+  },
+  "FIVEWSLR_BESS1": {
+    "settlement_point": "FIVEWSLR_ALL",
+    "qse": "QSUE61",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 220.0
+  },
+  "FLAT_TOP_FLATU1": {
+    "settlement_point": "FLVABES1_ESR",
+    "qse": "QTEN22",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "FRMRSVLW_BESS": {
+    "settlement_point": "FRMRSVLW_RN",
+    "qse": "QBEEP1",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "GARCENO_BESS": {
+    "settlement_point": "GARC_BESS_RN",
+    "qse": "QTEN24",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "GEORSO_ESS_1": {
+    "settlement_point": "RHESS2_ESS1",
+    "qse": "QEDIS9",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "GOMZ_BESS": {
+    "settlement_point": "GOMZ_RN",
+    "qse": "QBEEP1",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 10.0
+  },
+  "GRDNE_BESS": {
+    "settlement_point": "GRDNE_ESR_RN",
+    "qse": "QBEEP1",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "HAMILTON_BESS": {
+    "settlement_point": "HAMI_BESS_RN",
+    "qse": "QBEEP1",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "HOUSEMTN_BESS1": {
+    "settlement_point": "HOUSEMTN_RN",
+    "qse": "QTEN22",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 60.0
+  },
+  "HYDR_ESS_BES1": {
+    "settlement_point": "HYDR_ESS_RN",
+    "qse": "QBRD11",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 200.0
+  },
+  "JDKNS_BESS": {
+    "settlement_point": "JDKNS_RN",
+    "qse": "QBEEP1",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 10.0
+  },
+  "JOHNCI_UNIT_1": {
+    "settlement_point": "JC_BAT_RN",
+    "qse": "QLCRA",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 2.2
+  },
+  "JUNCTION_BESS": {
+    "settlement_point": "JUNCTION_RN",
+    "qse": "QBEEP1",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "K0_UNIT1": {
+    "settlement_point": "BRP_RN_UNIT1",
+    "qse": "QBRD11",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "LBRA_ESS_BES1": {
+    "settlement_point": "LBRA_BES1",
+    "qse": "QSUE48",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 200.0
+  },
+  "LFSTH_BESS": {
+    "settlement_point": "LFSTH_RN",
+    "qse": "QBEEP1",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 10.0
+  },
+  "LOPENO_UNIT1": {
+    "settlement_point": "BRP_LOP1_RN",
+    "qse": "QBRD11",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "L_463S_UNIT1": {
+    "settlement_point": "BRP_LOOP_RN",
+    "qse": "QBRD11",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "L_FRESNO_BESS": {
+    "settlement_point": "L_FRE_ESR_RN",
+    "qse": "QTEN24",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "MAYBERRY_BESS": {
+    "settlement_point": "MYRY_ESR_RN",
+    "qse": "QTEN24",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "MIDWY_BESS1": {
+    "settlement_point": "MIDWY_RN",
+    "qse": "QM2SQ1",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "MNWLE_BESS": {
+    "settlement_point": "MNWL_BESS_RN",
+    "qse": "QBEEP1",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "MV_VALV4_BESS": {
+    "settlement_point": "MV_VALV4_RN",
+    "qse": "QBEEP1",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 10.0
+  },
+  "N_ALAMO_BESS": {
+    "settlement_point": "N_AL_BESS_RN",
+    "qse": "QTEN24",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "N_MERCED_BESS": {
+    "settlement_point": "N_MRD_ESR_RN",
+    "qse": "QTEN24",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "ODESW_UNIT1": {
+    "settlement_point": "ODESW_RN",
+    "qse": "QBRD11",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "OLNEYTN_BESS": {
+    "settlement_point": "OLNEYTN_RN",
+    "qse": "QBEEP1",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 10.0
+  },
+  "PALE_ESS_BES1": {
+    "settlement_point": "PALE_ESS_EN",
+    "qse": "QBRD11",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 200.0
+  },
+  "PAULN_BESS": {
+    "settlement_point": "PAULN_RN",
+    "qse": "QBEEP1",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 10.0
+  },
+  "PAVO_ESS_BESS1": {
+    "settlement_point": "PAVO_ESS_ALL",
+    "qse": "QBRD11",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 87.5
+  },
+  "PAVO_ESS_BESS2": {
+    "settlement_point": "PAVO_ESS_ALL",
+    "qse": "QBRD11",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 87.5
+  },
+  "PHO_BES1": {
+    "settlement_point": "PHO_ALL",
+    "qse": "QENE15",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 150.0
+  },
+  "PHO_BES2": {
+    "settlement_point": "PHO_ALL",
+    "qse": "QENE15",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 150.0
+  },
+  "PRTLAVS_BESS1": {
+    "settlement_point": "PTLBES_BESS1",
+    "qse": "QSTEC3",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "PYOTE_SWOOSEU1": {
+    "settlement_point": "SWOOSE1_U1",
+    "qse": "QTEN22",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "RBN_BESS1": {
+    "settlement_point": "RBN_BESS1",
+    "qse": "QTEN26",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 100.0
+  },
+  "RIO_GRAN_BESS": {
+    "settlement_point": "RIOG_ESR_RN",
+    "qse": "QTEN24",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "RRANCHES_UNIT1": {
+    "settlement_point": "RRANCHES_ALL",
+    "qse": "QSUE51",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 150.0
+  },
+  "RRANCHES_UNIT2": {
+    "settlement_point": "RRANCHES_ALL",
+    "qse": "QSUE51",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 150.0
+  },
+  "RVRVLYS_ESS1": {
+    "settlement_point": "RVRVLYS_ALL",
+    "qse": "QSHEL2",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 50.0
+  },
+  "RVRVLYS_ESS2": {
+    "settlement_point": "RVRVLYS_ALL",
+    "qse": "QSHEL2",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 50.0
+  },
+  "SGAL_BES_BESS1": {
+    "settlement_point": "SG_BES_BESS1",
+    "qse": "QTEN22",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 100.0
+  },
+  "SPTX12B_BES1": {
+    "settlement_point": "SPTX12B_RN",
+    "qse": "QEDIS9",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 25.1
+  },
+  "STAM_SLR_BESS1": {
+    "settlement_point": "STAM_SLR_ALL",
+    "qse": "QENE12",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 70.0
+  },
+  "SUNVASLR_BESS1": {
+    "settlement_point": "SUNVASLR_ALL",
+    "qse": "QSUE38",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 53.3
+  },
+  "SUNVASLR_BESS2": {
+    "settlement_point": "SUNVASLR_ALL",
+    "qse": "QSUE38",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 46.7
+  },
+  "SWTWR_UNIT1": {
+    "settlement_point": "SWT_BESS_RN",
+    "qse": "QTEN26",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "S_SNROSA_BESS": {
+    "settlement_point": "SROSA_ESR_RN",
+    "qse": "QTEN24",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "TBWF_ESS_BES1": {
+    "settlement_point": "TBWF_ES_BES1",
+    "qse": "QTEN29",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 150.0
+  },
+  "TORT_ESS_BESS1": {
+    "settlement_point": "TORT_ESS_RN",
+    "qse": "QBRD11",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 50.0
+  },
+  "TURQBESS_BESS1": {
+    "settlement_point": "TURQ_BESS1",
+    "qse": "QEDI10",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 190.0
+  },
+  "TV_BESS": {
+    "settlement_point": "TV_RN",
+    "qse": "QAETE1",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 10.0
+  },
+  "WCOLLOCL_BSS_U1": {
+    "settlement_point": "BSS_U1",
+    "qse": "QHABIT",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "WEIL_TRC_BESS": {
+    "settlement_point": "WLTC_ESR_RN",
+    "qse": "QBEEP1",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "WFTANK_ESS1": {
+    "settlement_point": "WFTANK_ESS1",
+    "qse": "QEDI11",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 150.0
+  },
+  "W_HARLIN_BESS": {
+    "settlement_point": "W_HRL_ESR_RN",
+    "qse": "QTEN24",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "X4_SWRI": {
+    "settlement_point": "X443ESRN",
+    "qse": "QCPSE",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 10.0
+  },
+  "ZIER_SLR_BES1": {
+    "settlement_point": "ZIER_SLR_ALL",
+    "qse": "QTEN26",
+    "first_seen": "2024-04-01 00:00:00",
+    "capacity_mw": 40.0
+  },
+  "ADL_BESS1": {
+    "settlement_point": "ADL_RN",
+    "qse": "QTEN26",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 60.0
+  },
+  "AE_BESS": {
+    "settlement_point": "AE_RN",
+    "qse": "QTYRE2",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "ALP_BESS_BESS1": {
+    "settlement_point": "ALP_BESS_RN",
+    "qse": "QHEI1",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 100.3
+  },
+  "ANDMDSLR_BESS1": {
+    "settlement_point": "ANDMDSLR_ALL",
+    "qse": "QIPLU2",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 81.9
+  },
+  "ANDMDSLR_BESS2": {
+    "settlement_point": "ANDMDSLR_ALL",
+    "qse": "QIPLU2",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 78.1
+  },
+  "ANEM_ESS_BESS1": {
+    "settlement_point": "ANEM_ESS_RN",
+    "qse": "QSUE53",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 200.0
+  },
+  "ANOL_ESS_BES1": {
+    "settlement_point": "ANOL_ESS_RN",
+    "qse": "QGRIE4",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 240.0
+  },
+  "BKSL_ESS_BESS1": {
+    "settlement_point": "BKSL_RN",
+    "qse": "QGRIE4",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 100.0
+  },
+  "BOCO_ESS_ESS1": {
+    "settlement_point": "BOCO_ESS_RN",
+    "qse": "QTEN28",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 150.0
+  },
+  "CITRUSCY_BESS1": {
+    "settlement_point": "CITRUSCY_RN",
+    "qse": "QPROLO",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "CLO_BESS1": {
+    "settlement_point": "CLO_RN",
+    "qse": "QTEN22",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 100.0
+  },
+  "CLO_BESS2": {
+    "settlement_point": "CLO_RN",
+    "qse": "QMEA1",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 100.0
+  },
+  "CNLY_ESS_BESS_1": {
+    "settlement_point": "CNLY_ESS_RN",
+    "qse": "QSUE76",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 125.0
+  },
+  "CNTRY_BESS1": {
+    "settlement_point": "CNTRY_RN",
+    "qse": "QPROLO",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 9.8
+  },
+  "CONTINEN_BESS1": {
+    "settlement_point": "CONTINEN_RN",
+    "qse": "QTYRE1",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 9.8
+  },
+  "CR_BESS1": {
+    "settlement_point": "CR_RN",
+    "qse": "QPROLO",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 9.8
+  },
+  "CS_BESS": {
+    "settlement_point": "CS_RN",
+    "qse": "QTYRE2",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "DA_BESS": {
+    "settlement_point": "DA_BESS",
+    "qse": "QSHE16",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 5.0
+  },
+  "DSWL_ESS_BES1": {
+    "settlement_point": "DSWL_BES1",
+    "qse": "QGRIE4",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 150.0
+  },
+  "EBNY_ESS_BESS1": {
+    "settlement_point": "EBNY_ESS_RN",
+    "qse": "QSUE52",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 200.0
+  },
+  "ELZA_SLR_BES1": {
+    "settlement_point": "ELZA_SLR_RN",
+    "qse": "QENE16",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 100.0
+  },
+  "EMPCT_BESS1": {
+    "settlement_point": "EMPCT_RN",
+    "qse": "QTEN24",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 0
+  },
+  "FALFUR_BESS1": {
+    "settlement_point": "FALFUR_RN2",
+    "qse": "QTEN30",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 9.8
+  },
+  "FORTMA_BESS1": {
+    "settlement_point": "FORTMA_RN",
+    "qse": "QTYRE1",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 10.0
+  },
+  "FRMRSVLW_BES2": {
+    "settlement_point": "FRMR_BS2_RN1",
+    "qse": "QTYRE3",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "FTDUNCAN_BESS_GEN": {
+    "settlement_point": "FTDUNCAN_RN",
+    "qse": "QTEN26",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 100.0
+  },
+  "GIGA_ESS_BESS_1": {
+    "settlement_point": "GIGA_ESS_RN",
+    "qse": "QSUE55",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 125.0
+  },
+  "GKS_BESS_BESS1": {
+    "settlement_point": "GKS_BESS_RN",
+    "qse": "QTEN26",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 100.0
+  },
+  "GREGORY_BESS1": {
+    "settlement_point": "GREGORY_RN",
+    "qse": "QTYRE1",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 9.8
+  },
+  "HEARN_RD_BESS1": {
+    "settlement_point": "HEARN_RD_RN",
+    "qse": "QTEN30",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 9.8
+  },
+  "HLY_BESS1": {
+    "settlement_point": "HLY_RN",
+    "qse": "QHEI1",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 102.2
+  },
+  "HLY_BESS2": {
+    "settlement_point": "HLY_RN",
+    "qse": "QHEI1",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 102.2
+  },
+  "HMNG_ESS_BESS1": {
+    "settlement_point": "HMNG_ESS_RN",
+    "qse": "QSHEL2",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 100.0
+  },
+  "INRT_W_BESS_1": {
+    "settlement_point": "INRT_W_ALL",
+    "qse": "QFPL32",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 13.0
+  },
+  "JADE_SLR_BESS1": {
+    "settlement_point": "JADE_SLR_ALL",
+    "qse": "QIPLUM",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 78.1
+  },
+  "JADE_SLR_BESS2": {
+    "settlement_point": "JADE_SLR_ALL",
+    "qse": "QIPLUM",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 81.9
+  },
+  "JAG_SLR_BESS1": {
+    "settlement_point": "JAG_SLR_RN",
+    "qse": "QLCRA",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 150.0
+  },
+  "JAG_SLR_BESS2": {
+    "settlement_point": "JAG_SLR_RN",
+    "qse": "QMITS2",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 150.0
+  },
+  "JAR_BES1": {
+    "settlement_point": "JAR_RN",
+    "qse": "QHEI1",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 152.0
+  },
+  "JAR_BES2": {
+    "settlement_point": "JAR_RN",
+    "qse": "QHEI1",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 152.0
+  },
+  "JUNORTH_BES1": {
+    "settlement_point": "JUNORTH_RN",
+    "qse": "QTYRE3",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "LIGSW_BESS1": {
+    "settlement_point": "LIGSW_RN",
+    "qse": "QPROLO",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 9.8
+  },
+  "LMO_BESS1": {
+    "settlement_point": "LMO_ESR_RN",
+    "qse": "QSHEL2",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 100.0
+  },
+  "LON_BES1": {
+    "settlement_point": "LON_RN1",
+    "qse": "QTEN26",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 174.0
+  },
+  "MAINLAND_BESS": {
+    "settlement_point": "MAINLAND_RN",
+    "qse": "QBEEP1",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "MAYBERRY_BESS2": {
+    "settlement_point": "MYRY_BES2_RN",
+    "qse": "QTEN24",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "MILTON_BESS1": {
+    "settlement_point": "MILTON_RN",
+    "qse": "QTEN30",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "MOORE_FL_BESS1": {
+    "settlement_point": "MOORE_FL_RN",
+    "qse": "QTYRE1",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 9.8
+  },
+  "MUENSTER_BESS1": {
+    "settlement_point": "MUENSTER_RN",
+    "qse": "QTYRE1",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "MYR_BES1": {
+    "settlement_point": "MYR_ALL",
+    "qse": "QTOTL5",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 76.3
+  },
+  "MYR_BES2": {
+    "settlement_point": "MYR_ALL",
+    "qse": "QTOTL5",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 73.7
+  },
+  "PALACIOS_BESS1": {
+    "settlement_point": "PALACIOS_RN",
+    "qse": "QTYRE1",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "PAVLOV_BESS": {
+    "settlement_point": "PAVLOV_BT_RN",
+    "qse": "QBEEP1",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "PEARSALL_BES1": {
+    "settlement_point": "PEARSALL_RN",
+    "qse": "QTEN26",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "PIRATE_BESS1": {
+    "settlement_point": "PIRATE_RN",
+    "qse": "QTEN30",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 9.8
+  },
+  "PRCRK_BESS1": {
+    "settlement_point": "PRCRK_RN",
+    "qse": "QTEN24",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 0
+  },
+  "RADN_SLR_BESS1": {
+    "settlement_point": "RADN_SLR_ALL",
+    "qse": "QIPRAD",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 78.1
+  },
+  "RADN_SLR_BESS2": {
+    "settlement_point": "RADN_SLR_ALL",
+    "qse": "QIPRAD",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 81.9
+  },
+  "RIO_GRAN_BESS2": {
+    "settlement_point": "RIOG_ESR2_RN",
+    "qse": "QPROLO",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "RUSSEKST_BESS": {
+    "settlement_point": "RUSSEKST_RN",
+    "qse": "QBEEP1",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "SANDLAKE_BESS": {
+    "settlement_point": "SANDLAKE_RN",
+    "qse": "QBEEP1",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 10.0
+  },
+  "SHAMROCK_BESS1": {
+    "settlement_point": "SHAMROCK_RN",
+    "qse": "QFPL40",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 99.3
+  },
+  "SHEEPCRK_BESS1": {
+    "settlement_point": "SHEEPCRK_1",
+    "qse": "QSUE70",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 135.0
+  },
+  "TYNAN_BESS1": {
+    "settlement_point": "TYNAN_RN",
+    "qse": "QBEEP1",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "WIG_ESS_BES1": {
+    "settlement_point": "WIG_BESS_RN",
+    "qse": "QHEI1",
+    "first_seen": "2025-04-01 00:00:00",
+    "capacity_mw": 120.0
+  },
+  "ANTL_ESS_BES1": {
+    "settlement_point": "ANTL_ESS_ES1",
+    "qse": "QSUE79",
+    "first_seen": "2025-08-01 00:00:00",
+    "capacity_mw": 70.0
+  },
+  "AVIL_ESS_BES1": {
+    "settlement_point": "AVIL_ESS_RN",
+    "qse": "QSUE79",
+    "first_seen": "2025-08-01 00:00:00",
+    "capacity_mw": 160.0
+  },
+  "BCNV_ESS_BESS1": {
+    "settlement_point": "BCNV_RN",
+    "qse": "QSHE11",
+    "first_seen": "2025-08-01 00:00:00",
+    "capacity_mw": 150.0
+  },
+  "BEXAR_ES_BESS1": {
+    "settlement_point": "BEXAR_ES_RN",
+    "qse": "QTEN32",
+    "first_seen": "2025-08-01 00:00:00",
+    "capacity_mw": 100.0
+  },
+  "BLVN_SLR_BESS1": {
+    "settlement_point": "BLVN_RN",
+    "qse": "QSHEL8",
+    "first_seen": "2025-08-01 00:00:00",
+    "capacity_mw": 180.0
+  },
+  "CACH_ESS_BESS1": {
+    "settlement_point": "CACH_ESS_RN",
+    "qse": "QSUE79",
+    "first_seen": "2025-08-01 00:00:00",
+    "capacity_mw": 200.0
+  },
+  "CARN_ESS_BES1": {
+    "settlement_point": "CARN_ESS_RN",
+    "qse": "QSUE79",
+    "first_seen": "2025-08-01 00:00:00",
+    "capacity_mw": 150.0
+  },
+  "CARRIZO_BESS1": {
+    "settlement_point": "CARRIZO_ESR1",
+    "qse": "QTEN30",
+    "first_seen": "2025-08-01 00:00:00",
+    "capacity_mw": 0
+  },
+  "CHIL_SLR_BESS1": {
+    "settlement_point": "CHIL_SLR",
+    "qse": "QSUE88",
+    "first_seen": "2025-08-01 00:00:00",
+    "capacity_mw": 150.0
+  },
+  "CORAZON_BESS1": {
+    "settlement_point": "CORAZON_RN",
+    "qse": "QHEI4",
+    "first_seen": "2025-08-01 00:00:00",
+    "capacity_mw": 200.0
+  },
+  "CROSSTRL_BESS1": {
+    "settlement_point": "CROSSTRL_RN",
+    "qse": "QGRIE4",
+    "first_seen": "2025-08-01 00:00:00",
+    "capacity_mw": 57.0
+  },
+  "DGFS_ESR_BESS1": {
+    "settlement_point": "DGFS_ESR_RN",
+    "qse": "QTEN26",
+    "first_seen": "2025-08-01 00:00:00",
+    "capacity_mw": 75.0
+  },
+  "ESCONDID_BESS1": {
+    "settlement_point": "ESCONDID_ESR",
+    "qse": "QTEN30",
+    "first_seen": "2025-08-01 00:00:00",
+    "capacity_mw": 0
+  },
+  "E_HARRIS_BESS1": {
+    "settlement_point": "E_HARRIS_RN",
+    "qse": "QTEN26",
+    "first_seen": "2025-08-01 00:00:00",
+    "capacity_mw": 0
+  },
+  "GOODWIN_BESS1": {
+    "settlement_point": "GOODWIN_ESR",
+    "qse": "QTEN30",
+    "first_seen": "2025-08-01 00:00:00",
+    "capacity_mw": 0
+  },
+  "GZ_BESS1": {
+    "settlement_point": "GZ_RN",
+    "qse": "QTEN30",
+    "first_seen": "2025-08-01 00:00:00",
+    "capacity_mw": 0
+  },
+  "HV_BESS1": {
+    "settlement_point": "HV_BESS1_RN",
+    "qse": "QTEN30",
+    "first_seen": "2025-08-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "LANTANA_BESS1": {
+    "settlement_point": "LANTANA_RN",
+    "qse": "QTEN26",
+    "first_seen": "2025-08-01 00:00:00",
+    "capacity_mw": 0
+  },
+  "LOWR_ESS_BESS1": {
+    "settlement_point": "LOWR_ESS_RN",
+    "qse": "QUMBRA",
+    "first_seen": "2025-08-01 00:00:00",
+    "capacity_mw": 60.0
+  },
+  "LYSSY_BESS1": {
+    "settlement_point": "LYSSY_RN",
+    "qse": "QTEN30",
+    "first_seen": "2025-08-01 00:00:00",
+    "capacity_mw": 0
+  },
+  "MU_BESS": {
+    "settlement_point": "MU_RN",
+    "qse": "QTYRE2",
+    "first_seen": "2025-08-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "OLMITO_BESS1": {
+    "settlement_point": "OLMITO_RN",
+    "qse": "QTEN26",
+    "first_seen": "2025-08-01 00:00:00",
+    "capacity_mw": 0
+  },
+  "PAD1_ESS_BESS1": {
+    "settlement_point": "PAD1_ESS_RN",
+    "qse": "QCPSE",
+    "first_seen": "2025-08-01 00:00:00",
+    "capacity_mw": 50.0
+  },
+  "PINEFRST_BESS1": {
+    "settlement_point": "PINEFRST_RN",
+    "qse": "QTEN21",
+    "first_seen": "2025-08-01 00:00:00",
+    "capacity_mw": 0
+  },
+  "PLATINUM_BES1": {
+    "settlement_point": "PLATINUM_RN",
+    "qse": "QSUE79",
+    "first_seen": "2025-08-01 00:00:00",
+    "capacity_mw": 148.3
+  },
+  "PLATINUM_BES2": {
+    "settlement_point": "PLATINUM_RN",
+    "qse": "QSUE79",
+    "first_seen": "2025-08-01 00:00:00",
+    "capacity_mw": 150.0
+  },
+  "SGAL_BES_BESS2": {
+    "settlement_point": "SG_BES_BESS1",
+    "qse": "QJPEM2",
+    "first_seen": "2025-08-01 00:00:00",
+    "capacity_mw": 99.3
+  },
+  "SMTH_ESS_BESS_1": {
+    "settlement_point": "SMTH_ESS_RN",
+    "qse": "QSUE77",
+    "first_seen": "2025-08-01 00:00:00",
+    "capacity_mw": 0
+  },
+  "TANZ_ESS_BES1": {
+    "settlement_point": "TANZ_ESS_RN",
+    "qse": "QSUE79",
+    "first_seen": "2025-08-01 00:00:00",
+    "capacity_mw": 128.5
+  },
+  "TANZ_ESS_BES2": {
+    "settlement_point": "TANZ_ESS_RN",
+    "qse": "QSUE79",
+    "first_seen": "2025-08-01 00:00:00",
+    "capacity_mw": 128.5
+  },
+  "WAL_BESS_1": {
+    "settlement_point": "WAL_RN",
+    "qse": "QSUE92",
+    "first_seen": "2025-08-01 00:00:00",
+    "capacity_mw": 20.0
+  },
+  "WOVER_UNIT1": {
+    "settlement_point": "WOV_BESS_RN",
+    "qse": "QTEN26",
+    "first_seen": "2025-08-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "WR_BESS1": {
+    "settlement_point": "WR_RN",
+    "qse": "QAETE1",
+    "first_seen": "2025-08-01 00:00:00",
+    "capacity_mw": 0
+  },
+  "WZRD_ESS_BES1": {
+    "settlement_point": "WZRD_ESS_RN",
+    "qse": "QTEN26",
+    "first_seen": "2025-08-01 00:00:00",
+    "capacity_mw": 0
+  },
+  "BRP_SEMI_UNIT1": {
+    "settlement_point": "BRP_SEMI_RN",
+    "qse": "QBROAD",
+    "first_seen": "2021-02-01 00:00:00",
+    "capacity_mw": 9.9
+  },
+  "MEDILA_BESS1": {
+    "settlement_point": "MEDILA_RN",
+    "qse": "QTYRE1",
+    "first_seen": "2025-06-01 00:00:00",
+    "capacity_mw": 9.8
+  },
+  "HEADCAMP_BESS1": {
+    "settlement_point": "HEADCAMP_RN",
+    "qse": "QTEN34",
+    "first_seen": "2025-08-04 00:00:00",
+    "capacity_mw": 0
+  },
+  "MIDP_SLR_BESS1": {
+    "settlement_point": "MIDP_SLR_RN",
+    "qse": "QTEN26",
+    "first_seen": "2025-08-04 00:00:00",
+    "capacity_mw": 0
+  },
+  "PIN_BESS_UNIT1": {
+    "settlement_point": "PIN_BESS_RN",
+    "qse": "QTEN34",
+    "first_seen": "2025-08-04 00:00:00",
+    "capacity_mw": 0
+  },
+  "TSECA_ES_BESS1": {
+    "settlement_point": "TSECA_ES_RN",
+    "qse": "QTEN29",
+    "first_seen": "2025-08-04 00:00:00",
+    "capacity_mw": 0
+  },
+  "CARTWHL_BESS1": {
+    "settlement_point": "CARTWHL_RN",
+    "qse": "QECNR",
+    "first_seen": "2025-08-05 00:00:00",
+    "capacity_mw": 0
+  },
+  "STRG_SLR_BESS1": {
+    "settlement_point": "STRG_SLR_ALL",
+    "qse": "QECNR",
+    "first_seen": "2025-08-05 00:00:00",
+    "capacity_mw": 0
+  },
+  "EVLN_ESS_BESS1": {
+    "settlement_point": "EVLN_ESS_RN",
+    "qse": "QSHE15",
+    "first_seen": "2025-08-10 00:00:00",
+    "capacity_mw": 220.0
+  },
+  "SP_BESS": {
+    "settlement_point": "SP_RN",
+    "qse": "QTYRE2",
+    "first_seen": "2025-08-11 00:00:00",
+    "capacity_mw": 0
+  }
+}

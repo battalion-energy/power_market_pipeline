@@ -262,7 +262,7 @@ impl UnifiedProcessor {
                 
                 // Extract year from date column
                 if let Ok(dates) = df.column(config.date_column) {
-                    if let Ok(date_str) = dates.utf8() {
+                    if let Ok(date_str) = dates.str() {
                         if let Some(first_date) = date_str.get(0) {
                             let year = if config.datetime_format.contains("%H") {
                                 // DateTime format
@@ -380,7 +380,7 @@ impl UnifiedProcessor {
                     let datetime_col = if config.date_column == "DeliveryDate" {
                         let datetime_created = (|| -> Result<bool> {
                             let dates = final_df.column("DeliveryDate")?;
-                            let dates_str = dates.utf8()?;
+                            let dates_str = dates.str()?;
                             
                             let mut datetimes = Vec::new();
                             

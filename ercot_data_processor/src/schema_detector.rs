@@ -27,7 +27,7 @@ impl<'de> serde::Deserialize<'de> for ErcotDataType {
         match s.as_str() {
             "Float64" => Ok(ErcotDataType::Float64),
             "Int64" => Ok(ErcotDataType::Int64),
-            "Utf8" => Ok(ErcotDataType::Utf8),
+            "Utf8" => Ok(ErcotDataType::String),
             "Date" => Ok(ErcotDataType::Date),
             "Datetime" => Ok(ErcotDataType::Datetime),
             "Boolean" => Ok(ErcotDataType::Boolean),
@@ -41,7 +41,7 @@ impl From<&ErcotDataType> for DataType {
         match ercot_type {
             ErcotDataType::Float64 => DataType::Float64,
             ErcotDataType::Int64 => DataType::Int64,
-            ErcotDataType::Utf8 => DataType::Utf8,
+            ErcotDataType::String => DataType::String,
             ErcotDataType::Date => DataType::Date,
             ErcotDataType::Datetime => DataType::Datetime(TimeUnit::Milliseconds, None),
             ErcotDataType::Boolean => DataType::Boolean,
@@ -236,7 +236,7 @@ impl SchemaDetector {
            lower_name.contains("contingency") ||
            lower_name.contains("station") ||
            lower_name.contains("qse") {
-            return Ok(ErcotDataType::Utf8);
+            return Ok(ErcotDataType::String);
         }
         
         // Special case: Hour Ending might be "01:00" format
@@ -245,7 +245,7 @@ impl SchemaDetector {
             if let Ok(first_val) = col.get(0) {
                 if let Some(val_str) = first_val.get_str() {
                     if val_str.contains(':') {
-                        return Ok(ErcotDataType::Utf8);
+                        return Ok(ErcotDataType::String);
                     }
                 }
             }
@@ -255,7 +255,7 @@ impl SchemaDetector {
         
         // Boolean columns
         if lower_name.contains("dst") && lower_name.contains("flag") {
-            return Ok(ErcotDataType::Utf8);  // DST Flag is Y/N string
+            return Ok(ErcotDataType::String);  // DST Flag is Y/N string
         }
         
         // CRITICAL: Any numeric-looking column should be Float64!
@@ -307,11 +307,11 @@ impl SchemaDetector {
                 // FORCE numeric columns to Float64 to prevent i64 issues!
                 Ok(ErcotDataType::Float64)
             },
-            DataType::Utf8 => Ok(ErcotDataType::Utf8),
+            DataType::String => Ok(ErcotDataType::String),
             DataType::Date => Ok(ErcotDataType::Date),
             DataType::Datetime(_, _) => Ok(ErcotDataType::Datetime),
             DataType::Boolean => Ok(ErcotDataType::Boolean),
-            _ => Ok(ErcotDataType::Utf8),  // Default to string
+            _ => Ok(ErcotDataType::String),  // Default to string
         }
     }
 

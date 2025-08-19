@@ -40,6 +40,9 @@ help:
 	@echo "  make bess            Run BESS revenue analysis"
 	@echo "  make bess-leaderboard Run BESS daily revenue leaderboard"
 	@echo "  make bess-match      Create BESS resource matching file"
+	@echo "  make tbx             Calculate TB2/TB4 battery arbitrage values"
+	@echo "  make tbx-reports     Generate monthly/quarterly TBX reports"
+	@echo "  make tbx-custom      Calculate TBX with custom parameters"
 	@echo "  make verify          Verify data quality of processed files"
 	@echo "  make verify-parquet  Check parquet files (Rust version)"
 	@echo "  make verify-all-parquet  Comprehensive parallel verification (Python)"
@@ -243,16 +246,21 @@ rollup-test: build
 	cd ercot_data_processor && ./test_2011_rollup.sh
 
 bess:
-	@echo "💰 Running BESS revenue analysis..."
-	@echo "📊 Processing BESS revenues from parquet files..."
-	uv run python bess_revenue_calculator_parquet.py
-	@echo "✅ BESS analysis complete. Check output files for results."
+	@echo "💰 Running Unified BESS Revenue Calculator (High-Performance Rust Version)..."
+	@echo "📊 Processing all revenue streams: DA, RT, AS (RegUp, RegDn, RRS, NonSpin, ECRS)..."
+	@echo "⚡ Using parallel processing for maximum speed..."
+	cd ercot_data_processor && \
+		RAYON_NUM_THREADS=32 \
+		POLARS_MAX_THREADS=24 \
+		cargo run --release --bin ercot_data_processor -- --bess-unified
+	@echo "✅ BESS analysis complete. Check database_export/ for results."
 
 bess-leaderboard:
-	@echo "🏆 Running BESS daily revenue leaderboard analysis..."
-	@echo "📊 Calculating daily BESS revenues and rankings..."
-	uv run python comprehensive_bess_revenue_calculator_v2.py
-	@echo "✅ Leaderboard generated. Check bess_daily_leaderboard.csv"
+	@echo "🏆 Running Unified BESS Revenue Calculator (Python Version)..."
+	@echo "📊 Processing all revenue streams: DA, RT, AS..."
+	@echo "📉 Generating visualizations and leaderboard..."
+	uv run python unified_bess_revenue_calculator.py
+	@echo "✅ Leaderboard generated. Check database_export/ for results."
 
 bess-parquet-revenue: build-release
 	@echo "💰 Running high-performance BESS revenue processor (parallel)..."
@@ -266,6 +274,31 @@ bess-match:
 	@echo "🔗 Creating BESS resource matching file..."
 	uv run python create_bess_match_file.py
 	@echo "✅ Created: bess_match_file.csv and bess_match_rules.json"
+
+bess-compare: build-release
+	@echo "🔬 Running BESS Revenue Comparison: Python vs Rust"
+	@echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+	@echo ""
+	@echo "1️⃣  Running Python version (expected: slower)..."
+	@echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+	@/usr/bin/time -v uv run python unified_bess_revenue_calculator.py 2>&1 | grep -E "User time|System time|Elapsed|Maximum resident"
+	@echo ""
+	@echo "2️⃣  Running Rust version (expected: faster)..."
+	@echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+	@cd ercot_data_processor && \
+		RAYON_NUM_THREADS=32 \
+		POLARS_MAX_THREADS=24 \
+		/usr/bin/time -v ./target/release/ercot_data_processor --bess-unified 2>&1 | grep -E "User time|System time|Elapsed|Maximum resident"
+	@echo ""
+	@echo "📊 Comparing results..."
+	@echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+	@echo "Python output: $(DATA_DIR)/bess_analysis/database_export/"
+	@ls -lh $(DATA_DIR)/bess_analysis/database_export/*.parquet 2>/dev/null || echo "No Python output found"
+	@echo ""
+	@echo "Rust output: $(DATA_DIR)/bess_analysis/database_export/"
+	@ls -lh $(DATA_DIR)/bess_analysis/database_export/*.parquet 2>/dev/null || echo "No Rust output found"
+	@echo ""
+	@echo "✅ Comparison complete!"
 
 verify:
 	@echo "✔️ Verifying data quality..."
@@ -518,6 +551,52 @@ market-report:
 visualize:
 	@echo "📉 Generating visualizations..."
 	cd ercot_data_processor && ./target/debug/ercot_data_processor --bess-viz
+
+# TBX Battery Arbitrage Calculator
+tbx:
+	@echo "⚡ Calculating TBX (TB2/TB4) battery arbitrage values..."
+	@echo "🔋 TB2 = 2-hour battery arbitrage revenue"
+	@echo "🔋 TB4 = 4-hour battery arbitrage revenue"
+	@echo "📊 Processing all nodes for years: 2021-2025 (through July)"
+	@echo "⚙️  Efficiency: 90% (10% losses on charge/discharge)"
+	uv run python calculate_tbx_v2.py
+	@echo "✅ TBX calculation complete. Results in: $(DATA_DIR)/tbx_results/"
+	@echo ""
+	@echo "📊 Generating monthly and quarterly reports..."
+	uv run python generate_tbx_reports.py
+	@echo "✅ Reports generated in: $(DATA_DIR)/tbx_results/reports/"
+
+tbx-rust: build-release
+	@echo "⚡ Running TBX Calculator (High-Performance Rust Version)..."
+	@echo "🔋 TB2 = 2-hour battery arbitrage revenue"
+	@echo "🔋 TB4 = 4-hour battery arbitrage revenue"
+	@echo "📊 Processing all nodes for years: 2021-2025"
+	@echo "⚙️  Efficiency: 90% (10% losses on charge/discharge)"
+	@echo "🚀 Using parallel processing for maximum speed..."
+	cd ercot_data_processor && \
+		RAYON_NUM_THREADS=32 \
+		POLARS_MAX_THREADS=24 \
+		./target/release/ercot_data_processor --tbx
+	@echo "✅ TBX calculation complete. Results in: $(DATA_DIR)/tbx_results/"
+
+tbx-reports:
+	@echo "📊 Generating TBX monthly and quarterly reports..."
+	@echo "📅 Creating reports for all available data..."
+	uv run python generate_tbx_reports.py \
+		--data-dir $(DATA_DIR)/tbx_results \
+		--output-dir $(DATA_DIR)/tbx_results
+	@echo "✅ Reports generated in: $(DATA_DIR)/tbx_results/reports/"
+	@echo "  • Monthly reports: $(DATA_DIR)/tbx_results/reports/monthly/"
+	@echo "  • Quarterly reports: $(DATA_DIR)/tbx_results/reports/quarterly/"
+	@echo "  • Formats: JSON (for API) and Markdown (for display)"
+
+tbx-custom:
+	@echo "⚡ Calculating TBX with custom parameters..."
+	uv run python calculate_tbx_v2.py \
+		--efficiency $(EFFICIENCY) \
+		--years $(YEARS) \
+		--data-dir $(DATA_DIR)/rollup_files/flattened \
+		--output-dir $(OUTPUT_DIR)
 
 # ============= Development Shortcuts =============
 

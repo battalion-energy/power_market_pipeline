@@ -26,7 +26,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Base paths
-BASE_DATA_DIR = Path("/Users/enrico/data/ERCOT_data")
+BASE_DATA_DIR = Path("/home/enrico/data/ERCOT_data")
 ROLLUP_DIR = BASE_DATA_DIR / "rollup_files"
 OUTPUT_DIR = BASE_DATA_DIR / "bess_analysis"
 

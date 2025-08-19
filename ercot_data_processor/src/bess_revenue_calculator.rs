@@ -66,8 +66,8 @@ impl BessRevenueCalculator {
                     df.column("Resource_Name"),
                     df.column("Settlement_Point")
                 ) {
-                    let resources_utf8 = resources.utf8().unwrap();
-                    let sps_utf8 = settlement_points.utf8().unwrap();
+                    let resources_utf8 = resources.str().unwrap();
+                    let sps_utf8 = settlement_points.str().unwrap();
                     
                     for i in 0..df.height() {
                         if let (Some(resource), Some(sp)) = 
@@ -95,8 +95,8 @@ impl BessRevenueCalculator {
             .finish()?;
         
         let mut bess_resources = HashMap::new();
-        let names = master_df.column("Resource_Name")?.utf8()?;
-        let settlement_points = master_df.column("Settlement_Point")?.utf8()?;
+        let names = master_df.column("Resource_Name")?.str()?;
+        let settlement_points = master_df.column("Settlement_Point")?.str()?;
         let capacities = master_df.column("Max_Capacity_MW")?.f64()?;
         
         for i in 0..master_df.height() {
@@ -314,7 +314,7 @@ impl BessRevenueCalculator {
                 
                 // Filter for BESS resources (PWRSTR type)
                 if let Ok(resource_types) = df.column("Resource Type") {
-                    let mask = resource_types.utf8()?.equal("PWRSTR");
+                    let mask = resource_types.str()?.equal("PWRSTR");
                     
                     if let Ok(filtered) = df.filter(&mask) {
                         // Process PWRSTR resources
@@ -325,14 +325,14 @@ impl BessRevenueCalculator {
                             filtered.column("Awarded Quantity"),
                             filtered.column("Energy Settlement Point Price")
                         ) {
-                            let dates_utf8 = dates.utf8()?;
+                            let dates_utf8 = dates.str()?;
                             let hours_i64 = hours.i64()?;
-                            let resources_utf8 = resources.utf8()?;
+                            let resources_utf8 = resources.str()?;
                             
                             // Handle awarded quantity - might be string or float
                             let awards_f64 = if let Ok(f64_col) = awards.f64() {
                                 f64_col.clone()
-                            } else if let Ok(utf8_col) = awards.utf8() {
+                            } else if let Ok(utf8_col) = awards.str() {
                                 // Convert string to float
                                 let values: Vec<Option<f64>> = utf8_col.into_iter()
                                     .map(|v| v.and_then(|s| if s.is_empty() { Some(0.0) } else { s.parse().ok() }))
@@ -426,7 +426,7 @@ impl BessRevenueCalculator {
                 
                 // Filter for BESS resources (PWRSTR type)
                 if let Ok(resource_types) = df.column("Resource Type") {
-                    let mask = resource_types.utf8()?.equal("PWRSTR");
+                    let mask = resource_types.str()?.equal("PWRSTR");
                     
                     if let Ok(filtered) = df.filter(&mask) {
                         self.process_rt_output(&filtered, &self.rt_prices, &mut rt_revenues)?;
@@ -474,7 +474,7 @@ impl BessRevenueCalculator {
                 df.column("SettlementPointPrice")
             ) {
                 let datetimes_i64 = datetimes.i64()?;
-                let sps_utf8 = sps.utf8()?;
+                let sps_utf8 = sps.str()?;
                 let prices_f64 = prices_col.f64()?;
                 
                 println!("    Loading {} RT price records", df.height());
@@ -543,7 +543,7 @@ impl BessRevenueCalculator {
                     df.column(price_col)
                 ) {
                     let datetimes_i64 = datetimes.i64()?;
-                    let sps_utf8 = sps.utf8()?;
+                    let sps_utf8 = sps.str()?;
                     let prices_f64 = prices_col.f64()?;
                     
                     for i in 0..df.height() {
@@ -570,10 +570,10 @@ impl BessRevenueCalculator {
                     df.column(sp_col),
                     df.column(price_col)
                 ) {
-                    let dates_utf8 = dates.utf8()?;
+                    let dates_utf8 = dates.str()?;
                     let hours_cast = hours.cast(&DataType::Int32)?;
                     let hours_i32 = hours_cast.i32()?;
-                    let sps_utf8 = sps.utf8()?;
+                    let sps_utf8 = sps.str()?;
                     let prices_f64 = prices_col.f64()?;
                     
                     for i in 0..df.height() {
@@ -646,7 +646,7 @@ impl BessRevenueCalculator {
                     df.column("DeliveryDate"),
                     df.column("HourEnding")
                 ) {
-                    let dates_utf8 = dates.utf8()?;
+                    let dates_utf8 = dates.str()?;
                     let hours_cast = hours.cast(&DataType::Int32)?;
                     let hours_i32 = hours_cast.i32()?;
                     
@@ -707,13 +707,13 @@ impl BessRevenueCalculator {
             df.column("Resource Name"),
             df.column(output_col)
         ) {
-            let timestamps_utf8 = timestamps.utf8()?;
-            let resources_utf8 = resources.utf8()?;
+            let timestamps_utf8 = timestamps.str()?;
+            let resources_utf8 = resources.str()?;
             
             // Handle output column - might be string or float
             let outputs_f64 = if let Ok(f64_col) = outputs.f64() {
                 f64_col.clone()
-            } else if let Ok(utf8_col) = outputs.utf8() {
+            } else if let Ok(utf8_col) = outputs.str() {
                 // Convert string to float
                 let values: Vec<Option<f64>> = utf8_col.into_iter()
                     .map(|v| v.and_then(|s| if s.is_empty() { Some(0.0) } else { s.parse().ok() }))
@@ -814,13 +814,13 @@ impl BessRevenueCalculator {
                 df.column("Resource Code"),
                 df.column("Interval Value")
             ) {
-                let timestamps_utf8 = timestamps.utf8()?;
-                let resources_utf8 = resources.utf8()?;
+                let timestamps_utf8 = timestamps.str()?;
+                let resources_utf8 = resources.str()?;
                 
                 // Handle values - might be string or float
                 let values_f64 = if let Ok(f64_col) = values.f64() {
                     f64_col.clone()
-                } else if let Ok(utf8_col) = values.utf8() {
+                } else if let Ok(utf8_col) = values.str() {
                     // Convert string to float
                     let values: Vec<Option<f64>> = utf8_col.into_iter()
                         .map(|v| v.and_then(|s| if s.is_empty() { Some(0.0) } else { s.parse().ok() }))
@@ -918,7 +918,7 @@ impl BessRevenueCalculator {
                 
                 // Filter for BESS resources
                 if let Ok(resource_types) = df.column("Resource Type") {
-                    let mask = resource_types.utf8()?.equal("PWRSTR");
+                    let mask = resource_types.str()?.equal("PWRSTR");
                     
                     if let Ok(filtered) = df.filter(&mask) {
                         self.process_as_awards(&filtered, &mut as_revenues)?;
@@ -945,9 +945,9 @@ impl BessRevenueCalculator {
         }
         
         // Extract relevant columns
-        let dates = df.column("Delivery Date")?.utf8()?;
+        let dates = df.column("Delivery Date")?.str()?;
         let _hours = df.column("Hour Ending")?.i64()?;
-        let resources = df.column("Resource Name")?.utf8()?;
+        let resources = df.column("Resource Name")?.str()?;
         
         // Try to get energy price column (may not exist in older formats)
         let _prices = df.column("Energy Settlement Point Price").ok().and_then(|c| c.f64().ok());
@@ -956,7 +956,7 @@ impl BessRevenueCalculator {
         // Try to convert string columns to float, handling empty strings
         let reg_up_awards = df.column("RegUp Awarded").ok()
             .and_then(|c| {
-                if let Ok(utf8) = c.utf8() {
+                if let Ok(utf8) = c.str() {
                     // Convert empty strings to 0.0
                     let values: Vec<Option<f64>> = utf8.into_iter()
                         .map(|v| v.and_then(|s| if s.is_empty() { Some(0.0) } else { s.parse().ok() }))
@@ -969,7 +969,7 @@ impl BessRevenueCalculator {
             
         let reg_up_prices = df.column("RegUp MCPC").ok()
             .and_then(|c| {
-                if let Ok(utf8) = c.utf8() {
+                if let Ok(utf8) = c.str() {
                     let values: Vec<Option<f64>> = utf8.into_iter()
                         .map(|v| v.and_then(|s| if s.is_empty() { Some(0.0) } else { s.parse().ok() }))
                         .collect();
@@ -981,7 +981,7 @@ impl BessRevenueCalculator {
             
         let reg_down_awards = df.column("RegDown Awarded").ok()
             .and_then(|c| {
-                if let Ok(utf8) = c.utf8() {
+                if let Ok(utf8) = c.str() {
                     let values: Vec<Option<f64>> = utf8.into_iter()
                         .map(|v| v.and_then(|s| if s.is_empty() { Some(0.0) } else { s.parse().ok() }))
                         .collect();
@@ -993,7 +993,7 @@ impl BessRevenueCalculator {
             
         let reg_down_prices = df.column("RegDown MCPC").ok()
             .and_then(|c| {
-                if let Ok(utf8) = c.utf8() {
+                if let Ok(utf8) = c.str() {
                     let values: Vec<Option<f64>> = utf8.into_iter()
                         .map(|v| v.and_then(|s| if s.is_empty() { Some(0.0) } else { s.parse().ok() }))
                         .collect();
@@ -1006,7 +1006,7 @@ impl BessRevenueCalculator {
         // For RRS, try both "RRS Awarded" and combined RRS types
         let rrs_awards = df.column("RRS Awarded").ok()
             .and_then(|c| {
-                if let Ok(utf8) = c.utf8() {
+                if let Ok(utf8) = c.str() {
                     let values: Vec<Option<f64>> = utf8.into_iter()
                         .map(|v| v.and_then(|s| if s.is_empty() { Some(0.0) } else { s.parse().ok() }))
                         .collect();
@@ -1018,7 +1018,7 @@ impl BessRevenueCalculator {
             
         let rrs_prices = df.column("RRS MCPC").ok()
             .and_then(|c| {
-                if let Ok(utf8) = c.utf8() {
+                if let Ok(utf8) = c.str() {
                     let values: Vec<Option<f64>> = utf8.into_iter()
                         .map(|v| v.and_then(|s| if s.is_empty() { Some(0.0) } else { s.parse().ok() }))
                         .collect();
@@ -1030,7 +1030,7 @@ impl BessRevenueCalculator {
             
         let non_spin_awards = df.column("NonSpin Awarded").ok()
             .and_then(|c| {
-                if let Ok(utf8) = c.utf8() {
+                if let Ok(utf8) = c.str() {
                     let values: Vec<Option<f64>> = utf8.into_iter()
                         .map(|v| v.and_then(|s| if s.is_empty() { Some(0.0) } else { s.parse().ok() }))
                         .collect();
@@ -1042,7 +1042,7 @@ impl BessRevenueCalculator {
             
         let non_spin_prices = df.column("NonSpin MCPC").ok()
             .and_then(|c| {
-                if let Ok(utf8) = c.utf8() {
+                if let Ok(utf8) = c.str() {
                     let values: Vec<Option<f64>> = utf8.into_iter()
                         .map(|v| v.and_then(|s| if s.is_empty() { Some(0.0) } else { s.parse().ok() }))
                         .collect();
@@ -1055,7 +1055,7 @@ impl BessRevenueCalculator {
         // Try ECRS columns (newer format)
         let ecrs_awards = df.column("ECRSSD Awarded").ok()
             .and_then(|c| {
-                if let Ok(utf8) = c.utf8() {
+                if let Ok(utf8) = c.str() {
                     let values: Vec<Option<f64>> = utf8.into_iter()
                         .map(|v| v.and_then(|s| if s.is_empty() { Some(0.0) } else { s.parse().ok() }))
                         .collect();
@@ -1067,7 +1067,7 @@ impl BessRevenueCalculator {
             
         let ecrs_prices = df.column("ECRS MCPC").ok()
             .and_then(|c| {
-                if let Ok(utf8) = c.utf8() {
+                if let Ok(utf8) = c.str() {
                     let values: Vec<Option<f64>> = utf8.into_iter()
                         .map(|v| v.and_then(|s| if s.is_empty() { Some(0.0) } else { s.parse().ok() }))
                         .collect();

@@ -1,10 +1,3 @@
-[workspace]
-members = [
-    ".",
-    "tbx_calculator",
-]
-resolver = "2"
-
 [package]
 name = "ercot_data_processor"
 version = "0.1.0"
@@ -40,7 +33,7 @@ glob = "0.3"
 anyhow = "1.0"
 indicatif = "0.17"
 num_cpus = "1.16"
-polars = { version = "0.33", features = ["lazy", "csv", "parquet", "ipc", "temporal"] }
+polars = { version = "0.36", features = ["lazy", "csv", "parquet", "ipc", "temporal"] }
 chrono = { version = "0.4.31", features = ["serde"] }
 zip = "0.6"
 regex = "1.10"
@@ -48,6 +41,7 @@ plotters = "0.3"
 walkdir = "2.5"
 tempfile = "3.8"
 dotenv = "0.15"
+num-traits = "0.2"
 
 [profile.release]
 lto = true
