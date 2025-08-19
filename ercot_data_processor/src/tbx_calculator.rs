@@ -1,12 +1,12 @@
 use anyhow::Result;
-use chrono::{DateTime, NaiveDate, Utc};
+use chrono::{Datelike, NaiveDate};
 use indicatif::{MultiProgress, ProgressBar, ProgressStyle};
 use polars::prelude::*;
 use rayon::prelude::*;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
-use std::path::{Path, PathBuf};
-use std::sync::{Arc, Mutex};
+use std::path::PathBuf;
+use std::sync::Arc;
 
 /// TBX arbitrage calculation results
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -95,7 +95,10 @@ impl TbxCalculator {
                 
                 match self.process_year(year, &year_pb) {
                     Ok(_) => year_pb.finish_with_message("✅ Complete"),
-                    Err(e) => year_pb.finish_with_message(&format!("❌ Error: {}", e)),
+                    Err(e) => {
+                        let msg = format!("❌ Error: {}", e);
+                        year_pb.finish_with_message(msg)
+                    }
                 }
             });
         });
@@ -141,7 +144,8 @@ impl TbxCalculator {
             .par_iter()
             .map(|node| {
                 pb.inc(1);
-                pb.set_message(&format!("Processing {}", node));
+                let msg = format!("Processing {}", node);
+                pb.set_message(msg);
                 self.calculate_node_tbx(&da_prices, rt_prices.as_ref(), node, year)
                     .unwrap_or_default()
             })
@@ -155,7 +159,8 @@ impl TbxCalculator {
         
         if !all_tbx_results.is_empty() {
             self.save_results(&all_tbx_results, year)?;
-            pb.set_message(&format!("Saved {} results", all_tbx_results.len()));
+            let msg = format!("Saved {} results", all_tbx_results.len());
+            pb.set_message(msg);
         }
         
         Ok(())
@@ -204,8 +209,8 @@ impl TbxCalculator {
         
         // Convert to dates
         let dates = if let Ok(dt_series) = datetime_col.datetime() {
-            dt_series.as_date_iter()
-                .map(|d| d.map(|date| NaiveDate::from_ymd_opt(1970, 1, 1).unwrap() + chrono::Duration::days(date as i64)))
+            dt_series.as_datetime_iter()
+                .map(|d| d.map(|timestamp| timestamp.date()))
                 .collect::<Vec<_>>()
         } else {
             return Ok(results);
@@ -372,7 +377,7 @@ impl TbxCalculator {
     
     /// Aggregate to monthly results
     fn aggregate_monthly(&self, df: &DataFrame) -> Result<DataFrame> {
-        df.lazy()
+        df.clone().lazy()
             .group_by([col("year"), col("month"), col("node")])
             .agg([
                 col("tb2_revenue").sum().alias("tb2_total_revenue"),
@@ -396,7 +401,7 @@ impl TbxCalculator {
     
     /// Aggregate to annual results
     fn aggregate_annual(&self, df: &DataFrame) -> Result<DataFrame> {
-        df.lazy()
+        df.clone().lazy()
             .group_by([col("year"), col("node")])
             .agg([
                 col("tb2_revenue").sum().alias("tb2_annual_revenue"),
@@ -447,7 +452,12 @@ impl TbxCalculator {
         let combined = if all_annual.len() == 1 {
             all_annual.into_iter().next().unwrap()
         } else {
-            polars::functions::concat_df_diagonal(&all_annual)?
+            // Stack dataframes vertically
+            let mut combined_df = all_annual[0].clone();
+            for df in &all_annual[1..] {
+                combined_df = combined_df.vstack(df)?;
+            }
+            combined_df
         };
         
         // Create overall leaderboard
@@ -484,7 +494,7 @@ impl TbxCalculator {
         ) {
             for i in 0..10.min(nodes.len()) {
                 if let (Some(node), Some(revenue)) = (nodes.get(i), tb4_revenues.get(i)) {
-                    println!("{:3}. {:20} ${:>15,.2}", i + 1, node, revenue);
+                    println!("{:3}. {:20} ${:15.2}", i + 1, node, revenue);
                 }
             }
         }
