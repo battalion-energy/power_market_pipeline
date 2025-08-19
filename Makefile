@@ -36,11 +36,6 @@ help:
 	@echo "  make combine-prices      Combine prices and create monthly files"
 	@echo "  make process-prices      Run full price processing pipeline"
 	@echo ""
-	@echo "ERCOT Price Service:"
-	@echo "  make build-price-service Build the Rust price service"
-	@echo "  make run-price-service   Run the price service (ports 8080, 50051)"
-	@echo "  make price-service-docker Build Docker image for price service"
-	@echo ""
 	@echo "Analysis:"
 	@echo "  make bess            Run BESS revenue analysis"
 	@echo "  make bess-leaderboard Run BESS daily revenue leaderboard"
@@ -187,33 +182,6 @@ process-prices: flatten-prices aggregate-rt-hourly combine-prices
 	@echo "    - DA_AS_RT_15min_combined_YYYY.parquet (15-min with DA/AS repeated)"
 	@echo "  • Monthly:   $(ROLLUP_DIR)/combined/monthly/"
 
-# ============= ERCOT Price Service (Rust) =============
-
-build-price-service:
-	@echo "🔨 Building ERCOT Price Service..."
-	cd ercot_price_service && cargo build --release
-	@echo "✅ Binary: ercot_price_service/target/release/ercot-price-server"
-
-run-price-service: build-price-service
-	@echo "🚀 Starting ERCOT Price Service..."
-	@echo "  • JSON API: http://localhost:8080"
-	@echo "  • Arrow Flight: grpc://localhost:50051"
-	cd ercot_price_service && ./target/release/ercot-price-server \
-		--data-dir $(ROLLUP_DIR) \
-		--json-addr 0.0.0.0:8080 \
-		--flight-addr 0.0.0.0:50051
-
-price-service-docker:
-	@echo "🐳 Building Price Service Docker image..."
-	cd ercot_price_service && docker build -t ercot-price-service:latest .
-
-price-service-compose:
-	@echo "🐳 Starting Price Service with Docker Compose..."
-	cd ercot_price_service && docker-compose up -d
-	@echo "✅ Services running:"
-	@echo "  • JSON API: http://localhost:8080/api/health"
-	@echo "  • Arrow Flight: grpc://localhost:50051"
-
 rollup: build
 	@echo "📊 Running annual rollup with gap tracking..."
 	cd ercot_data_processor && ./target/debug/ercot_data_processor --annual-rollup
@@ -274,13 +242,17 @@ rollup-test: build
 	@echo "🧪 Testing rollup on 2011 data (DST flag evolution)..."
 	cd ercot_data_processor && ./test_2011_rollup.sh
 
-bess: build
+bess:
 	@echo "💰 Running BESS revenue analysis..."
-	cd ercot_data_processor && ./target/debug/ercot_data_processor --bess-parquet
+	@echo "📊 Processing BESS revenues from parquet files..."
+	uv run python bess_revenue_calculator_parquet.py
+	@echo "✅ BESS analysis complete. Check output files for results."
 
-bess-leaderboard: build-release
+bess-leaderboard:
 	@echo "🏆 Running BESS daily revenue leaderboard analysis..."
-	cd ercot_data_processor && ./target/release/ercot_data_processor --bess-daily-revenue
+	@echo "📊 Calculating daily BESS revenues and rankings..."
+	uv run python comprehensive_bess_revenue_calculator_v2.py
+	@echo "✅ Leaderboard generated. Check bess_daily_leaderboard.csv"
 
 bess-parquet-revenue: build-release
 	@echo "💰 Running high-performance BESS revenue processor (parallel)..."
@@ -295,17 +267,17 @@ bess-match:
 	uv run python create_bess_match_file.py
 	@echo "✅ Created: bess_match_file.csv and bess_match_rules.json"
 
-verify: build
+verify:
 	@echo "✔️ Verifying data quality..."
-	cd ercot_data_processor && ./target/debug/ercot_data_processor --verify-results
+	@echo "🔍 Checking settlement point mappings..."
+	uv run python verify_settlement_mapping.py
+	@echo "✅ Verification complete. Check output for any issues."
 
-verify-parquet: build-release
+verify-parquet:
 	@echo "🔍 Verifying parquet files for data integrity..."
 	@echo "📊 Checking for duplicates, gaps, and corruption..."
-	cd ercot_data_processor && \
-		PATH="$$HOME/.cargo/bin:$$PATH" \
-		./target/release/ercot_data_processor --verify-parquet $(DATA_DIR)
-	@echo "📝 Check verification_report.md for detailed results"
+	uv run python verify_parquet_files.py $(DATA_DIR)
+	@echo "📝 Check verification output for detailed results"
 
 verify-all-parquet:
 	@echo "🔍 Comprehensive Parquet Verification"
@@ -316,8 +288,10 @@ verify-all-parquet:
 	@echo "   • Time series gaps"
 	@echo "   • Schema consistency"
 	@echo ""
-	@uv run python verify_parquet_files.py $(DATA_DIR)
+	@echo "Running parallel verification on all datasets..."
+	uv run python verify_parquet_files.py $(DATA_DIR)
 	@echo ""
+	@echo "✅ Comprehensive verification complete"
 	@echo "📝 Reports generated:"
 	@echo "   • $(DATA_DIR)/rollup_files/verification_report.md"
 	@echo "   • $(DATA_DIR)/rollup_files/verification_report.json"
@@ -418,15 +392,57 @@ list-datasets:
 
 parquet-stats:
 	@echo "📊 Parquet file statistics:"
+	@echo ""
+	@echo "=== Largest Parquet Files ==="
 	@find $(DATA_DIR)/rollup_files -name "*.parquet" -exec du -h {} \; | sort -hr | head -20
+	@echo ""
+	@echo "=== Total Size by Dataset Type ==="
+	@for dir in $(DATA_DIR)/rollup_files/*/; do \
+		if [ -d "$$dir" ]; then \
+			size=$$(du -sh "$$dir" 2>/dev/null | cut -f1); \
+			name=$$(basename "$$dir"); \
+			printf "%-40s %s\n" "$$name:" "$$size"; \
+		fi; \
+	done | sort -k2 -hr
+	@echo ""
+	@echo "=== Flattened Price Files ==="
+	@ls -lh $(DATA_DIR)/rollup_files/flattened/*.parquet 2>/dev/null | tail -n +2 | awk '{print $$9 ": " $$5}' | sort -k2 -hr || echo "No flattened files found"
+	@echo ""
+	@echo "=== Combined Price Files ==="
+	@ls -lh $(DATA_DIR)/rollup_files/combined/*.parquet 2>/dev/null | tail -n +2 | awk '{print $$9 ": " $$5}' | sort -k2 -hr || echo "No combined files found"
 
 gaps-report:
 	@echo "📋 Data gaps report:"
-	@find $(DATA_DIR)/rollup_files -name "gaps_report.md" -exec echo "=== {} ===" \; -exec cat {} \; | head -100
+	@echo ""
+	@if [ -f "$(DATA_DIR)/rollup_files/gaps_summary.txt" ]; then \
+		cat "$(DATA_DIR)/rollup_files/gaps_summary.txt"; \
+	else \
+		echo "No gaps summary found. Searching for individual reports..."; \
+		echo ""; \
+		for report in $$(find $(DATA_DIR)/rollup_files -name "gaps_report.md" 2>/dev/null); do \
+			dataset=$$(dirname "$$report" | xargs basename); \
+			echo "=== $$dataset ==="; \
+			grep -E "^## Year|gaps detected|Gap:|Missing" "$$report" | head -20; \
+			echo ""; \
+		done; \
+	fi
 
 disk-usage:
-	@echo "💾 Disk usage by directory:"
-	@du -sh $(DATA_DIR)/* | sort -hr | head -20
+	@echo "💾 Disk usage summary:"
+	@echo ""
+	@echo "=== Total ERCOT Data ==="
+	@du -sh $(DATA_DIR) 2>/dev/null || echo "Data directory not found"
+	@echo ""
+	@echo "=== By Category ==="
+	@echo "Raw Downloads:"
+	@du -sh $(DATA_DIR)/60-Day* $(DATA_DIR)/Settlement* $(DATA_DIR)/DAM_* 2>/dev/null | awk '{sum+=$$1} {print $$0} END {print "Total Raw: " sum "G"}' | sort -hr
+	@echo ""
+	@echo "Processed Data:"
+	@du -sh $(DATA_DIR)/rollup_files 2>/dev/null || echo "No rollup files"
+	@du -sh $(DATA_DIR)/csv_files 2>/dev/null || echo "No CSV files"
+	@echo ""
+	@echo "=== Top 10 Directories ==="
+	@du -sh $(DATA_DIR)/* 2>/dev/null | sort -hr | head -10
 
 logs:
 	@echo "📜 Recent processing logs:"

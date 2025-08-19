@@ -16,11 +16,7 @@ from datetime import datetime
 import logging
 from typing import Dict, List, Set, Tuple
 import os
-from dotenv import load_dotenv
 import json
-
-# Load environment variables
-load_dotenv()
 
 # Configure logging
 logging.basicConfig(
@@ -55,6 +51,55 @@ class BESSMatchFileCreator:
         self.pwrstr_resources = set()  # Known battery (PWRSTR) resources
         self.resource_details = {}  # resource_name -> details
         
+    def extract_unit_number(self, resource_name: str) -> int:
+        """Extract unit number from resource name."""
+        patterns = [
+            r'_UNIT(\d+)',   # _UNIT1, _UNIT2
+            r'_LD(\d+)',     # _LD1, _LD2
+            r'_BESS(\d+)',   # _BESS1, _BESS2
+            r'(\d+)$',       # Ends with number
+        ]
+        
+        for pattern in patterns:
+            match = re.search(pattern, resource_name)
+            if match:
+                return int(match.group(1))
+        
+        return 1  # Default to unit 1
+    
+    def get_settlement_points(self) -> Dict[str, str]:
+        """Get settlement points from DAM parquet data."""
+        settlement_points = {}
+        
+        # Try to read from DAM parquet files
+        dam_parquet = self.base_dir / "rollup_files" / "DAM_Gen_Resources" / "2024.parquet"
+        if dam_parquet.exists():
+            logger.info(f"Reading settlement points from {dam_parquet.name}")
+            try:
+                df = pd.read_parquet(dam_parquet)
+                if 'ResourceName' in df.columns and 'SettlementPointName' in df.columns:
+                    resource_sp = df[['ResourceName', 'SettlementPointName']].drop_duplicates()
+                    for _, row in resource_sp.iterrows():
+                        settlement_points[row['ResourceName']] = row['SettlementPointName']
+            except Exception as e:
+                logger.warning(f"Could not read settlement points from parquet: {e}")
+        
+        # Fallback to CSV if parquet not available
+        if not settlement_points:
+            dam_files = sorted(self.dam_gen_dir.glob("60d_DAM_Gen_Resource_Data-*.csv"))
+            if dam_files:
+                sample_file = dam_files[-1]
+                try:
+                    df = pd.read_csv(sample_file, nrows=10000)
+                    if 'Resource Name' in df.columns and 'Settlement Point Name' in df.columns:
+                        for _, row in df.iterrows():
+                            settlement_points[row['Resource Name']] = row['Settlement Point Name']
+                except Exception as e:
+                    logger.warning(f"Could not read settlement points from CSV: {e}")
+        
+        logger.info(f"Found {len(settlement_points)} settlement point mappings")
+        return settlement_points
+    
     def extract_prefix(self, resource_name: str) -> str:
         """
         Extract the prefix of a resource name up to the first underscore.
@@ -261,26 +306,65 @@ class BESSMatchFileCreator:
         return match_groups
     
     def create_match_dataframe(self, match_groups: Dict) -> pd.DataFrame:
-        """Convert match groups to a DataFrame for export."""
+        """Convert match groups to individual resource pairs for export."""
         rows = []
+        
+        # Get settlement points from DAM data
+        settlement_points = self.get_settlement_points()
         
         for prefix, group in match_groups.items():
             # Only include groups that are likely batteries
             if group['match_confidence'] in ['HIGH', 'MEDIUM'] or group['is_confirmed_battery']:
-                row = {
-                    'battery_prefix': prefix,
-                    'gen_resources': '|'.join(sorted(group['gen_resources'])),
-                    'load_resources': '|'.join(sorted(group['load_resources'])),
-                    'num_gen_units': len(group['gen_resources']),
-                    'num_load_units': len(group['load_resources']),
-                    'is_confirmed_battery': group['is_confirmed_battery'],
-                    'match_confidence': group['match_confidence'],
-                    'max_power_mw': group['max_power_mw'] if group['max_power_mw'] > 0 else None,
-                    'has_complete_pair': len(group['gen_resources']) > 0 and len(group['load_resources']) > 0,
-                    'manual_review_needed': group['match_confidence'] == 'MEDIUM',
-                    'notes': ''  # Field for manual notes
-                }
-                rows.append(row)
+                # Create individual resource pairs instead of grouped
+                gen_resources = group['gen_resources']
+                load_resources = group['load_resources']
+                
+                # Filter to only BESS/battery resources (exclude wind, solar)
+                gen_bess = [r for r in gen_resources 
+                           if any(x in r.upper() for x in ['BESS', 'ESS', 'BAT', 'UNIT', 'BATTERY']) 
+                           and not any(x in r.upper() for x in ['WIND', 'SOLAR', 'SLR'])]
+                
+                if not gen_bess:
+                    gen_bess = gen_resources  # Use all if no specific BESS found
+                
+                # Match resources by unit number
+                for gen in gen_bess:
+                    gen_unit = self.extract_unit_number(gen)
+                    
+                    # Find matching load resource
+                    matched_load = None
+                    for load in load_resources:
+                        load_unit = self.extract_unit_number(load)
+                        if load_unit == gen_unit:
+                            matched_load = load
+                            break
+                    
+                    # If no unit match, try by position
+                    if not matched_load and load_resources:
+                        gen_idx = gen_bess.index(gen) if gen in gen_bess else 0
+                        if gen_idx < len(load_resources):
+                            matched_load = load_resources[gen_idx]
+                        else:
+                            matched_load = load_resources[0]
+                    
+                    if matched_load:
+                        # Get settlement point
+                        sp = settlement_points.get(gen, f"{prefix}_RN")
+                        
+                        # Calculate unit capacity
+                        unit_capacity = group['max_power_mw'] / len(gen_bess) if group['max_power_mw'] > 0 else 100.0
+                        
+                        row = {
+                            'gen_resource': gen,
+                            'load_resource': matched_load,
+                            'settlement_point': sp,
+                            'capacity_mw': unit_capacity,
+                            'duration_hours': 2.0,  # Default assumption
+                            'battery_prefix': prefix,
+                            'is_confirmed_battery': group['is_confirmed_battery'],
+                            'match_confidence': group['match_confidence']
+                        }
+                        rows.append(row)
         
         df = pd.DataFrame(rows)
         
@@ -359,12 +443,12 @@ class BESSMatchFileCreator:
         logger.info("\n" + "="*60)
         logger.info("Summary")
         logger.info("="*60)
-        logger.info(f"Total battery groups identified: {len(df)}")
-        logger.info(f"HIGH confidence matches: {(df['match_confidence'] == 'HIGH').sum()}")
-        logger.info(f"MEDIUM confidence matches: {(df['match_confidence'] == 'MEDIUM').sum()}")
-        logger.info(f"Complete pairs (gen + load): {df['has_complete_pair'].sum()}")
-        logger.info(f"Confirmed PWRSTR batteries: {df['is_confirmed_battery'].sum()}")
-        logger.info(f"Requiring manual review: {df['manual_review_needed'].sum()}")
+        logger.info(f"Total battery resource pairs: {len(df)}")
+        logger.info(f"Unique battery facilities: {df['battery_prefix'].nunique() if len(df) > 0 else 0}")
+        logger.info(f"HIGH confidence matches: {(df['match_confidence'] == 'HIGH').sum() if len(df) > 0 else 0}")
+        logger.info(f"MEDIUM confidence matches: {(df['match_confidence'] == 'MEDIUM').sum() if len(df) > 0 else 0}")
+        logger.info(f"Total capacity: {df['capacity_mw'].sum():.1f} MW" if len(df) > 0 else "0 MW")
+        logger.info(f"Confirmed PWRSTR batteries: {df['is_confirmed_battery'].sum() if len(df) > 0 else 0}")
         
         # Show examples of each confidence level
         logger.info("\n" + "="*60)
@@ -372,14 +456,15 @@ class BESSMatchFileCreator:
         logger.info("="*60)
         
         for confidence in ['HIGH', 'MEDIUM']:
-            conf_df = df[df['match_confidence'] == confidence].head(3)
+            conf_df = df[df['match_confidence'] == confidence].head(3) if len(df) > 0 else pd.DataFrame()
             if not conf_df.empty:
                 logger.info(f"\n{confidence} Confidence Examples:")
                 for _, row in conf_df.iterrows():
                     logger.info(f"  {row['battery_prefix']}:")
-                    logger.info(f"    Gen: {row['gen_resources'][:50]}...")
-                    logger.info(f"    Load: {row['load_resources'][:50]}...")
-                    logger.info(f"    Power: {row['max_power_mw']} MW")
+                    logger.info(f"    Gen: {row['gen_resource']}")
+                    logger.info(f"    Load: {row['load_resource']}")
+                    logger.info(f"    Settlement: {row['settlement_point']}")
+                    logger.info(f"    Capacity: {row['capacity_mw']:.1f} MW")
         
         logger.info("\n" + "="*60)
         logger.info("Next Steps")
@@ -397,10 +482,12 @@ def main():
     creator = BESSMatchFileCreator()
     df = creator.run()
     
-    # Also create a simplified review file
-    review_df = df[df['manual_review_needed'] == True][
-        ['battery_prefix', 'gen_resources', 'load_resources', 'match_confidence', 'notes']
-    ].copy()
+    # Also create a simplified review file for MEDIUM confidence matches
+    review_df = pd.DataFrame()
+    if len(df) > 0 and 'match_confidence' in df.columns:
+        review_df = df[df['match_confidence'] == 'MEDIUM'][
+            ['battery_prefix', 'gen_resource', 'load_resource', 'settlement_point', 'capacity_mw', 'match_confidence']
+        ].copy()
     
     if not review_df.empty:
         review_df.to_csv('bess_matches_for_review.csv', index=False)

@@ -39,6 +39,7 @@ mod schema_detector;
 mod enhanced_annual_processor_validated;
 mod parquet_verifier;
 mod bess_parquet_revenue_processor;
+mod cop_file_reader;
 
 fn verify_data_quality(_dir: &Path) -> Result<()> {
     println!("\n🔍 Data Quality Verification");
@@ -186,7 +187,71 @@ use ercot_data_processor::get_ercot_data_dir;
 
 // Removed old broken functions - now using enhanced_annual_processor exclusively
 
+/// Check if Rust version meets minimum requirements
+fn check_rust_version() -> Result<()> {
+    const MIN_VERSION: &str = "1.75";
+    const RECOMMENDED_VERSION: &str = "1.80";
+    
+    // Get version at runtime
+    let output = std::process::Command::new("rustc")
+        .arg("--version")
+        .output()?;
+    let version = std::str::from_utf8(&output.stdout)?;
+    
+    // Extract version number (e.g., "1.89.0" from "rustc 1.89.0 ...")
+    let version_parts: Vec<&str> = version.split_whitespace().collect();
+    if version_parts.len() < 2 {
+        eprintln!("⚠️  Warning: Could not determine Rust version");
+        return Ok(());
+    }
+    
+    let version_str = version_parts[1];
+    let version_nums: Vec<u32> = version_str
+        .split('.')
+        .take(2)
+        .filter_map(|s| s.parse().ok())
+        .collect();
+    
+    if version_nums.len() < 2 {
+        eprintln!("⚠️  Warning: Could not parse Rust version: {}", version_str);
+        return Ok(());
+    }
+    
+    let major = version_nums[0];
+    let minor = version_nums[1];
+    
+    // Check minimum version
+    if major < 1 || (major == 1 && minor < 75) {
+        return Err(anyhow::anyhow!(
+            "❌ Rust version {} is too old!\n\
+             Minimum required: {}\n\
+             Recommended: {} or newer\n\n\
+             To update Rust, run:\n\
+             rustup update stable",
+            version_str, MIN_VERSION, RECOMMENDED_VERSION
+        ));
+    }
+    
+    // Warn if below recommended version
+    if major == 1 && minor < 80 {
+        eprintln!(
+            "⚠️  Warning: Rust version {} is older than recommended.\n\
+             Recommended version: {} or newer\n\
+             Some dependencies may require a newer version.\n\
+             To update: rustup update stable\n",
+            version_str, RECOMMENDED_VERSION
+        );
+    } else {
+        println!("✅ Rust version {} meets requirements", version_str);
+    }
+    
+    Ok(())
+}
+
 fn main() -> Result<()> {
+    // Check Rust version requirement
+    check_rust_version()?;
+    
     // Set Rayon to use all available cores
     rayon::ThreadPoolBuilder::new()
         .num_threads(num_cpus::get())

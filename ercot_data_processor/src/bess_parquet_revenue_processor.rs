@@ -14,7 +14,7 @@ pub struct BessResource {
     pub load_resource: String,     // Load resource name (e.g., ALVIN_BESS_LD1)
     pub settlement_point: String,  // Settlement point for pricing
     pub capacity_mw: f64,          // Rated capacity in MW
-    pub duration_hours: f64,       // Storage duration in hours
+    pub _duration_hours: f64,       // Storage duration in hours
 }
 
 /// Daily revenue breakdown for a BESS resource
@@ -49,7 +49,7 @@ pub struct BessDailyRevenue {
 
 /// High-performance BESS revenue processor using parquet files
 pub struct BessParquetRevenueProcessor {
-    base_dir: PathBuf,
+    _base_dir: PathBuf,
     rollup_dir: PathBuf,
     output_dir: PathBuf,
     bess_resources: Vec<BessResource>,
@@ -81,7 +81,7 @@ impl BessParquetRevenueProcessor {
         println!("  🚀 Parallel threads: {}", num_threads);
         
         Ok(Self {
-            base_dir,
+            _base_dir: base_dir,
             rollup_dir,
             output_dir,
             bess_resources,
@@ -93,8 +93,19 @@ impl BessParquetRevenueProcessor {
     fn load_bess_resources(base_dir: &Path) -> Result<Vec<BessResource>> {
         let mut resources = Vec::new();
         
-        // Try to load from existing mapping file
-        let mapping_file = base_dir.join("bess_match_file.csv");
+        // Try to load from the fixed resource pairs file first
+        let pairs_file = base_dir.join("bess_resource_pairs.csv");
+        let legacy_file = base_dir.join("bess_match_file.csv");
+        
+        let mapping_file = if pairs_file.exists() {
+            pairs_file
+        } else if legacy_file.exists() {
+            println!("⚠️  Using legacy match file - run fix_bess_mapping.py for better results");
+            legacy_file
+        } else {
+            PathBuf::new()
+        };
+        
         if mapping_file.exists() {
             println!("📋 Loading BESS mappings from: {}", mapping_file.display());
             let df = CsvReader::from_path(&mapping_file)?
@@ -120,7 +131,7 @@ impl BessParquetRevenueProcessor {
                         load_resource: load.to_string(),
                         settlement_point: sp.to_string(),
                         capacity_mw: cap,
-                        duration_hours: dur,
+                        _duration_hours: dur,
                     });
                 }
             }
@@ -177,7 +188,7 @@ impl BessParquetRevenueProcessor {
                             load_resource: load_name,
                             settlement_point,
                             capacity_mw: 100.0,  // Default, will be updated from HSL
-                            duration_hours: 2.0,  // Default assumption
+                            _duration_hours: 2.0,  // Default assumption
                         });
                     }
                 }
@@ -357,7 +368,7 @@ impl BessParquetRevenueProcessor {
         // Process each BESS resource
         for resource in &self.bess_resources {
             // Filter for this specific resource
-            let resource_mask = bess_df.column("ResourceName")?.utf8()?.equal(&resource.gen_resource);
+            let resource_mask = bess_df.column("ResourceName")?.utf8()?.equal(resource.gen_resource.as_str());
             if let Ok(resource_df) = bess_df.filter(&resource_mask) {
                 // Process awards for this resource
                 self.calculate_dam_gen_revenues(&resource_df, &resource, prices, &mut revenues)?;
@@ -381,7 +392,7 @@ impl BessParquetRevenueProcessor {
         // Process each BESS resource's load side
         for resource in &self.bess_resources {
             // Filter for this specific load resource
-            let resource_mask = df.column("ResourceName")?.utf8()?.equal(&resource.load_resource);
+            let resource_mask = df.column("ResourceName")?.utf8()?.equal(resource.load_resource.as_str());
             if let Ok(resource_df) = df.filter(&resource_mask) {
                 // Process load awards (negative revenue for charging)
                 self.calculate_dam_load_revenues(&resource_df, &resource, prices, &mut revenues)?;
@@ -402,7 +413,7 @@ impl BessParquetRevenueProcessor {
             
             // Filter for BESS resources
             for resource in &self.bess_resources {
-                let resource_mask = df.column("ResourceName")?.utf8()?.equal(&resource.gen_resource);
+                let resource_mask = df.column("ResourceName")?.utf8()?.equal(resource.gen_resource.as_str());
                 if let Ok(resource_df) = df.filter(&resource_mask) {
                     self.calculate_rt_gen_revenues(&resource_df, &resource, prices, &mut revenues)?;
                 }
@@ -416,7 +427,7 @@ impl BessParquetRevenueProcessor {
             
             // Filter for BESS load resources
             for resource in &self.bess_resources {
-                let resource_mask = df.column("ResourceName")?.utf8()?.equal(&resource.load_resource);
+                let resource_mask = df.column("ResourceName")?.utf8()?.equal(resource.load_resource.as_str());
                 if let Ok(resource_df) = df.filter(&resource_mask) {
                     self.calculate_rt_load_revenues(&resource_df, &resource, prices, &mut revenues)?;
                 }
@@ -598,7 +609,7 @@ impl BessParquetRevenueProcessor {
         
         for rev in revenues {
             resource_names.push(rev.resource_name.clone());
-            dates.push(rev.date.and_hms_opt(0, 0, 0).unwrap().timestamp());
+            dates.push(rev.date.and_hms_opt(0, 0, 0).unwrap().and_utc().timestamp());
             total_revenues.push(rev.total_revenue);
             energy_revenues.push(rev.energy_revenue);
             as_revenues.push(rev.as_revenue);
@@ -633,9 +644,9 @@ impl BessParquetRevenueProcessor {
             
             let monthly = monthly_map.entry(key.clone()).or_insert_with(|| {
                 MonthlyRevenue {
-                    resource_name: key.0.clone(),
-                    year: key.1,
-                    month: key.2,
+                    _resource_name: key.0.clone(),
+                    _year: key.1,
+                    _month: key.2,
                     total_revenue: 0.0,
                     energy_revenue: 0.0,
                     as_revenue: 0.0,
@@ -687,7 +698,7 @@ impl BessParquetRevenueProcessor {
         println!("{}", "-".repeat(60));
         
         for (i, (resource, revenue)) in leaderboard.iter().take(20).enumerate() {
-            println!("{:2}. {:<27} ${:>18,.2}", i + 1, resource, revenue);
+            println!("{:2}. {:<27} ${:>18.2}", i + 1, resource, revenue);
         }
         
         Ok(())
@@ -704,9 +715,9 @@ struct PriceData {
 /// Monthly revenue summary
 #[derive(Debug, Clone)]
 struct MonthlyRevenue {
-    resource_name: String,
-    year: i32,
-    month: u32,
+    _resource_name: String,
+    _year: i32,
+    _month: u32,
     total_revenue: f64,
     energy_revenue: f64,
     as_revenue: f64,

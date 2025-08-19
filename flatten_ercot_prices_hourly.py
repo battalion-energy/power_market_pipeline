@@ -27,14 +27,19 @@ def aggregate_rt_to_hourly(year: int, input_dir: Path, output_dir: Path):
     # Read the 15-minute data
     df = pd.read_parquet(input_file)
     
-    # Ensure datetime is proper type
-    df['datetime'] = pd.to_datetime(df['datetime'])
+    # The column is named datetime_ts after flattening
+    if 'datetime_ts' in df.columns:
+        df['datetime'] = pd.to_datetime(df['datetime_ts'])
+    elif 'datetime' not in df.columns:
+        raise ValueError(f"No datetime column found in {input_file}")
+    else:
+        df['datetime'] = pd.to_datetime(df['datetime'])
     
     # Create hour column
     df['hour'] = df['datetime'].dt.floor('h')
     
     # Get price columns (all except datetime, hour, and interval columns)
-    exclude_cols = ['datetime', 'hour', 'DeliveryInterval', 'Interval']
+    exclude_cols = ['datetime', 'datetime_ts', 'hour', 'DeliveryInterval', 'DeliveryDate', 'DeliveryDateStr', 'Interval']
     price_cols = [col for col in df.columns if col not in exclude_cols]
     
     # Group by hour and take mean of all price columns

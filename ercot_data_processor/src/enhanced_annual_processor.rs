@@ -8,6 +8,7 @@ use std::path::{Path, PathBuf};
 use std::sync::{Arc, Mutex};
 use indicatif::{ProgressBar, ProgressStyle};
 
+
 #[derive(Debug, Clone)]
 pub struct DataGap {
     start_date: NaiveDate,
@@ -162,11 +163,11 @@ impl EnhancedAnnualProcessor {
                 .template("[{elapsed_precise}] {bar:40.cyan/blue} {pos}/{len} {msg}")
                 .unwrap());
             
-            // Process in parallel batches
-            let batch_size = 100;
-            let mut all_dfs = Vec::new();
+            // Process in parallel batches and combine incrementally
+            let batch_size = 1000;  // Larger batches for better parallelism
+            let mut combined_batches = Vec::new();
             
-            for batch in year_files.chunks(batch_size) {
+            for (batch_idx, batch) in year_files.chunks(batch_size).enumerate() {
                 let batch_dfs: Vec<DataFrame> = batch
                     .par_iter()
                     .filter_map(|file| {
@@ -181,14 +182,24 @@ impl EnhancedAnnualProcessor {
                     })
                     .collect();
                 
-                all_dfs.extend(batch_dfs);
+                // Combine this batch's dataframes
+                if !batch_dfs.is_empty() {
+                    if batch_idx % 10 == 9 {
+                        pb.set_message(format!("combining batch {}", batch_idx + 1));
+                    }
+                    match self.combine_dataframes(batch_dfs) {
+                        Ok(batch_df) => combined_batches.push(batch_df),
+                        Err(e) => eprintln!("    Error combining batch {}: {}", batch_idx, e),
+                    }
+                }
             }
             
             pb.finish_with_message("done");
             
-            if !all_dfs.is_empty() {
-                // Combine all dataframes
-                let combined_df = self.combine_dataframes(all_dfs)?;
+            if !combined_batches.is_empty() {
+                println!("    Performing final combination of {} batch results...", combined_batches.len());
+                // Final combination of all batch results
+                let combined_df = self.combine_dataframes(combined_batches)?;
                 
                 // Check for gaps
                 let gaps = self.detect_gaps(&combined_df, "datetime")?;
@@ -1472,6 +1483,77 @@ impl EnhancedAnnualProcessor {
         Ok(normalized)
     }
     
+    fn normalize_cop_dataframe(&self, mut df: DataFrame) -> Result<DataFrame> {
+        // Normalize COP dataframes to have consistent columns
+        // Evolution of COP file formats:
+        // - 13 columns: Before Dec 13, 2022 (with single RRS column)
+        // - 15 columns: Dec 13-31, 2022 (RRS split into RRSPFR/RRSFFR/RRSUFR)
+        // - 16 columns: 2023 (added ECRS)
+        // - 19 columns: 2024+ (added Minimum/Maximum/Hour Beginning Planned SOC)
+        
+        let height = df.height();
+        let columns = df.get_column_names();
+        let has_rrspfr = columns.contains(&"RRSPFR");
+        let has_rrs = columns.contains(&"RRS");
+        let has_ecrs = columns.contains(&"ECRS");
+        let has_min_soc = columns.contains(&"Minimum SOC");
+        let has_max_soc = columns.contains(&"Maximum SOC");
+        let has_planned_soc = columns.contains(&"Hour Beginning Planned SOC");
+        
+        // If it's the old format with single RRS column, we need to:
+        // 1. Copy RRS values to RRSPFR (as a reasonable default)
+        // 2. Create RRSFFR and RRSUFR with nulls
+        // 3. Remove the original RRS column
+        if !has_rrspfr && has_rrs {
+            // Get RRS values to copy to RRSPFR
+            let rrs_col = df.column("RRS")?;
+            df.with_column(rrs_col.clone().with_name("RRSPFR"))?;
+            df.with_column(Series::new("RRSFFR", vec![None::<f64>; height]))?;
+            df.with_column(Series::new("RRSUFR", vec![None::<f64>; height]))?;
+            
+            // Remove the original RRS column
+            let cols_to_keep: Vec<&str> = df.get_column_names()
+                .into_iter()
+                .filter(|&name| name != "RRS")
+                .collect();
+            df = df.select(cols_to_keep)?;
+        }
+        
+        // Add ECRS column if missing (added in 2023)
+        if !has_ecrs {
+            df.with_column(Series::new("ECRS", vec![None::<f64>; height]))?;
+        }
+        
+        // Add SOC columns if missing (added in 2024)
+        if !has_min_soc {
+            df.with_column(Series::new("Minimum SOC", vec![None::<f64>; height]))?;
+        }
+        if !has_max_soc {
+            df.with_column(Series::new("Maximum SOC", vec![None::<f64>; height]))?;
+        }
+        if !has_planned_soc {
+            df.with_column(Series::new("Hour Beginning Planned SOC", vec![None::<f64>; height]))?;
+        }
+        
+        // Ensure consistent column ordering
+        let standard_columns = vec![
+            "Delivery Date", "QSE Name", "Resource Name", "Hour Ending", "Status",
+            "High Sustained Limit", "Low Sustained Limit", "High Emergency Limit", "Low Emergency Limit",
+            "Reg Up", "Reg Down", "RRSPFR", "RRSFFR", "RRSUFR", "NSPIN", "ECRS",
+            "Minimum SOC", "Maximum SOC", "Hour Beginning Planned SOC"
+        ];
+        
+        // Select columns in the standard order
+        let available_cols: Vec<&str> = standard_columns.iter()
+            .filter(|&&col| df.get_column_names().contains(&col))
+            .copied()
+            .collect();
+            
+        df = df.select(available_cols)?;
+        
+        Ok(df)
+    }
+    
     fn process_cop_snapshots(&self, source_dir: &Path, output_dir: &Path) -> Result<()> {
         let csv_dir = source_dir.join("csv");
         let csv_dir = if csv_dir.exists() { csv_dir } else { source_dir.to_path_buf() };
@@ -1507,7 +1589,13 @@ impl EnhancedAnnualProcessor {
             
             for file in &year_files {
                 match self.read_cop_file(file) {
-                    Ok(df) => all_dfs.push(df),
+                    Ok(df) => {
+                        // Normalize to handle schema evolution
+                        match self.normalize_cop_dataframe(df) {
+                            Ok(normalized) => all_dfs.push(normalized),
+                            Err(e) => eprintln!("    Error normalizing {}: {}", file.display(), e),
+                        }
+                    },
                     Err(e) => eprintln!("    Error reading {}: {}", file.display(), e),
                 }
             }
@@ -1529,156 +1617,12 @@ impl EnhancedAnnualProcessor {
     }
     
     fn read_cop_file(&self, file: &Path) -> Result<DataFrame> {
-        // Check if file has header by reading first line
-        let first_line = std::fs::read_to_string(file)?
-            .lines()
-            .next()
-            .unwrap_or("") 
-            .to_string();
-        
-        let has_header = first_line.contains("Delivery Date");
-        
-        // Force ALL columns to have explicit types to prevent inference errors
-        let mut schema_overrides = Schema::new();
-        
-        // Define column names for files without headers
-        let column_names = if !has_header {
-            vec![
-                "Delivery Date".to_string(),
-                "QSE Name".to_string(),
-                "Resource Name".to_string(),
-                "Hour Ending".to_string(),
-                "Status".to_string(),
-                "High Sustained Limit".to_string(),
-                "Low Sustained Limit".to_string(),
-                "High Emergency Limit".to_string(),
-                "Low Emergency Limit".to_string(),
-                "Reg Up".to_string(),
-                "Reg Down".to_string(),
-                "RRS".to_string(),
-                "NSPIN".to_string(),
-            ]
-        } else {
-            vec![]
-        };
-        
-        // String columns that must NOT be parsed as numbers
-        schema_overrides.with_column("Delivery Date".into(), DataType::Utf8);
-        schema_overrides.with_column("QSE Name".into(), DataType::Utf8);
-        schema_overrides.with_column("Resource Name".into(), DataType::Utf8);
-        schema_overrides.with_column("Hour Ending".into(), DataType::Utf8);
-        schema_overrides.with_column("Status".into(), DataType::Utf8);
-        
-        // Numeric columns - force to Float64
-        schema_overrides.with_column("High Sustained Limit".into(), DataType::Float64);
-        schema_overrides.with_column("Low Sustained Limit".into(), DataType::Float64);
-        schema_overrides.with_column("High Emergency Limit".into(), DataType::Float64);
-        schema_overrides.with_column("Low Emergency Limit".into(), DataType::Float64);
-        schema_overrides.with_column("Reg Up".into(), DataType::Float64);
-        schema_overrides.with_column("Reg Down".into(), DataType::Float64);
-        schema_overrides.with_column("RRS".into(), DataType::Float64);
-        schema_overrides.with_column("RRSPFR".into(), DataType::Float64);
-        schema_overrides.with_column("RRSFFR".into(), DataType::Float64);
-        schema_overrides.with_column("RRSUFR".into(), DataType::Float64);
-        schema_overrides.with_column("NSPIN".into(), DataType::Float64);
-        schema_overrides.with_column("ECRS".into(), DataType::Float64);
-        
-        // SOC columns (may not exist in all files)
-        schema_overrides.with_column("Minimum SOC".into(), DataType::Float64);
-        schema_overrides.with_column("Maximum SOC".into(), DataType::Float64);
-        schema_overrides.with_column("Hour Beginning Planned SOC".into(), DataType::Float64);
-        
-        let mut reader = CsvReader::from_path(file)?
-            .has_header(has_header)
-            .with_dtypes(Some(Arc::new(schema_overrides)))
-            .infer_schema(None);  // Don't infer - use our explicit schema
-            
-        // If no header, provide column names
-        if !has_header {
-            reader = reader.with_columns(Some(column_names.into()));
-        }
-        
-        let df = reader.finish()?;
-        
-        // Check which columns exist in the file
-        let columns = df.get_column_names();
-        let has_soc_columns = columns.contains(&"Minimum SOC");
-        
-        // Build select expressions based on available columns
-        let mut select_exprs = vec![
-            col("Delivery Date").alias("DeliveryDate"),
-            col("Hour Ending").alias("HourEnding"),
-            col("Resource Name").alias("ResourceName"),
-            col("Status"),
-            col("High Sustained Limit").alias("HSL"),
-            col("Low Sustained Limit").alias("LSL"),
-        ];
-        
-        // Add SOC columns if they exist, otherwise use defaults
-        if has_soc_columns {
-            select_exprs.push(col("Minimum SOC").alias("MinSOC"));
-            select_exprs.push(col("Maximum SOC").alias("MaxSOC"));
-            select_exprs.push(col("Hour Beginning Planned SOC").alias("PlannedSOC"));
-        } else {
-            // Files without SOC columns - use null Float64 values for type consistency
-            select_exprs.push(lit(NULL).cast(DataType::Float64).alias("MinSOC"));
-            select_exprs.push(lit(NULL).cast(DataType::Float64).alias("MaxSOC"));
-            select_exprs.push(lit(NULL).cast(DataType::Float64).alias("PlannedSOC"));
-        }
-        
-        // Select relevant columns for BESS SOC tracking
-        let mut df = df.lazy()
-            .select(select_exprs)
-            .with_column(
-                col("DeliveryDate").cast(DataType::Date)
-            )
-            .with_column(
-                // Parse HourEnding to extract integer hour value
-                // HourEnding is typically numeric like "1" or "24"
-                col("HourEnding").cast(DataType::Int32).alias("hour")
-            )
-            .with_column(
-                // Create proper datetime from date + hour
-                (col("DeliveryDate").cast(DataType::Datetime(TimeUnit::Milliseconds, None)) +
-                 duration_hours(col("hour") - lit(1)))
-                .alias("datetime")
-            )
-            .collect()?;
-        
-        // Convert HourEnding from "01:00" format to numeric hour
-        let hour_values: Vec<f64> = df.column("HourEnding")?
-            .utf8()?
-            .into_iter()
-            .map(|opt_val| {
-                opt_val.map(|val| {
-                    // Extract hour from "01:00" format or parse as-is if numeric
-                    if val.contains(':') {
-                        val.split(':').next()
-                            .and_then(|h| h.parse::<f64>().ok())
-                            .unwrap_or(0.0)
-                    } else {
-                        val.parse::<f64>().unwrap_or(0.0)
-                    }
-                }).unwrap_or(0.0)
-            })
-            .collect();
-        
-        let hour_series = Series::new("hour", hour_values);
-        df.with_column(hour_series)?;
-        
-        // Now add datetime column
-        let df = df.lazy()
-            .with_column(
-                (col("DeliveryDate").cast(DataType::Datetime(TimeUnit::Milliseconds, None)) +
-                 duration_hours(col("hour") - lit(1)))
-                .alias("datetime")
-            )
-            .collect()?;
-        
-        Ok(df)
+        // Use the robust COP file reader that handles all format variations
+        // This handles late 2014 files without headers, schema evolution, etc.
+        crate::cop_file_reader::read_cop_file(file)
     }
     
-    fn read_csv_with_schema_detection(&self, file: &Path) -> Result<DataFrame> {
+    fn _read_csv_with_schema_detection(&self, file: &Path) -> Result<DataFrame> {
         // Step 1: Read a sample to detect the actual columns
         let sample_df = CsvReader::from_path(file)?
             .has_header(true)
@@ -1766,10 +1710,50 @@ impl EnhancedAnnualProcessor {
             return Err(anyhow::anyhow!("No dataframes to combine"));
         }
         
-        let mut combined = dfs[0].clone();
-        for df in dfs.into_iter().skip(1) {
-            combined = combined.vstack(&df)?;
+        // For small numbers of dataframes, use the simple approach
+        if dfs.len() <= 10 {
+            let mut combined = dfs[0].clone();
+            for df in dfs.into_iter().skip(1) {
+                combined = combined.vstack(&df)?;
+            }
+            
+            // Sort by datetime if it exists
+            if combined.get_column_names().contains(&"datetime") {
+                combined = combined.lazy()
+                    .sort("datetime", Default::default())
+                    .collect()?;
+            }
+            
+            return Ok(combined);
         }
+        
+        // For large numbers of dataframes, use parallel tree reduction
+        // Don't print for every batch combination - too verbose
+        
+        // Convert to Arc<Mutex<>> for thread-safe access
+        let mut work_queue: Vec<DataFrame> = dfs;
+        
+        // Tree reduction - combine pairs in parallel until we have one
+        while work_queue.len() > 1 {
+            // Process pairs in parallel
+            let paired_results: Vec<DataFrame> = work_queue
+                .par_chunks(2)
+                .map(|pair| {
+                    if pair.len() == 2 {
+                        // Combine two dataframes
+                        pair[0].vstack(&pair[1])
+                    } else {
+                        // Odd one out, just return it
+                        Ok(pair[0].clone())
+                    }
+                })
+                .collect::<Result<Vec<_>, _>>()?;
+            
+            work_queue = paired_results;
+        }
+        
+        let mut combined = work_queue.into_iter().next()
+            .ok_or_else(|| anyhow::anyhow!("Failed to combine dataframes"))?;
         
         // Sort by datetime if it exists
         if combined.get_column_names().contains(&"datetime") {

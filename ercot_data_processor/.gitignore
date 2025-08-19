@@ -1,5 +1,6 @@
 # Rust build artifacts
 /target/
+/true/
 Cargo.lock
 
 # Data directories
@@ -21,6 +22,8 @@ Cargo.lock
 *.swp
 *.swo
 *~
+*.rs.fmt
+**/*.rs.fmt
 
 # OS files
 .DS_Store
@@ -47,6 +50,9 @@ venv/
 # Backup files
 *.bak
 *.backup
+*.orig
+*.rej
+*.rs.bk
 
 # Cache directories
 .cache/

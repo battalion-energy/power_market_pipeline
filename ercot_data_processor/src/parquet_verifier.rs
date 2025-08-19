@@ -13,9 +13,9 @@ pub struct ParquetVerifier {
 
 #[derive(Debug, Clone)]
 pub struct DataIssue {
-    pub file: String,
-    pub issue_type: IssueType,
-    pub details: String,
+    pub _file: String,
+    pub _issue_type: IssueType,
+    pub _details: String,
     pub severity: Severity,
 }
 
@@ -26,7 +26,7 @@ pub enum IssueType {
     DataGap,
     CorruptedData,
     SchemaInconsistency,
-    InvalidValues,
+    _InvalidValues,
     TimeSequenceError,
 }
 
@@ -34,7 +34,7 @@ pub enum IssueType {
 pub enum Severity {
     Critical,
     Warning,
-    Info,
+    _Info,
 }
 
 impl ParquetVerifier {
@@ -280,7 +280,7 @@ impl ParquetVerifier {
         match severity {
             Severity::Critical => println!("    ❌ CRITICAL: {} - {}", file, details),
             Severity::Warning => println!("    ⚠️  WARNING: {} - {}", file, details),
-            Severity::Info => println!("    ℹ️  INFO: {} - {}", file, details),
+            Severity::_Info => println!("    ℹ️  INFO: {} - {}", file, details),
         }
     }
 
@@ -295,11 +295,11 @@ impl ParquetVerifier {
         
         let critical_count = self.issues.iter().filter(|i| matches!(i.severity, Severity::Critical)).count();
         let warning_count = self.issues.iter().filter(|i| matches!(i.severity, Severity::Warning)).count();
-        let info_count = self.issues.iter().filter(|i| matches!(i.severity, Severity::Info)).count();
+        let info_count = self.issues.iter().filter(|i| matches!(i.severity, Severity::_Info)).count();
         
         content.push_str(&format!("- Critical Issues: {}\n", critical_count));
         content.push_str(&format!("- Warnings: {}\n", warning_count));
-        content.push_str(&format!("- Info: {}\n\n", info_count));
+        content.push_str(&format!("- _Info: {}\n\n", info_count));
         
         if critical_count > 0 {
             content.push_str("## ⚠️ Critical Issues Require Attention!\n\n");

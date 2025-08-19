@@ -3,7 +3,7 @@ use polars::prelude::*;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::fs::{self, File};
-use std::io::{BufWriter, BufRead, BufReader};
+use std::io::BufWriter;
 use std::path::{Path, PathBuf};
 use rayon::prelude::*;
 
@@ -104,7 +104,7 @@ impl SchemaRegistry {
         None
     }
 
-    pub fn build_polars_schema(&self, file_path: &Path) -> Option<Schema> {
+    pub fn _build_polars_schema(&self, file_path: &Path) -> Option<Schema> {
         let file_schema = self.get_schema_for_file(file_path)?;
         let mut schema = Schema::new();
         
@@ -336,48 +336,18 @@ pub fn read_csv_with_schema_registry(
     file_path: &Path,
     registry: &SchemaRegistry,
 ) -> Result<DataFrame> {
-    // Special handling for CompleteCOP files which may lack headers
-    let mut has_header = true;
+    // Special handling for CompleteCOP files - use dedicated reader
     if file_path.to_string_lossy().contains("CompleteCOP_") {
-        // Check if first line looks like data rather than headers
-        if let Ok(file) = std::fs::File::open(file_path) {
-            let mut reader = BufReader::new(file);
-            let mut first_line = String::new();
-            if reader.read_line(&mut first_line).is_ok() {
-                // If first line starts with a date pattern like "09/25/2014" or "10/01/2014"
-                // then it's data, not headers
-                if first_line.starts_with("\"09/") || first_line.starts_with("\"10/") ||
-                   first_line.starts_with("\"08/") || first_line.starts_with("\"11/") {
-                    has_header = false;
-                }
-            }
-        }
+        // Use the robust COP file reader for these special cases
+        return crate::cop_file_reader::read_cop_file(file_path);
     }
     
-    // Read with appropriate header setting
-    let mut df = if !has_header && file_path.to_string_lossy().contains("CompleteCOP_") {
-        // For CompleteCOP files without headers, define the column names
-        let cop_columns = vec![
-            "Delivery Date", "QSE Name", "Resource Name", "Hour Ending",
-            "Status", "High Sustained Limit", "Low Sustained Limit",
-            "High Emergency Limit", "Low Emergency Limit", "Reg Up", "Reg Down",
-            "RRS", "NSPIN"
-        ];
-        
-        CsvReader::from_path(file_path)?
-            .has_header(false)
-            .with_columns(Some(cop_columns.into_iter().map(|s| s.to_string()).collect()))
-            .infer_schema(Some(10000))
-            .finish()
-            .map_err(|e| anyhow::anyhow!("Failed to read CSV: {}", e))?
-    } else {
-        // Normal reading with headers
-        CsvReader::from_path(file_path)?
-            .has_header(true)
-            .infer_schema(Some(10000))
-            .finish()
-            .map_err(|e| anyhow::anyhow!("Failed to read CSV: {}", e))?
-    };
+    // For all other files, normal reading with headers
+    let mut df = CsvReader::from_path(file_path)?
+        .has_header(true)
+        .infer_schema(Some(10000))
+        .finish()
+        .map_err(|e| anyhow::anyhow!("Failed to read CSV: {}", e))?;
     
     // If we have a schema for this file type, apply type corrections
     if let Some(file_schema) = registry.get_schema_for_file(file_path) {
@@ -395,31 +365,6 @@ pub fn read_csv_with_schema_registry(
                             }
                             Err(_) => {
                                 // If cast fails, keep original (this handles string values in numeric columns)
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        
-        // Special handling for COP files missing "Delivery Date"
-        if file_path.to_string_lossy().contains("CompleteCOP_") {
-            if !df.get_column_names().contains(&"Delivery Date") {
-                // Extract date from filename: CompleteCOP_MMDDYYYY.csv
-                if let Some(file_name) = file_path.file_name() {
-                    if let Some(date_str) = file_name.to_str() {
-                        if date_str.starts_with("CompleteCOP_") && date_str.ends_with(".csv") {
-                            let date_part = date_str.replace("CompleteCOP_", "").replace(".csv", "");
-                            if date_part.len() == 8 {
-                                // Parse MMDDYYYY format
-                                let month = &date_part[0..2];
-                                let day = &date_part[2..4];
-                                let year = &date_part[4..8];
-                                let formatted_date = format!("{}/{}/{}", month, day, year);
-                                
-                                // Add the column with this date for all rows
-                                let delivery_date = Series::new("Delivery Date", vec![formatted_date; df.height()]);
-                                let _ = df.with_column(delivery_date);
                             }
                         }
                     }

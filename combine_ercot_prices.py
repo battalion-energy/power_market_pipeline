@@ -97,11 +97,15 @@ def combine_da_as_rt_prices(year: int, input_dir: Path, output_dir: Path):
         print(f"Creating hourly RT aggregation for {year}...")
         # Create hourly aggregation on the fly
         df_rt_15min = pd.read_parquet(rt_15min_file)
-        df_rt_15min['datetime'] = pd.to_datetime(df_rt_15min['datetime'])
+        # Handle datetime_ts column from flattened files
+        if 'datetime_ts' in df_rt_15min.columns:
+            df_rt_15min['datetime'] = pd.to_datetime(df_rt_15min['datetime_ts'])
+        else:
+            df_rt_15min['datetime'] = pd.to_datetime(df_rt_15min['datetime'])
         df_rt_15min['hour'] = df_rt_15min['datetime'].dt.floor('h')
         
         # Get price columns (exclude datetime, hour, interval columns)
-        exclude_cols = ['datetime', 'hour', 'DeliveryInterval', 'Interval']
+        exclude_cols = ['datetime', 'datetime_ts', 'hour', 'DeliveryInterval', 'DeliveryDate', 'DeliveryDateStr', 'Interval']
         price_cols = [col for col in df_rt_15min.columns if col not in exclude_cols]
         
         # Aggregate to hourly
@@ -117,14 +121,22 @@ def combine_da_as_rt_prices(year: int, input_dir: Path, output_dir: Path):
     
     # Read DA prices
     df_da = pd.read_parquet(da_file)
-    df_da['datetime'] = pd.to_datetime(df_da['datetime'])
+    # Handle datetime_ts column from flattened files
+    if 'datetime_ts' in df_da.columns:
+        df_da['datetime'] = pd.to_datetime(df_da['datetime_ts'])
+    else:
+        df_da['datetime'] = pd.to_datetime(df_da['datetime'])
     # Add prefix to DA columns (except datetime)
     df_da = df_da.rename(columns={col: f"DA_{col}" if col != 'datetime' else col for col in df_da.columns})
     
     # Read AS prices if exists
     if as_file.exists():
         df_as = pd.read_parquet(as_file)
-        df_as['datetime'] = pd.to_datetime(df_as['datetime'])
+        # Handle datetime_ts column from flattened files
+        if 'datetime_ts' in df_as.columns:
+            df_as['datetime'] = pd.to_datetime(df_as['datetime_ts'])
+        else:
+            df_as['datetime'] = pd.to_datetime(df_as['datetime'])
         # Add prefix to AS columns (except datetime)
         df_as = df_as.rename(columns={col: f"AS_{col}" if col != 'datetime' else col for col in df_as.columns})
         # Merge DA and AS
@@ -135,7 +147,11 @@ def combine_da_as_rt_prices(year: int, input_dir: Path, output_dir: Path):
     
     # Merge with RT if exists
     if df_rt is not None:
-        df_rt['datetime'] = pd.to_datetime(df_rt['datetime'])
+        # Handle datetime_ts column from flattened files
+        if 'datetime_ts' in df_rt.columns:
+            df_rt['datetime'] = pd.to_datetime(df_rt['datetime_ts'])
+        else:
+            df_rt['datetime'] = pd.to_datetime(df_rt['datetime'])
         # Add prefix to RT columns (except datetime)
         df_rt = df_rt.rename(columns={col: f"RT_{col}" if col != 'datetime' else col for col in df_rt.columns})
         # Merge with hourly RT
@@ -168,11 +184,15 @@ def combine_da_as_rt_15min(year: int, input_dir: Path, output_dir: Path):
     
     # Read RT 15-minute data as base
     df_rt = pd.read_parquet(rt_file)
-    df_rt['datetime'] = pd.to_datetime(df_rt['datetime'])
+    # Handle datetime_ts column from flattened files
+    if 'datetime_ts' in df_rt.columns:
+        df_rt['datetime'] = pd.to_datetime(df_rt['datetime_ts'])
+    else:
+        df_rt['datetime'] = pd.to_datetime(df_rt['datetime'])
     df_rt['hour'] = df_rt['datetime'].dt.floor('h')
     
     # Add RT prefix to price columns
-    interval_cols = ['datetime', 'hour', 'DeliveryInterval', 'Interval']
+    interval_cols = ['datetime', 'datetime_ts', 'hour', 'DeliveryInterval', 'DeliveryDate', 'DeliveryDateStr', 'Interval']
     rt_price_cols = [col for col in df_rt.columns if col not in interval_cols]
     for col in rt_price_cols:
         df_rt = df_rt.rename(columns={col: f"RT_{col}"})
@@ -180,7 +200,11 @@ def combine_da_as_rt_15min(year: int, input_dir: Path, output_dir: Path):
     # Read DA prices
     if da_file.exists():
         df_da = pd.read_parquet(da_file)
-        df_da['datetime'] = pd.to_datetime(df_da['datetime'])
+        # Handle datetime_ts column from flattened files
+        if 'datetime_ts' in df_da.columns:
+            df_da['datetime'] = pd.to_datetime(df_da['datetime_ts'])
+        else:
+            df_da['datetime'] = pd.to_datetime(df_da['datetime'])
         # Rename datetime to hour for merging
         df_da = df_da.rename(columns={'datetime': 'hour'})
         # Add DA prefix
@@ -193,7 +217,11 @@ def combine_da_as_rt_15min(year: int, input_dir: Path, output_dir: Path):
     # Read AS prices
     if as_file.exists():
         df_as = pd.read_parquet(as_file)
-        df_as['datetime'] = pd.to_datetime(df_as['datetime'])
+        # Handle datetime_ts column from flattened files
+        if 'datetime_ts' in df_as.columns:
+            df_as['datetime'] = pd.to_datetime(df_as['datetime_ts'])
+        else:
+            df_as['datetime'] = pd.to_datetime(df_as['datetime'])
         # Rename datetime to hour for merging
         df_as = df_as.rename(columns={'datetime': 'hour'})
         # Add AS prefix
@@ -236,8 +264,13 @@ def break_into_monthly_files(annual_file: Path, output_dir: Path, file_prefix: s
     # Read annual file
     df = pd.read_parquet(annual_file)
     
-    # Ensure datetime is datetime type
-    df['datetime'] = pd.to_datetime(df['datetime'])
+    # Handle datetime_ts column from flattened/combined files
+    if 'datetime_ts' in df.columns and 'datetime' not in df.columns:
+        df['datetime'] = pd.to_datetime(df['datetime_ts'])
+    elif 'datetime' in df.columns:
+        df['datetime'] = pd.to_datetime(df['datetime'])
+    else:
+        raise ValueError(f"No datetime column found in {annual_file}")
     
     # Group by year-month
     df['year_month'] = df['datetime'].dt.to_period('M')
