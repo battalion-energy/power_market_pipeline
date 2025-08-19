@@ -41,6 +41,7 @@ mod parquet_verifier;
 mod bess_parquet_revenue_processor;
 mod cop_file_reader;
 mod tbx_calculator_polars;
+mod tbx_calculator_v2;
 mod unified_bess_calculator;
 mod simple_bess_calculator;
 
@@ -404,6 +405,18 @@ fn main() -> Result<()> {
     } else if args.len() > 1 && args[1] == "--bess-historical" {
         // Run BESS historical revenue analysis from actual operations
         bess_historical_analyzer::analyze_bess_historical()?;
+    } else if args.len() > 1 && args[1] == "--calculate-tbx-all-nodes" {
+        // Calculate TBX for ALL nodes from raw DA price data
+        println!("🔋 Running TBX Calculator V2 - ALL NODES");
+        use tbx_calculator_v2::TbxCalculatorV2;
+        
+        let data_dir = PathBuf::from(std::env::var("ERCOT_DATA_DIR")
+            .unwrap_or_else(|_| "/home/enrico/data/ERCOT_data".to_string()));
+        let output_dir = data_dir.join("tbx_results_all_nodes");
+        
+        let calculator = TbxCalculatorV2::new(data_dir, output_dir)?;
+        calculator.process_all_years(2021, 2025)?;
+        
     } else if args.len() > 1 && args[1] == "--calculate-tbx" {
         // Calculate TBX (TB2/TB4) battery arbitrage values
         use tbx_calculator_polars::{TbxCalculator, TbxConfig};

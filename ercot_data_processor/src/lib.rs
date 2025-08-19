@@ -7,6 +7,7 @@ pub mod tbx_calculator_polars;
 pub mod simple_bess_calculator;
 pub mod unified_bess_calculator;
 pub mod tbx_calculator;
+pub mod tbx_calculator_v2;
 
 /// Helper function to get ERCOT data directory from environment or default
 pub fn get_ercot_data_dir() -> PathBuf {

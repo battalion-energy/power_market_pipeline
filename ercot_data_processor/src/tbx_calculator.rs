@@ -111,7 +111,7 @@ impl TbxCalculator {
     fn process_year(&self, year: i32, pb: &ProgressBar) -> Result<()> {
         pb.set_message("Loading DA prices...");
         
-        // Load DA prices
+        // Load DA prices from flattened files (limited nodes but already pivoted)
         let da_file = self.data_dir.join("rollup_files/flattened")
             .join(format!("DA_prices_{}.parquet", year));
         
@@ -121,17 +121,10 @@ impl TbxCalculator {
         
         let da_prices = LazyFrame::scan_parquet(&da_file, Default::default())?.collect()?;
         
-        pb.set_message("Loading RT prices...");
+        pb.set_message("Processing all nodes...");
         
-        // Load RT prices (hourly aggregated)
-        let rt_file = self.data_dir.join("rollup_files/flattened")
-            .join(format!("RT_prices_hourly_{}.parquet", year));
-        
-        let rt_prices = if rt_file.exists() {
-            Some(LazyFrame::scan_parquet(&rt_file, Default::default())?.collect()?)
-        } else {
-            None
-        };
+        // Skip RT prices for now - focus on DA arbitrage
+        let rt_prices: Option<DataFrame> = None;
         
         pb.set_message("Calculating arbitrage...");
         
