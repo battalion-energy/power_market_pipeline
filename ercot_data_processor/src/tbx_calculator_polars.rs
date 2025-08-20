@@ -36,9 +36,13 @@ pub struct DailyTbxResult {
     pub tb2_rt_revenue: f64,
     pub tb4_da_revenue: f64,
     pub tb4_rt_revenue: f64,
+    #[allow(dead_code)]
     pub tb2_charge_hours: Vec<u32>,
+    #[allow(dead_code)]
     pub tb2_discharge_hours: Vec<u32>,
+    #[allow(dead_code)]
     pub tb4_charge_hours: Vec<u32>,
+    #[allow(dead_code)]
     pub tb4_discharge_hours: Vec<u32>,
 }
 

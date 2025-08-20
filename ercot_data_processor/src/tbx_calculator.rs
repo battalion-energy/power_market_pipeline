@@ -182,7 +182,7 @@ impl TbxCalculator {
         da_prices: &DataFrame,
         rt_prices: Option<&DataFrame>,
         node: &str,
-        year: i32,
+        _year: i32,
     ) -> Result<Vec<TbxResult>> {
         let mut results = Vec::new();
         

@@ -1,12 +1,8 @@
 use anyhow::Result;
-use chrono::{Datelike, NaiveDate, NaiveDateTime};
-use indicatif::{MultiProgress, ProgressBar, ProgressStyle};
 use polars::prelude::*;
-use rayon::prelude::*;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::path::PathBuf;
-use std::sync::Arc;
 
 /// TBX arbitrage calculation results
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -85,7 +81,7 @@ impl TbxCalculatorV2 {
     }
     
     /// Calculate TBX from long format data
-    fn calculate_tbx_long_format(&self, df: &DataFrame, year: i32) -> Result<Vec<TbxResult>> {
+    fn calculate_tbx_long_format(&self, df: &DataFrame, _year: i32) -> Result<Vec<TbxResult>> {
         println!("  🧮 Calculating TBX arbitrage...");
         
         // Group by DeliveryDate and SettlementPoint
@@ -312,7 +308,7 @@ impl TbxCalculatorV2 {
         
         // Also save as CSV for easy viewing
         let csv_file = self.output_dir.join("tbx_leaderboard_all_nodes.csv");
-        let mut csv_writer = CsvWriter::new(std::fs::File::create(&csv_file)?);
+        let csv_writer = CsvWriter::new(std::fs::File::create(&csv_file)?);
         csv_writer.include_header(true).finish(&mut leaderboard.clone())?;
         
         println!("  💾 Saved leaderboard with {} nodes", leaderboard.height());

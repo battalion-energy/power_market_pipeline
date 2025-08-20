@@ -1,5 +1,4 @@
 use anyhow::Result;
-use chrono::NaiveDate;
 use polars::prelude::*;
 use rayon::prelude::*;
 use serde::{Deserialize, Serialize};
@@ -56,6 +55,7 @@ pub struct BessRevenue {
 pub struct BessResource {
     pub name: String,
     pub gen_resources: Vec<String>,
+    #[allow(dead_code)]
     pub load_resources: Vec<String>,
     pub settlement_point: String,
     pub capacity_mw: f64,
