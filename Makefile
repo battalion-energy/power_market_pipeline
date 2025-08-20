@@ -40,7 +40,9 @@ help:
 	@echo "  make bess            Run BESS revenue analysis"
 	@echo "  make bess-leaderboard Run BESS daily revenue leaderboard"
 	@echo "  make bess-match      Create BESS resource matching file"
-	@echo "  make tbx             Calculate TB2/TB4 battery arbitrage values"
+	@echo "  make tbx             Calculate TB2/TB4 battery arbitrage values (Python)"
+	@echo "  make tbx-rust        Calculate TBX with Rust (limited nodes)"
+	@echo "  make tbx-all-nodes   Calculate TBX for ALL 1,098 nodes (Rust V2)"
 	@echo "  make tbx-reports     Generate monthly/quarterly TBX reports"
 	@echo "  make tbx-custom      Calculate TBX with custom parameters"
 	@echo "  make verify          Verify data quality of processed files"
@@ -570,14 +572,31 @@ tbx-rust: build-release
 	@echo "⚡ Running TBX Calculator (High-Performance Rust Version)..."
 	@echo "🔋 TB2 = 2-hour battery arbitrage revenue"
 	@echo "🔋 TB4 = 4-hour battery arbitrage revenue"
-	@echo "📊 Processing all nodes for years: 2021-2025"
+	@echo "📊 Processing limited nodes (flattened files) for years: 2021-2025"
 	@echo "⚙️  Efficiency: 90% (10% losses on charge/discharge)"
 	@echo "🚀 Using parallel processing for maximum speed..."
 	cd ercot_data_processor && \
 		RAYON_NUM_THREADS=32 \
 		POLARS_MAX_THREADS=24 \
-		./target/release/ercot_data_processor --tbx
+		./target/release/ercot_data_processor --calculate-tbx
 	@echo "✅ TBX calculation complete. Results in: $(DATA_DIR)/tbx_results/"
+
+tbx-all-nodes: build-release
+	@echo "⚡ Running TBX Calculator for ALL NODES (Rust V2)..."
+	@echo "🔋 TB2 = 2-hour battery arbitrage revenue"
+	@echo "🔋 TB4 = 4-hour battery arbitrage revenue"
+	@echo "📊 Processing ALL 1,098 settlement points for years: 2021-2025"
+	@echo "📁 Reading from raw DA price files (34M+ rows)"
+	@echo "⚙️  Efficiency: 90% (10% losses on charge/discharge)"
+	@echo "🚀 High-performance Rust implementation..."
+	cd ercot_data_processor && \
+		./target/release/ercot_data_processor --calculate-tbx-all-nodes
+	@echo "✅ TBX calculation complete for ALL nodes!"
+	@echo "📊 Results in: $(DATA_DIR)/tbx_results_all_nodes/"
+	@echo "  • Daily results: tbx_daily_YYYY_all_nodes.parquet"
+	@echo "  • Monthly results: tbx_monthly_YYYY_all_nodes.parquet" 
+	@echo "  • Annual results: tbx_annual_YYYY_all_nodes.parquet"
+	@echo "  • Leaderboard: tbx_leaderboard_all_nodes.csv"
 
 tbx-reports:
 	@echo "📊 Generating TBX monthly and quarterly reports..."
