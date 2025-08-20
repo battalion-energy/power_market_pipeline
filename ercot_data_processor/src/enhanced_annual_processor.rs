@@ -3,7 +3,7 @@ use chrono::{DateTime, Datelike, Duration, NaiveDate, Utc};
 use polars::prelude::*;
 use rayon::prelude::*;
 use std::collections::{BTreeMap, HashMap, HashSet};
-use std::fs;
+use std::fs::{self, File};
 use std::path::{Path, PathBuf};
 use std::sync::{Arc, Mutex};
 use indicatif::{ProgressBar, ProgressStyle};
@@ -70,6 +70,7 @@ impl EnhancedAnnualProcessor {
             ("AS_prices", "DAM_Clearing_Prices_for_Capacity", ProcessorType::AncillaryService),
             ("DAM_Gen_Resources", "60-Day_DAM_Disclosure_Reports", ProcessorType::DAMGenResource),
             ("DAM_Load_Resources", "60-Day_DAM_Disclosure_Reports", ProcessorType::DAMLoadResource),
+            ("DAM_Energy_Bid_Awards", "60-Day_DAM_Disclosure_Reports", ProcessorType::DAMEnergyBidAwards),
             ("SCED_Gen_Resources", "60-Day_SCED_Disclosure_Reports", ProcessorType::SCEDGenResource),
             ("SCED_Load_Resources", "60-Day_SCED_Disclosure_Reports", ProcessorType::SCEDLoadResource),
             ("COP_Snapshots", "60-Day_COP_Adjustment_Period_Snapshot", ProcessorType::COPSnapshot),
@@ -86,6 +87,7 @@ impl EnhancedAnnualProcessor {
                 println!("  - AS_prices (Ancillary Services Clearing Prices)");
                 println!("  - DAM_Gen_Resources (60-Day DAM Generation Resources)");
                 println!("  - DAM_Load_Resources (60-Day DAM Load Resources)");
+                println!("  - DAM_Energy_Bid_Awards (60-Day DAM Energy Bid Awards - BESS charging!)");
                 println!("  - SCED_Gen_Resources (60-Day SCED Generation Resources)");
                 println!("  - SCED_Load_Resources (60-Day SCED Load Resources)");
                 println!("  - COP_Snapshots (60-Day COP Adjustment Period Snapshots)");
@@ -113,6 +115,7 @@ impl EnhancedAnnualProcessor {
                 ProcessorType::AncillaryService => self.process_as_prices(&source_path, &output_path)?,
                 ProcessorType::DAMGenResource => self.process_dam_gen_resources(&source_path, &output_path)?,
                 ProcessorType::DAMLoadResource => self.process_dam_load_resources(&source_path, &output_path)?,
+                ProcessorType::DAMEnergyBidAwards => self.process_dam_energy_bid_awards(&source_path, &output_path)?,
                 ProcessorType::SCEDGenResource => self.process_sced_gen_resources(&source_path, &output_path)?,
                 ProcessorType::SCEDLoadResource => self.process_sced_load_resources(&source_path, &output_path)?,
                 ProcessorType::COPSnapshot => self.process_cop_snapshots(&source_path, &output_path)?,
@@ -1393,6 +1396,107 @@ impl EnhancedAnnualProcessor {
         Ok(())
     }
     
+    fn process_dam_energy_bid_awards(&self, source_dir: &Path, output_dir: &Path) -> Result<()> {
+        let csv_dir = source_dir.join("csv");
+        let csv_dir = if csv_dir.exists() { csv_dir } else { source_dir.to_path_buf() };
+        
+        // Pattern: 60d_DAM_EnergyBidAwards-DD-MMM-YY.csv
+        let pattern = csv_dir.join("60d_DAM_EnergyBidAwards-*.csv");
+        let files = glob::glob(pattern.to_str().unwrap())?
+            .filter_map(Result::ok)
+            .collect::<Vec<_>>();
+        
+        println!("  Found {} DAM Energy Bid Award files", files.len());
+        
+        // Group by year
+        let mut files_by_year: BTreeMap<i32, Vec<PathBuf>> = BTreeMap::new();
+        for file in files {
+            if let Some(year) = extract_year_from_60day_filename(&file) {
+                files_by_year.entry(year).or_insert_with(Vec::new).push(file);
+            }
+        }
+        
+        // Process each year
+        for (year, year_files) in files_by_year {
+            println!("  Processing {} ({} files)...", year, year_files.len());
+            
+            let mut all_dfs = Vec::new();
+            for file in &year_files {
+                match self.read_dam_energy_bid_awards_file(file) {
+                    Ok(df) => all_dfs.push(df),
+                    Err(e) => println!("    ⚠️  Error reading {}: {}", file.display(), e),
+                }
+            }
+            
+            if !all_dfs.is_empty() {
+                // Combine all dataframes
+                let combined_df = if all_dfs.len() == 1 {
+                    all_dfs.into_iter().next().unwrap()
+                } else {
+                    concat(
+                        all_dfs.iter().map(|df| df.clone().lazy()).collect::<Vec<_>>().as_slice(),
+                        UnionArgs::default(),
+                    )?.collect()?
+                };
+                
+                // Save as parquet
+                let output_file = output_dir.join(format!("{}.parquet", year));
+                let mut file = File::create(&output_file)?;
+                ParquetWriter::new(&mut file)
+                    .with_compression(ParquetCompression::Snappy)
+                    .finish(&mut combined_df.clone())?;
+                
+                println!("    ✅ Saved {} rows to {}", combined_df.height(), output_file.display());
+                
+                self.update_stats("DAM_Energy_Bid_Awards", year, year_files.len(), combined_df.height(), vec![]);
+            }
+        }
+        
+        Ok(())
+    }
+    
+    fn read_dam_energy_bid_awards_file(&self, file: &Path) -> Result<DataFrame> {
+        // Force critical columns to be Float64
+        let mut schema_overrides = Schema::new();
+        
+        // Key columns for BESS charging analysis
+        schema_overrides.with_column("Energy Only Bid Award in MW".into(), DataType::Float64);
+        schema_overrides.with_column("Settlement Point Price".into(), DataType::Float64);
+        
+        // Read CSV
+        let df = CsvReader::from_path(file)?
+            .has_header(true)
+            .with_dtypes(Some(Arc::new(schema_overrides)))
+            .infer_schema(None)
+            .finish()?;
+        
+        // Parse dates and standardize columns
+        let df = df.lazy()
+            .with_column(
+                // Parse Delivery Date - handle as string to date conversion
+                col("Delivery Date")
+                    .cast(DataType::String)
+                    .alias("DeliveryDate")
+            )
+            .with_column(
+                // Simple hour to datetime conversion
+                col("Hour Ending").cast(DataType::Int32).alias("hour")
+            )
+            .with_column(
+                // Rename for consistency
+                col("Energy Only Bid Award in MW").alias("EnergyBidAwardMW")
+            )
+            .with_column(
+                col("Settlement Point").alias("SettlementPoint")
+            )
+            .with_column(
+                col("Settlement Point Price").alias("SettlementPointPrice")
+            )
+            .collect()?;
+        
+        Ok(df)
+    }
+    
     fn read_dam_load_file(&self, file: &Path) -> Result<DataFrame> {
         // Force critical numeric columns to be Float64
         let mut schema_overrides = Schema::new();
@@ -2035,6 +2139,7 @@ enum ProcessorType {
     AncillaryService,
     DAMGenResource,
     DAMLoadResource,
+    DAMEnergyBidAwards,
     SCEDGenResource,
     SCEDLoadResource,
     COPSnapshot,

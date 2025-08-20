@@ -110,7 +110,11 @@ impl TbxCalculatorV2 {
         
         let hours = df.column("HourEnding")?.str()?;
         let nodes = df.column("SettlementPoint")?.str()?;
-        let prices_series = df.column("SPP")?.cast(&DataType::Float64)?;
+        
+        // Try both possible column names for price
+        let prices_series = df.column("SettlementPointPrice")
+            .or_else(|_| df.column("SPP"))?
+            .cast(&DataType::Float64)?;
         let prices = prices_series.f64()?;
         
         // Collect prices by date and node
