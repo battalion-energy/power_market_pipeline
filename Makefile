@@ -44,7 +44,8 @@ help:
 	@echo "  make tbx-rust        Calculate TBX with Rust (limited nodes)"
 	@echo "  make tbx-all-nodes   Calculate TBX for ALL 1,098 nodes (Rust V2)"
 	@echo "  make tbx-reports     Generate monthly/quarterly TBX reports"
-	@echo "  make tbx-custom      Calculate TBX with custom parameters"
+	@echo "  make tbx-custom      Calculate TBX with custom parameters
+  make tbx-comprehensive  Calculate all 6 TB variants (DA, RT, DA+RT) for all years"
 	@echo "  make verify          Verify data quality of processed files"
 	@echo "  make verify-parquet  Check parquet files (Rust version)"
 	@echo "  make verify-all-parquet  Comprehensive parallel verification (Python)"
@@ -567,6 +568,31 @@ tbx:
 	@echo "📊 Generating monthly and quarterly reports..."
 	uv run python generate_tbx_reports.py
 	@echo "✅ Reports generated in: $(DATA_DIR)/tbx_results/reports/"
+
+tbx-comprehensive:
+	@echo "⚡ Calculating Comprehensive TBX (6 variants per node)..."
+	@echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+	@echo "🔋 Computing 6 TB variants for each settlement point:"
+	@echo "   • TB2_DA:   Day-Ahead only (2-hour arbitrage)"
+	@echo "   • TB2_RT:   Real-Time only (15-min intervals)"
+	@echo "   • TB2_DART: DA charge + RT discharge (hybrid)"
+	@echo "   • TB4_DA:   Day-Ahead only (4-hour arbitrage)"
+	@echo "   • TB4_RT:   Real-Time only (15-min intervals)"
+	@echo "   • TB4_DART: DA charge + RT discharge (hybrid)"
+	@echo ""
+	@echo "📅 Processing years: 2021-2024"
+	@echo "⚙️  Round-trip efficiency: 90%"
+	@echo ""
+	@for year in 2021 2022 2023 2024; do \
+		echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"; \
+		echo "📅 Processing year $$year..."; \
+		python calculate_tbx_comprehensive.py --year $$year || true; \
+		echo ""; \
+	done
+	@echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+	@echo "✅ Comprehensive TBX calculation complete!"
+	@echo "📁 Results saved in: /pool/ssd8tb/data/iso/ERCOT/ercot_market_data/ERCOT_data/tbx_results/"
+	@ls -lh /pool/ssd8tb/data/iso/ERCOT/ercot_market_data/ERCOT_data/tbx_results/tbx_comprehensive_*.parquet 2>/dev/null || echo "No output files found"
 
 tbx-rust: build-release
 	@echo "⚡ Running TBX Calculator (High-Performance Rust Version)..."

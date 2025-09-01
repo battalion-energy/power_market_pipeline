@@ -1,0 +1,28 @@
+ERCOT Interconnection Queue Data Extraction Summary
+==================================================
+
+Co-located with Solar:
+  File: co_located_with_solar.csv
+  Rows: 650
+  Columns: 16
+
+Co-located with Wind:
+  File: co_located_with_wind.csv
+  Rows: 43
+  Columns: 16
+
+Co-located with Thermal:
+  File: co_located_with_thermal.csv
+  Rows: 17
+  Columns: 15
+
+Stand-Alone:
+  File: stand_alone.csv
+  Rows: 716
+  Columns: 16
+
+Co-located Operational:
+  File: co_located_operational.csv
+  Rows: 145
+  Columns: 8
+
