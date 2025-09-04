@@ -44,8 +44,7 @@ help:
 	@echo "  make tbx-rust        Calculate TBX with Rust (limited nodes)"
 	@echo "  make tbx-all-nodes   Calculate TBX for ALL 1,098 nodes (Rust V2)"
 	@echo "  make tbx-reports     Generate monthly/quarterly TBX reports"
-	@echo "  make tbx-custom      Calculate TBX with custom parameters
-  make tbx-comprehensive  Calculate all 6 TB variants (DA, RT, DA+RT) for all years"
+	@echo "  make tbx-custom      Calculate TBX with custom parameters"
 	@echo "  make verify          Verify data quality of processed files"
 	@echo "  make verify-parquet  Check parquet files (Rust version)"
 	@echo "  make verify-all-parquet  Comprehensive parallel verification (Python)"
