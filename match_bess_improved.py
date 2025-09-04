@@ -62,67 +62,13 @@ def get_adjacent_counties(county):
     return []
 
 def get_county_from_substation(substation):
-    """Enhanced mapping of substation to county with more Texas locations"""
-    county_mappings = {
-        # Original mappings
-        'ALVIN': 'BRAZORIA',
-        'ANCHOR': 'EASTLAND',
-        'ANGLETON': 'BRAZORIA',
-        'BATCAVE': 'MEDINA',
-        'BRAZORIA': 'BRAZORIA',
-        'DICKNSON': 'GALVESTON',
-        'SWEENY': 'BRAZORIA',
-        
-        # New mappings based on unmatched patterns
-        'HEIGHTTN': 'HARRIS',       # Heights area in Houston
-        'LOPENO': 'STARR',          # Lopeño in Starr County
-        'MADERO': 'HIDALGO',        # Madero area near Mexico border
-        'CROSSETT': 'HARRIS',       # Likely Houston area
-        'DKNS': 'ECTOR',            # Dickens/West Texas
-        'GRIZZLY': 'HOOD',          # North Texas
-        'CITRUSCY': 'HIDALGO',      # Citrus City - Rio Grande Valley
-        'CONTINEN': 'JEFFERSON',    # Continental - Southeast Texas
-        'BYRDR': 'HARRIS',          # Byrd area
-        'CHISMGRD': 'MAVERICK',     # Chisme - South Texas
-        
-        # Developer-specific patterns
-        'BRP': 'VARIOUS',           # Broad Reach Power - multiple locations
-        'SWOOSE': 'WARD',           # Military themed - West Texas
-        'PAVO': 'FANNIN',           # North Texas
-        'RVRVLYS': 'GUADALUPE',     # River Valley
-        'SLCNHLS': 'TRAVIS',        # Silicon Hills - Austin area
-        
-        # Additional common Texas substations
-        'COMAL': 'COMAL',
-        'CAMERON': 'CAMERON',
-        'EAGLE_PASS': 'MAVERICK',
-        'FORT_STOCKTON': 'PECOS',
-        'HOUSTON': 'HARRIS',
-        'MIDLAND': 'MIDLAND',
-        'ODESSA': 'ECTOR',
-        'PARIS': 'LAMAR',
-        'PHARR': 'HIDALGO',
-        'SAN_ANGELO': 'TOM GREEN',
-        'TYLER': 'SMITH',
-        'VICTORIA': 'VICTORIA',
-        'WACO': 'MCLENNAN',
-        'WHARTON': 'WHARTON',
-    }
-    
-    if not substation:
-        return None
-    
-    sub_upper = str(substation).upper()
-    
-    # Check exact match first
-    if sub_upper in county_mappings:
-        return county_mappings[sub_upper]
-    
-    # Check if any key is contained in the substation name
-    for key, county in county_mappings.items():
-        if key in sub_upper:
-            return county
-    
+    """
+    Get county from substation name - ONLY from real data sources
+    NO HARDCODED MAPPINGS - must come from actual data
+    """
+    # This function should ONLY use real data sources
+    # For now, return None - county must come from IQ or EIA data
+    # DO NOT HARDCODE ANY MAPPINGS HERE
     return None
 
 def load_all_interconnection_data():

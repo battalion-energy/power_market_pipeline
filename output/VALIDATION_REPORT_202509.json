@@ -1,0 +1,47 @@
+{
+  "timestamp": "2025-09-04T00:19:24.448267",
+  "total_matches": 15,
+  "issues": [
+    {
+      "type": "zone_mismatch",
+      "count": 5,
+      "details": [
+        {
+          "bess": "ANCHOR_BESS1",
+          "settlement_zone": "LZ_NORTH",
+          "physical_zone": "LZ_SOUTH"
+        },
+        {
+          "bess": "ANCHOR_BESS2",
+          "settlement_zone": "LZ_NORTH",
+          "physical_zone": "LZ_SOUTH"
+        },
+        {
+          "bess": "PHO_BES1",
+          "settlement_zone": "LZ_HOUSTON",
+          "physical_zone": "LZ_SOUTH"
+        },
+        {
+          "bess": "PHO_BES2",
+          "settlement_zone": "LZ_HOUSTON",
+          "physical_zone": "LZ_SOUTH"
+        },
+        {
+          "bess": "ROSELAND_BESS1",
+          "settlement_zone": "LZ_NORTH",
+          "physical_zone": "LZ_SOUTH"
+        }
+      ]
+    }
+  ],
+  "statistics": {
+    "match_score_distribution": {
+      "excellent_90_100": 0,
+      "good_70_89": 0,
+      "fair_50_69": 1,
+      "poor_below_50": 14
+    },
+    "counties_represented": 6,
+    "average_match_score": 37.7
+  }
+}
