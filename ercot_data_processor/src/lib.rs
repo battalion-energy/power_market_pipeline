@@ -18,9 +18,9 @@ pub fn get_ercot_data_dir() -> PathBuf {
     env::var("ERCOT_DATA_DIR")
         .map(PathBuf::from)
         .unwrap_or_else(|_| {
-            // Default based on platform
+            // Default based on platform - updated to new location
             if cfg!(target_os = "linux") {
-                PathBuf::from("/home/enrico/data/ERCOT_data")
+                PathBuf::from("/pool/ssd8tb/data/iso/ERCOT/ercot_market_data/ERCOT_data")
             } else {
                 PathBuf::from("/Users/enrico/data/ERCOT_data")
             }

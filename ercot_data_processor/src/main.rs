@@ -253,6 +253,9 @@ fn check_rust_version() -> Result<()> {
 }
 
 fn main() -> Result<()> {
+    // Load environment variables from .env file
+    dotenv::dotenv().ok();
+    
     // Check Rust version requirement
     check_rust_version()?;
     
@@ -411,7 +414,10 @@ fn main() -> Result<()> {
         use tbx_calculator_v2::TbxCalculatorV2;
         
         let data_dir = PathBuf::from(std::env::var("ERCOT_DATA_DIR")
-            .unwrap_or_else(|_| "/home/enrico/data/ERCOT_data".to_string()));
+            .unwrap_or_else(|_| {
+                eprintln!("⚠️  ERCOT_DATA_DIR not set, using default");
+                "/pool/ssd8tb/data/iso/ERCOT/ercot_market_data/ERCOT_data".to_string()
+            }));
         let output_dir = data_dir.join("tbx_results_all_nodes");
         
         let calculator = TbxCalculatorV2::new(data_dir, output_dir)?;
