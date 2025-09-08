@@ -40,6 +40,8 @@ help:
 	@echo "  make bess            Run BESS revenue analysis"
 	@echo "  make bess-leaderboard Run BESS daily revenue leaderboard"
 	@echo "  make bess-match      Create BESS resource matching file"
+	@echo "  make bess-mapping    Run BESS mapping pipeline (location/IQ/EIA matching)"
+	@echo "  make generator-map   Map ALL generators (EIA to ERCOT) - comprehensive matching"
 	@echo "  make tbx             Calculate TB2/TB4 battery arbitrage values (Python)"
 	@echo "  make tbx-rust        Calculate TBX with Rust (limited nodes)"
 	@echo "  make tbx-all-nodes   Calculate TBX for ALL 1,098 nodes (Rust V2)"
@@ -276,6 +278,26 @@ bess-match:
 	@echo "🔗 Creating BESS resource matching file..."
 	uv run python create_bess_match_file.py
 	@echo "✅ Created: bess_match_file.csv and bess_match_rules.json"
+
+bess-mapping:
+	@echo "🗺️ Running BESS Mapping Pipeline..."
+	@echo "📍 Mapping ERCOT BESS to physical locations using:"
+	@echo "  • ERCOT Resource → Settlement Point mapping"
+	@echo "  • Interconnection Queue data (county/capacity)"
+	@echo "  • EIA generator database (coordinates)"
+	cd bess_mapping && python3 complete_bess_mapping_pipeline.py
+	@echo "✅ Mapping complete. Results in: bess_mapping/BESS_COMPLETE_MAPPING_PIPELINE.csv"
+
+generator-map:
+	@echo "🗺️ Running Comprehensive Generator Mapping..."
+	@echo "📍 Mapping ALL 2,675 Texas generators (EIA to ERCOT):"
+	@echo "  • 2,257 Operating generators"
+	@echo "  • 418 Planned generators"
+	@echo "  • Using fuzzy matching and LLM techniques"
+	@echo "  • Validating coordinates and load zones"
+	uv run python create_comprehensive_generator_mapping.py
+	@echo "✅ Mapping complete. Results in: COMPREHENSIVE_GENERATOR_MAPPING.csv"
+	@echo "📊 Summary saved to: COMPREHENSIVE_GENERATOR_MAPPING_SUMMARY.json"
 
 bess-compare: build-release
 	@echo "🔬 Running BESS Revenue Comparison: Python vs Rust"

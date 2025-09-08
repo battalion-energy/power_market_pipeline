@@ -25,11 +25,17 @@ Temporary Files: /tmp/
    - DA, RT, and AS revenue calculations
    - Settlement point mapping and time alignment
 
-2. **[TBX Calculator](TBX_CALCULATOR.md)**
+2. **[ERCOT Generator Mapping](ERCOT_GENERATOR_MAPPING_DOCUMENTATION.md)** 🆕 ✨
+   - Comprehensive mapping for ALL ERCOT generators (Gas, Wind, Solar, BESS)
+   - **68.2% match rate** (871/1,278 resources with coordinates)
+   - LLM-assisted code decoding using Claude AI
+   - Settlement point and substation mapping
+
+3. **[TBX Calculator](TBX_CALCULATOR.md)**
    - TB2/TB4 battery arbitrage value calculations
    - Perfect foresight optimization methodology
 
-3. **[BESS Revenue Accounting Approach](BESS_Revenue_Accounting_Approach.md)**
+4. **[BESS Revenue Accounting Approach](BESS_Revenue_Accounting_Approach.md)**
    - Historical analysis vs optimization distinction
    - Data sources and processing flow
 
@@ -45,6 +51,14 @@ Temporary Files: /tmp/
 3. **[ERCOT Price File Structures](ERCOT_Price_File_Structures.md)**
    - DA, RT, and AS price file formats
    - Settlement point types and pricing nodes
+
+4. **[Resource Settlement Point Mapping](RESOURCE_SETTLEMENT_POINT_MAPPING.md)**
+   - BESS-specific settlement point relationships
+   - Load zone mappings
+
+5. **[BESS Unified Mapping](BESS_UNIFIED_MAPPING_DOCUMENTATION.md)**
+   - Comprehensive BESS resource mapping
+   - Interconnection queue and EIA integration
 
 ### Processing Documentation
 1. **[ERCOT Annual Parquet Processor](ERCOT_Annual_Parquet_Processor.md)**
@@ -96,6 +110,9 @@ make tbx
 
 # Compare Python vs Rust
 python compare_bess_results.py
+
+# Generator mapping pipeline
+python3 complete_generator_mapping_pipeline_final.py
 ```
 
 ### Accessing Results
@@ -132,9 +149,19 @@ NextJS Frontend / API
 - **Revenue Split**: 60-95% AS, 5-40% DA
 - **Processing Time**: 2.8 seconds
 
+### Generator Mapping Results (December 2024) ✨
+- **Total ERCOT Resources**: 1,278
+- **Resources with Coordinates**: 871 (68.2%) ✓
+- **LLM-Generated Mappings**: 393 ERCOT codes decoded
+- **Direct EIA Matches**: 832
+- **Via IQ Matches**: 39
+- **With Substation Data**: 77 (6.0%)
+- **Interconnection Queue Projects**: 1,905 (Large: 1,849, Small: 56)
+
 ### Data Coverage
 - **Years**: 2019-2024
 - **BESS Resources**: 582 identified
+- **All Generators**: 1,278 mapped
 - **Data Frequency**: Hourly (DA), 5-min (RT)
 - **File Size**: ~50GB compressed
 
@@ -149,6 +176,8 @@ For questions or issues:
 - v1.0 (Aug 2024): Initial BESS revenue methodology
 - v1.1 (Aug 2024): Added TBX calculator and reports
 - v1.2 (Aug 2024): Rust implementation and parallelization
+- v1.3 (Dec 2024): Added comprehensive generator mapping for all resource types
+- v1.4 (Dec 2024): Enhanced to 68.2% match rate using LLM-assisted decoding
 
 ---
-*Last Updated: August 19, 2024*
+*Last Updated: December 5, 2024*

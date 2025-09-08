@@ -1,0 +1,46 @@
+{
+  "timestamp": "2025-09-05T02:52:54.388863",
+  "total_eia_plants": 1258,
+  "matched_to_ercot": 1018,
+  "match_rate": "80.9%",
+  "match_types": {
+    "capacity_location_utility": 437,
+    "fuzzy_name": 429,
+    "no_match": 240,
+    "exact_name": 152
+  },
+  "technology_breakdown": {
+    "Solar Photovoltaic": 297,
+    "Onshore Wind Turbine": 242,
+    "Batteries": 230,
+    "Natural Gas Internal Combustion Engine": 145,
+    "Natural Gas Fired Combined Cycle": 68,
+    "Natural Gas Fired Combustion Turbine": 58,
+    "Batteries, Solar Photovoltaic": 49,
+    "Petroleum Liquids": 26,
+    "Solar Photovoltaic, Batteries": 26,
+    "Conventional Hydroelectric": 24
+  },
+  "status_breakdown": {
+    "Operating": 940,
+    "Planned": 318
+  },
+  "avg_match_confidence": 82.90530451866405,
+  "coordinates_valid": "1257",
+  "load_zone_matches": null,
+  "technology_match_rates": {
+    "Other Gases": "50.0%",
+    "Natural Gas Fired Combustion Turbine": "72.4%",
+    "Petroleum Coke": "0.0%",
+    "Natural Gas Internal Combustion Engine, Natural Gas Steam Turbine": "100.0%",
+    "Natural Gas Steam Turbine": "70.6%",
+    "Wood/Wood Waste Biomass": "66.7%",
+    "Natural Gas Fired Combustion Turbine, All Other": "100.0%",
+    "Natural Gas Fired Combined Cycle": "82.4%",
+    "Conventional Steam Coal": "63.6%",
+    "Conventional Hydroelectric": "83.3%"
+  },
+  "total_capacity_mw": 269390.19999999995,
+  "matched_capacity_mw": 215360.8,
+  "capacity_match_rate": "79.9%"
+}
