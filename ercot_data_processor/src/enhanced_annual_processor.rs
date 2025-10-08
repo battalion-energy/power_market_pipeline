@@ -974,32 +974,32 @@ impl EnhancedAnnualProcessor {
         
         for (year, year_files) in files_by_year {
             println!("  Processing year {}: {} files", year, year_files.len());
-            
-            // Process SCED files one at a time due to size
-            let mut all_dfs = Vec::new();
-            
-            for file in &year_files {
-                // Reading file...
-                match self.read_sced_gen_file(file) {
-                    Ok(df) => {
-                        // Loaded rows
-                        all_dfs.push(df);
-                    },
-                    Err(e) => eprintln!("    Error reading {}: {}", file.display(), e),
-                }
-            }
-            
+
+            // Process files in parallel with limited thread count to control memory
+            // Collect all dataframes first, then normalize schema, then combine
+            let all_dfs: Vec<DataFrame> = year_files.par_iter()
+                .filter_map(|file| {
+                    match self.read_sced_gen_file(file) {
+                        Ok(df) => Some(df),
+                        Err(e) => {
+                            eprintln!("    Error reading {}: {}", file.display(), e);
+                            None
+                        }
+                    }
+                })
+                .collect();
+
             if !all_dfs.is_empty() {
                 // Normalize all DataFrames to have the same columns before combining
                 let normalized_dfs = self.normalize_sced_dataframes(all_dfs)?;
                 let combined_df = self.combine_dataframes(normalized_dfs)?;
-                
+
                 let output_file = output_dir.join(format!("{}.parquet", year));
                 let mut file = std::fs::File::create(&output_file)?;
                 ParquetWriter::new(&mut file).finish(&mut combined_df.clone())?;
-                
+
                 println!("    ✅ Saved {} rows to {}", combined_df.height(), output_file.display());
-                
+
                 // SCED files are 5-minute, gap detection would be complex
                 self.update_stats("SCED_Gen_Resources", year, year_files.len(), combined_df.height(), vec![]);
             }
@@ -1119,7 +1119,10 @@ impl EnhancedAnnualProcessor {
         ];
         
         // Add optional columns if they exist
-        if columns.contains(&"Telemetered Net Output") {
+        // NOTE: "Telemetered Net Output " has a trailing space in CSV!
+        if columns.contains(&"Telemetered Net Output ") {
+            select_cols.push(col("Telemetered Net Output ").cast(DataType::Float64).alias("TelemeteredNetOutput"));
+        } else if columns.contains(&"Telemetered Net Output") {
             select_cols.push(col("Telemetered Net Output").cast(DataType::Float64).alias("TelemeteredNetOutput"));
         }
         
@@ -1279,13 +1282,24 @@ impl EnhancedAnnualProcessor {
         if columns.contains(&"SCED Time Stamp") {
             select_cols.push(col("SCED Time Stamp").alias("SCEDTimeStamp"));
         }
-        if columns.contains(&"Load Resource Name") {
-            select_cols.push(col("Load Resource Name").alias("LoadResourceName"));
+        // FIX: CSV has "Resource Name", not "Load Resource Name"
+        if columns.contains(&"Resource Name") {
+            select_cols.push(col("Resource Name").alias("ResourceName"));
         }
         if columns.contains(&"Settlement Point Name") {
             select_cols.push(col("Settlement Point Name").alias("SettlementPointName"));
         }
-        
+        // Add QSE and other metadata
+        if columns.contains(&"QSE") {
+            select_cols.push(col("QSE"));
+        }
+        if columns.contains(&"Telemetered Resource Status") {
+            select_cols.push(col("Telemetered Resource Status").alias("TelemeteredStatus"));
+        }
+        if columns.contains(&"Low Power Consumption") {
+            select_cols.push(col("Low Power Consumption").cast(DataType::Float64).alias("LowPowerConsumption"));
+        }
+
         // Add numeric columns
         if columns.contains(&"Max Power Consumption") {
             select_cols.push(col("Max Power Consumption").cast(DataType::Float64).alias("MaxPowerConsumption"));
@@ -1889,30 +1903,67 @@ impl EnhancedAnnualProcessor {
         if dfs.is_empty() {
             return Err(anyhow::anyhow!("No dataframes to combine"));
         }
-        
+
+        // Normalize schemas - collect all unique columns with their types
+        let mut column_types: HashMap<String, DataType> = HashMap::new();
+        for df in &dfs {
+            for (col_name, dtype) in df.get_column_names().iter().zip(df.dtypes()) {
+                // Prefer non-null types
+                if !column_types.contains_key(*col_name) || matches!(dtype, DataType::Null) {
+                    column_types.insert(col_name.to_string(), dtype.clone());
+                }
+            }
+        }
+
+        // Align all dataframes to have the same columns with matching types
+        let all_columns: Vec<String> = column_types.keys().cloned().collect();
+
+        let aligned_dfs: Vec<DataFrame> = dfs.into_iter().map(|df| {
+            // Check which columns are missing
+            let df_columns: HashSet<&str> = df.get_column_names().iter().copied().collect();
+            let missing_columns: Vec<&String> = all_columns.iter()
+                .filter(|col| !df_columns.contains(col.as_str()))
+                .collect();
+
+            // Start with lazy frame
+            let mut lazy_df = df.lazy();
+
+            // Add missing columns
+            for col_name in missing_columns {
+                let dtype = column_types.get(col_name).unwrap();
+                lazy_df = lazy_df.with_column(
+                    lit(NULL).cast(dtype.clone()).alias(col_name.as_str())
+                );
+            }
+
+            // Collect and select columns in consistent order
+            let mut collected = lazy_df.collect().unwrap();
+            collected.select(&all_columns.iter().map(|s| s.as_str()).collect::<Vec<_>>()).unwrap()
+        }).collect();
+
         // For small numbers of dataframes, use the simple approach
-        if dfs.len() <= 10 {
-            let mut combined = dfs[0].clone();
-            for df in dfs.into_iter().skip(1) {
+        if aligned_dfs.len() <= 10 {
+            let mut combined = aligned_dfs[0].clone();
+            for df in aligned_dfs.into_iter().skip(1) {
                 combined = combined.vstack(&df)?;
             }
-            
+
             // Sort by datetime if it exists
             if combined.get_column_names().contains(&"datetime") {
                 combined = combined.lazy()
                     .sort("datetime", Default::default())
                     .collect()?;
             }
-            
+
             return Ok(combined);
         }
         
         // For large numbers of dataframes, use parallel tree reduction
         // Don't print for every batch combination - too verbose
-        
-        // Convert to Arc<Mutex<>> for thread-safe access
-        let mut work_queue: Vec<DataFrame> = dfs;
-        
+
+        // Use the aligned dataframes for parallel reduction
+        let mut work_queue: Vec<DataFrame> = aligned_dfs;
+
         // Tree reduction - combine pairs in parallel until we have one
         while work_queue.len() > 1 {
             // Process pairs in parallel
@@ -1928,7 +1979,7 @@ impl EnhancedAnnualProcessor {
                     }
                 })
                 .collect::<Result<Vec<_>, _>>()?;
-            
+
             work_queue = paired_results;
         }
         
