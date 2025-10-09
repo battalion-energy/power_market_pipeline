@@ -1,0 +1,537 @@
+{
+  "datasets": {
+    "DAM_Prices": {
+      "last_timestamp": "2025-10-08T13:25:45.250141",
+      "last_download": "2025-10-08T13:38:57.010901",
+      "last_records_count": 202032,
+      "download_history": [
+        {
+          "timestamp": "2025-10-08T13:26:14.118403",
+          "start_date": "2023-12-11T00:00:00",
+          "end_date": "2024-01-09T00:00:00",
+          "success": true,
+          "records_count": 593064
+        },
+        {
+          "timestamp": "2025-10-08T13:26:46.835969",
+          "start_date": "2024-01-10T00:00:00",
+          "end_date": "2024-02-08T00:00:00",
+          "success": true,
+          "records_count": 637704
+        },
+        {
+          "timestamp": "2025-10-08T13:27:19.271992",
+          "start_date": "2024-02-09T00:00:00",
+          "end_date": "2024-03-09T00:00:00",
+          "success": true,
+          "records_count": 640896
+        },
+        {
+          "timestamp": "2025-10-08T13:27:51.965480",
+          "start_date": "2024-03-10T00:00:00",
+          "end_date": "2024-04-08T00:00:00",
+          "success": true,
+          "records_count": 644704
+        },
+        {
+          "timestamp": "2025-10-08T13:28:24.449301",
+          "start_date": "2024-04-09T00:00:00",
+          "end_date": "2024-05-08T00:00:00",
+          "success": true,
+          "records_count": 649680
+        },
+        {
+          "timestamp": "2025-10-08T13:28:59.499269",
+          "start_date": "2024-05-09T00:00:00",
+          "end_date": "2024-06-07T00:00:00",
+          "success": true,
+          "records_count": 654096
+        },
+        {
+          "timestamp": "2025-10-08T13:29:34.360068",
+          "start_date": "2024-06-08T00:00:00",
+          "end_date": "2024-07-07T00:00:00",
+          "success": true,
+          "records_count": 658392
+        },
+        {
+          "timestamp": "2025-10-08T13:30:12.954555",
+          "start_date": "2024-07-08T00:00:00",
+          "end_date": "2024-08-06T00:00:00",
+          "success": true,
+          "records_count": 654960
+        },
+        {
+          "timestamp": "2025-10-08T13:30:46.947226",
+          "start_date": "2024-08-07T00:00:00",
+          "end_date": "2024-09-05T00:00:00",
+          "success": true,
+          "records_count": 658416
+        },
+        {
+          "timestamp": "2025-10-08T13:31:22.384467",
+          "start_date": "2024-09-06T00:00:00",
+          "end_date": "2024-10-05T00:00:00",
+          "success": true,
+          "records_count": 670104
+        },
+        {
+          "timestamp": "2025-10-08T13:31:57.056416",
+          "start_date": "2024-10-06T00:00:00",
+          "end_date": "2024-11-04T00:00:00",
+          "success": true,
+          "records_count": 676088
+        },
+        {
+          "timestamp": "2025-10-08T13:32:32.179348",
+          "start_date": "2024-11-05T00:00:00",
+          "end_date": "2024-12-04T00:00:00",
+          "success": true,
+          "records_count": 679680
+        },
+        {
+          "timestamp": "2025-10-08T13:33:07.190195",
+          "start_date": "2024-12-05T00:00:00",
+          "end_date": "2025-01-03T00:00:00",
+          "success": true,
+          "records_count": 684384
+        },
+        {
+          "timestamp": "2025-10-08T13:33:42.294360",
+          "start_date": "2025-01-04T00:00:00",
+          "end_date": "2025-02-02T00:00:00",
+          "success": true,
+          "records_count": 694584
+        },
+        {
+          "timestamp": "2025-10-08T13:34:19.650409",
+          "start_date": "2025-02-03T00:00:00",
+          "end_date": "2025-03-04T00:00:00",
+          "success": true,
+          "records_count": 700200
+        },
+        {
+          "timestamp": "2025-10-08T13:34:57.392972",
+          "start_date": "2025-03-05T00:00:00",
+          "end_date": "2025-04-03T00:00:00",
+          "success": true,
+          "records_count": 705315
+        },
+        {
+          "timestamp": "2025-10-08T13:35:34.952576",
+          "start_date": "2025-04-04T00:00:00",
+          "end_date": "2025-05-03T00:00:00",
+          "success": true,
+          "records_count": 712032
+        },
+        {
+          "timestamp": "2025-10-08T13:36:12.588005",
+          "start_date": "2025-05-04T00:00:00",
+          "end_date": "2025-06-02T00:00:00",
+          "success": true,
+          "records_count": 722760
+        },
+        {
+          "timestamp": "2025-10-08T13:36:50.652697",
+          "start_date": "2025-06-03T00:00:00",
+          "end_date": "2025-07-02T00:00:00",
+          "success": true,
+          "records_count": 728184
+        },
+        {
+          "timestamp": "2025-10-08T13:37:28.151776",
+          "start_date": "2025-07-03T00:00:00",
+          "end_date": "2025-08-01T00:00:00",
+          "success": true,
+          "records_count": 744480
+        },
+        {
+          "timestamp": "2025-10-08T13:38:05.825407",
+          "start_date": "2025-08-02T00:00:00",
+          "end_date": "2025-08-31T00:00:00",
+          "success": true,
+          "records_count": 748080
+        },
+        {
+          "timestamp": "2025-10-08T13:38:45.505302",
+          "start_date": "2025-09-01T00:00:00",
+          "end_date": "2025-09-30T00:00:00",
+          "success": true,
+          "records_count": 753168
+        },
+        {
+          "timestamp": "2025-10-08T13:38:57.010975",
+          "start_date": "2025-10-01T00:00:00",
+          "end_date": "2025-10-08T13:25:45.250141",
+          "success": true,
+          "records_count": 202032
+        }
+      ]
+    },
+    "AS_Prices": {
+      "last_timestamp": "2025-10-08T14:41:53.289928",
+      "last_download": "2025-10-08T14:42:48.488222",
+      "last_records_count": 960,
+      "download_history": [
+        {
+          "timestamp": "2025-10-08T14:41:53.485889",
+          "start_date": "2023-12-11T00:00:00",
+          "end_date": "2024-01-09T00:00:00",
+          "success": true,
+          "records_count": 3360
+        },
+        {
+          "timestamp": "2025-10-08T14:41:55.972861",
+          "start_date": "2024-01-10T00:00:00",
+          "end_date": "2024-02-08T00:00:00",
+          "success": true,
+          "records_count": 3600
+        },
+        {
+          "timestamp": "2025-10-08T14:41:58.535267",
+          "start_date": "2024-02-09T00:00:00",
+          "end_date": "2024-03-09T00:00:00",
+          "success": true,
+          "records_count": 3600
+        },
+        {
+          "timestamp": "2025-10-08T14:42:01.000360",
+          "start_date": "2024-03-10T00:00:00",
+          "end_date": "2024-04-08T00:00:00",
+          "success": true,
+          "records_count": 3595
+        },
+        {
+          "timestamp": "2025-10-08T14:42:03.525363",
+          "start_date": "2024-04-09T00:00:00",
+          "end_date": "2024-05-08T00:00:00",
+          "success": true,
+          "records_count": 3600
+        },
+        {
+          "timestamp": "2025-10-08T14:42:06.093410",
+          "start_date": "2024-05-09T00:00:00",
+          "end_date": "2024-06-07T00:00:00",
+          "success": true,
+          "records_count": 3600
+        },
+        {
+          "timestamp": "2025-10-08T14:42:08.466118",
+          "start_date": "2024-06-08T00:00:00",
+          "end_date": "2024-07-07T00:00:00",
+          "success": true,
+          "records_count": 3600
+        },
+        {
+          "timestamp": "2025-10-08T14:42:11.040616",
+          "start_date": "2024-07-08T00:00:00",
+          "end_date": "2024-08-06T00:00:00",
+          "success": true,
+          "records_count": 3600
+        },
+        {
+          "timestamp": "2025-10-08T14:42:13.526544",
+          "start_date": "2024-08-07T00:00:00",
+          "end_date": "2024-09-05T00:00:00",
+          "success": true,
+          "records_count": 3600
+        },
+        {
+          "timestamp": "2025-10-08T14:42:16.000995",
+          "start_date": "2024-09-06T00:00:00",
+          "end_date": "2024-10-05T00:00:00",
+          "success": true,
+          "records_count": 3600
+        },
+        {
+          "timestamp": "2025-10-08T14:42:18.475029",
+          "start_date": "2024-10-06T00:00:00",
+          "end_date": "2024-11-04T00:00:00",
+          "success": true,
+          "records_count": 3605
+        },
+        {
+          "timestamp": "2025-10-08T14:42:21.007651",
+          "start_date": "2024-11-05T00:00:00",
+          "end_date": "2024-12-04T00:00:00",
+          "success": true,
+          "records_count": 3600
+        },
+        {
+          "timestamp": "2025-10-08T14:42:23.469776",
+          "start_date": "2024-12-05T00:00:00",
+          "end_date": "2025-01-03T00:00:00",
+          "success": true,
+          "records_count": 3600
+        },
+        {
+          "timestamp": "2025-10-08T14:42:25.984747",
+          "start_date": "2025-01-04T00:00:00",
+          "end_date": "2025-02-02T00:00:00",
+          "success": true,
+          "records_count": 3600
+        },
+        {
+          "timestamp": "2025-10-08T14:42:28.491837",
+          "start_date": "2025-02-03T00:00:00",
+          "end_date": "2025-03-04T00:00:00",
+          "success": true,
+          "records_count": 3600
+        },
+        {
+          "timestamp": "2025-10-08T14:42:30.986221",
+          "start_date": "2025-03-05T00:00:00",
+          "end_date": "2025-04-03T00:00:00",
+          "success": true,
+          "records_count": 3595
+        },
+        {
+          "timestamp": "2025-10-08T14:42:33.532069",
+          "start_date": "2025-04-04T00:00:00",
+          "end_date": "2025-05-03T00:00:00",
+          "success": true,
+          "records_count": 3600
+        },
+        {
+          "timestamp": "2025-10-08T14:42:35.995199",
+          "start_date": "2025-05-04T00:00:00",
+          "end_date": "2025-06-02T00:00:00",
+          "success": true,
+          "records_count": 3600
+        },
+        {
+          "timestamp": "2025-10-08T14:42:38.572113",
+          "start_date": "2025-06-03T00:00:00",
+          "end_date": "2025-07-02T00:00:00",
+          "success": true,
+          "records_count": 3600
+        },
+        {
+          "timestamp": "2025-10-08T14:42:41.051760",
+          "start_date": "2025-07-03T00:00:00",
+          "end_date": "2025-08-01T00:00:00",
+          "success": true,
+          "records_count": 3600
+        },
+        {
+          "timestamp": "2025-10-08T14:42:43.507650",
+          "start_date": "2025-08-02T00:00:00",
+          "end_date": "2025-08-31T00:00:00",
+          "success": true,
+          "records_count": 3600
+        },
+        {
+          "timestamp": "2025-10-08T14:42:46.022679",
+          "start_date": "2025-09-01T00:00:00",
+          "end_date": "2025-09-30T00:00:00",
+          "success": true,
+          "records_count": 3600
+        },
+        {
+          "timestamp": "2025-10-08T14:42:48.488245",
+          "start_date": "2025-10-01T00:00:00",
+          "end_date": "2025-10-08T14:41:53.289928",
+          "success": true,
+          "records_count": 960
+        }
+      ]
+    },
+    "60d_SCED_Gen_Resources": {
+      "last_timestamp": "2025-06-17T23:55:00",
+      "last_download": "2025-10-08T17:03:48.838072",
+      "last_records_count": 0,
+      "download_history": []
+    },
+    "60d_DAM_Gen_Resources": {
+      "last_timestamp": "2025-02-14T00:00:00",
+      "last_download": "2025-10-08T16:46:10.795514",
+      "last_records_count": 104304,
+      "download_history": [
+        {
+          "timestamp": "2025-10-08T16:29:45.418823",
+          "start_date": "2024-11-29T00:00:00",
+          "end_date": "2024-12-01T00:00:00",
+          "success": true,
+          "records_count": 102480
+        },
+        {
+          "timestamp": "2025-10-08T16:30:37.759819",
+          "start_date": "2024-12-02T00:00:00",
+          "end_date": "2024-12-04T00:00:00",
+          "success": true,
+          "records_count": 102360
+        },
+        {
+          "timestamp": "2025-10-08T16:31:10.449982",
+          "start_date": "2024-12-05T00:00:00",
+          "end_date": "2024-12-07T00:00:00",
+          "success": true,
+          "records_count": 102552
+        },
+        {
+          "timestamp": "2025-10-08T16:31:55.203984",
+          "start_date": "2024-12-08T00:00:00",
+          "end_date": "2024-12-10T00:00:00",
+          "success": true,
+          "records_count": 102696
+        },
+        {
+          "timestamp": "2025-10-08T16:32:27.817492",
+          "start_date": "2024-12-11T00:00:00",
+          "end_date": "2024-12-13T00:00:00",
+          "success": true,
+          "records_count": 102722
+        },
+        {
+          "timestamp": "2025-10-08T16:32:57.222346",
+          "start_date": "2024-12-14T00:00:00",
+          "end_date": "2024-12-16T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-08T16:33:33.247537",
+          "start_date": "2024-12-17T00:00:00",
+          "end_date": "2024-12-19T00:00:00",
+          "success": true,
+          "records_count": 102744
+        },
+        {
+          "timestamp": "2025-10-08T16:34:25.322775",
+          "start_date": "2024-12-20T00:00:00",
+          "end_date": "2024-12-22T00:00:00",
+          "success": true,
+          "records_count": 102602
+        },
+        {
+          "timestamp": "2025-10-08T16:35:10.538824",
+          "start_date": "2024-12-23T00:00:00",
+          "end_date": "2024-12-25T00:00:00",
+          "success": true,
+          "records_count": 103032
+        },
+        {
+          "timestamp": "2025-10-08T16:35:58.383771",
+          "start_date": "2024-12-26T00:00:00",
+          "end_date": "2024-12-28T00:00:00",
+          "success": true,
+          "records_count": 103032
+        },
+        {
+          "timestamp": "2025-10-08T16:36:51.368344",
+          "start_date": "2024-12-29T00:00:00",
+          "end_date": "2024-12-31T00:00:00",
+          "success": true,
+          "records_count": 102624
+        },
+        {
+          "timestamp": "2025-10-08T16:37:30.154105",
+          "start_date": "2025-01-01T00:00:00",
+          "end_date": "2025-01-03T00:00:00",
+          "success": true,
+          "records_count": 102432
+        },
+        {
+          "timestamp": "2025-10-08T16:38:05.640521",
+          "start_date": "2025-01-04T00:00:00",
+          "end_date": "2025-01-06T00:00:00",
+          "success": true,
+          "records_count": 102528
+        },
+        {
+          "timestamp": "2025-10-08T16:38:55.883712",
+          "start_date": "2025-01-07T00:00:00",
+          "end_date": "2025-01-09T00:00:00",
+          "success": true,
+          "records_count": 103008
+        },
+        {
+          "timestamp": "2025-10-08T16:39:42.567958",
+          "start_date": "2025-01-10T00:00:00",
+          "end_date": "2025-01-12T00:00:00",
+          "success": true,
+          "records_count": 103416
+        },
+        {
+          "timestamp": "2025-10-08T16:40:38.090332",
+          "start_date": "2025-01-13T00:00:00",
+          "end_date": "2025-01-15T00:00:00",
+          "success": true,
+          "records_count": 103632
+        },
+        {
+          "timestamp": "2025-10-08T16:41:34.562378",
+          "start_date": "2025-01-16T00:00:00",
+          "end_date": "2025-01-18T00:00:00",
+          "success": true,
+          "records_count": 104016
+        },
+        {
+          "timestamp": "2025-10-08T16:42:08.229158",
+          "start_date": "2025-01-19T00:00:00",
+          "end_date": "2025-01-21T00:00:00",
+          "success": true,
+          "records_count": 104592
+        },
+        {
+          "timestamp": "2025-10-08T16:42:47.033778",
+          "start_date": "2025-01-22T00:00:00",
+          "end_date": "2025-01-24T00:00:00",
+          "success": true,
+          "records_count": 104520
+        },
+        {
+          "timestamp": "2025-10-08T16:43:14.607552",
+          "start_date": "2025-01-25T00:00:00",
+          "end_date": "2025-01-27T00:00:00",
+          "success": true,
+          "records_count": 104304
+        },
+        {
+          "timestamp": "2025-10-08T16:43:41.967065",
+          "start_date": "2025-01-28T00:00:00",
+          "end_date": "2025-01-30T00:00:00",
+          "success": true,
+          "records_count": 104518
+        },
+        {
+          "timestamp": "2025-10-08T16:44:12.606819",
+          "start_date": "2025-01-31T00:00:00",
+          "end_date": "2025-02-02T00:00:00",
+          "success": true,
+          "records_count": 104304
+        },
+        {
+          "timestamp": "2025-10-08T16:44:47.402766",
+          "start_date": "2025-02-03T00:00:00",
+          "end_date": "2025-02-05T00:00:00",
+          "success": true,
+          "records_count": 103608
+        },
+        {
+          "timestamp": "2025-10-08T16:45:14.973515",
+          "start_date": "2025-02-06T00:00:00",
+          "end_date": "2025-02-08T00:00:00",
+          "success": true,
+          "records_count": 104544
+        },
+        {
+          "timestamp": "2025-10-08T16:45:42.722197",
+          "start_date": "2025-02-09T00:00:00",
+          "end_date": "2025-02-11T00:00:00",
+          "success": true,
+          "records_count": 104304
+        },
+        {
+          "timestamp": "2025-10-08T16:46:10.795578",
+          "start_date": "2025-02-12T00:00:00",
+          "end_date": "2025-02-14T00:00:00",
+          "success": true,
+          "records_count": 104304
+        }
+      ]
+    }
+  },
+  "last_updated": "2025-10-08T16:46:10.795583",
+  "version": "1.0"
+}

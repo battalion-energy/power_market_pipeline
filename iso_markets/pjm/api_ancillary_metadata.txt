@@ -1,0 +1,862 @@
+da_ancillary_services Metadata
+Try it 
+Retrieves the metadata describing the Day-Ahead Ancillary Service LMPs feed.
+
+Day-Ahead Ancillary Service LMPs
+Request
+https://api.pjm.com/api/v1/da_ancillary_services/metadata
+Response: 200 OK
+Retrieves the metadata describing this feed.
+
+
+application/json
+FeedMetadataDetail
+Feed Metadata detail
+
+
+
+
+Name
+Required
+Read-only
+Type
+Description
+id
+false
+false
+integer (int64)
+Gets or sets the feed metadata identifier.
+
+feedId
+false
+true
+string
+Need FeedId string type because FeedId integer type is ignored when returned, and name this property as "feedId" in json
+
+name
+false
+false
+string
+Gets or sets the name.
+
+displayName
+false
+false
+string
+Gets or sets the display name.
+
+description
+false
+false
+string
+Gets or sets the description.
+
+category
+false
+false
+string
+Gets or sets the category.
+
+firstAvailable
+false
+false
+string (date-time)
+Gets or sets the first available.
+
+version
+false
+false
+string
+Gets or sets the version.
+
+internalName
+false
+false
+string
+Gets or sets the name of the internal.
+
+defaultSearchJson
+false
+false
+string
+Gets or sets the default search json.
+
+fileLoadingMethod
+false
+false
+string
+Gets or sets the file loading method.
+
+postingFrequency
+false
+false
+string
+Gets or sets the posting frequency.
+
+postingDay
+false
+false
+string
+Gets or sets the posting day.
+
+retentionTime
+false
+false
+string
+Gets or sets the retention time.
+
+lastDataLoad
+false
+false
+string (date-time)
+Gets or sets the last data load.
+
+lastDataLoadEst
+false
+true
+string (date-time)
+Gets the last data load in eastern standard time.
+
+isFrequentlyAccessed
+false
+false
+boolean
+Gets or sets the is frequently accessed.
+
+enableArchiving
+false
+false
+boolean
+Gets or sets the is archiving enabled.
+
+archiveCutoffDays
+false
+false
+integer (int32)
+Gets or sets the is archiving cutoff.
+
+publishDate
+false
+false
+string (date-time)
+Gets or sets the publish date.
+
+created
+false
+false
+string (date-time)
+Gets or sets the created.
+
+updated
+false
+false
+string (date-time)
+Gets or sets the updated.
+
+repostNotifications
+false
+false
+FeedRepostNotification[]
+Gets or Sets the list of .
+
+columns
+false
+false
+FeedColumnMetadata[]
+Gets or Sets the list of .
+
+links
+false
+false
+Link[]
+Gets or Sets the list of .
+
+timeDurationUnit
+false
+true
+integer (int32)
+Feed time duration unit
+
+timeDurationIncrement
+false
+true
+integer (int32)
+Feed time duration increment
+
+categoryOrdinal
+false
+false
+integer (int32)
+Gets or sets the is premium.
+
+feedProductType
+false
+false
+integer (int32)
+Gets or sets the is premium.
+
+default
+default - json
+ Copy
+{
+    "id": 0,
+    "feedId": "string",
+    "name": "string",
+    "displayName": "string",
+    "description": "string",
+    "category": "string",
+    "firstAvailable": "string",
+    "version": "string",
+    "internalName": "string",
+    "defaultSearchJson": "string",
+    "fileLoadingMethod": "string",
+    "postingFrequency": "string",
+    "postingDay": "string",
+    "retentionTime": "string",
+    "lastDataLoad": "string",
+    "lastDataLoadEst": "string",
+    "isFrequentlyAccessed": true,
+    "enableArchiving": true,
+    "archiveCutoffDays": 0,
+    "publishDate": "string",
+    "created": "string",
+    "updated": "string",
+    "repostNotifications": [{
+        "id": 0,
+        "feedMetadataId": 0,
+        "publishDate": "string",
+        "content": "string",
+        "created": "string",
+        "updated": "string"
+    }],
+    "columns": [{
+        "id": 0,
+        "feedMetadataId": 0,
+        "dataType": "String",
+        "filterType": "Input",
+        "displayName": "string",
+        "fieldName": "string",
+        "enableFiltering": true,
+        "enableArchiveFiltering": true,
+        "enableSorting": true,
+        "ordinalPosition": 0,
+        "isVisible": true,
+        "width": 0,
+        "description": "string",
+        "displayFormat": "string",
+        "filterUiLocation": "Inline",
+        "created": "string",
+        "updated": "string",
+        "isActive": true
+    }],
+    "links": [{
+        "rel": "string",
+        "href": "string"
+    }],
+    "timeDurationUnit": 0,
+    "timeDurationIncrement": 0,
+    "categoryOrdinal": 0,
+    "feedProductType": 0
+}
+text/json
+application/xml
+text/xml
+text/csv
+Response: 404 Not Found
+The specified feed could not be found.
+
+
+application/json
+DataMinerErrorContent[String]
+
+
+Name
+Required
+Type
+Description
+data
+false
+string
+code
+false
+string
+Code
+
+message
+false
+string
+Message
+
+activityId
+false
+string
+Activity Id (Correlation Id)
+
+timestamp
+false
+string
+UTC Timestamp
+
+detailedMessage
+false
+string
+Detailed Message
+
+default
+default - json
+ Copy
+{
+    "data": "string",
+    "code": "string",
+    "message": "string",
+    "activityId": "string",
+    "timestamp": "string",
+    "detailedMessage": "string"
+}
+text/json
+application/xml
+text/xml
+text/csv
+Response: 406 Not Acceptable
+Unsupported encoding in Accept header.
+
+
+application/json
+DataMinerErrorContent[String]
+
+
+Name
+Required
+Type
+Description
+data
+false
+string
+code
+false
+string
+Code
+
+message
+false
+string
+Message
+
+activityId
+false
+string
+Activity Id (Correlation Id)
+
+timestamp
+false
+string
+UTC Timestamp
+
+detailedMessage
+false
+string
+Detailed Message
+
+default
+default - json
+ Copy
+{
+    "data": "string",
+    "code": "string",
+    "message": "string",
+    "activityId": "string",
+    "timestamp": "string",
+    "detailedMessage": "string"
+}
+text/json
+application/xml
+text/xml
+text/csv
+Response: 500 Internal Server Error
+An unexpected error has occurred, please try the request again later.
+
+
+application/json
+DataMinerErrorContent
+Data Miner Error Content
+
+
+
+
+Name
+Required
+Type
+Description
+code
+false
+string
+Code
+
+message
+false
+string
+Message
+
+activityId
+false
+string
+Activity Id (Correlation Id)
+
+timestamp
+false
+string
+UTC Timestamp
+
+detailedMessage
+false
+string
+Detailed Message
+
+default
+default - json
+ Copy
+{
+    "code": "string",
+    "message": "string",
+    "activityId": "string",
+    "timestamp": "string",
+    "detailedMessage": "string"
+}
+text/json
+application/xml
+text/xml
+text/csv
+Definitions
+Name
+Description
+Link
+Class Link.
+
+FeedMetadataDetail
+Feed Metadata detail
+
+FeedRepostNotification
+Describes a column for a feed.
+
+FeedColumnMetadata
+Describes a column for a feed.
+
+DataMinerErrorContent[String]
+DataMinerErrorContent
+Data Miner Error Content
+
+Link
+Class Link.
+
+
+
+
+Name
+Required
+Type
+Description
+rel
+false
+string
+Gets or sets the relative.
+
+href
+false
+string
+Gets or sets the href.
+
+FeedMetadataDetail
+Feed Metadata detail
+
+
+
+
+Name
+Required
+Read-only
+Type
+Description
+id
+false
+false
+integer (int64)
+Gets or sets the feed metadata identifier.
+
+feedId
+false
+true
+string
+Need FeedId string type because FeedId integer type is ignored when returned, and name this property as "feedId" in json
+
+name
+false
+false
+string
+Gets or sets the name.
+
+displayName
+false
+false
+string
+Gets or sets the display name.
+
+description
+false
+false
+string
+Gets or sets the description.
+
+category
+false
+false
+string
+Gets or sets the category.
+
+firstAvailable
+false
+false
+string (date-time)
+Gets or sets the first available.
+
+version
+false
+false
+string
+Gets or sets the version.
+
+internalName
+false
+false
+string
+Gets or sets the name of the internal.
+
+defaultSearchJson
+false
+false
+string
+Gets or sets the default search json.
+
+fileLoadingMethod
+false
+false
+string
+Gets or sets the file loading method.
+
+postingFrequency
+false
+false
+string
+Gets or sets the posting frequency.
+
+postingDay
+false
+false
+string
+Gets or sets the posting day.
+
+retentionTime
+false
+false
+string
+Gets or sets the retention time.
+
+lastDataLoad
+false
+false
+string (date-time)
+Gets or sets the last data load.
+
+lastDataLoadEst
+false
+true
+string (date-time)
+Gets the last data load in eastern standard time.
+
+isFrequentlyAccessed
+false
+false
+boolean
+Gets or sets the is frequently accessed.
+
+enableArchiving
+false
+false
+boolean
+Gets or sets the is archiving enabled.
+
+archiveCutoffDays
+false
+false
+integer (int32)
+Gets or sets the is archiving cutoff.
+
+publishDate
+false
+false
+string (date-time)
+Gets or sets the publish date.
+
+created
+false
+false
+string (date-time)
+Gets or sets the created.
+
+updated
+false
+false
+string (date-time)
+Gets or sets the updated.
+
+repostNotifications
+false
+false
+FeedRepostNotification[]
+Gets or Sets the list of .
+
+columns
+false
+false
+FeedColumnMetadata[]
+Gets or Sets the list of .
+
+links
+false
+false
+Link[]
+Gets or Sets the list of .
+
+timeDurationUnit
+false
+true
+integer (int32)
+Feed time duration unit
+
+timeDurationIncrement
+false
+true
+integer (int32)
+Feed time duration increment
+
+categoryOrdinal
+false
+false
+integer (int32)
+Gets or sets the is premium.
+
+feedProductType
+false
+false
+integer (int32)
+Gets or sets the is premium.
+
+FeedRepostNotification
+Describes a column for a feed.
+
+
+
+
+Name
+Required
+Type
+Description
+id
+false
+integer (int64)
+Gets or sets the feed repost notification identifier.
+
+feedMetadataId
+false
+integer (int64)
+Gets or sets the feed metadata identifier.
+
+publishDate
+false
+string (date-time)
+Gets or sets the publish date.
+
+content
+false
+string
+Gets or sets the content.
+
+created
+false
+string (date-time)
+Gets or sets the created.
+
+updated
+false
+string (date-time)
+Gets or sets the updated DateTime.
+
+FeedColumnMetadata
+Describes a column for a feed.
+
+
+
+
+Name
+Required
+Type
+Description
+id
+false
+integer (int64)
+Gets or sets the feed column metadata identifier.
+
+feedMetadataId
+false
+integer (int64)
+Gets or sets the feed metadata identifier.
+
+dataType
+false
+string
+Gets or sets the type of the data.
+
+filterType
+false
+string
+Gets or sets the type of the filter.
+
+displayName
+false
+string
+Gets or sets the display name.
+
+fieldName
+false
+string
+Gets or sets the name of the field.
+
+enableFiltering
+false
+boolean
+Gets or sets a value indicating whether [enable filtering].
+
+enableArchiveFiltering
+false
+boolean
+Gets or sets a value indicating whether [enable filtering].
+
+enableSorting
+false
+boolean
+Gets or sets a value indicating whether [enable sorting].
+
+ordinalPosition
+false
+integer (int32)
+Gets or sets the ordinal position.
+
+isVisible
+false
+boolean
+Gets or sets a value indicating whether this instance is visible.
+
+width
+false
+integer (int32)
+Gets or sets the width.
+
+description
+false
+string
+Gets or sets the description.
+
+displayFormat
+false
+string
+Gets or sets the display format.
+
+filterUiLocation
+false
+string
+Gets or sets the filter UI location.
+
+created
+false
+string (date-time)
+Gets or sets the created.
+
+updated
+false
+string (date-time)
+Gets or sets the updated DateTime.
+
+isActive
+false
+boolean
+Gets or sets a value indicating whether this instance is active.
+
+DataMinerErrorContent[String]
+
+
+Name
+Required
+Type
+Description
+data
+false
+string
+code
+false
+string
+Code
+
+message
+false
+string
+Message
+
+activityId
+false
+string
+Activity Id (Correlation Id)
+
+timestamp
+false
+string
+UTC Timestamp
+
+detailedMessage
+false
+string
+Detailed Message
+
+DataMinerErrorContent
+Data Miner Error Content
+
+
+
+
+Name
+Required
+Type
+Description
+code
+false
+string
+Code
+
+message
+false
+string
+Message
+
+activityId
+false
+string
+Activity Id (Correlation Id)
+
+timestamp
+false
+string
+UTC Timestamp
+
+detailedMessage
+false
+string
+Detailed Message
+

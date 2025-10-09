@@ -1,0 +1,337 @@
+====================================================================================================
+RT REVENUE CALCULATION - COMPLETE BREAKDOWN
+====================================================================================================
+
+## 1. DATA SOURCES
+
+### File Locations:
+   SCED_Gen_Resources:  /pool/ssd8tb/data/iso/ERCOT/ercot_market_data/ERCOT_data/rollup_files/SCED_Gen_Resources/2024.parquet
+   SCED_Load_Resources: /pool/ssd8tb/data/iso/ERCOT/ercot_market_data/ERCOT_data/rollup_files/SCED_Load_Resources/2024.parquet
+   RT_prices:           /pool/ssd8tb/data/iso/ERCOT/ercot_market_data/ERCOT_data/rollup_files/RT_prices/2024.parquet
+
+### SCED_Gen_Resources Schema:
+   Columns: ['AS_ECRS', 'AS_NSRS', 'AS_RRS', 'AS_RRSFFR', 'BasePoint', 'HSL', 'LSL', 'ResourceName', 'ResourceType', 'SCED1 Curve-MW1', 'SCED1 Curve-MW10', 'SCED1 Curve-MW11', 'SCED1 Curve-MW12', 'SCED1 Curve-MW13', 'SCED1 Curve-MW14', 'SCED1 Curve-MW15', 'SCED1 Curve-MW16', 'SCED1 Curve-MW17', 'SCED1 Curve-MW18', 'SCED1 Curve-MW19', 'SCED1 Curve-MW2', 'SCED1 Curve-MW20', 'SCED1 Curve-MW21', 'SCED1 Curve-MW22', 'SCED1 Curve-MW23', 'SCED1 Curve-MW24', 'SCED1 Curve-MW25', 'SCED1 Curve-MW26', 'SCED1 Curve-MW27', 'SCED1 Curve-MW28', 'SCED1 Curve-MW29', 'SCED1 Curve-MW3', 'SCED1 Curve-MW30', 'SCED1 Curve-MW31', 'SCED1 Curve-MW32', 'SCED1 Curve-MW33', 'SCED1 Curve-MW34', 'SCED1 Curve-MW35', 'SCED1 Curve-MW4', 'SCED1 Curve-MW5', 'SCED1 Curve-MW6', 'SCED1 Curve-MW7', 'SCED1 Curve-MW8', 'SCED1 Curve-MW9', 'SCED1 Curve-Price1', 'SCED1 Curve-Price10', 'SCED1 Curve-Price11', 'SCED1 Curve-Price12', 'SCED1 Curve-Price13', 'SCED1 Curve-Price14', 'SCED1 Curve-Price15', 'SCED1 Curve-Price16', 'SCED1 Curve-Price17', 'SCED1 Curve-Price18', 'SCED1 Curve-Price19', 'SCED1 Curve-Price2', 'SCED1 Curve-Price20', 'SCED1 Curve-Price21', 'SCED1 Curve-Price22', 'SCED1 Curve-Price23', 'SCED1 Curve-Price24', 'SCED1 Curve-Price25', 'SCED1 Curve-Price26', 'SCED1 Curve-Price27', 'SCED1 Curve-Price28', 'SCED1 Curve-Price29', 'SCED1 Curve-Price3', 'SCED1 Curve-Price30', 'SCED1 Curve-Price31', 'SCED1 Curve-Price32', 'SCED1 Curve-Price33', 'SCED1 Curve-Price34', 'SCED1 Curve-Price35', 'SCED1 Curve-Price4', 'SCED1 Curve-Price5', 'SCED1 Curve-Price6', 'SCED1 Curve-Price7', 'SCED1 Curve-Price8', 'SCED1 Curve-Price9', 'SCED2 Curve-MW1', 'SCED2 Curve-MW10', 'SCED2 Curve-MW11', 'SCED2 Curve-MW12', 'SCED2 Curve-MW13', 'SCED2 Curve-MW14', 'SCED2 Curve-MW15', 'SCED2 Curve-MW16', 'SCED2 Curve-MW17', 'SCED2 Curve-MW18', 'SCED2 Curve-MW19', 'SCED2 Curve-MW2', 'SCED2 Curve-MW20', 'SCED2 Curve-MW21', 'SCED2 Curve-MW22', 'SCED2 Curve-MW23', 'SCED2 Curve-MW24', 'SCED2 Curve-MW25', 'SCED2 Curve-MW26', 'SCED2 Curve-MW27', 'SCED2 Curve-MW28', 'SCED2 Curve-MW29', 'SCED2 Curve-MW3', 'SCED2 Curve-MW30', 'SCED2 Curve-MW31', 'SCED2 Curve-MW32', 'SCED2 Curve-MW33', 'SCED2 Curve-MW34', 'SCED2 Curve-MW35', 'SCED2 Curve-MW4', 'SCED2 Curve-MW5', 'SCED2 Curve-MW6', 'SCED2 Curve-MW7', 'SCED2 Curve-MW8', 'SCED2 Curve-MW9', 'SCED2 Curve-Price1', 'SCED2 Curve-Price10', 'SCED2 Curve-Price11', 'SCED2 Curve-Price12', 'SCED2 Curve-Price13', 'SCED2 Curve-Price14', 'SCED2 Curve-Price15', 'SCED2 Curve-Price16', 'SCED2 Curve-Price17', 'SCED2 Curve-Price18', 'SCED2 Curve-Price19', 'SCED2 Curve-Price2', 'SCED2 Curve-Price20', 'SCED2 Curve-Price21', 'SCED2 Curve-Price22', 'SCED2 Curve-Price23', 'SCED2 Curve-Price24', 'SCED2 Curve-Price25', 'SCED2 Curve-Price26', 'SCED2 Curve-Price27', 'SCED2 Curve-Price28', 'SCED2 Curve-Price29', 'SCED2 Curve-Price3', 'SCED2 Curve-Price30', 'SCED2 Curve-Price31', 'SCED2 Curve-Price32', 'SCED2 Curve-Price33', 'SCED2 Curve-Price34', 'SCED2 Curve-Price35', 'SCED2 Curve-Price4', 'SCED2 Curve-Price5', 'SCED2 Curve-Price6', 'SCED2 Curve-Price7', 'SCED2 Curve-Price8', 'SCED2 Curve-Price9', 'SCEDTimeStamp', 'datetime']
+
+### SCED_Load_Resources Schema:
+   Columns: ['SCEDTimeStamp', 'LDL', 'SCED Bid to Buy Curve-MW10', 'LowPowerConsumption', 'LASL', 'HDL', 'SCED Bid to Buy Curve-MW5', 'SCED Bid to Buy Curve-Price9', 'SCED Bid to Buy Curve-Price2', 'SCED Bid to Buy Curve-Price3', 'SCED Bid to Buy Curve-MW6', 'SCED Bid to Buy Curve-Price6', 'datetime', 'SCED Bid to Buy Curve-MW1', 'TelemeteredStatus', 'HASL', 'SCED Bid to Buy Curve-MW2', 'SCED Bid to Buy Curve-MW8', 'SCED Bid to Buy Curve-Price5', 'SCED Bid to Buy Curve-MW7', 'BasePoint', 'SCED Bid to Buy Curve-MW4', 'MaxPowerConsumption', 'SCED Bid to Buy Curve-Price7', 'SCED Bid to Buy Curve-MW3', 'QSE', 'SCED Bid to Buy Curve-Price4', 'SCED Bid to Buy Curve-Price8', 'SCED Bid to Buy Curve-Price10', 'SCED Bid to Buy Curve-Price1', 'SCED Bid to Buy Curve-MW9', 'ResourceName']
+
+### RT_prices Schema:
+   Columns: ['DeliveryDate', 'DeliveryHour', 'DeliveryInterval', 'SettlementPointName', 'SettlementPointType', 'SettlementPointPrice', 'DSTFlag', 'datetime']
+
+====================================================================================================
+## 2. CALCULATION METHODOLOGY
+====================================================================================================
+
+### Step 1: Load SCED Discharge Data (Gen Resource)
+   - Source: SCED_Gen_Resources parquet
+   - Filter: ResourceName == 'GEN_RESOURCE_NAME'
+   - Extract: SCEDTimeStamp, BasePoint (MW discharge)
+   - Timezone: Parse as Central Time, convert to UTC
+
+### Step 2: Load SCED Charging Data (Load Resource)
+   - Source: SCED_Load_Resources parquet
+   - Filter: ResourceName == 'LOAD_RESOURCE_NAME'
+   - Extract: SCEDTimeStamp, BasePoint (MW charge)
+   - Timezone: Parse as Central Time, convert to UTC
+
+### Step 3: Load RT Prices
+   - Source: RT_prices parquet
+   - Filter: SettlementPointName == 'RESOURCE_NODE'
+   - Extract: datetime (UTC), SettlementPointPrice ($/MWh)
+   - Granularity: 15-minute intervals
+
+### Step 4: Join Discharge with Prices
+   - Round SCED timestamp to nearest 15-min
+   - Join on rounded timestamp
+   - Calculate: discharge_revenue = Σ(discharge_MW × price × 15/60)
+
+### Step 5: Join Charging with Prices
+   - Round SCED timestamp to nearest 15-min
+   - Join on rounded timestamp
+   - Calculate: charge_cost = Σ(charge_MW × price × 15/60)
+
+### Step 6: Calculate Net Revenue
+   - RT_net = discharge_revenue - charge_cost
+   - Efficiency = discharge_MWh / charge_MWh
+
+====================================================================================================
+## 3. DETAILED EXAMPLES - ACTUAL DATA
+====================================================================================================
+
+
+====================================================================================================
+### RRANCHES_UNIT2: Top RT performer - positive arbitrage
+====================================================================================================
+Gen Resource:   RRANCHES_UNIT2
+Load Resource:  RRANCHES_LD2
+Resource Node:  RRANCHES_ALL
+Capacity:       150.0 MW
+
+Loading SCED discharge data...
+   Total discharge intervals: 27,259
+   Date range: 2024-01-16 06:00:30+00:00 to 2024-11-02 04:45:09+00:00
+
+Loading SCED charging data...
+   Total charging intervals: 27,259
+   Date range: 2024-01-16 06:00:30+00:00 to 2024-11-02 04:45:09+00:00
+
+Loading RT prices...
+   Total price intervals: 35,136
+   Date range: 2024-01-01 00:00:00 to 2025-01-01 00:30:00
+   Price range: $-31.86 to $4964.83/MWh (avg $39.94)
+
+================================================================================
+FOCUS: MAY 2024 ANALYSIS (Industry benchmark: $13.50/kW-month)
+================================================================================
+
+May 2024 intervals:
+   Discharge: 2,976
+   Charge:    2,976
+   Prices:    2,976
+
+Sample Discharge Intervals (first 10):
+shape: (10, 4)
+┌─────────────────────┬──────────────┬──────────┬───────────┐
+│ SCEDTimeStamp       ┆ discharge_mw ┆ rt_price ┆ revenue_$ │
+│ ---                 ┆ ---          ┆ ---      ┆ ---       │
+│ str                 ┆ f64          ┆ f64      ┆ f64       │
+╞═════════════════════╪══════════════╪══════════╪═══════════╡
+│ 04/30/2024 19:00:14 ┆ 0.0          ┆ -0.2     ┆ -0.0      │
+│ 04/30/2024 19:00:14 ┆ 0.0          ┆ -1.77    ┆ -0.0      │
+│ 04/30/2024 19:15:11 ┆ 0.0          ┆ -0.76    ┆ -0.0      │
+│ 04/30/2024 19:15:11 ┆ 0.0          ┆ -1.1     ┆ -0.0      │
+│ 04/30/2024 19:30:10 ┆ 0.0          ┆ -0.96    ┆ -0.0      │
+│ 04/30/2024 19:30:10 ┆ 0.0          ┆ -1.78    ┆ -0.0      │
+│ 04/30/2024 19:45:11 ┆ 0.0          ┆ -1.16    ┆ -0.0      │
+│ 04/30/2024 19:45:11 ┆ 0.0          ┆ -3.1     ┆ -0.0      │
+│ 04/30/2024 20:00:13 ┆ 0.0          ┆ -2.22    ┆ -0.0      │
+│ 04/30/2024 20:15:10 ┆ 0.0          ┆ -1.36    ┆ -0.0      │
+└─────────────────────┴──────────────┴──────────┴───────────┘
+
+May Discharge Summary:
+   Total MWh:     2,803.5
+   Total Revenue: $96,930.45
+   Avg Price:     $34.57/MWh
+
+Sample Charging Intervals (first 10):
+shape: (10, 4)
+┌─────────────────────┬───────────┬──────────┬────────┐
+│ SCEDTimeStamp       ┆ charge_mw ┆ rt_price ┆ cost_$ │
+│ ---                 ┆ ---       ┆ ---      ┆ ---    │
+│ str                 ┆ f64       ┆ f64      ┆ f64    │
+╞═════════════════════╪═══════════╪══════════╪════════╡
+│ 04/30/2024 19:00:14 ┆ 0.0       ┆ -0.2     ┆ -0.0   │
+│ 04/30/2024 19:00:14 ┆ 0.0       ┆ -1.77    ┆ -0.0   │
+│ 04/30/2024 19:15:11 ┆ 0.0       ┆ -0.76    ┆ -0.0   │
+│ 04/30/2024 19:15:11 ┆ 0.0       ┆ -1.1     ┆ -0.0   │
+│ 04/30/2024 19:30:10 ┆ 0.0       ┆ -0.96    ┆ -0.0   │
+│ 04/30/2024 19:30:10 ┆ 0.0       ┆ -1.78    ┆ -0.0   │
+│ 04/30/2024 19:45:11 ┆ 0.0       ┆ -1.16    ┆ -0.0   │
+│ 04/30/2024 19:45:11 ┆ 0.0       ┆ -3.1     ┆ -0.0   │
+│ 04/30/2024 20:00:13 ┆ 0.0       ┆ -2.22    ┆ -0.0   │
+│ 04/30/2024 20:15:10 ┆ 0.0       ┆ -1.36    ┆ -0.0   │
+└─────────────────────┴───────────┴──────────┴────────┘
+
+May Charging Summary:
+   Total MWh:  3,383.1
+   Total Cost: $117,866.43
+   Avg Price:  $34.84/MWh
+
+May RT NET:
+   Discharge Revenue: $96,930.45
+   Charge Cost:       $117,866.43
+   Net:               $-20,935.98
+   Efficiency:        82.9%
+   $/MW-month:        $-139.57
+
+   Benchmark comparison: $2,025,000.00 expected
+
+
+====================================================================================================
+### CHISMGRD_BES1: Worst RT performer - massive negative arbitrage
+====================================================================================================
+Gen Resource:   CHISMGRD_BES1
+Load Resource:  CHISMGRD_LD1
+Resource Node:  CHISMGRD_RN
+Capacity:       9.99 MW
+
+Loading SCED discharge data...
+   Total discharge intervals: 27,259
+   Date range: 2024-01-16 06:00:30+00:00 to 2024-11-02 04:45:09+00:00
+
+Loading SCED charging data...
+   Total charging intervals: 27,259
+   Date range: 2024-01-16 06:00:30+00:00 to 2024-11-02 04:45:09+00:00
+
+Loading RT prices...
+   Total price intervals: 35,136
+   Date range: 2024-01-01 00:00:00 to 2025-01-01 00:30:00
+   Price range: $-143.76 to $4964.86/MWh (avg $25.52)
+
+================================================================================
+FOCUS: MAY 2024 ANALYSIS (Industry benchmark: $13.50/kW-month)
+================================================================================
+
+May 2024 intervals:
+   Discharge: 2,976
+   Charge:    2,976
+   Prices:    2,976
+
+Sample Discharge Intervals (first 10):
+shape: (10, 4)
+┌─────────────────────┬──────────────┬──────────┬───────────┐
+│ SCEDTimeStamp       ┆ discharge_mw ┆ rt_price ┆ revenue_$ │
+│ ---                 ┆ ---          ┆ ---      ┆ ---       │
+│ str                 ┆ f64          ┆ f64      ┆ f64       │
+╞═════════════════════╪══════════════╪══════════╪═══════════╡
+│ 04/30/2024 19:00:14 ┆ 0.0          ┆ 7.45     ┆ 0.0       │
+│ 04/30/2024 19:00:14 ┆ 0.0          ┆ 6.26     ┆ 0.0       │
+│ 04/30/2024 19:15:11 ┆ 0.0          ┆ 6.88     ┆ 0.0       │
+│ 04/30/2024 19:15:11 ┆ 0.0          ┆ 6.0      ┆ 0.0       │
+│ 04/30/2024 19:30:10 ┆ 0.0          ┆ 6.45     ┆ 0.0       │
+│ 04/30/2024 19:30:10 ┆ 0.0          ┆ 5.94     ┆ 0.0       │
+│ 04/30/2024 19:45:11 ┆ 0.0          ┆ 5.18     ┆ 0.0       │
+│ 04/30/2024 19:45:11 ┆ 0.0          ┆ 5.4      ┆ 0.0       │
+│ 04/30/2024 20:00:13 ┆ 0.0          ┆ 5.41     ┆ 0.0       │
+│ 04/30/2024 20:15:10 ┆ 0.0          ┆ 5.44     ┆ 0.0       │
+└─────────────────────┴──────────────┴──────────┴───────────┘
+
+May Discharge Summary:
+   Total MWh:     1,984.4
+   Total Revenue: $41,743.06
+   Avg Price:     $21.04/MWh
+
+Sample Charging Intervals (first 10):
+shape: (10, 4)
+┌─────────────────────┬───────────┬──────────┬────────┐
+│ SCEDTimeStamp       ┆ charge_mw ┆ rt_price ┆ cost_$ │
+│ ---                 ┆ ---       ┆ ---      ┆ ---    │
+│ str                 ┆ f64       ┆ f64      ┆ f64    │
+╞═════════════════════╪═══════════╪══════════╪════════╡
+│ 04/30/2024 19:00:14 ┆ 10.0      ┆ 7.45     ┆ 18.625 │
+│ 04/30/2024 19:00:14 ┆ 10.0      ┆ 6.26     ┆ 15.65  │
+│ 04/30/2024 19:15:11 ┆ 10.0      ┆ 6.88     ┆ 17.2   │
+│ 04/30/2024 19:15:11 ┆ 10.0      ┆ 6.0      ┆ 15.0   │
+│ 04/30/2024 19:30:10 ┆ 10.0      ┆ 6.45     ┆ 16.125 │
+│ 04/30/2024 19:30:10 ┆ 10.0      ┆ 5.94     ┆ 14.85  │
+│ 04/30/2024 19:45:11 ┆ 10.0      ┆ 5.18     ┆ 12.95  │
+│ 04/30/2024 19:45:11 ┆ 10.0      ┆ 5.4      ┆ 13.5   │
+│ 04/30/2024 20:00:13 ┆ 10.0      ┆ 5.41     ┆ 13.525 │
+│ 04/30/2024 20:15:10 ┆ 10.0      ┆ 5.44     ┆ 13.6   │
+└─────────────────────┴───────────┴──────────┴────────┘
+
+May Charging Summary:
+   Total MWh:  8,581.9
+   Total Cost: $540,531.65
+   Avg Price:  $62.99/MWh
+
+May RT NET:
+   Discharge Revenue: $41,743.06
+   Charge Cost:       $540,531.65
+   Net:               $-498,788.59
+   Efficiency:        23.1%
+   $/MW-month:        $-49,928.79
+
+   Benchmark comparison: $134,865.00 expected
+
+
+====================================================================================================
+### BATCAVE_BES1: Negative RT, >100% efficiency
+====================================================================================================
+Gen Resource:   BATCAVE_BES1
+Load Resource:  BATCAVE_LD1
+Resource Node:  BATCAVE_RN
+Capacity:       155.2 MW
+
+Loading SCED discharge data...
+   Total discharge intervals: 27,259
+   Date range: 2024-01-16 06:00:30+00:00 to 2024-11-02 04:45:09+00:00
+
+Loading SCED charging data...
+   Total charging intervals: 27,259
+   Date range: 2024-01-16 06:00:30+00:00 to 2024-11-02 04:45:09+00:00
+
+Loading RT prices...
+   Total price intervals: 35,136
+   Date range: 2024-01-01 00:00:00 to 2025-01-01 00:30:00
+   Price range: $-251.00 to $4964.81/MWh (avg $24.80)
+
+================================================================================
+FOCUS: MAY 2024 ANALYSIS (Industry benchmark: $13.50/kW-month)
+================================================================================
+
+May 2024 intervals:
+   Discharge: 2,976
+   Charge:    2,976
+   Prices:    2,976
+
+Sample Discharge Intervals (first 10):
+shape: (10, 4)
+┌─────────────────────┬──────────────┬──────────┬───────────┐
+│ SCEDTimeStamp       ┆ discharge_mw ┆ rt_price ┆ revenue_$ │
+│ ---                 ┆ ---          ┆ ---      ┆ ---       │
+│ str                 ┆ f64          ┆ f64      ┆ f64       │
+╞═════════════════════╪══════════════╪══════════╪═══════════╡
+│ 04/30/2024 19:00:14 ┆ 0.0          ┆ 16.05    ┆ 0.0       │
+│ 04/30/2024 19:00:14 ┆ 0.0          ┆ 2.54     ┆ 0.0       │
+│ 04/30/2024 19:15:11 ┆ 12.019005    ┆ 18.66    ┆ 56.068657 │
+│ 04/30/2024 19:15:11 ┆ 12.019005    ┆ 4.32     ┆ 12.980525 │
+│ 04/30/2024 19:30:10 ┆ 12.01001     ┆ 14.11    ┆ 42.365309 │
+│ 04/30/2024 19:30:10 ┆ 12.01001     ┆ 6.06     ┆ 18.195165 │
+│ 04/30/2024 19:45:11 ┆ 12.021004    ┆ 5.68     ┆ 17.069825 │
+│ 04/30/2024 19:45:11 ┆ 12.021004    ┆ 3.39     ┆ 10.187801 │
+│ 04/30/2024 20:00:13 ┆ 26.786402    ┆ 2.74     ┆ 18.348685 │
+│ 04/30/2024 20:15:10 ┆ 17.514421    ┆ 0.81     ┆ 3.54667   │
+└─────────────────────┴──────────────┴──────────┴───────────┘
+
+May Discharge Summary:
+   Total MWh:     3,966.2
+   Total Revenue: $86,132.99
+   Avg Price:     $21.72/MWh
+
+Sample Charging Intervals (first 10):
+shape: (10, 4)
+┌─────────────────────┬───────────┬──────────┬──────────┐
+│ SCEDTimeStamp       ┆ charge_mw ┆ rt_price ┆ cost_$   │
+│ ---                 ┆ ---       ┆ ---      ┆ ---      │
+│ str                 ┆ f64       ┆ f64      ┆ f64      │
+╞═════════════════════╪═══════════╪══════════╪══════════╡
+│ 04/30/2024 19:00:14 ┆ 0.003483  ┆ 16.05    ┆ 0.013975 │
+│ 04/30/2024 19:00:14 ┆ 0.003483  ┆ 2.54     ┆ 0.002212 │
+│ 04/30/2024 19:15:11 ┆ 0.0       ┆ 18.66    ┆ 0.0      │
+│ 04/30/2024 19:15:11 ┆ 0.0       ┆ 4.32     ┆ 0.0      │
+│ 04/30/2024 19:30:10 ┆ 0.0       ┆ 14.11    ┆ 0.0      │
+│ 04/30/2024 19:30:10 ┆ 0.0       ┆ 6.06     ┆ 0.0      │
+│ 04/30/2024 19:45:11 ┆ 0.0       ┆ 5.68     ┆ 0.0      │
+│ 04/30/2024 19:45:11 ┆ 0.0       ┆ 3.39     ┆ 0.0      │
+│ 04/30/2024 20:00:13 ┆ 0.0       ┆ 2.74     ┆ 0.0      │
+│ 04/30/2024 20:15:10 ┆ 0.0       ┆ 0.81     ┆ 0.0      │
+└─────────────────────┴───────────┴──────────┴──────────┘
+
+May Charging Summary:
+   Total MWh:  4,911.9
+   Total Cost: $347,952.31
+   Avg Price:  $70.84/MWh
+
+May RT NET:
+   Discharge Revenue: $86,132.99
+   Charge Cost:       $347,952.31
+   Net:               $-261,819.33
+   Efficiency:        80.7%
+   $/MW-month:        $-1,686.98
+
+   Benchmark comparison: $2,095,200.00 expected
+
+
+====================================================================================================
+## 4. KEY QUESTIONS TO EVALUATE
+====================================================================================================
+
+1. Is the RT price data at the correct granularity (15-min)?
+2. Are we joining SCED timestamps correctly with RT price timestamps?
+3. Should we use BasePoint or some other field from SCED?
+4. Are Gen/Load resources correctly mapped?
+5. Why are some batteries showing negative RT arbitrage?
+6. Why are some showing >100% efficiency?
+7. Are we missing any revenue components (deployment, mileage)?
+
