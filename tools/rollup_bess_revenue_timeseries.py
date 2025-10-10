@@ -111,7 +111,7 @@ def hourly_to_periods(bess: str, year: int, dispatch_path: Path, awards_path: Pa
 def main():
     p = argparse.ArgumentParser()
     p.add_argument('--base-dir', default='/pool/ssd8tb/data/iso/ERCOT/ercot_market_data/ERCOT_data')
-    p.add_argument('--years', default='2020,2021,2022,2023,2024')
+    p.add_argument('--years', default='2020,2021,2022,2023,2024,2025')
     p.add_argument('--mapping', default='bess_mapping/BESS_UNIFIED_MAPPING_V3_CLARIFIED.csv')
     p.add_argument('--out-dir', default=None)
     args = p.parse_args()
@@ -186,4 +186,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-

@@ -26,6 +26,7 @@ from pathlib import Path
 from datetime import datetime
 from typing import Dict, List, Tuple
 import logging
+import os
 
 # Setup logging
 logging.basicConfig(
@@ -52,6 +53,28 @@ class BESSRevenueCalculator:
 
         # Verify all required data exists
         self._verify_data_files()
+
+    @staticmethod
+    def configure_threads(max_threads: int | None = None):
+        """Limit backend threads (Polars/Rayon/PyArrow/numexpr).
+
+        If max_threads is None, default to half the logical CPUs as a proxy for
+        physical cores. Users with SMT=off can set this explicitly.
+        """
+        if not max_threads or max_threads <= 0:
+            try:
+                logical = os.cpu_count() or 8
+                max_threads = max(1, logical // 2)
+            except Exception:
+                max_threads = 8
+        for k in (
+            "POLARS_MAX_THREADS",
+            "RAYON_NUM_THREADS",
+            "PYARROW_NUM_THREADS",
+            "NUMEXPR_MAX_THREADS",
+        ):
+            os.environ[k] = str(max_threads)
+        logging.getLogger(__name__).info(f"Threading limited to {max_threads} threads (POLARS/RAYON/PYARROW/NUMEXPR)")
 
     def _verify_data_files(self):
         """Verify all required parquet files exist"""
@@ -833,6 +856,7 @@ class BESSRevenueCalculator:
         dam_gen_fp = self.rollup_dir / f"DAM_Gen_Resources/{self.year}.parquet"
         dam_load_fp = self.rollup_dir / f"DAM_Load_Resources/{self.year}.parquet"
         as_prices_fp = self.rollup_dir / f"AS_prices/{self.year}.parquet"
+        eba_fp = self.rollup_dir / f"DAM_Energy_Bid_Awards/{self.year}.parquet"
 
         try:
             gen = pl.read_parquet(dam_gen_fp).filter(pl.col("ResourceName") == gen_resource)
@@ -897,14 +921,55 @@ class BESSRevenueCalculator:
         if not parts:
             return
 
-        awards = pl.concat(parts, how="diagonal_relaxed").group_by(["local_date","local_hour"]).agg([
-            pl.col("da_energy_award_mw").sum(),
-            pl.col("regup_mw").sum(),
-            pl.col("regdown_mw").sum(),
-            pl.col("rrs_mw").sum(),
-            pl.col("ecrs_mw").sum(),
-            pl.col("nonspin_mw").sum()
-        ]).sort(["local_date","local_hour"]) 
+        awards = (
+            pl.concat(parts, how="diagonal_relaxed")
+            .group_by(["local_date","local_hour"]).agg([
+                pl.col("da_energy_award_mw").fill_null(0.0).sum().alias("da_energy_award_mw"),
+                pl.col("regup_mw").fill_null(0.0).sum().alias("regup_mw"),
+                pl.col("regdown_mw").fill_null(0.0).sum().alias("regdown_mw"),
+                pl.col("rrs_mw").fill_null(0.0).sum().alias("rrs_mw"),
+                pl.col("ecrs_mw").fill_null(0.0).sum().alias("ecrs_mw"),
+                pl.col("nonspin_mw").fill_null(0.0).sum().alias("nonspin_mw")
+            ])
+            .with_columns([
+                pl.col("da_energy_award_mw").cast(pl.Float64),
+                pl.col("regup_mw").cast(pl.Float64),
+                pl.col("regdown_mw").cast(pl.Float64),
+                pl.col("rrs_mw").cast(pl.Float64),
+                pl.col("ecrs_mw").cast(pl.Float64),
+                pl.col("nonspin_mw").cast(pl.Float64)
+            ])
+            .sort(["local_date","local_hour"]) 
+        )
+
+        # Integrate DAM Energy Bid Awards (charging) as negative DA energy MW
+        try:
+            if eba_fp.exists():
+                eba = pl.read_parquet(eba_fp)
+                sp_col = 'SettlementPoint' if 'SettlementPoint' in eba.columns else ('settlement_point' if 'settlement_point' in eba.columns else None)
+                mw_col = 'EnergyBidAwardMW' if 'EnergyBidAwardMW' in eba.columns else ('energy_bid_award_mw' if 'energy_bid_award_mw' in eba.columns else None)
+                date_col = 'DeliveryDate' if 'DeliveryDate' in eba.columns else ('delivery_date' if 'delivery_date' in eba.columns else None)
+                hour_col = 'hour' if 'hour' in eba.columns else ('HourEnding' if 'HourEnding' in eba.columns else None)
+                if all([sp_col,mw_col,date_col,hour_col]):
+                    eba = eba.filter(pl.col(sp_col) == resource_node)
+                    if hour_col == 'HourEnding':
+                        eba = eba.with_columns(pl.col(hour_col).str.slice(0,2).cast(pl.Int32).alias('local_hour'))
+                    else:
+                        eba = eba.with_columns(pl.col(hour_col).cast(pl.Int32).alias('local_hour'))
+                    eba = eba.with_columns(pl.col(date_col).cast(pl.Date).alias('local_date'))
+                    # Negative awards mean charging; keep as negative MW to plot below zero
+                    eba_hourly = eba.group_by(['local_date','local_hour']).agg([
+                        pl.col(mw_col).sum().alias('eba_mw')
+                    ])
+                    # Outer-join so hours that appear only in EBA still show up
+                    awards = awards.join(eba_hourly, on=['local_date','local_hour'], how='outer')
+                    # Fill missing award cols to 0 before combining
+                    for c in ['da_energy_award_mw','regup_mw','regdown_mw','rrs_mw','ecrs_mw','nonspin_mw','eba_mw']:
+                        if c in awards.columns:
+                            awards = awards.with_columns(pl.col(c).fill_null(0.0))
+                    awards = awards.with_columns((pl.col('da_energy_award_mw') + pl.col('eba_mw')).alias('da_energy_award_mw')).drop('eba_mw')
+        except Exception:
+            pass
 
         # Attach AS MCPC hourly (system) if available
         if len(as_prices) > 0:
@@ -1057,12 +1122,21 @@ def main():
         default=os.getenv('ERCOT_DATA_DIR', '/pool/ssd8tb/data/iso/ERCOT/ercot_market_data/ERCOT_data'),
         help='Base directory for ERCOT data'
     )
+    parser.add_argument(
+        '--max-threads',
+        type=int,
+        default=None,
+        help='Limit backend threads (defaults to ~physical cores)'
+    )
 
     args = parser.parse_args()
 
     # Set default output filename
     if args.output is None:
         args.output = f"bess_revenue_{args.year}.csv"
+
+    # Configure threading
+    BESSRevenueCalculator.configure_threads(args.max_threads)
 
     # Create calculator
     calc = BESSRevenueCalculator(

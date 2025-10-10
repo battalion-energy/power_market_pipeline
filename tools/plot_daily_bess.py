@@ -16,6 +16,7 @@ from pathlib import Path
 import polars as pl
 import pandas as pd
 import matplotlib.pyplot as plt
+import numpy as np
 
 
 def load_awards(base: Path, bess: str, year: int) -> pl.DataFrame:
@@ -48,26 +49,34 @@ def main(args):
     # Build figure
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(18, 7))
 
-    # Panel 1: Market Awards stacked bars
+    # Panel 1: Market Awards stacked bars (RegDown and DA charging below zero)
     if len(aw_d) > 0:
-        df_aw = aw_d.to_pandas()
+        df_aw = aw_d.fill_null(0.0).to_pandas()
         h = df_aw["local_hour"].values
-        stacks = {
-            "NonSpin": (df_aw.get("nonspin_mw", 0.0).values, "#2C3E50"),
-            "ECRS": (df_aw.get("ecrs_mw", 0.0).values, "#D7BDE2"),
-            "RRS": (df_aw.get("rrs_mw", 0.0).values, "#5DADE2"),
-            "RegDown": (df_aw.get("regdown_mw", 0.0).values, "#F4A6A6"),
-            "RegUp": (df_aw.get("regup_mw", 0.0).values, "#F4E76E"),
-            "DA Energy": (df_aw.get("da_energy_award_mw", 0.0).values, "#8B7BC8"),
-        }
-        bottom = None
-        for label, (vals, color) in reversed(list(stacks.items())):
-            if bottom is None:
-                ax1.bar(h, vals, color=color, label=label)
-                bottom = vals
-            else:
-                ax1.bar(h, vals, bottom=bottom, color=color, label=label)
-                bottom = bottom + vals
+        # Positive stack: DA discharge, RegUp, RRS, ECRS, NonSpin
+        pos_layers = [
+            ("DA Energy", df_aw.get("da_energy_award_mw", 0.0).clip(lower=0.0).values, "#8B7BC8"),
+            ("RegUp", df_aw.get("regup_mw", 0.0).values, "#F4E76E"),
+            ("RRS", df_aw.get("rrs_mw", 0.0).values, "#5DADE2"),
+            ("ECRS", df_aw.get("ecrs_mw", 0.0).values, "#D7BDE2"),
+            ("NonSpin", df_aw.get("nonspin_mw", 0.0).values, "#2C3E50"),
+        ]
+        pos_bottom = np.zeros_like(h, dtype=float)
+        for label, vals, color in pos_layers:
+            if (np.asarray(vals) > 0).any():
+                ax1.bar(h, vals, bottom=pos_bottom, color=color, label=label)
+                pos_bottom = pos_bottom + vals
+
+        # Negative stack: DA charging (negative awards) + RegDown
+        neg_layers = [
+            ("RegDown", -np.abs(df_aw.get("regdown_mw", 0.0).values), "#F4A6A6"),
+            ("DA Charge", np.minimum(df_aw.get("da_energy_award_mw", 0.0).values, 0.0), "#7F6AB5"),
+        ]
+        neg_bottom = np.zeros_like(h, dtype=float)
+        for label, vals, color in neg_layers:
+            if (np.asarray(vals) < 0).any():
+                ax1.bar(h, vals, bottom=neg_bottom, color=color, label=label)
+                neg_bottom = neg_bottom + vals
         ax1.set_title(f"{target_date:%-m/%-d} Market Awards | {args.bess}")
         ax1.set_xlabel("Hour")
         ax1.set_ylabel("Market Awards (MW)")
@@ -84,23 +93,39 @@ def main(args):
         ax2.bar(h, bp_net_mwh, color="#2ECC71", alpha=0.4, label="RT Basepoint (MWh)")
         # Lines: RT and DA energy prices (right axis)
         ax3 = ax2.twinx()
+        # helper to align y to hours h
+        def aligned(series_hours, series_values):
+            m = {int(hh): vv for hh, vv in zip(series_hours, series_values)}
+            y = [m.get(int(hh), np.nan) for hh in h]
+            return np.array(y, dtype=float)
+
+        RT_COLOR = '#2E4053'
+        DA_COLOR = '#1f77b4'
+        ECRS_COLOR = '#1F618D'
+        RRS_COLOR = '#5DADE2'
+        REGUP_COLOR = '#F4E76E'
+        REGDOWN_COLOR = '#F4A6A6'
+        NSPIN_COLOR = '#2C3E50'
+
         if 'rt_price_avg' in df_dp.columns:
-            ax3.plot(h, df_dp['rt_price_avg'].values, color='#34495E', label='RT Price', linewidth=1.8)
+            ax3.plot(h, aligned(df_dp['local_hour'].values, df_dp['rt_price_avg'].values),
+                     color=RT_COLOR, label='RT Price', linewidth=1.8, zorder=5)
         if 'da_price_hour' in df_dp.columns:
-            ax3.plot(h, df_dp['da_price_hour'].values, color='#8B7BC8', label='DA Price', linewidth=1.4)
-        # Ancillary MCPCs from awards parquet
+            ax3.plot(h, aligned(df_dp['local_hour'].values, df_dp['da_price_hour'].values),
+                     color=DA_COLOR, label='DA Price', linewidth=1.4, zorder=4)
+        # Ancillary MCPCs from awards parquet (align lengths to hours)
         if len(aw_d) > 0:
             df_awp = aw_d.to_pandas()
             if 'ecrs_mcpc' in df_awp.columns:
-                ax3.plot(h, df_awp['ecrs_mcpc'].values, color='#1F618D', label='ECRS MCPC', linewidth=1.2)
+                ax3.plot(h, aligned(df_awp['local_hour'].values, df_awp['ecrs_mcpc'].values), color=ECRS_COLOR, label='ECRS MCPC', linewidth=1.0)
             if 'rrs_mcpc' in df_awp.columns:
-                ax3.plot(h, df_awp['rrs_mcpc'].values, color='#5DADE2', label='RRS MCPC', linewidth=1.0)
+                ax3.plot(h, aligned(df_awp['local_hour'].values, df_awp['rrs_mcpc'].values), color=RRS_COLOR, label='RRS MCPC', linewidth=1.0)
             if 'regup_mcpc' in df_awp.columns:
-                ax3.plot(h, df_awp['regup_mcpc'].values, color='#F4E76E', label='RegUp MCPC', linewidth=1.0)
+                ax3.plot(h, aligned(df_awp['local_hour'].values, df_awp['regup_mcpc'].values), color=REGUP_COLOR, label='RegUp MCPC', linewidth=1.0)
             if 'regdown_mcpc' in df_awp.columns:
-                ax3.plot(h, df_awp['regdown_mcpc'].values, color='#F4A6A6', label='RegDown MCPC', linewidth=1.0)
+                ax3.plot(h, aligned(df_awp['local_hour'].values, df_awp['regdown_mcpc'].values), color=REGDOWN_COLOR, label='RegDown MCPC', linewidth=1.0)
             if 'nonspin_mcpc' in df_awp.columns:
-                ax3.plot(h, df_awp['nonspin_mcpc'].values, color='#2C3E50', label='NonSpin MCPC', linewidth=1.0)
+                ax3.plot(h, aligned(df_awp['local_hour'].values, df_awp['nonspin_mcpc'].values), color=NSPIN_COLOR, label='NonSpin MCPC', linewidth=1.0)
         ax2.set_title(f"{target_date:%-m/%-d} Dispatch Profile | {args.bess}")
         ax2.set_xlabel("Hour")
         ax2.set_ylabel("MWh")

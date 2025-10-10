@@ -955,15 +955,15 @@ impl EnhancedAnnualProcessor {
     fn process_sced_gen_resources(&self, source_dir: &Path, output_dir: &Path) -> Result<()> {
         let csv_dir = source_dir.join("csv");
         let csv_dir = if csv_dir.exists() { csv_dir } else { source_dir.to_path_buf() };
-        
+
         // Pattern: 60d_SCED_Gen_Resource_Data-DD-MMM-YY.csv
         let pattern = csv_dir.join("60d_SCED_Gen_Resource_Data-*.csv");
         let files = glob::glob(pattern.to_str().unwrap())?
             .filter_map(Result::ok)
             .collect::<Vec<_>>();
-        
+
         println!("  Found {} SCED Gen Resource files", files.len());
-        
+
         // These files are very large, process year by year
         let mut files_by_year: BTreeMap<i32, Vec<PathBuf>> = BTreeMap::new();
         for file in files {
@@ -971,28 +971,78 @@ impl EnhancedAnnualProcessor {
                 files_by_year.entry(year).or_default().push(file);
             }
         }
-        
+
         for (year, year_files) in files_by_year {
             println!("  Processing year {}: {} files", year, year_files.len());
 
-            // Process files in parallel with limited thread count to control memory
-            // Collect all dataframes first, then normalize schema, then combine
-            let all_dfs: Vec<DataFrame> = year_files.par_iter()
-                .filter_map(|file| {
-                    match self.read_sced_gen_file(file) {
-                        Ok(df) => Some(df),
-                        Err(e) => {
-                            eprintln!("    Error reading {}: {}", file.display(), e);
-                            None
+            // STREAMING SOLUTION: Process large years in batches to avoid massive concat
+            let batch_size = if year_files.len() > 100 { 40 } else { year_files.len() };
+
+            if batch_size < year_files.len() {
+                println!("    Using streaming batch processing: {} files per batch", batch_size);
+            }
+
+            // First pass: collect all unique columns across ALL files
+            println!("    Scanning schema across all files...");
+            let mut all_columns = std::collections::HashSet::new();
+            for file in &year_files {
+                match self.read_sced_gen_file(file) {
+                    Ok(df) => {
+                        for col in df.get_column_names() {
+                            all_columns.insert(col.to_string());
                         }
                     }
-                })
-                .collect();
+                    Err(e) => {
+                        eprintln!("    Warning: Could not read {} for schema: {}", file.display(), e);
+                    }
+                }
+            }
+            let mut all_columns: Vec<String> = all_columns.into_iter().collect();
+            all_columns.sort();
+            println!("    Normalizing to {} columns", all_columns.len());
 
-            if !all_dfs.is_empty() {
-                // Normalize all DataFrames to have the same columns before combining
-                let normalized_dfs = self.normalize_sced_dataframes(all_dfs)?;
-                let combined_df = self.combine_dataframes(normalized_dfs)?;
+            // Second pass: process files in batches and combine incrementally
+            let mut batch_dfs = Vec::new();
+
+            for (batch_idx, batch) in year_files.chunks(batch_size).enumerate() {
+                println!("    Processing batch {}/{} ({} files)...",
+                    batch_idx + 1,
+                    (year_files.len() + batch_size - 1) / batch_size,
+                    batch.len()
+                );
+
+                // Read batch files in parallel
+                let batch_file_dfs: Vec<DataFrame> = batch.par_iter()
+                    .filter_map(|file| {
+                        match self.read_sced_gen_file(file) {
+                            Ok(df) => Some(df),
+                            Err(e) => {
+                                eprintln!("    Error reading {}: {}", file.display(), e);
+                                None
+                            }
+                        }
+                    })
+                    .collect();
+
+                if !batch_file_dfs.is_empty() {
+                    // Normalize batch to common schema
+                    let normalized_batch = self.normalize_to_schema(batch_file_dfs, &all_columns)?;
+
+                    // Combine files within this batch
+                    let batch_combined = self.combine_dataframes(normalized_batch)?;
+                    println!("      Batch {} combined: {} rows", batch_idx + 1, batch_combined.height());
+
+                    batch_dfs.push(batch_combined);
+                }
+            }
+
+            if !batch_dfs.is_empty() {
+                println!("    Combining {} batches into final parquet...", batch_dfs.len());
+                let combined_df = if batch_dfs.len() == 1 {
+                    batch_dfs.into_iter().next().unwrap()
+                } else {
+                    self.combine_dataframes(batch_dfs)?
+                };
 
                 let output_file = output_dir.join(format!("{}.parquet", year));
                 let mut file = std::fs::File::create(&output_file)?;
@@ -1004,7 +1054,7 @@ impl EnhancedAnnualProcessor {
                 self.update_stats("SCED_Gen_Resources", year, year_files.len(), combined_df.height(), vec![]);
             }
         }
-        
+
         Ok(())
     }
     
@@ -1012,7 +1062,7 @@ impl EnhancedAnnualProcessor {
         if dfs.is_empty() {
             return Ok(vec![]);
         }
-        
+
         // Find all unique columns across all DataFrames
         let mut all_columns = std::collections::HashSet::new();
         for df in &dfs {
@@ -1020,27 +1070,36 @@ impl EnhancedAnnualProcessor {
                 all_columns.insert(col.to_string());
             }
         }
-        
+
         // Sort columns for consistent ordering
         let mut all_columns: Vec<String> = all_columns.into_iter().collect();
         all_columns.sort();
-        
+
         println!("    Normalizing to {} columns", all_columns.len());
-        
+
+        self.normalize_to_schema(dfs, &all_columns)
+    }
+
+    /// Normalize DataFrames to a pre-computed schema (more efficient for batch processing)
+    fn normalize_to_schema(&self, dfs: Vec<DataFrame>, all_columns: &[String]) -> Result<Vec<DataFrame>> {
+        if dfs.is_empty() {
+            return Ok(vec![]);
+        }
+
         // Normalize each DataFrame to have all columns
         let mut normalized = Vec::new();
         for df in dfs {
             let mut select_exprs = Vec::new();
             let existing_cols = df.get_column_names();
-            
-            for col_name in &all_columns {
+
+            for col_name in all_columns {
                 if existing_cols.contains(&col_name.as_str()) {
                     // Column exists, use it
                     select_exprs.push(col(col_name));
                 } else {
                     // Column doesn't exist, create with null values
                     // Determine appropriate default based on column name
-                    if col_name.contains("AS_") || col_name.contains("Price") || 
+                    if col_name.contains("AS_") || col_name.contains("Price") ||
                        col_name.contains("MW") || col_name.contains("Point") {
                         // Numeric column - use 0.0
                         select_exprs.push(lit(0.0f64).alias(col_name));
@@ -1050,14 +1109,14 @@ impl EnhancedAnnualProcessor {
                     }
                 }
             }
-            
+
             let normalized_df = df.lazy()
                 .select(select_exprs)
                 .collect()?;
-                
+
             normalized.push(normalized_df);
         }
-        
+
         Ok(normalized)
     }
     
@@ -1918,7 +1977,8 @@ impl EnhancedAnnualProcessor {
         // Align all dataframes to have the same columns with matching types
         let all_columns: Vec<String> = column_types.keys().cloned().collect();
 
-        let aligned_dfs: Vec<DataFrame> = dfs.into_iter().map(|df| {
+        // OPTIMIZED: Use lazy concat instead of collecting each frame separately
+        let aligned_lazy_dfs: Vec<LazyFrame> = dfs.into_iter().map(|df| {
             // Check which columns are missing
             let df_columns: HashSet<&str> = df.get_column_names().iter().copied().collect();
             let missing_columns: Vec<&String> = all_columns.iter()
@@ -1936,63 +1996,24 @@ impl EnhancedAnnualProcessor {
                 );
             }
 
-            // Collect and select columns in consistent order
-            let mut collected = lazy_df.collect().unwrap();
-            collected.select(&all_columns.iter().map(|s| s.as_str()).collect::<Vec<_>>()).unwrap()
+            // Select columns in consistent order (still lazy)
+            lazy_df.select(&all_columns.iter().map(|s| col(s.as_str())).collect::<Vec<_>>())
         }).collect();
 
-        // For small numbers of dataframes, use the simple approach
-        if aligned_dfs.len() <= 10 {
-            let mut combined = aligned_dfs[0].clone();
-            for df in aligned_dfs.into_iter().skip(1) {
-                combined = combined.vstack(&df)?;
-            }
+        // OPTIMIZED: Use Polars' built-in concat with lazy evaluation
+        // This is much faster than collecting each dataframe separately
+        let combined_lazy = concat(&aligned_lazy_dfs, UnionArgs::default())?;
 
-            // Sort by datetime if it exists
-            if combined.get_column_names().contains(&"datetime") {
-                combined = combined.lazy()
-                    .sort("datetime", Default::default())
-                    .collect()?;
-            }
-
-            return Ok(combined);
-        }
-        
-        // For large numbers of dataframes, use parallel tree reduction
-        // Don't print for every batch combination - too verbose
-
-        // Use the aligned dataframes for parallel reduction
-        let mut work_queue: Vec<DataFrame> = aligned_dfs;
-
-        // Tree reduction - combine pairs in parallel until we have one
-        while work_queue.len() > 1 {
-            // Process pairs in parallel
-            let paired_results: Vec<DataFrame> = work_queue
-                .par_chunks(2)
-                .map(|pair| {
-                    if pair.len() == 2 {
-                        // Combine two dataframes
-                        pair[0].vstack(&pair[1])
-                    } else {
-                        // Odd one out, just return it
-                        Ok(pair[0].clone())
-                    }
-                })
-                .collect::<Result<Vec<_>, _>>()?;
-
-            work_queue = paired_results;
-        }
-        
-        let mut combined = work_queue.into_iter().next()
-            .ok_or_else(|| anyhow::anyhow!("Failed to combine dataframes"))?;
-        
-        // Sort by datetime if it exists
-        if combined.get_column_names().contains(&"datetime") {
-            combined = combined.lazy()
+        // Sort by datetime if column exists, then collect
+        let has_datetime = all_columns.contains(&"datetime".to_string());
+        let combined = if has_datetime {
+            combined_lazy
                 .sort("datetime", Default::default())
-                .collect()?;
-        }
-        
+                .collect()?
+        } else {
+            combined_lazy.collect()?
+        };
+
         Ok(combined)
     }
     

@@ -11,6 +11,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 
 from bess_revenue_calculator import BESSRevenueCalculator
 import logging
+import os
 
 logging.basicConfig(
     level=logging.INFO,
@@ -21,7 +22,7 @@ logger = logging.getLogger(__name__)
 # Configuration
 BASE_DIR = Path("/pool/ssd8tb/data/iso/ERCOT/ercot_market_data/ERCOT_data")
 MAPPING_FILE = Path("bess_mapping/BESS_UNIFIED_MAPPING_V3_CLARIFIED.csv")
-YEARS = [2020, 2021, 2022, 2023, 2024]
+YEARS = [2020, 2021, 2022, 2023, 2024, 2025]
 
 def main():
     logger.info("=" * 100)
@@ -64,6 +65,9 @@ def main():
         logger.info("")
 
         # Initialize calculator
+        # Limit backend threads to avoid oversubscription
+        BESSRevenueCalculator.configure_threads(int(os.getenv('PMP_MAX_THREADS', '0')) or None)
+
         calculator = BESSRevenueCalculator(
             base_dir=BASE_DIR,
             year=year
