@@ -1,0 +1,2263 @@
+{
+  "checkpoint_at": "2025-10-11T11:59:38.597977",
+  "programs_researched": 20,
+  "programs": [
+    {
+      "program_id": "CALIFORNIA-DEMAND-RESPONSE-PROGRAM",
+      "program_name": "Demand Response Program",
+      "program_type": "utility",
+      "status": "active",
+      "states": [
+        "California"
+      ],
+      "utilities": [
+        "Los Angeles Department of Water and Power"
+      ],
+      "isos_rtos": [],
+      "data_sources": {
+        "program_url": "https://www.ladwp.com/commercial-services/programs-and-rebates-commercial/demand-response-program",
+        "data_quality_notes": "Scraped from DOE FEMP database 2025-10-11"
+      },
+      "payment_structure": {
+        "has_capacity_payment": true,
+        "has_performance_payment": true,
+        "capacity_rate": {
+          "value": "varies - see program page",
+          "unit": "$/kW-month",
+          "varies_by_season": "not specified",
+          "notes": "Found in description: 0.25"
+        },
+        "performance_rate": {
+          "value": "varies - see program page",
+          "unit": "$/kWh",
+          "varies_by_event": "not specified",
+          "notes": "Found in description: 0.25"
+        },
+        "performance_rate_details": [
+          {
+            "value": 0.25,
+            "unit": "$/kWh",
+            "source_url": "https://www.ladwp.com/commercial-services/programs-and-rebates-commercial/demand-response-program",
+            "verification_status": "found_on_page"
+          }
+        ]
+      },
+      "call_windows": [],
+      "seasons": [
+        {
+          "season_name": "Fall",
+          "start_date": "not specified",
+          "end_date": "not specified",
+          "max_events": "not specified",
+          "max_hours": "not specified"
+        },
+        {
+          "season_name": "Spring",
+          "start_date": "not specified",
+          "end_date": "not specified",
+          "max_events": "not specified",
+          "max_hours": "not specified"
+        },
+        {
+          "season_name": "Summer",
+          "start_date": "not specified",
+          "end_date": "not specified",
+          "max_events": "not specified",
+          "max_hours": "not specified"
+        }
+      ],
+      "eligibility": {
+        "customer_classes": {
+          "residential": false,
+          "commercial": true,
+          "industrial": true,
+          "residential_max_kw": null,
+          "commercial_min_kw": null,
+          "size_threshold_notes": "Size threshold mentioned: 100 kW - see description"
+        },
+        "behind_the_meter": true,
+        "front_of_meter": false,
+        "minimum_capacity_kw": "not specified",
+        "resource_types": [
+          "not specified"
+        ],
+        "requires_aggregator": false
+      },
+      "event_parameters": {
+        "typical_duration_hours": "not specified",
+        "minimum_duration_hours": "not specified",
+        "maximum_duration_hours": "not specified",
+        "max_events_per_year": "not specified",
+        "max_hours_per_year": "not specified",
+        "typical_response_time_minutes": "not specified"
+      },
+      "notification": {
+        "day_ahead_notice": "not specified",
+        "minimum_notice_hours": "not specified",
+        "maximum_notice_hours": "not specified",
+        "notification_methods": [
+          "not specified"
+        ]
+      },
+      "event_triggers": {
+        "trigger_description": "The Los Angeles Department of Water and Power (LADWP) offers financial incentives to customers participating in their demand response (DR) program. Customers are eligible to receive two different ince...",
+        "primary_trigger": "not specified",
+        "secondary_triggers": [],
+        "temperature_threshold": null,
+        "price_threshold": "not specified",
+        "peak_demand_based": true
+      },
+      "nomination_bidding": {
+        "requires_nomination": "not specified",
+        "nomination_deadline": "not specified",
+        "allows_bidding": false,
+        "bidding_process": "not specified"
+      },
+      "penalties": {
+        "has_penalties": "not specified",
+        "penalty_structure": "not specified"
+      },
+      "historical_events": {
+        "events_available": false,
+        "data_source_url": "not available",
+        "recent_events": []
+      },
+      "integration_metadata": {
+        "optimizer_compatible": true,
+        "api_available": false,
+        "api_documentation_url": "not available",
+        "data_quality_score": 7,
+        "notes": "Basic information from DOE FEMP. Program page: https://www.ladwp.com/commercial-services/programs-and-rebates-commercial/demand-response-program"
+      },
+      "research_metadata": {
+        "research_timestamp": "2025-10-11T11:58:06.113965",
+        "research_url": "https://www.ladwp.com/commercial-services/programs-and-rebates-commercial/demand-response-program",
+        "research_status": "completed"
+      },
+      "data_quality_enhanced": true
+    },
+    {
+      "program_id": "CALIFORNIA-OPTIONAL-BINDING-MANDATORY-CURTAILMENT-",
+      "program_name": "Optional Binding Mandatory Curtailment Program",
+      "program_type": "utility",
+      "status": "active",
+      "states": [
+        "California"
+      ],
+      "utilities": [
+        "Southern California Edison (SCE)"
+      ],
+      "isos_rtos": [],
+      "data_sources": {
+        "program_url": "https://www.sce.com/business/savings-incentives/demand-response/eligibility",
+        "data_quality_notes": "Scraped from DOE FEMP database 2025-10-11"
+      },
+      "payment_structure": {
+        "has_capacity_payment": true,
+        "has_performance_payment": true,
+        "capacity_rate": {
+          "value": "varies - see program page",
+          "unit": "$/kW-year",
+          "varies_by_season": "not specified",
+          "notes": "Found in description: 6.00"
+        },
+        "performance_rate": {
+          "value": "varies - see program page",
+          "unit": "$/kWh",
+          "varies_by_event": "not specified",
+          "notes": "Found in description: 6.00"
+        }
+      },
+      "call_windows": [],
+      "seasons": [
+        {
+          "season_name": "Year-Round",
+          "start_date": "01-01",
+          "end_date": "12-31",
+          "max_events": "not specified",
+          "max_hours": "not specified"
+        }
+      ],
+      "eligibility": {
+        "customer_classes": {
+          "residential": false,
+          "commercial": true,
+          "industrial": true,
+          "residential_max_kw": null,
+          "commercial_min_kw": null,
+          "size_threshold_notes": ""
+        },
+        "behind_the_meter": true,
+        "front_of_meter": false,
+        "minimum_capacity_kw": "not specified",
+        "resource_types": [
+          "not specified"
+        ],
+        "requires_aggregator": false
+      },
+      "event_parameters": {
+        "typical_duration_hours": "not specified",
+        "minimum_duration_hours": "not specified",
+        "maximum_duration_hours": "not specified",
+        "max_events_per_year": "not specified",
+        "max_hours_per_year": "not specified",
+        "typical_response_time_minutes": "not specified"
+      },
+      "notification": {
+        "day_ahead_notice": "not specified",
+        "minimum_notice_hours": "not specified",
+        "maximum_notice_hours": "not specified",
+        "notification_methods": [
+          "not specified"
+        ]
+      },
+      "event_triggers": {
+        "trigger_description": "SCE offers the Optional Binding Mandatory Curtailment Program, which provides customers with exemptions from rotating power outages if they can reduce their circuit load during Stage 3 emergencies. Pa...",
+        "primary_trigger": "not specified",
+        "secondary_triggers": [],
+        "temperature_threshold": null,
+        "price_threshold": "not specified",
+        "emergency_based": true
+      },
+      "nomination_bidding": {
+        "requires_nomination": "not specified",
+        "nomination_deadline": "not specified",
+        "allows_bidding": false,
+        "bidding_process": "not specified"
+      },
+      "penalties": {
+        "has_penalties": "not specified",
+        "penalty_structure": "not specified"
+      },
+      "historical_events": {
+        "events_available": false,
+        "data_source_url": "not available",
+        "recent_events": []
+      },
+      "integration_metadata": {
+        "optimizer_compatible": true,
+        "api_available": false,
+        "api_documentation_url": "not available",
+        "data_quality_score": 7,
+        "notes": "Basic information from DOE FEMP. Program page: https://www.sce.com/business/savings-incentives/demand-response/eligibility"
+      },
+      "call_windows_details": [
+        {
+          "description": "4 p.m. 9 p.m.",
+          "source": "extracted_from_page"
+        }
+      ],
+      "research_metadata": {
+        "research_timestamp": "2025-10-11T11:58:08.326291",
+        "research_url": "https://www.sce.com/business/savings-incentives/demand-response/eligibility",
+        "research_status": "completed"
+      },
+      "data_quality_enhanced": true
+    },
+    {
+      "program_id": "NEW-YORK-COMMERCIAL-SYSTEM-RELIEF-PROGRAM",
+      "program_name": "Commercial System Relief Program",
+      "program_type": "utility",
+      "status": "active",
+      "states": [
+        "New York"
+      ],
+      "utilities": [
+        "Central Hudson"
+      ],
+      "isos_rtos": [],
+      "data_sources": {
+        "program_url": "https://www.cenhud.com/my-energy/save-energy-money/commercial-demand-response/",
+        "data_quality_notes": "Scraped from DOE FEMP database 2025-10-11"
+      },
+      "payment_structure": {
+        "has_capacity_payment": true,
+        "has_performance_payment": true,
+        "capacity_rate": {
+          "value": "varies - see program page",
+          "unit": "$/kW-month",
+          "varies_by_season": "not specified",
+          "notes": "Found in description: 1.23"
+        },
+        "performance_rate": {
+          "value": "varies - see program page",
+          "unit": "$/kWh",
+          "varies_by_event": "not specified",
+          "notes": "Found in description: 0.11"
+        }
+      },
+      "call_windows": [
+        {
+          "season_name": "not specified",
+          "start_hour": "see program description",
+          "end_hour": "see program description",
+          "days_of_week": [],
+          "timezone": "not specified",
+          "notes": "Time pattern found: ('12', '8')"
+        }
+      ],
+      "seasons": [
+        {
+          "season_name": "Spring",
+          "start_date": "not specified",
+          "end_date": "not specified",
+          "max_events": "not specified",
+          "max_hours": "not specified"
+        },
+        {
+          "season_name": "Summer",
+          "start_date": "not specified",
+          "end_date": "not specified",
+          "max_events": "not specified",
+          "max_hours": "not specified"
+        }
+      ],
+      "eligibility": {
+        "customer_classes": {
+          "residential": false,
+          "commercial": true,
+          "industrial": false,
+          "residential_max_kw": null,
+          "commercial_min_kw": null,
+          "size_threshold_notes": ""
+        },
+        "behind_the_meter": true,
+        "front_of_meter": false,
+        "minimum_capacity_kw": "not specified",
+        "resource_types": [
+          "not specified"
+        ],
+        "requires_aggregator": false
+      },
+      "event_parameters": {
+        "typical_duration_hours": "not specified",
+        "minimum_duration_hours": "not specified",
+        "maximum_duration_hours": "not specified",
+        "max_events_per_year": "not specified",
+        "max_hours_per_year": "not specified",
+        "typical_response_time_minutes": "not specified"
+      },
+      "notification": {
+        "day_ahead_notice": "not specified",
+        "minimum_notice_hours": "not specified",
+        "maximum_notice_hours": "not specified",
+        "notification_methods": [
+          "not specified"
+        ]
+      },
+      "event_triggers": {
+        "trigger_description": "Through the Commercial System Relief Program (CSRP) Central Hudson offers its customers incentives for reducing their electricity usage during peak periods. Two enrollment options are available, one v...",
+        "primary_trigger": "not specified",
+        "secondary_triggers": [],
+        "temperature_threshold": null,
+        "price_threshold": "not specified"
+      },
+      "nomination_bidding": {
+        "requires_nomination": "not specified",
+        "nomination_deadline": "not specified",
+        "allows_bidding": false,
+        "bidding_process": "not specified"
+      },
+      "penalties": {
+        "has_penalties": "not specified",
+        "penalty_structure": "not specified"
+      },
+      "historical_events": {
+        "events_available": false,
+        "data_source_url": "not available",
+        "recent_events": []
+      },
+      "integration_metadata": {
+        "optimizer_compatible": true,
+        "api_available": false,
+        "api_documentation_url": "not available",
+        "data_quality_score": 7,
+        "notes": "Basic information from DOE FEMP. Program page: https://www.cenhud.com/my-energy/save-energy-money/commercial-demand-response/"
+      },
+      "research_metadata": {
+        "research_timestamp": "2025-10-11T11:58:10.443448",
+        "research_url": "https://www.cenhud.com/my-energy/save-energy-money/commercial-demand-response/",
+        "research_status": "completed"
+      },
+      "data_quality_enhanced": true
+    },
+    {
+      "program_id": "NEW-YORK-TARGETED-DEMAND-RESPONSE",
+      "program_name": "Targeted Demand Response",
+      "program_type": "utility",
+      "status": "active",
+      "states": [
+        "New York"
+      ],
+      "utilities": [
+        "Central Hudson"
+      ],
+      "isos_rtos": [],
+      "data_sources": {
+        "program_url": "https://cenhudpeakperks.com/targeted-demand-response/",
+        "data_quality_notes": "Scraped from DOE FEMP database 2025-10-11"
+      },
+      "payment_structure": {
+        "has_capacity_payment": true,
+        "has_performance_payment": false,
+        "capacity_rate": {
+          "value": "varies - see program page",
+          "unit": "$/kW-day",
+          "varies_by_season": "not specified",
+          "notes": "Found in description: 27.30"
+        },
+        "performance_rate": {},
+        "capacity_rate_details": [
+          {
+            "value": 6.825,
+            "unit": "$/kW-month",
+            "source_url": "https://cenhudpeakperks.com/targeted-demand-response/",
+            "verification_status": "found_on_page"
+          }
+        ]
+      },
+      "call_windows": [
+        {
+          "season_name": "not specified",
+          "start_hour": "see program description",
+          "end_hour": "see program description",
+          "days_of_week": [],
+          "timezone": "not specified",
+          "notes": "Time pattern found: ('2', '6')"
+        }
+      ],
+      "seasons": [
+        {
+          "season_name": "Spring",
+          "start_date": "not specified",
+          "end_date": "not specified",
+          "max_events": "not specified",
+          "max_hours": "not specified"
+        },
+        {
+          "season_name": "Summer",
+          "start_date": "not specified",
+          "end_date": "not specified",
+          "max_events": "not specified",
+          "max_hours": "not specified"
+        }
+      ],
+      "eligibility": {
+        "customer_classes": {
+          "residential": false,
+          "commercial": true,
+          "industrial": true,
+          "residential_max_kw": null,
+          "commercial_min_kw": null,
+          "size_threshold_notes": "Size threshold mentioned: 50 kW - see description"
+        },
+        "behind_the_meter": true,
+        "front_of_meter": false,
+        "minimum_capacity_kw": "not specified",
+        "resource_types": [
+          "not specified"
+        ],
+        "requires_aggregator": false
+      },
+      "event_parameters": {
+        "typical_duration_hours": "not specified",
+        "minimum_duration_hours": "not specified",
+        "maximum_duration_hours": "not specified",
+        "max_events_per_year": "not specified",
+        "max_hours_per_year": "not specified",
+        "typical_response_time_minutes": "not specified"
+      },
+      "notification": {
+        "day_ahead_notice": "not specified",
+        "minimum_notice_hours": "not specified",
+        "maximum_notice_hours": "not specified",
+        "notification_methods": [
+          "not specified"
+        ]
+      },
+      "event_triggers": {
+        "trigger_description": "For customers in certain transmission-constrained portions of its service territory, Central Hudson offers the Targeted Demand Response program. Customers can earn roughly $27.30/kW each summer (June ...",
+        "primary_trigger": "not specified",
+        "secondary_triggers": [],
+        "temperature_threshold": null,
+        "price_threshold": "not specified",
+        "emergency_based": true
+      },
+      "nomination_bidding": {
+        "requires_nomination": "not specified",
+        "nomination_deadline": "not specified",
+        "allows_bidding": false,
+        "bidding_process": "not specified"
+      },
+      "penalties": {
+        "has_penalties": "not specified",
+        "penalty_structure": "not specified"
+      },
+      "historical_events": {
+        "events_available": false,
+        "data_source_url": "not available",
+        "recent_events": []
+      },
+      "integration_metadata": {
+        "optimizer_compatible": true,
+        "api_available": false,
+        "api_documentation_url": "not available",
+        "data_quality_score": 7,
+        "notes": "Basic information from DOE FEMP. Program page: https://cenhudpeakperks.com/targeted-demand-response/"
+      },
+      "research_metadata": {
+        "research_timestamp": "2025-10-11T11:58:12.700324",
+        "research_url": "https://cenhudpeakperks.com/targeted-demand-response/",
+        "research_status": "completed"
+      },
+      "data_quality_enhanced": true
+    },
+    {
+      "program_id": "NEW-YORK-DISTRIBUTION-LOAD-RELIEF-PROGRAM",
+      "program_name": "Distribution Load Relief Program",
+      "program_type": "utility",
+      "status": "active",
+      "states": [
+        "New York"
+      ],
+      "utilities": [
+        "Con Edison"
+      ],
+      "isos_rtos": [],
+      "data_sources": {
+        "program_url": "https://www.coned.com/en/save-money/rebates-incentives-tax-credits/rebates-incentives-tax-credits-for-commercial-industrial-buildings-customers/smart-usage-rewards",
+        "data_quality_notes": "Scraped from DOE FEMP database 2025-10-11"
+      },
+      "payment_structure": {
+        "has_capacity_payment": true,
+        "has_performance_payment": true,
+        "capacity_rate": {
+          "value": "varies - see program page",
+          "unit": "$/kW-month",
+          "varies_by_season": "not specified",
+          "notes": "Found in description: 25"
+        },
+        "performance_rate": {
+          "value": "varies - see program page",
+          "unit": "$/kWh",
+          "varies_by_event": "not specified",
+          "notes": "Found in description: 1"
+        },
+        "performance_rate_details": [
+          {
+            "value": 1.0,
+            "unit": "$/kWh",
+            "source_url": "https://www.coned.com/en/save-money/rebates-incentives-tax-credits/rebates-incentives-tax-credits-for-commercial-industrial-buildings-customers/smart-usage-rewards",
+            "verification_status": "found_on_page"
+          },
+          {
+            "value": 1.0,
+            "unit": "$/kWh",
+            "source_url": "https://www.coned.com/en/save-money/rebates-incentives-tax-credits/rebates-incentives-tax-credits-for-commercial-industrial-buildings-customers/smart-usage-rewards",
+            "verification_status": "found_on_page"
+          },
+          {
+            "value": 1.0,
+            "unit": "$/kWh",
+            "source_url": "https://www.coned.com/en/save-money/rebates-incentives-tax-credits/rebates-incentives-tax-credits-for-commercial-industrial-buildings-customers/smart-usage-rewards",
+            "verification_status": "found_on_page"
+          }
+        ]
+      },
+      "call_windows": [],
+      "seasons": [
+        {
+          "season_name": "Year-Round",
+          "start_date": "01-01",
+          "end_date": "12-31",
+          "max_events": "not specified",
+          "max_hours": "not specified"
+        }
+      ],
+      "eligibility": {
+        "customer_classes": {
+          "residential": false,
+          "commercial": true,
+          "industrial": true,
+          "residential_max_kw": null,
+          "commercial_min_kw": null,
+          "size_threshold_notes": ""
+        },
+        "behind_the_meter": true,
+        "front_of_meter": false,
+        "minimum_capacity_kw": "not specified",
+        "resource_types": [
+          "not specified"
+        ],
+        "requires_aggregator": false
+      },
+      "event_parameters": {
+        "typical_duration_hours": "not specified",
+        "minimum_duration_hours": "not specified",
+        "maximum_duration_hours": "not specified",
+        "max_events_per_year": "not specified",
+        "max_hours_per_year": "not specified",
+        "typical_response_time_minutes": "not specified"
+      },
+      "notification": {
+        "day_ahead_notice": "not specified",
+        "minimum_notice_hours": "not specified",
+        "maximum_notice_hours": "not specified",
+        "notification_methods": [
+          "not specified"
+        ]
+      },
+      "event_triggers": {
+        "trigger_description": "The Distribution Load Relief Program (DLRP) pays participants between $18 and $25 per kW for each month of enrollment, as well as $1/kWh for actual event reductions, in exchange for their willingness ...",
+        "primary_trigger": "not specified",
+        "secondary_triggers": [],
+        "temperature_threshold": null,
+        "price_threshold": "not specified",
+        "peak_demand_based": true
+      },
+      "nomination_bidding": {
+        "requires_nomination": "not specified",
+        "nomination_deadline": "not specified",
+        "allows_bidding": false,
+        "bidding_process": "not specified"
+      },
+      "penalties": {
+        "has_penalties": "not specified",
+        "penalty_structure": "not specified"
+      },
+      "historical_events": {
+        "events_available": false,
+        "data_source_url": "not available",
+        "recent_events": []
+      },
+      "integration_metadata": {
+        "optimizer_compatible": true,
+        "api_available": false,
+        "api_documentation_url": "not available",
+        "data_quality_score": 7,
+        "notes": "Basic information from DOE FEMP. Program page: https://www.coned.com/en/save-money/rebates-incentives-tax-credits/rebates-incentives-tax-credits-for-commercial-industrial-buildings-customers/smart-usage-rewards"
+      },
+      "research_metadata": {
+        "research_timestamp": "2025-10-11T11:58:15.832385",
+        "research_url": "https://www.coned.com/en/save-money/rebates-incentives-tax-credits/rebates-incentives-tax-credits-for-commercial-industrial-buildings-customers/smart-usage-rewards",
+        "research_status": "completed"
+      },
+      "data_quality_enhanced": true
+    },
+    {
+      "program_id": "NEW-YORK-COMMERCIAL-SYSTEM-RELIEF-PROGRAM",
+      "program_name": "Commercial System Relief Program",
+      "program_type": "utility",
+      "status": "active",
+      "states": [
+        "New York"
+      ],
+      "utilities": [
+        "NYSEG"
+      ],
+      "isos_rtos": [],
+      "data_sources": {
+        "program_url": "https://www.nyseg.com/web/nyseg/smartenergy/businesssolutions/cidemandresponse/commercial-system-relief-program",
+        "data_quality_notes": "Scraped from DOE FEMP database 2025-10-11"
+      },
+      "payment_structure": {
+        "has_capacity_payment": true,
+        "has_performance_payment": true,
+        "capacity_rate": {
+          "value": "varies - see program page",
+          "unit": "$/kW-month",
+          "varies_by_season": "not specified",
+          "notes": "Found in description: 4.10"
+        },
+        "performance_rate": {
+          "value": "varies - see program page",
+          "unit": "$/kWh",
+          "varies_by_event": "not specified",
+          "notes": "Found in description: 0.50"
+        }
+      },
+      "call_windows": [],
+      "seasons": [
+        {
+          "season_name": "Spring",
+          "start_date": "not specified",
+          "end_date": "not specified",
+          "max_events": "not specified",
+          "max_hours": "not specified"
+        },
+        {
+          "season_name": "Summer",
+          "start_date": "not specified",
+          "end_date": "not specified",
+          "max_events": "not specified",
+          "max_hours": "not specified"
+        }
+      ],
+      "eligibility": {
+        "customer_classes": {
+          "residential": false,
+          "commercial": true,
+          "industrial": true,
+          "residential_max_kw": null,
+          "commercial_min_kw": null,
+          "size_threshold_notes": "Size threshold mentioned: 50 kW - see description"
+        },
+        "behind_the_meter": true,
+        "front_of_meter": false,
+        "minimum_capacity_kw": "not specified",
+        "resource_types": [
+          "not specified"
+        ],
+        "requires_aggregator": false
+      },
+      "event_parameters": {
+        "typical_duration_hours": "not specified",
+        "minimum_duration_hours": "not specified",
+        "maximum_duration_hours": "not specified",
+        "max_events_per_year": "not specified",
+        "max_hours_per_year": "not specified",
+        "typical_response_time_minutes": "not specified"
+      },
+      "notification": {
+        "day_ahead_notice": "not specified",
+        "minimum_notice_hours": "not specified",
+        "maximum_notice_hours": "not specified",
+        "notification_methods": [
+          "not specified"
+        ]
+      },
+      "event_triggers": {
+        "trigger_description": "Through the Commercial System Relief Program (CSRP) New York State Electric and Gas (NYSEG) offers its commercial/industrial customers incentives for reducing their electricity usage during peak perio...",
+        "primary_trigger": "not specified",
+        "secondary_triggers": [],
+        "temperature_threshold": null,
+        "price_threshold": "not specified"
+      },
+      "nomination_bidding": {
+        "requires_nomination": "not specified",
+        "nomination_deadline": "not specified",
+        "allows_bidding": false,
+        "bidding_process": "not specified"
+      },
+      "penalties": {
+        "has_penalties": "not specified",
+        "penalty_structure": "not specified"
+      },
+      "historical_events": {
+        "events_available": false,
+        "data_source_url": "not available",
+        "recent_events": []
+      },
+      "integration_metadata": {
+        "optimizer_compatible": true,
+        "api_available": false,
+        "api_documentation_url": "not available",
+        "data_quality_score": 5,
+        "notes": "Basic information from DOE FEMP. Program page: https://www.nyseg.com/web/nyseg/smartenergy/businesssolutions/cidemandresponse/commercial-system-relief-program"
+      }
+    },
+    {
+      "program_id": "TEXAS-COMMERCIAL-DEMAND-RESPONSE",
+      "program_name": "Commercial Demand Response",
+      "program_type": "utility",
+      "status": "active",
+      "states": [
+        "Texas"
+      ],
+      "utilities": [
+        "Austin Energy"
+      ],
+      "isos_rtos": [],
+      "data_sources": {
+        "program_url": "https://savings.austinenergy.com/commercial/offerings/load-management/commercial-demand-response",
+        "data_quality_notes": "Scraped from DOE FEMP database 2025-10-11"
+      },
+      "payment_structure": {
+        "has_capacity_payment": true,
+        "has_performance_payment": false,
+        "capacity_rate": {
+          "value": "varies - see program page",
+          "unit": "$/kW-year",
+          "varies_by_season": "not specified",
+          "notes": "Found in description: 80"
+        },
+        "performance_rate": {}
+      },
+      "call_windows": [],
+      "seasons": [
+        {
+          "season_name": "Summer",
+          "start_date": "not specified",
+          "end_date": "not specified",
+          "max_events": "not specified",
+          "max_hours": "not specified"
+        }
+      ],
+      "eligibility": {
+        "customer_classes": {
+          "residential": false,
+          "commercial": true,
+          "industrial": false,
+          "residential_max_kw": null,
+          "commercial_min_kw": null,
+          "size_threshold_notes": ""
+        },
+        "behind_the_meter": true,
+        "front_of_meter": false,
+        "minimum_capacity_kw": "not specified",
+        "resource_types": [
+          "not specified"
+        ],
+        "requires_aggregator": false
+      },
+      "event_parameters": {
+        "typical_duration_hours": "not specified",
+        "minimum_duration_hours": "not specified",
+        "maximum_duration_hours": "not specified",
+        "max_events_per_year": "not specified",
+        "max_hours_per_year": "not specified",
+        "typical_response_time_minutes": "not specified"
+      },
+      "notification": {
+        "day_ahead_notice": "not specified",
+        "minimum_notice_hours": "not specified",
+        "maximum_notice_hours": "not specified",
+        "notification_methods": [
+          "not specified"
+        ]
+      },
+      "event_triggers": {
+        "trigger_description": "Austin Energy's\u00a0Commercial Demand Response program offers customers incentives for curtailing unnecessary load during peak demand periods, which occurs between 1 to 7 P.M. from June through September....",
+        "primary_trigger": "not specified",
+        "secondary_triggers": [],
+        "temperature_threshold": null,
+        "price_threshold": "not specified",
+        "emergency_based": true
+      },
+      "nomination_bidding": {
+        "requires_nomination": "not specified",
+        "nomination_deadline": "not specified",
+        "allows_bidding": false,
+        "bidding_process": "not specified"
+      },
+      "penalties": {
+        "has_penalties": "not specified",
+        "penalty_structure": "not specified"
+      },
+      "historical_events": {
+        "events_available": false,
+        "data_source_url": "not available",
+        "recent_events": []
+      },
+      "integration_metadata": {
+        "optimizer_compatible": true,
+        "api_available": false,
+        "api_documentation_url": "not available",
+        "data_quality_score": 7,
+        "notes": "Basic information from DOE FEMP. Program page: https://savings.austinenergy.com/commercial/offerings/load-management/commercial-demand-response"
+      },
+      "research_metadata": {
+        "research_timestamp": "2025-10-11T11:59:05.315764",
+        "research_url": "https://savings.austinenergy.com/commercial/offerings/load-management/commercial-demand-response",
+        "research_status": "completed"
+      },
+      "data_quality_enhanced": true
+    },
+    {
+      "program_id": "TEXAS-LOAD-MANAGEMENT-PROGRAM",
+      "program_name": "Load Management Program",
+      "program_type": "utility",
+      "status": "active",
+      "states": [
+        "Texas"
+      ],
+      "utilities": [
+        "Center Point Energy"
+      ],
+      "isos_rtos": [],
+      "data_sources": {
+        "program_url": "https://www.centerpointenergy.com/en-us/SaveEnergyandMoney/Pages/Load-Management-.aspx?sa=ho&amp;au=bus",
+        "data_quality_notes": "Scraped from DOE FEMP database 2025-10-11"
+      },
+      "payment_structure": {
+        "has_capacity_payment": true,
+        "has_performance_payment": false,
+        "capacity_rate": {
+          "value": "varies - see program page",
+          "unit": "$/kW-day",
+          "varies_by_season": "not specified",
+          "notes": "Found in description: 30.00"
+        },
+        "performance_rate": {}
+      },
+      "call_windows": [],
+      "seasons": [
+        {
+          "season_name": "Summer",
+          "start_date": "not specified",
+          "end_date": "not specified",
+          "max_events": "not specified",
+          "max_hours": "not specified"
+        }
+      ],
+      "eligibility": {
+        "customer_classes": {
+          "residential": false,
+          "commercial": true,
+          "industrial": false,
+          "residential_max_kw": null,
+          "commercial_min_kw": null,
+          "size_threshold_notes": "Size threshold mentioned: 100 kW - see description"
+        },
+        "behind_the_meter": true,
+        "front_of_meter": false,
+        "minimum_capacity_kw": "not specified",
+        "resource_types": [
+          "not specified"
+        ],
+        "requires_aggregator": false
+      },
+      "event_parameters": {
+        "typical_duration_hours": "not specified",
+        "minimum_duration_hours": "not specified",
+        "maximum_duration_hours": "not specified",
+        "max_events_per_year": "not specified",
+        "max_hours_per_year": "not specified",
+        "typical_response_time_minutes": "not specified"
+      },
+      "notification": {
+        "day_ahead_notice": "not specified",
+        "minimum_notice_hours": "not specified",
+        "maximum_notice_hours": "not specified",
+        "notification_methods": [
+          "not specified"
+        ]
+      },
+      "event_triggers": {
+        "trigger_description": "CenterPoint Energy's Commercial Load Management Program\u00a0provides up to $30.00/kW to participants for curtailing load during two scheduled curtailments of 1 to 3 hours plus up to four unscheduled peak ...",
+        "primary_trigger": "not specified",
+        "secondary_triggers": [],
+        "temperature_threshold": null,
+        "price_threshold": "not specified"
+      },
+      "nomination_bidding": {
+        "requires_nomination": "not specified",
+        "nomination_deadline": "not specified",
+        "allows_bidding": false,
+        "bidding_process": "not specified"
+      },
+      "penalties": {
+        "has_penalties": "not specified",
+        "penalty_structure": "not specified"
+      },
+      "historical_events": {
+        "events_available": false,
+        "data_source_url": "not available",
+        "recent_events": []
+      },
+      "integration_metadata": {
+        "optimizer_compatible": true,
+        "api_available": false,
+        "api_documentation_url": "not available",
+        "data_quality_score": 7,
+        "notes": "Basic information from DOE FEMP. Program page: https://www.centerpointenergy.com/en-us/SaveEnergyandMoney/Pages/Load-Management-.aspx?sa=ho&amp;au=bus"
+      },
+      "research_metadata": {
+        "research_timestamp": "2025-10-11T11:59:08.315341",
+        "research_url": "https://www.centerpointenergy.com/en-us/SaveEnergyandMoney/Pages/Load-Management-.aspx?sa=ho&amp;au=bus",
+        "research_status": "completed"
+      },
+      "data_quality_enhanced": true
+    },
+    {
+      "program_id": "TEXAS-LOAD-MANAGEMENT-PROGRAM",
+      "program_name": "Load Management Program",
+      "program_type": "utility",
+      "status": "active",
+      "states": [
+        "Texas"
+      ],
+      "utilities": [
+        "Entergy Texas"
+      ],
+      "isos_rtos": [],
+      "data_sources": {
+        "program_url": "https://www.entergy-texas.com/your_business/save_money/ee/load-management/",
+        "data_quality_notes": "Scraped from DOE FEMP database 2025-10-11"
+      },
+      "payment_structure": {
+        "has_capacity_payment": true,
+        "has_performance_payment": false,
+        "capacity_rate": {
+          "value": "varies - see program page",
+          "unit": "$/kW-day",
+          "varies_by_season": "not specified",
+          "notes": "Found in description: 32.50"
+        },
+        "performance_rate": {}
+      },
+      "call_windows": [],
+      "seasons": [
+        {
+          "season_name": "Spring",
+          "start_date": "not specified",
+          "end_date": "not specified",
+          "max_events": "not specified",
+          "max_hours": "not specified"
+        },
+        {
+          "season_name": "Summer",
+          "start_date": "not specified",
+          "end_date": "not specified",
+          "max_events": "not specified",
+          "max_hours": "not specified"
+        }
+      ],
+      "eligibility": {
+        "customer_classes": {
+          "residential": false,
+          "commercial": true,
+          "industrial": true,
+          "residential_max_kw": null,
+          "commercial_min_kw": null,
+          "size_threshold_notes": "Size threshold mentioned: 250 kW - see description"
+        },
+        "behind_the_meter": true,
+        "front_of_meter": false,
+        "minimum_capacity_kw": "not specified",
+        "resource_types": [
+          "not specified"
+        ],
+        "requires_aggregator": false
+      },
+      "event_parameters": {
+        "typical_duration_hours": "not specified",
+        "minimum_duration_hours": "not specified",
+        "maximum_duration_hours": "not specified",
+        "max_events_per_year": "not specified",
+        "max_hours_per_year": "not specified",
+        "typical_response_time_minutes": "not specified"
+      },
+      "notification": {
+        "day_ahead_notice": "not specified",
+        "minimum_notice_hours": "not specified",
+        "maximum_notice_hours": "not specified",
+        "notification_methods": [
+          "not specified"
+        ]
+      },
+      "event_triggers": {
+        "trigger_description": "The\u00a0Entergy Texas Load Management Program\u00a0offers $32.50/kW for participation in one scheduled curtailment event which lasts one hour, and up to four unscheduled events that last a maximum of four hour...",
+        "primary_trigger": "not specified",
+        "secondary_triggers": [],
+        "temperature_threshold": null,
+        "price_threshold": "not specified"
+      },
+      "nomination_bidding": {
+        "requires_nomination": "not specified",
+        "nomination_deadline": "not specified",
+        "allows_bidding": false,
+        "bidding_process": "not specified"
+      },
+      "penalties": {
+        "has_penalties": "not specified",
+        "penalty_structure": "not specified"
+      },
+      "historical_events": {
+        "events_available": false,
+        "data_source_url": "not available",
+        "recent_events": []
+      },
+      "integration_metadata": {
+        "optimizer_compatible": true,
+        "api_available": false,
+        "api_documentation_url": "not available",
+        "data_quality_score": 5,
+        "notes": "Basic information from DOE FEMP. Program page: https://www.entergy-texas.com/your_business/save_money/ee/load-management/"
+      }
+    },
+    {
+      "program_id": "CALIFORNIA-CAPACITY-BIDDING-PROGRAM",
+      "program_name": "Capacity Bidding Program",
+      "program_type": "utility",
+      "status": "active",
+      "states": [
+        "California"
+      ],
+      "utilities": [
+        "PG&amp;E"
+      ],
+      "isos_rtos": [],
+      "data_sources": {
+        "program_url": "https://www.pge.com/en/save-energy-and-money/energy-saving-programs/demand-response-programs/business-programs.html#cbp",
+        "data_quality_notes": "Scraped from DOE FEMP database 2025-10-11"
+      },
+      "payment_structure": {
+        "has_capacity_payment": false,
+        "has_performance_payment": false,
+        "capacity_rate": {},
+        "performance_rate": {},
+        "performance_rate_details": [
+          {
+            "value": 6.0,
+            "unit": "$/kWh",
+            "source_url": "https://www.pge.com/en/save-energy-and-money/energy-saving-programs/demand-response-programs/business-programs.html#cbp",
+            "verification_status": "found_on_page"
+          }
+        ]
+      },
+      "call_windows": [],
+      "seasons": [
+        {
+          "season_name": "Year-Round",
+          "start_date": "01-01",
+          "end_date": "12-31",
+          "max_events": "not specified",
+          "max_hours": "not specified"
+        }
+      ],
+      "eligibility": {
+        "customer_classes": {
+          "residential": false,
+          "commercial": true,
+          "industrial": true,
+          "residential_max_kw": null,
+          "commercial_min_kw": null,
+          "size_threshold_notes": ""
+        },
+        "behind_the_meter": true,
+        "front_of_meter": false,
+        "minimum_capacity_kw": "not specified",
+        "resource_types": [
+          "not specified"
+        ],
+        "requires_aggregator": false
+      },
+      "event_parameters": {
+        "typical_duration_hours": "not specified",
+        "minimum_duration_hours": "not specified",
+        "maximum_duration_hours": "not specified",
+        "max_events_per_year": "not specified",
+        "max_hours_per_year": "not specified",
+        "typical_response_time_minutes": "not specified"
+      },
+      "notification": {
+        "day_ahead_notice": "not specified",
+        "minimum_notice_hours": "not specified",
+        "maximum_notice_hours": "not specified",
+        "notification_methods": [
+          "not specified"
+        ]
+      },
+      "event_triggers": {
+        "trigger_description": "Under the Capacity Bidding Program (CBP), PG&amp;E participants receive an incentive for pledging to reduce their energy use by a pre-determined amount in the event a CBP event is call by the utility....",
+        "primary_trigger": "not specified",
+        "secondary_triggers": [],
+        "temperature_threshold": null,
+        "price_threshold": "not specified",
+        "emergency_based": true,
+        "peak_demand_based": true
+      },
+      "nomination_bidding": {
+        "requires_nomination": "not specified",
+        "nomination_deadline": "not specified",
+        "allows_bidding": false,
+        "bidding_process": "not specified"
+      },
+      "penalties": {
+        "has_penalties": "not specified",
+        "penalty_structure": "not specified"
+      },
+      "historical_events": {
+        "events_available": false,
+        "data_source_url": "not available",
+        "recent_events": []
+      },
+      "integration_metadata": {
+        "optimizer_compatible": true,
+        "api_available": false,
+        "api_documentation_url": "not available",
+        "data_quality_score": 7,
+        "notes": "Basic information from DOE FEMP. Program page: https://www.pge.com/en/save-energy-and-money/energy-saving-programs/demand-response-programs/business-programs.html#cbp"
+      },
+      "research_metadata": {
+        "research_timestamp": "2025-10-11T11:59:14.187457",
+        "research_url": "https://www.pge.com/en/save-energy-and-money/energy-saving-programs/demand-response-programs/business-programs.html#cbp",
+        "research_status": "completed"
+      },
+      "data_quality_enhanced": true
+    },
+    {
+      "program_id": "CALIFORNIA-SUMMER-DISCOUNT-PLAN",
+      "program_name": "Summer Discount Plan",
+      "program_type": "utility",
+      "status": "active",
+      "states": [
+        "California"
+      ],
+      "utilities": [
+        "Southern California Edison (SCE)"
+      ],
+      "isos_rtos": [],
+      "data_sources": {
+        "program_url": "https://www.sce.com/business/savings-incentives/summer-discount-plan",
+        "data_quality_notes": "Scraped from DOE FEMP database 2025-10-11"
+      },
+      "payment_structure": {
+        "has_capacity_payment": false,
+        "has_performance_payment": false,
+        "capacity_rate": {},
+        "performance_rate": {}
+      },
+      "call_windows": [],
+      "seasons": [
+        {
+          "season_name": "Summer",
+          "start_date": "not specified",
+          "end_date": "not specified",
+          "max_events": "not specified",
+          "max_hours": "not specified"
+        }
+      ],
+      "eligibility": {
+        "customer_classes": {
+          "residential": false,
+          "commercial": true,
+          "industrial": false,
+          "residential_max_kw": null,
+          "commercial_min_kw": null,
+          "size_threshold_notes": ""
+        },
+        "behind_the_meter": true,
+        "front_of_meter": false,
+        "minimum_capacity_kw": "not specified",
+        "resource_types": [
+          "not specified"
+        ],
+        "requires_aggregator": false
+      },
+      "event_parameters": {
+        "typical_duration_hours": "not specified",
+        "minimum_duration_hours": "not specified",
+        "maximum_duration_hours": "not specified",
+        "max_events_per_year": "not specified",
+        "max_hours_per_year": "not specified",
+        "typical_response_time_minutes": "not specified"
+      },
+      "notification": {
+        "day_ahead_notice": "not specified",
+        "minimum_notice_hours": "not specified",
+        "maximum_notice_hours": "not specified",
+        "notification_methods": [
+          "not specified"
+        ]
+      },
+      "event_triggers": {
+        "trigger_description": "Southern California Edison's (SCE) Summer Discount Plan is a summer air conditioner cycling program for commercial customers. This is a \"direct load control\" program where participants receive a bill ...",
+        "primary_trigger": "not specified",
+        "secondary_triggers": [],
+        "temperature_threshold": null,
+        "price_threshold": "not specified",
+        "emergency_based": true
+      },
+      "nomination_bidding": {
+        "requires_nomination": "not specified",
+        "nomination_deadline": "not specified",
+        "allows_bidding": false,
+        "bidding_process": "not specified"
+      },
+      "penalties": {
+        "has_penalties": "not specified",
+        "penalty_structure": "not specified"
+      },
+      "historical_events": {
+        "events_available": false,
+        "data_source_url": "not available",
+        "recent_events": []
+      },
+      "integration_metadata": {
+        "optimizer_compatible": true,
+        "api_available": false,
+        "api_documentation_url": "not available",
+        "data_quality_score": 7,
+        "notes": "Basic information from DOE FEMP. Program page: https://www.sce.com/business/savings-incentives/summer-discount-plan"
+      },
+      "research_metadata": {
+        "research_timestamp": "2025-10-11T11:59:16.314040",
+        "research_url": "https://www.sce.com/business/savings-incentives/summer-discount-plan",
+        "research_status": "completed"
+      },
+      "data_quality_enhanced": true
+    },
+    {
+      "program_id": "CALIFORNIA-CAPACITY-BIDDING-PROGRAM",
+      "program_name": "Capacity Bidding Program",
+      "program_type": "utility",
+      "status": "active",
+      "states": [
+        "California"
+      ],
+      "utilities": [
+        "San Diego Gas and Electric (SDGE)"
+      ],
+      "isos_rtos": [],
+      "data_sources": {
+        "program_url": "https://www.sdge.com/businesses/savings-center/energy-management-programs/demand-response/capacity-bidding-program",
+        "data_quality_notes": "Scraped from DOE FEMP database 2025-10-11"
+      },
+      "payment_structure": {
+        "has_capacity_payment": false,
+        "has_performance_payment": false,
+        "capacity_rate": {},
+        "performance_rate": {}
+      },
+      "call_windows": [],
+      "seasons": [
+        {
+          "season_name": "Fall",
+          "start_date": "not specified",
+          "end_date": "not specified",
+          "max_events": "not specified",
+          "max_hours": "not specified"
+        },
+        {
+          "season_name": "Spring",
+          "start_date": "not specified",
+          "end_date": "not specified",
+          "max_events": "not specified",
+          "max_hours": "not specified"
+        }
+      ],
+      "eligibility": {
+        "customer_classes": {
+          "residential": false,
+          "commercial": true,
+          "industrial": true,
+          "residential_max_kw": null,
+          "commercial_min_kw": null,
+          "size_threshold_notes": ""
+        },
+        "behind_the_meter": true,
+        "front_of_meter": false,
+        "minimum_capacity_kw": "not specified",
+        "resource_types": [
+          "not specified"
+        ],
+        "requires_aggregator": false
+      },
+      "event_parameters": {
+        "typical_duration_hours": "not specified",
+        "minimum_duration_hours": "not specified",
+        "maximum_duration_hours": "not specified",
+        "max_events_per_year": "not specified",
+        "max_hours_per_year": "not specified",
+        "typical_response_time_minutes": "not specified"
+      },
+      "notification": {
+        "day_ahead_notice": "not specified",
+        "minimum_notice_hours": "not specified",
+        "maximum_notice_hours": "not specified",
+        "notification_methods": [
+          "not specified"
+        ]
+      },
+      "event_triggers": {
+        "trigger_description": "Under the Capacity Bidding Program (CBP), SDG&amp;E participants receive a monthly incentive for pledging to reduce their energy by a pre-determined amount in the event a CBP event is called by the ut...",
+        "primary_trigger": "not specified",
+        "secondary_triggers": [],
+        "temperature_threshold": null,
+        "price_threshold": "not specified",
+        "emergency_based": true,
+        "peak_demand_based": true
+      },
+      "nomination_bidding": {
+        "requires_nomination": "not specified",
+        "nomination_deadline": "not specified",
+        "allows_bidding": false,
+        "bidding_process": "not specified"
+      },
+      "penalties": {
+        "has_penalties": "not specified",
+        "penalty_structure": "not specified"
+      },
+      "historical_events": {
+        "events_available": false,
+        "data_source_url": "not available",
+        "recent_events": []
+      },
+      "integration_metadata": {
+        "optimizer_compatible": true,
+        "api_available": false,
+        "api_documentation_url": "not available",
+        "data_quality_score": 7,
+        "notes": "Basic information from DOE FEMP. Program page: https://www.sdge.com/businesses/savings-center/energy-management-programs/demand-response/capacity-bidding-program"
+      },
+      "research_metadata": {
+        "research_timestamp": "2025-10-11T11:59:18.559185",
+        "research_url": "https://www.sdge.com/businesses/savings-center/energy-management-programs/demand-response/capacity-bidding-program",
+        "research_status": "completed"
+      },
+      "data_quality_enhanced": true
+    },
+    {
+      "program_id": "ILLINOIS-CURTAILMENT-PROGRAM",
+      "program_name": "Curtailment Program",
+      "program_type": "utility",
+      "status": "active",
+      "states": [
+        "Illinois"
+      ],
+      "utilities": [
+        "MidAmerican Energy"
+      ],
+      "isos_rtos": [],
+      "data_sources": {
+        "program_url": "https://www.midamericanenergy.com/curtailment",
+        "data_quality_notes": "Scraped from DOE FEMP database 2025-10-11"
+      },
+      "payment_structure": {
+        "has_capacity_payment": false,
+        "has_performance_payment": false,
+        "capacity_rate": {},
+        "performance_rate": {}
+      },
+      "call_windows": [],
+      "seasons": [
+        {
+          "season_name": "Spring",
+          "start_date": "not specified",
+          "end_date": "not specified",
+          "max_events": "not specified",
+          "max_hours": "not specified"
+        },
+        {
+          "season_name": "Summer",
+          "start_date": "not specified",
+          "end_date": "not specified",
+          "max_events": "not specified",
+          "max_hours": "not specified"
+        }
+      ],
+      "eligibility": {
+        "customer_classes": {
+          "residential": false,
+          "commercial": true,
+          "industrial": true,
+          "residential_max_kw": null,
+          "commercial_min_kw": null,
+          "size_threshold_notes": "Size threshold mentioned: 200 kW - see description"
+        },
+        "behind_the_meter": true,
+        "front_of_meter": false,
+        "minimum_capacity_kw": "not specified",
+        "resource_types": [
+          "not specified"
+        ],
+        "requires_aggregator": false
+      },
+      "event_parameters": {
+        "typical_duration_hours": "not specified",
+        "minimum_duration_hours": "not specified",
+        "maximum_duration_hours": "not specified",
+        "max_events_per_year": "not specified",
+        "max_hours_per_year": "not specified",
+        "typical_response_time_minutes": "not specified"
+      },
+      "notification": {
+        "day_ahead_notice": "not specified",
+        "minimum_notice_hours": "not specified",
+        "maximum_notice_hours": "not specified",
+        "notification_methods": [
+          "not specified"
+        ]
+      },
+      "event_triggers": {
+        "trigger_description": "MidAmerican Energy offers its Curtailment\u00a0program to its Illinois commercial and industrial customers who can reduce load by a minimum of 200 kW during peak demand periods. Customers can choose betwee...",
+        "primary_trigger": "not specified",
+        "secondary_triggers": [],
+        "temperature_threshold": null,
+        "price_threshold": "not specified",
+        "emergency_based": true,
+        "peak_demand_based": true
+      },
+      "nomination_bidding": {
+        "requires_nomination": "not specified",
+        "nomination_deadline": "not specified",
+        "allows_bidding": false,
+        "bidding_process": "not specified"
+      },
+      "penalties": {
+        "has_penalties": "not specified",
+        "penalty_structure": "not specified"
+      },
+      "historical_events": {
+        "events_available": false,
+        "data_source_url": "not available",
+        "recent_events": []
+      },
+      "integration_metadata": {
+        "optimizer_compatible": true,
+        "api_available": false,
+        "api_documentation_url": "not available",
+        "data_quality_score": 7,
+        "notes": "Basic information from DOE FEMP. Program page: https://www.midamericanenergy.com/curtailment"
+      },
+      "research_metadata": {
+        "research_timestamp": "2025-10-11T11:59:20.997306",
+        "research_url": "https://www.midamericanenergy.com/curtailment",
+        "research_status": "completed"
+      },
+      "data_quality_enhanced": true
+    },
+    {
+      "program_id": "ILLINOIS-DEMAND-RESPONSE-OFFERINGS",
+      "program_name": "Demand Response Offerings",
+      "program_type": "utility",
+      "status": "active",
+      "states": [
+        "Illinois"
+      ],
+      "utilities": [
+        "MISO"
+      ],
+      "isos_rtos": [],
+      "data_sources": {
+        "program_url": "https://www.misoenergy.org/markets-and-operations/#nt=%2Fmarketsandopstype%3ADemand%20Response&amp;t=10&amp;p=0&amp;s=FileName&amp;sd=desc",
+        "data_quality_notes": "Scraped from DOE FEMP database 2025-10-11"
+      },
+      "payment_structure": {
+        "has_capacity_payment": false,
+        "has_performance_payment": false,
+        "capacity_rate": {},
+        "performance_rate": {}
+      },
+      "call_windows": [],
+      "seasons": [
+        {
+          "season_name": "Year-Round",
+          "start_date": "01-01",
+          "end_date": "12-31",
+          "max_events": "not specified",
+          "max_hours": "not specified"
+        }
+      ],
+      "eligibility": {
+        "customer_classes": {
+          "residential": false,
+          "commercial": true,
+          "industrial": false,
+          "residential_max_kw": null,
+          "commercial_min_kw": null,
+          "size_threshold_notes": ""
+        },
+        "behind_the_meter": true,
+        "front_of_meter": false,
+        "minimum_capacity_kw": "not specified",
+        "resource_types": [
+          "not specified"
+        ],
+        "requires_aggregator": false
+      },
+      "event_parameters": {
+        "typical_duration_hours": "not specified",
+        "minimum_duration_hours": "not specified",
+        "maximum_duration_hours": "not specified",
+        "max_events_per_year": "not specified",
+        "max_hours_per_year": "not specified",
+        "typical_response_time_minutes": "not specified"
+      },
+      "notification": {
+        "day_ahead_notice": "not specified",
+        "minimum_notice_hours": "not specified",
+        "maximum_notice_hours": "not specified",
+        "notification_methods": [
+          "not specified"
+        ]
+      },
+      "event_triggers": {
+        "trigger_description": "The Midcontinent Independent System Operator (MISO) enables commercial entities with demand response capabilities to bid into both its electricity supply-side and demand-side markets. These arrangemen...",
+        "primary_trigger": "not specified",
+        "secondary_triggers": [],
+        "temperature_threshold": null,
+        "price_threshold": "not specified"
+      },
+      "nomination_bidding": {
+        "requires_nomination": "not specified",
+        "nomination_deadline": "not specified",
+        "allows_bidding": false,
+        "bidding_process": "not specified"
+      },
+      "penalties": {
+        "has_penalties": "not specified",
+        "penalty_structure": "not specified"
+      },
+      "historical_events": {
+        "events_available": false,
+        "data_source_url": "not available",
+        "recent_events": []
+      },
+      "integration_metadata": {
+        "optimizer_compatible": true,
+        "api_available": false,
+        "api_documentation_url": "not available",
+        "data_quality_score": 7,
+        "notes": "Basic information from DOE FEMP. Program page: https://www.misoenergy.org/markets-and-operations/#nt=%2Fmarketsandopstype%3ADemand%20Response&amp;t=10&amp;p=0&amp;s=FileName&amp;sd=desc"
+      },
+      "research_metadata": {
+        "research_timestamp": "2025-10-11T11:59:23.474625",
+        "research_url": "https://www.misoenergy.org/markets-and-operations/#nt=%2Fmarketsandopstype%3ADemand%20Response&amp;t=10&amp;p=0&amp;s=FileName&amp;sd=desc",
+        "research_status": "completed"
+      },
+      "data_quality_enhanced": true
+    },
+    {
+      "program_id": "NEW-YORK-PEAK-PERKS",
+      "program_name": "Peak Perks",
+      "program_type": "utility",
+      "status": "active",
+      "states": [
+        "New York"
+      ],
+      "utilities": [
+        "Central Hudson"
+      ],
+      "isos_rtos": [],
+      "data_sources": {
+        "program_url": "https://cenhudpeakperks.com/",
+        "data_quality_notes": "Scraped from DOE FEMP database 2025-10-11"
+      },
+      "payment_structure": {
+        "has_capacity_payment": false,
+        "has_performance_payment": false,
+        "capacity_rate": {},
+        "performance_rate": {}
+      },
+      "call_windows": [],
+      "seasons": [
+        {
+          "season_name": "Summer",
+          "start_date": "not specified",
+          "end_date": "not specified",
+          "max_events": "not specified",
+          "max_hours": "not specified"
+        }
+      ],
+      "eligibility": {
+        "customer_classes": {
+          "residential": false,
+          "commercial": true,
+          "industrial": false,
+          "residential_max_kw": null,
+          "commercial_min_kw": null,
+          "size_threshold_notes": ""
+        },
+        "behind_the_meter": true,
+        "front_of_meter": false,
+        "minimum_capacity_kw": "not specified",
+        "resource_types": [
+          "not specified"
+        ],
+        "requires_aggregator": false
+      },
+      "event_parameters": {
+        "typical_duration_hours": "not specified",
+        "minimum_duration_hours": "not specified",
+        "maximum_duration_hours": "not specified",
+        "max_events_per_year": "not specified",
+        "max_hours_per_year": "not specified",
+        "typical_response_time_minutes": "not specified"
+      },
+      "notification": {
+        "day_ahead_notice": "not specified",
+        "minimum_notice_hours": "not specified",
+        "maximum_notice_hours": "not specified",
+        "notification_methods": [
+          "not specified"
+        ]
+      },
+      "event_triggers": {
+        "trigger_description": "Through its\u00a0Peak Perks\u00a0initiative, Central Hudson offers commercial facilities a number of direct load control options, in which the utility installs a smart thermostat or a switching device on roofto...",
+        "primary_trigger": "not specified",
+        "secondary_triggers": [],
+        "temperature_threshold": null,
+        "price_threshold": "not specified"
+      },
+      "nomination_bidding": {
+        "requires_nomination": "not specified",
+        "nomination_deadline": "not specified",
+        "allows_bidding": false,
+        "bidding_process": "not specified"
+      },
+      "penalties": {
+        "has_penalties": "not specified",
+        "penalty_structure": "not specified"
+      },
+      "historical_events": {
+        "events_available": false,
+        "data_source_url": "not available",
+        "recent_events": []
+      },
+      "integration_metadata": {
+        "optimizer_compatible": true,
+        "api_available": false,
+        "api_documentation_url": "not available",
+        "data_quality_score": 7,
+        "notes": "Basic information from DOE FEMP. Program page: https://cenhudpeakperks.com/"
+      },
+      "research_metadata": {
+        "research_timestamp": "2025-10-11T11:59:25.804118",
+        "research_url": "https://cenhudpeakperks.com/",
+        "research_status": "completed"
+      },
+      "data_quality_enhanced": true
+    },
+    {
+      "program_id": "NEW-YORK-LOAD-MANAGEMENT-INCENTIVE-PROGRAM",
+      "program_name": "Load Management Incentive Program",
+      "program_type": "utility",
+      "status": "active",
+      "states": [
+        "New York"
+      ],
+      "utilities": [
+        "Con Edison"
+      ],
+      "isos_rtos": [],
+      "data_sources": {
+        "program_url": "https://www.coned.com/en/save-money/rebates-incentives-tax-credits/rebates-incentives-tax-credits-for-commercial-industrial-buildings-customers",
+        "data_quality_notes": "Scraped from DOE FEMP database 2025-10-11"
+      },
+      "payment_structure": {
+        "has_capacity_payment": false,
+        "has_performance_payment": false,
+        "capacity_rate": {},
+        "performance_rate": {}
+      },
+      "call_windows": [],
+      "seasons": [
+        {
+          "season_name": "Year-Round",
+          "start_date": "01-01",
+          "end_date": "12-31",
+          "max_events": "not specified",
+          "max_hours": "not specified"
+        }
+      ],
+      "eligibility": {
+        "customer_classes": {
+          "residential": false,
+          "commercial": true,
+          "industrial": true,
+          "residential_max_kw": null,
+          "commercial_min_kw": null,
+          "size_threshold_notes": ""
+        },
+        "behind_the_meter": true,
+        "front_of_meter": false,
+        "minimum_capacity_kw": "not specified",
+        "resource_types": [
+          "not specified"
+        ],
+        "requires_aggregator": false
+      },
+      "event_parameters": {
+        "typical_duration_hours": "not specified",
+        "minimum_duration_hours": "not specified",
+        "maximum_duration_hours": "not specified",
+        "max_events_per_year": "not specified",
+        "max_hours_per_year": "not specified",
+        "typical_response_time_minutes": "not specified"
+      },
+      "notification": {
+        "day_ahead_notice": "not specified",
+        "minimum_notice_hours": "not specified",
+        "maximum_notice_hours": "not specified",
+        "notification_methods": [
+          "not specified"
+        ]
+      },
+      "event_triggers": {
+        "trigger_description": "ConEd offers a number of\u00a0 incentives\u00a0for customers to purchase products and systems that facilitate load management, from absorption chillers to thermal storage systems.",
+        "primary_trigger": "not specified",
+        "secondary_triggers": [],
+        "temperature_threshold": null,
+        "price_threshold": "not specified"
+      },
+      "nomination_bidding": {
+        "requires_nomination": "not specified",
+        "nomination_deadline": "not specified",
+        "allows_bidding": false,
+        "bidding_process": "not specified"
+      },
+      "penalties": {
+        "has_penalties": "not specified",
+        "penalty_structure": "not specified"
+      },
+      "historical_events": {
+        "events_available": false,
+        "data_source_url": "not available",
+        "recent_events": []
+      },
+      "integration_metadata": {
+        "optimizer_compatible": true,
+        "api_available": false,
+        "api_documentation_url": "not available",
+        "data_quality_score": 7,
+        "notes": "Basic information from DOE FEMP. Program page: https://www.coned.com/en/save-money/rebates-incentives-tax-credits/rebates-incentives-tax-credits-for-commercial-industrial-buildings-customers"
+      },
+      "research_metadata": {
+        "research_timestamp": "2025-10-11T11:59:28.459599",
+        "research_url": "https://www.coned.com/en/save-money/rebates-incentives-tax-credits/rebates-incentives-tax-credits-for-commercial-industrial-buildings-customers",
+        "research_status": "completed"
+      },
+      "data_quality_enhanced": true
+    },
+    {
+      "program_id": "NEW-YORK-TERM-AND-AUTO-DYNAMIC-LOAD-MANAGEMENT",
+      "program_name": "Term and Auto Dynamic Load Management",
+      "program_type": "utility",
+      "status": "active",
+      "states": [
+        "New York"
+      ],
+      "utilities": [
+        "Con Edison"
+      ],
+      "isos_rtos": [],
+      "data_sources": {
+        "program_url": "https://www.coned.com/en/business-partners/business-opportunities/dynamic-load-management-request-for-proposals",
+        "data_quality_notes": "Scraped from DOE FEMP database 2025-10-11"
+      },
+      "payment_structure": {
+        "has_capacity_payment": false,
+        "has_performance_payment": false,
+        "capacity_rate": {},
+        "performance_rate": {}
+      },
+      "call_windows": [],
+      "seasons": [
+        {
+          "season_name": "Spring",
+          "start_date": "not specified",
+          "end_date": "not specified",
+          "max_events": "not specified",
+          "max_hours": "not specified"
+        },
+        {
+          "season_name": "Summer",
+          "start_date": "not specified",
+          "end_date": "not specified",
+          "max_events": "not specified",
+          "max_hours": "not specified"
+        }
+      ],
+      "eligibility": {
+        "customer_classes": {
+          "residential": false,
+          "commercial": true,
+          "industrial": true,
+          "residential_max_kw": null,
+          "commercial_min_kw": null,
+          "size_threshold_notes": ""
+        },
+        "behind_the_meter": true,
+        "front_of_meter": false,
+        "minimum_capacity_kw": "not specified",
+        "resource_types": [
+          "not specified"
+        ],
+        "requires_aggregator": false
+      },
+      "event_parameters": {
+        "typical_duration_hours": "not specified",
+        "minimum_duration_hours": "not specified",
+        "maximum_duration_hours": "not specified",
+        "max_events_per_year": "not specified",
+        "max_hours_per_year": "not specified",
+        "typical_response_time_minutes": "not specified"
+      },
+      "notification": {
+        "day_ahead_notice": "not specified",
+        "minimum_notice_hours": "not specified",
+        "maximum_notice_hours": "not specified",
+        "notification_methods": [
+          "not specified"
+        ]
+      },
+      "event_triggers": {
+        "trigger_description": "ConEd offers longer-term options, called Term-DLM and Auto-DLM, for customers willing to make multiple (three to five) year commitments to offerings comparable to CSRP. These longer deals will entail ...",
+        "primary_trigger": "not specified",
+        "secondary_triggers": [],
+        "temperature_threshold": null,
+        "price_threshold": "not specified"
+      },
+      "nomination_bidding": {
+        "requires_nomination": "not specified",
+        "nomination_deadline": "not specified",
+        "allows_bidding": false,
+        "bidding_process": "not specified"
+      },
+      "penalties": {
+        "has_penalties": "not specified",
+        "penalty_structure": "not specified"
+      },
+      "historical_events": {
+        "events_available": false,
+        "data_source_url": "not available",
+        "recent_events": []
+      },
+      "integration_metadata": {
+        "optimizer_compatible": true,
+        "api_available": false,
+        "api_documentation_url": "not available",
+        "data_quality_score": 7,
+        "notes": "Basic information from DOE FEMP. Program page: https://www.coned.com/en/business-partners/business-opportunities/dynamic-load-management-request-for-proposals"
+      },
+      "research_metadata": {
+        "research_timestamp": "2025-10-11T11:59:30.801911",
+        "research_url": "https://www.coned.com/en/business-partners/business-opportunities/dynamic-load-management-request-for-proposals",
+        "research_status": "completed"
+      },
+      "data_quality_enhanced": true
+    },
+    {
+      "program_id": "NEW-YORK-SMART-SAVERS-REWARDS",
+      "program_name": "Smart Savers Rewards",
+      "program_type": "utility",
+      "status": "active",
+      "states": [
+        "New York"
+      ],
+      "utilities": [
+        "NYSEG"
+      ],
+      "isos_rtos": [],
+      "data_sources": {
+        "program_url": "https://enrollmythermostat.com/smartsavingsnys/",
+        "data_quality_notes": "Scraped from DOE FEMP database 2025-10-11"
+      },
+      "payment_structure": {
+        "has_capacity_payment": false,
+        "has_performance_payment": false,
+        "capacity_rate": {},
+        "performance_rate": {}
+      },
+      "call_windows": [
+        {
+          "season_name": "not specified",
+          "start_hour": "see program description",
+          "end_hour": "see program description",
+          "days_of_week": [],
+          "timezone": "not specified",
+          "notes": "Time pattern found: ('1', '7')"
+        }
+      ],
+      "seasons": [
+        {
+          "season_name": "Spring",
+          "start_date": "not specified",
+          "end_date": "not specified",
+          "max_events": "not specified",
+          "max_hours": "not specified"
+        },
+        {
+          "season_name": "Summer",
+          "start_date": "not specified",
+          "end_date": "not specified",
+          "max_events": "not specified",
+          "max_hours": "not specified"
+        }
+      ],
+      "eligibility": {
+        "customer_classes": {
+          "residential": false,
+          "commercial": true,
+          "industrial": false,
+          "residential_max_kw": null,
+          "commercial_min_kw": null,
+          "size_threshold_notes": ""
+        },
+        "behind_the_meter": true,
+        "front_of_meter": false,
+        "minimum_capacity_kw": "not specified",
+        "resource_types": [
+          "not specified"
+        ],
+        "requires_aggregator": false
+      },
+      "event_parameters": {
+        "typical_duration_hours": "not specified",
+        "minimum_duration_hours": "not specified",
+        "maximum_duration_hours": "not specified",
+        "max_events_per_year": "not specified",
+        "max_hours_per_year": "not specified",
+        "typical_response_time_minutes": "not specified"
+      },
+      "notification": {
+        "day_ahead_notice": "not specified",
+        "minimum_notice_hours": "not specified",
+        "maximum_notice_hours": "not specified",
+        "notification_methods": [
+          "not specified"
+        ]
+      },
+      "event_triggers": {
+        "trigger_description": "Small commercial customers can participate in the Smart Savers Rewards program and receive $70 for each eligible internet-connected thermostat enrolled in the program. Customers allow NYSEG to make br...",
+        "primary_trigger": "not specified",
+        "secondary_triggers": [],
+        "temperature_threshold": null,
+        "price_threshold": "not specified"
+      },
+      "nomination_bidding": {
+        "requires_nomination": "not specified",
+        "nomination_deadline": "not specified",
+        "allows_bidding": false,
+        "bidding_process": "not specified"
+      },
+      "penalties": {
+        "has_penalties": "not specified",
+        "penalty_structure": "not specified"
+      },
+      "historical_events": {
+        "events_available": false,
+        "data_source_url": "not available",
+        "recent_events": []
+      },
+      "integration_metadata": {
+        "optimizer_compatible": true,
+        "api_available": false,
+        "api_documentation_url": "not available",
+        "data_quality_score": 5,
+        "notes": "Basic information from DOE FEMP. Program page: https://enrollmythermostat.com/smartsavingsnys/"
+      }
+    },
+    {
+      "program_id": "NEW-YORK-BRING-YOUR-OWN-THERMOSTAT-PROGRAM",
+      "program_name": "Bring Your Own Thermostat Program",
+      "program_type": "utility",
+      "status": "active",
+      "states": [
+        "New York"
+      ],
+      "utilities": [
+        "Orange and Rockland"
+      ],
+      "isos_rtos": [],
+      "data_sources": {
+        "program_url": "https://www.oru.com/en/save-money/rebates-incentives-credits/new-york-customers/incentives-for-residential-customers-ny/thermostat-rebate",
+        "data_quality_notes": "Scraped from DOE FEMP database 2025-10-11"
+      },
+      "payment_structure": {
+        "has_capacity_payment": false,
+        "has_performance_payment": false,
+        "capacity_rate": {},
+        "performance_rate": {}
+      },
+      "call_windows": [
+        {
+          "season_name": "not specified",
+          "start_hour": "see program description",
+          "end_hour": "see program description",
+          "days_of_week": [],
+          "timezone": "not specified",
+          "notes": "Time pattern found: ('30', '11')"
+        }
+      ],
+      "seasons": [
+        {
+          "season_name": "Spring",
+          "start_date": "not specified",
+          "end_date": "not specified",
+          "max_events": "not specified",
+          "max_hours": "not specified"
+        },
+        {
+          "season_name": "Summer",
+          "start_date": "not specified",
+          "end_date": "not specified",
+          "max_events": "not specified",
+          "max_hours": "not specified"
+        }
+      ],
+      "eligibility": {
+        "customer_classes": {
+          "residential": false,
+          "commercial": true,
+          "industrial": false,
+          "residential_max_kw": null,
+          "commercial_min_kw": null,
+          "size_threshold_notes": ""
+        },
+        "behind_the_meter": true,
+        "front_of_meter": false,
+        "minimum_capacity_kw": "not specified",
+        "resource_types": [
+          "not specified"
+        ],
+        "requires_aggregator": false
+      },
+      "event_parameters": {
+        "typical_duration_hours": "not specified",
+        "minimum_duration_hours": "not specified",
+        "maximum_duration_hours": "not specified",
+        "max_events_per_year": "not specified",
+        "max_hours_per_year": "not specified",
+        "typical_response_time_minutes": "not specified"
+      },
+      "notification": {
+        "day_ahead_notice": "not specified",
+        "minimum_notice_hours": "not specified",
+        "maximum_notice_hours": "not specified",
+        "notification_methods": [
+          "not specified"
+        ]
+      },
+      "event_triggers": {
+        "trigger_description": "Orange and Rockland's (O&amp;R) small commercial customers can participate in the Bring Your Own Thermostat program by allowing O&amp;R to make brief, limited adjustments to their central air-conditio...",
+        "primary_trigger": "not specified",
+        "secondary_triggers": [],
+        "temperature_threshold": null,
+        "price_threshold": "not specified",
+        "emergency_based": true
+      },
+      "nomination_bidding": {
+        "requires_nomination": "not specified",
+        "nomination_deadline": "not specified",
+        "allows_bidding": false,
+        "bidding_process": "not specified"
+      },
+      "penalties": {
+        "has_penalties": "not specified",
+        "penalty_structure": "not specified"
+      },
+      "historical_events": {
+        "events_available": false,
+        "data_source_url": "not available",
+        "recent_events": []
+      },
+      "integration_metadata": {
+        "optimizer_compatible": true,
+        "api_available": false,
+        "api_documentation_url": "not available",
+        "data_quality_score": 7,
+        "notes": "Basic information from DOE FEMP. Program page: https://www.oru.com/en/save-money/rebates-incentives-credits/new-york-customers/incentives-for-residential-customers-ny/thermostat-rebate"
+      },
+      "research_metadata": {
+        "research_timestamp": "2025-10-11T11:59:36.000640",
+        "research_url": "https://www.oru.com/en/save-money/rebates-incentives-credits/new-york-customers/incentives-for-residential-customers-ny/thermostat-rebate",
+        "research_status": "completed"
+      },
+      "data_quality_enhanced": true
+    },
+    {
+      "program_id": "NEW-YORK-SMART-SAVERS",
+      "program_name": "Smart Savers",
+      "program_type": "utility",
+      "status": "active",
+      "states": [
+        "New York"
+      ],
+      "utilities": [
+        "PSE&amp;G Long Island"
+      ],
+      "isos_rtos": [],
+      "data_sources": {
+        "program_url": "https://www.psegliny.com/en/saveenergyandmoney/GreenEnergy/PeakLoad/SmartSavers",
+        "data_quality_notes": "Scraped from DOE FEMP database 2025-10-11"
+      },
+      "payment_structure": {
+        "has_capacity_payment": false,
+        "has_performance_payment": false,
+        "capacity_rate": {},
+        "performance_rate": {}
+      },
+      "call_windows": [],
+      "seasons": [
+        {
+          "season_name": "Spring",
+          "start_date": "not specified",
+          "end_date": "not specified",
+          "max_events": "not specified",
+          "max_hours": "not specified"
+        },
+        {
+          "season_name": "Summer",
+          "start_date": "not specified",
+          "end_date": "not specified",
+          "max_events": "not specified",
+          "max_hours": "not specified"
+        }
+      ],
+      "eligibility": {
+        "customer_classes": {
+          "residential": false,
+          "commercial": true,
+          "industrial": true,
+          "residential_max_kw": null,
+          "commercial_min_kw": null,
+          "size_threshold_notes": ""
+        },
+        "behind_the_meter": true,
+        "front_of_meter": false,
+        "minimum_capacity_kw": "not specified",
+        "resource_types": [
+          "not specified"
+        ],
+        "requires_aggregator": false
+      },
+      "event_parameters": {
+        "typical_duration_hours": "not specified",
+        "minimum_duration_hours": "not specified",
+        "maximum_duration_hours": "not specified",
+        "max_events_per_year": "not specified",
+        "max_hours_per_year": "not specified",
+        "typical_response_time_minutes": "not specified"
+      },
+      "notification": {
+        "day_ahead_notice": "not specified",
+        "minimum_notice_hours": "not specified",
+        "maximum_notice_hours": "not specified",
+        "notification_methods": [
+          "not specified"
+        ]
+      },
+      "event_triggers": {
+        "trigger_description": "PSE&amp;G offers a direct load control program, called Smart Savers, which allows PSE&amp;G to make small temperature adjustments to customers' thermostats that are enrolled with the utility. Customer...",
+        "primary_trigger": "not specified",
+        "secondary_triggers": [],
+        "temperature_threshold": null,
+        "price_threshold": "not specified",
+        "emergency_based": true,
+        "peak_demand_based": true
+      },
+      "nomination_bidding": {
+        "requires_nomination": "not specified",
+        "nomination_deadline": "not specified",
+        "allows_bidding": false,
+        "bidding_process": "not specified"
+      },
+      "penalties": {
+        "has_penalties": "not specified",
+        "penalty_structure": "not specified"
+      },
+      "historical_events": {
+        "events_available": false,
+        "data_source_url": "not available",
+        "recent_events": []
+      },
+      "integration_metadata": {
+        "optimizer_compatible": true,
+        "api_available": false,
+        "api_documentation_url": "not available",
+        "data_quality_score": 7,
+        "notes": "Basic information from DOE FEMP. Program page: https://www.psegliny.com/en/saveenergyandmoney/GreenEnergy/PeakLoad/SmartSavers"
+      },
+      "research_metadata": {
+        "research_timestamp": "2025-10-11T11:59:38.593448",
+        "research_url": "https://www.psegliny.com/en/saveenergyandmoney/GreenEnergy/PeakLoad/SmartSavers",
+        "research_status": "completed"
+      },
+      "data_quality_enhanced": true
+    }
+  ]
+}
