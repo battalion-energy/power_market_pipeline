@@ -1,0 +1,412 @@
+{
+  "program_id": "ARKANSAS-SMART-DIRECT-LOAD-CONTROL-PILOT-PROGRAM",
+  "program_name": "Smart Direct Load Control Pilot Program",
+  "program_type": "utility",
+  "status": "active",
+  "research_completed_date": "2025-10-11",
+  "data_quality_score": 7,
+  "description": "Entergy Arkansas' Smart Direct Load Control Pilot Program is a demand response program that provides residential and small business customers with free advanced smart thermostats and professional installation. During peak demand periods between June and September, Entergy can remotely adjust enrolled thermostats by 2-4 degrees to reduce grid stress. Customers receive enrollment incentives and annual participation incentives based on their opt-out frequency. The program launched as a BYOD (Bring Your Own Device) pilot in April 2017 and has expanded to include free thermostat installation. It complements Entergy's older Summer Advantage program which uses direct cycling units (DCUs) on AC compressors.",
+
+  "geography": {
+    "states": ["AR"],
+    "utilities": ["Entergy Arkansas"],
+    "isos": ["MISO"],
+    "service_territories": ["Entergy Arkansas service territory in Arkansas"],
+    "notes": "Entergy Arkansas joined MISO (Midcontinent Independent System Operator) in 2013 as part of the MISO South expansion"
+  },
+
+  "eligibility": {
+    "customer_classes": {
+      "residential": true,
+      "commercial": true,
+      "industrial": false,
+      "institutional": false,
+      "size_threshold_notes": "Program targets residential customers and small business customers (nonresidential). Commercial customers must be small enough to benefit from thermostat-based load control."
+    },
+    "behind_the_meter": true,
+    "front_of_meter": false,
+    "minimum_capacity_kw": "not specified",
+    "maximum_capacity_kw": "not specified",
+    "resource_types": [
+      "central air conditioning",
+      "heat pumps"
+    ],
+    "requires_aggregator": false,
+    "aggregator_name": "ICF",
+    "technology_requirements": {
+      "hvac_type": ["central air conditioning", "heat pumps"],
+      "excluded_systems": ["mini splits", "zoned systems"],
+      "wifi_required": true,
+      "ownership_required": true,
+      "compatible_thermostats_byod": [
+        "Emerson Sensi Touch",
+        "Emerson Sensi Wi-Fi",
+        "Honeywell Home T5",
+        "Honeywell Home T6 Pro",
+        "Honeywell Home T9",
+        "Honeywell Home T10 Pro",
+        "Honeywell Home 9000",
+        "Honeywell Home FocusPRO",
+        "Honeywell Home Round"
+      ],
+      "provided_thermostat": "Copeland Sensi Touch smart thermostat"
+    },
+    "notes": "In March 2024, ICF was awarded a three-year, $25 million contract to implement energy efficiency and demand response programs for Entergy Arkansas, including this smart thermostat program. Customers must own their home or business, have central AC or heat pump, and have Wi-Fi connectivity."
+  },
+
+  "notification": {
+    "day_ahead_notice": false,
+    "minimum_notice_hours": "not specified",
+    "maximum_notice_hours": "not specified",
+    "notification_methods": ["smart thermostat alert", "mobile app"],
+    "notification_notes": "Enrolled thermostats alert customers when an energy-saving demand response event is underway and provide the time an event is scheduled to end. Specific advance notice period not disclosed in public documentation."
+  },
+
+  "payment_structure": {
+    "has_capacity_payment": false,
+    "has_performance_payment": true,
+    "capacity_rate": {
+      "value": "not applicable",
+      "unit": "not applicable",
+      "varies_by_season": false,
+      "seasonal_rates": [],
+      "notes": "Program uses enrollment incentives and annual participation incentives rather than traditional capacity payments"
+    },
+    "performance_rate": {
+      "value": "varies",
+      "unit": "$/year",
+      "varies_by_season": false,
+      "varies_by_time": false,
+      "notes": "Annual participation incentive varies based on customer class and number of opt-outs during the season"
+    },
+    "enrollment_incentives": {
+      "new_thermostat_residential": {
+        "description": "Free professionally installed Copeland Sensi Touch smart thermostat",
+        "value": 350,
+        "unit": "USD",
+        "payment_timing": "at installation"
+      },
+      "byod_residential": {
+        "description": "One-time enrollment incentive for bringing compatible existing thermostat",
+        "value": 50,
+        "unit": "USD",
+        "payment_timing": "at enrollment"
+      },
+      "byod_nonresidential": {
+        "description": "One-time enrollment incentive for bringing compatible existing thermostat",
+        "value": 100,
+        "unit": "USD",
+        "payment_timing": "at enrollment"
+      }
+    },
+    "annual_participation_incentives": {
+      "residential": {
+        "0_to_1_optouts": {
+          "value": 40,
+          "unit": "USD",
+          "notes": "Maximum participation incentive for 0-1 opt-outs during season"
+        },
+        "2_to_3_optouts": {
+          "value": 25,
+          "unit": "USD",
+          "notes": "Reduced incentive for 2-3 opt-outs during season"
+        },
+        "4_plus_optouts": {
+          "value": 0,
+          "unit": "USD",
+          "notes": "No incentive if customer opts out 4 or more times"
+        }
+      },
+      "nonresidential": {
+        "0_to_1_optouts": {
+          "value": 100,
+          "unit": "USD",
+          "notes": "Maximum participation incentive for 0-1 opt-outs during season"
+        },
+        "2_to_3_optouts": {
+          "value": 50,
+          "unit": "USD",
+          "notes": "Reduced incentive for 2-3 opt-outs during season"
+        },
+        "4_plus_optouts": {
+          "value": 0,
+          "unit": "USD",
+          "notes": "No incentive if customer opts out 4 or more times"
+        }
+      }
+    },
+    "penalty_structure": {
+      "has_penalties": false,
+      "penalty_rate": "not applicable",
+      "penalty_unit": "not applicable",
+      "penalty_description": "No explicit penalties. Incentives are reduced based on opt-out frequency, and customers receive $0 annual incentive if they opt out 4+ times."
+    },
+    "bonus_payments": [],
+    "forward_curve_available": false,
+    "forward_curve_url": "not available",
+    "payment_notes": "Total first-year value for new thermostat path (residential): $350 (thermostat) + up to $40 (annual incentive) = $390. For BYOD path (residential): $50 (enrollment) + up to $40 (annual) = $90. Commercial customers receive higher incentives. Annual incentives paid at end of season based on participation performance."
+  },
+
+  "seasons": [
+    {
+      "season_name": "Summer demand response season",
+      "start_date": "June 1",
+      "end_date": "September 30",
+      "max_events": "not specified",
+      "max_hours": "not specified",
+      "notes": "Events occur only on weekdays (Monday-Friday), excluding holidays. No weekend or holiday events."
+    }
+  ],
+
+  "call_windows": [
+    {
+      "window_id": "summer_weekday",
+      "start_hour": "not specified",
+      "end_hour": "not specified",
+      "days_of_week": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      "seasons": ["Summer"],
+      "timezone": "America/Chicago",
+      "notes": "Events occur only on non-holiday weekdays during June 1 - September 30 period. Specific hours not disclosed publicly, but events occur during high demand periods (typically afternoon/early evening)."
+    }
+  ],
+
+  "event_parameters": {
+    "typical_duration_hours": "not specified",
+    "minimum_duration_hours": "not specified",
+    "maximum_duration_hours": "not specified",
+    "event_granularity_minutes": "not available",
+    "response_time_minutes": "not specified",
+    "max_events_per_season": "not specified",
+    "max_events_per_year": "not specified",
+    "max_hours_per_season": "not specified",
+    "max_hours_per_year": "not specified",
+    "max_consecutive_events": "not specified",
+    "minimum_rest_hours": "not specified",
+    "temperature_adjustment": {
+      "minimum_degrees": 2,
+      "maximum_degrees": 4,
+      "unit": "Fahrenheit",
+      "direction": "increase",
+      "notes": "During events, thermostat is adjusted 2-4 degrees higher than customer's set temperature"
+    },
+    "notes": "Public documentation does not specify event duration, frequency limits, or advance notice requirements. Customers can opt out of individual events but frequent opt-outs reduce annual incentives."
+  },
+
+  "event_triggers": {
+    "trigger_description": "Events are called during periods of high electricity demand to reduce grid stress, primarily during summer months when tens of thousands of air conditioners are running simultaneously. Events help Entergy manage peak demand and maintain grid reliability.",
+    "primary_trigger": "peak_demand",
+    "secondary_triggers": ["high_temperature", "grid_stress"],
+    "temperature_threshold": "not specified",
+    "price_threshold": "not specified",
+    "examples": "Summer afternoon heat peaks when residential and commercial air conditioning loads are at maximum"
+  },
+
+  "nomination_bidding": {
+    "requires_nomination": false,
+    "nomination_frequency": "not applicable",
+    "nomination_deadline": "not applicable",
+    "allows_price_bidding": false,
+    "bidding_structure": "not applicable",
+    "enrollment_period": {
+      "start_date": "not specified",
+      "end_date": "not specified",
+      "recurring": "ongoing"
+    },
+    "notes": "Customers can enroll at any time by contacting the program. No bidding or nomination required - fixed incentive structure based on customer class and opt-out frequency."
+  },
+
+  "special_programs": {
+    "is_rec_based": false,
+    "rec_type": "not applicable",
+    "scheduled_dispatch": false,
+    "clean_peak_standard": false,
+    "opt_out_capability": true,
+    "special_attributes": [
+      "Free smart thermostat with professional installation",
+      "Remote temperature control via mobile app",
+      "Unlimited opt-outs allowed (but reduces annual incentive)",
+      "No penalties for non-performance",
+      "Complementary to Summer Advantage DCU program",
+      "Part of ICF-managed portfolio of EE/DR programs"
+    ]
+  },
+
+  "program_history": {
+    "launch_year": 2017,
+    "program_evolution": [
+      {
+        "year": 2017,
+        "change_description": "Program launched in April 2017 as BYOD (Bring Your Own Device) pilot in partnership with Comverge to aggregate consumer-purchased Wi-Fi-enabled smart thermostats"
+      },
+      {
+        "year": 2024,
+        "change_description": "ICF awarded three-year, $25 million contract (March 2024) to implement energy efficiency and demand response programs including smart thermostat program. Program expanded to offer free Copeland Sensi Touch thermostats with professional installation in addition to BYOD option."
+      }
+    ],
+    "budget_committed_through": 2027,
+    "total_annual_budget": "not available",
+    "notes": "Program originally launched as BYOD pilot with Comverge in 2017. Has evolved to offer both free thermostat installation and BYOD paths. ICF now manages program implementation. The $25 million three-year ICF contract (2024-2027) covers multiple EE/DR programs, not just this thermostat program."
+  },
+
+  "historical_events": [],
+
+  "case_studies": [],
+
+  "related_programs": {
+    "summer_advantage_program": {
+      "program_name": "Summer Advantage Program",
+      "description": "Older demand response program using Direct Cycling Units (DCUs) installed on air conditioner compressors to reduce runtime by 50% or 75% during peak periods",
+      "customer_classes": ["residential"],
+      "technology": "Direct Load Control - DCU device cycles AC compressor",
+      "season": "June 1 - September 30",
+      "call_window": "12:00 PM - 7:00 PM Central Time, Monday-Friday, non-holidays",
+      "event_duration": "typically 4 hours",
+      "cycling_options": {
+        "50_percent": {
+          "installation_incentive": 25,
+          "annual_incentive": 25,
+          "total_first_year": 50,
+          "temperature_impact": "2-3 degrees increase during 4-hour event"
+        },
+        "75_percent": {
+          "installation_incentive": 40,
+          "annual_incentive": 40,
+          "total_first_year": 80,
+          "temperature_impact": "slightly higher than 50% option"
+        }
+      },
+      "customer_satisfaction": "95%+",
+      "contact": {
+        "phone": "1-866-224-7812",
+        "website": "entergyarsummeradvantage.com"
+      },
+      "notes": "Customers cannot be enrolled in both Summer Advantage and Smart Direct Load Control programs simultaneously. Summer Advantage uses hardware control (DCU) while Smart DLC uses software control (smart thermostat). Smart DLC is the newer program.",
+      "status": "active"
+    }
+  },
+
+  "verification_sources": [
+    {
+      "source_name": "Entergy Arkansas Smart Direct Load Control Pilot Program Page",
+      "url": "https://www.entergyarkansas.com/energyefficiency/residential/thermostat",
+      "accessed_date": "2025-10-11",
+      "document_type": "program webpage",
+      "fields_verified": [
+        "program_description",
+        "eligibility_requirements",
+        "enrollment_incentives",
+        "annual_participation_incentives",
+        "opt_out_policy",
+        "compatible_thermostats",
+        "technology_requirements",
+        "season_dates",
+        "event_days",
+        "temperature_adjustment_range",
+        "contact_information"
+      ]
+    },
+    {
+      "source_name": "Entergy Arkansas Summer Advantage Program Page",
+      "url": "https://www.entergyarkansas.com/energyefficiency/residential/summer-advantage",
+      "accessed_date": "2025-10-11",
+      "document_type": "program webpage",
+      "fields_verified": [
+        "summer_advantage_details",
+        "cycling_options",
+        "incentive_amounts",
+        "call_window_hours",
+        "event_duration",
+        "customer_satisfaction"
+      ]
+    },
+    {
+      "source_name": "Smart Cities Dive - Comverge BYOD Pilot Article",
+      "url": "https://www.smartcitiesdive.com/news/comverge-brings-byod-demand-response-pilot-to-arkansas/441202/",
+      "accessed_date": "2025-10-11",
+      "document_type": "news article",
+      "fields_verified": [
+        "program_launch_date",
+        "original_vendor",
+        "byod_model",
+        "program_history"
+      ]
+    },
+    {
+      "source_name": "ICF Press Release - Entergy Arkansas Contract Award",
+      "url": "https://www.icf.com/news/2024/03/icf-awarded-new-25-million-contract-by-entergy-arkansas",
+      "accessed_date": "2025-10-11",
+      "document_type": "press release",
+      "fields_verified": [
+        "contract_value",
+        "contract_duration",
+        "implementation_partner",
+        "program_scope"
+      ]
+    }
+  ],
+
+  "data_gaps_and_limitations": {
+    "missing_critical_data": [
+      "Specific event duration (typical and maximum)",
+      "Maximum number of events per season/year",
+      "Maximum event hours per season/year",
+      "Minimum rest hours between events",
+      "Maximum consecutive events",
+      "Advance notification time before events",
+      "Specific call window hours (start and end times)",
+      "Temperature thresholds that trigger events",
+      "Historical event data (dates, times, durations)",
+      "Total enrolled participants",
+      "Total MW capacity enrolled",
+      "Event frequency statistics",
+      "Specific event call window times",
+      "Response time requirements"
+    ],
+    "data_not_publicly_available": [
+      "Detailed program terms and conditions document",
+      "Event history log",
+      "Participation statistics (number of customers, MW capacity)",
+      "Program performance metrics",
+      "Average opt-out rates",
+      "Typical event duration and frequency",
+      "Advance notice procedures",
+      "Measurement and verification methodology",
+      "Baseline calculation methodology",
+      "Arkansas Public Service Commission tariff or approval documents",
+      "Program evaluation reports"
+    ],
+    "verification_limitations": [
+      "Smart DLC Guidebook PDF (referenced in search results) was not accessible due to DNS issues",
+      "Arkansas PSC docket search did not reveal specific DR program dockets",
+      "No access to detailed program manual or terms and conditions",
+      "No published evaluation reports or annual reports found",
+      "Most operational details require enrollment to access",
+      "Historical event data not publicly disclosed",
+      "Performance statistics not published"
+    ]
+  },
+
+  "research_notes": "Conducted comprehensive web research on Entergy Arkansas Smart Direct Load Control Pilot Program on 2025-10-11. Program is well-documented for customer-facing information (eligibility, incentives, thermostat options) but operational details (event parameters, notification timing, frequency limits) are not publicly disclosed. Program evolved from 2017 BYOD pilot with Comverge to current dual-path offering (free installation or BYOD) managed by ICF under 2024-2027 contract. The program complements older Summer Advantage DCU program, with customers unable to participate in both simultaneously. Payment structure is straightforward with fixed enrollment and annual incentives tied to opt-out frequency rather than complex capacity/performance payments. MISO membership confirmed (since 2013). Key limitation: attempted to access Smart_DLC_Guidebook.pdf which likely contains detailed program rules but DNS resolution failed for cdn.entergy-arkansas.com. Arkansas PSC energy efficiency annual reports page was JavaScript-heavy and did not reveal report links. For complete operational details and historical data, direct contact with ICF (program administrator) or Entergy Arkansas would be required. Overall data quality is good for customer enrollment information but limited for operational/technical specifications and historical performance.",
+
+  "integration_metadata": {
+    "optimizer_compatible": false,
+    "api_available": false,
+    "api_documentation_url": "not available",
+    "api_notes": "This is a residential/small commercial thermostat control program, not suitable for commercial battery optimization. No API access mentioned. Program is designed for distributed HVAC load control, not large C&I or front-of-meter resources.",
+    "data_quality_score": 7,
+    "last_verified_date": "2025-10-11",
+    "verification_thoroughness": "Comprehensive web research conducted including primary program pages, related programs, news articles, and press releases. Successfully verified customer-facing program details and incentive structures. Limited by lack of access to detailed program manual (guidebook PDF), regulatory filings, and operational specifications.",
+    "recommended_next_steps": [
+      "Contact ICF at SmartDLCPilot@icf.com or 1-833-807-7682 for detailed program terms",
+      "Request Smart DLC Program Guidebook PDF through alternative channel",
+      "Search Arkansas PSC docket database directly for demand response filings",
+      "Contact Entergy Arkansas for historical event data and participation statistics",
+      "Request program evaluation reports if available",
+      "Interview program participants for real-world experience",
+      "Clarify specific event duration, frequency, and notification requirements",
+      "Obtain M&V methodology and baseline calculation procedures"
+    ],
+    "battery_optimization_notes": "This program is NOT suitable for battery energy storage optimization. It is a residential and small commercial thermostat-based demand response program designed for HVAC load control. Target customers are homeowners and small businesses with central AC/heat pumps. The program provides modest incentives ($40-$100/year) for allowing 2-4 degree thermostat adjustments during summer peak events. Battery projects should focus on other Entergy Arkansas or MISO programs designed for larger C&I customers or front-of-meter resources. This program is only relevant for understanding Entergy's overall DR portfolio and residential demand flexibility potential.",
+    "notes": "Program represents residential/small commercial sector demand response using smart thermostat technology. Complements traditional DCU-based Summer Advantage program. Enrollment and annual incentives are modest but appropriate for residential scale. Opt-out flexibility with graduated incentive reduction (rather than penalties) is customer-friendly approach. Program is part of broader ICF-managed EE/DR portfolio through 2027. MISO operates as RTO for Entergy Arkansas (since 2013), so program operates within MISO South footprint."
+  }
+}

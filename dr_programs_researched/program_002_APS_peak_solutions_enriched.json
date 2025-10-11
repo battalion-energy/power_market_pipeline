@@ -1,0 +1,405 @@
+{
+  "program_id": "APS-PEAK-SOLUTIONS",
+  "program_name": "Peak Solutions",
+  "program_type": "utility",
+  "status": "active",
+  "research_completed_date": "2025-10-11",
+  "data_quality_score": 5,
+  "description": "APS Peak Solutions is a commercial and industrial demand response program operated by Arizona Public Service (APS) in partnership with CPower Energy. Launched in 2010, the program provides financial rewards to business customers who voluntarily reduce electricity consumption during peak demand periods, typically during summer months (June-September). The program has notably low barriers to entry with a minimum 10 kW commitment and no penalties for non-performance, making it accessible to both small and large commercial customers. A program redesign is planned for Fall 2025.",
+
+  "geography": {
+    "states": ["AZ"],
+    "utilities": ["Arizona Public Service (APS)"],
+    "isos": [],
+    "service_territories": ["APS service territory covering Phoenix metropolitan area and surrounding regions"],
+    "notes": "APS is Arizona's largest utility serving approximately 2.7 million people"
+  },
+
+  "eligibility": {
+    "customer_classes": {
+      "residential": false,
+      "commercial": true,
+      "industrial": true,
+      "institutional": true,
+      "size_threshold_notes": "Program is designed to include both small and large commercial/industrial organizations. Minimum 10 kW load commitment is significantly lower than typical 50 kW minimum for most US commercial DR programs."
+    },
+    "behind_the_meter": true,
+    "front_of_meter": false,
+    "minimum_capacity_kw": 10,
+    "maximum_capacity_kw": "not available",
+    "resource_types": [
+      "load curtailment",
+      "HVAC adjustment",
+      "lighting reduction",
+      "industrial process modification",
+      "non-essential equipment shutdown"
+    ],
+    "requires_aggregator": true,
+    "aggregator_name": "CPower Energy",
+    "notes": "CPower manages program enrollment, facility assessments, measurement, verification, and payment distribution on behalf of APS. Customers can enroll at cpowerenergy.com/aps or call 844-276-9371."
+  },
+
+  "notification": {
+    "day_ahead_notice": true,
+    "minimum_notice_hours": "not available",
+    "maximum_notice_hours": 24,
+    "notification_methods": ["not specified - likely email, SMS, phone"],
+    "notification_notes": "Day Ahead notification option available where participants are notified by noon the day before an event. Specific notification methods not detailed in public documentation but likely include standard digital notification channels."
+  },
+
+  "payment_structure": {
+    "has_capacity_payment": true,
+    "has_performance_payment": true,
+    "capacity_rate": {
+      "value": "not available",
+      "unit": "not specified",
+      "varies_by_season": "not specified",
+      "seasonal_rates": [],
+      "notes": "Program provides capacity payments but specific rates are not publicly disclosed. Payment structure appears to be customized per participant. Initial program scrape suggested rates but these could not be verified from authoritative sources."
+    },
+    "performance_rate": {
+      "value": "not available",
+      "unit": "not specified",
+      "varies_by_season": "not specified",
+      "varies_by_time": "not specified",
+      "notes": "Program provides performance payments for energy reduced during events. Specific rates not publicly disclosed. Payment appears customized based on facility assessment and enrolled capacity."
+    },
+    "penalty_structure": {
+      "has_penalties": false,
+      "penalty_rate": "not applicable",
+      "penalty_unit": "not applicable",
+      "penalty_description": "No penalties for non-performance. This is explicitly highlighted as a key program feature to attract first-time demand response participants."
+    },
+    "bonus_payments": [],
+    "forward_curve_available": false,
+    "forward_curve_url": "not available",
+    "payment_notes": "Customers can earn 'between hundreds and hundreds of thousands of dollars' depending on enrolled capacity and performance. In 2023 program season, participants collectively earned more than $870,000. Royal Paper earned nearly $85,000 for participation in summer 2023. Payments appear to be a combination of capacity payments for enrollment and performance payments for actual curtailment during events."
+  },
+
+  "seasons": [
+    {
+      "season_name": "Summer",
+      "start_date": "06-01",
+      "end_date": "09-30",
+      "max_events": "not available",
+      "max_hours": "not available",
+      "notes": "Program operates primarily June through September when Arizona experiences extreme heat and peak electricity demand. Events called during highest usage periods, typically 4-7 PM."
+    }
+  ],
+
+  "call_windows": [
+    {
+      "window_id": "summer_peak_hours",
+      "start_hour": 16,
+      "end_hour": 19,
+      "days_of_week": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+      "seasons": ["Summer"],
+      "timezone": "America/Phoenix",
+      "notes": "APS customers typically use the most power between 4 PM and 7 PM, particularly during summer months. This is the primary call window for Peak Solutions events. Note: Arizona does not observe Daylight Saving Time."
+    }
+  ],
+
+  "event_parameters": {
+    "typical_duration_hours": "not available",
+    "minimum_duration_hours": "not available",
+    "maximum_duration_hours": "not available",
+    "event_granularity_minutes": "not available",
+    "response_time_minutes": "not available",
+    "max_events_per_season": "not available",
+    "max_events_per_year": "not available",
+    "max_hours_per_season": "not available",
+    "max_hours_per_year": "not available",
+    "max_consecutive_events": "not available",
+    "minimum_rest_hours": "not available",
+    "notes": "Specific event parameters not disclosed in public documentation. Events are called during periods of exceptionally high demand, typically during extreme summer heat."
+  },
+
+  "event_triggers": {
+    "trigger_description": "Events are called during periods of exceptionally high electricity demand on the APS grid, typically during extreme summer heat when temperatures exceed 110°F. The program helps APS maintain grid reliability and avoid outages during peak demand periods. Events are called when customer energy use creates grid stress.",
+    "primary_trigger": "grid_stress_peak_demand",
+    "secondary_triggers": ["extreme_temperature", "high_customer_usage"],
+    "temperature_threshold": "not available",
+    "price_threshold": "not available",
+    "examples": "Phoenix experienced 55 days above 110°F in summer 2023 (hottest summer on record). August 4, 2024: APS customers set all-time peak demand record at 8,210 MW. These extreme heat events trigger Peak Solutions calls."
+  },
+
+  "nomination_bidding": {
+    "requires_nomination": true,
+    "nomination_frequency": "not available",
+    "nomination_deadline": "not available",
+    "allows_price_bidding": false,
+    "bidding_structure": "not available",
+    "enrollment_period": {
+      "start_date": "not available",
+      "end_date": "not available",
+      "recurring": "ongoing"
+    },
+    "notes": "Enrollment appears to be ongoing through CPower. Customers receive personalized facility assessment and conservation plan upon enrollment. Load reduction strategies remain at customer discretion - voluntary participation in each event."
+  },
+
+  "special_programs": {
+    "is_rec_based": false,
+    "rec_type": "not applicable",
+    "scheduled_dispatch": false,
+    "clean_peak_standard": false,
+    "special_attributes": [
+      "Part of APS Virtual Power Plant initiative (nearing 200 MW total capacity)",
+      "Contributes to APS's goal of 100% carbon-free electricity by 2050",
+      "Personalized facility assessment provided by CPower",
+      "No upfront costs to participate",
+      "Low-risk opportunity - no penalties for non-performance",
+      "Voluntary event participation - load reduction strategies at customer discretion",
+      "Designed to attract first-time demand response participants"
+    ]
+  },
+
+  "program_history": {
+    "launch_year": 2010,
+    "program_evolution": [
+      {
+        "year": 2010,
+        "change_description": "APS Peak Solutions program launched"
+      },
+      {
+        "year": 2023,
+        "change_description": "Program participants collectively earned over $870,000 during 2023 program season"
+      },
+      {
+        "year": 2024,
+        "change_description": "Program continues to operate. Partnership with CPower expanded. APS Virtual Power Plant (including Peak Solutions and other DR programs) reached 190 MW capacity in 2024."
+      },
+      {
+        "year": 2025,
+        "change_description": "Program redesign planned for Fall 2025 (as indicated on APS Virtual Power Plant page)"
+      }
+    ],
+    "budget_committed_through": "not available",
+    "total_annual_budget": "not available",
+    "notes": "Program has been operating for 14+ years as of 2024. APS is actively investing in demand response as part of broader clean energy strategy and grid modernization efforts."
+  },
+
+  "historical_events": [
+    {
+      "event_id": "summer_2023_heatwave",
+      "event_date": "2023-07-01",
+      "start_time": "not available",
+      "end_time": "not available",
+      "duration_hours": "not available",
+      "season": "Summer",
+      "notification_time": "not available",
+      "advance_notice_hours": "not available",
+      "call_window": "afternoon",
+      "performance_payment_rate": "not available",
+      "total_mw_called": "not available",
+      "notes": "Phoenix recorded 55 consecutive days above 110°F in summer 2023 - hottest summer on record. Participants earned over $870,000 collectively during 2023 program season."
+    },
+    {
+      "event_id": "aps_peak_record_august_2024",
+      "event_date": "2024-08-04",
+      "start_time": "not available",
+      "end_time": "not available",
+      "duration_hours": "not available",
+      "season": "Summer",
+      "notification_time": "not available",
+      "advance_notice_hours": "not available",
+      "call_window": "afternoon",
+      "performance_payment_rate": "not available",
+      "total_mw_called": "not available",
+      "notes": "APS customers set all-time peak demand record at 8,210 MW on August 4, 2024, shattering previous record set just one day earlier. Peak Solutions and other DR programs called to maintain grid reliability."
+    }
+  ],
+
+  "case_studies": [
+    {
+      "participant_name": "Royal Paper",
+      "locations_count": "not available",
+      "participation_years": "at least 1",
+      "total_earnings": 85000,
+      "annual_average_earnings": "not available",
+      "capacity_enrolled_kw": "not available",
+      "energy_reduction_achieved": "not available",
+      "additional_savings": "not available",
+      "quote": "not available",
+      "source_url": "https://cpowerenergy.com/arizona-public-service-aps-customers-benefit-from-helping-the-grid/",
+      "accessed_date": "2025-10-11"
+    }
+  ],
+
+  "related_programs": {
+    "cool_rewards": {
+      "program_name": "APS Cool Rewards",
+      "description": "Residential smart thermostat demand response program",
+      "customer_type": "residential",
+      "enrolled_devices": 90000,
+      "capacity_mw": 160,
+      "bill_credit_initial": 50,
+      "bill_credit_annual": 35,
+      "status": "active",
+      "notes": "Part of APS Virtual Power Plant. Customers can opt out of conservation events."
+    },
+    "energy_saving_days": {
+      "program_name": "Energy Saving Days",
+      "description": "Voluntary energy conservation alerts for non-enrolled customers",
+      "customer_type": "all",
+      "payment": "energy savings reports only",
+      "status": "active"
+    },
+    "residential_battery_pilot": {
+      "program_name": "Residential Battery Pilot",
+      "description": "Home battery devices dispatch energy back to grid on select days",
+      "customer_type": "residential",
+      "status": "active"
+    },
+    "storage_rewards": {
+      "program_name": "Storage Rewards",
+      "description": "Battery storage demand response program",
+      "customer_type": "not specified",
+      "status": "coming soon"
+    },
+    "smartcharge_ev": {
+      "program_name": "SmartCharge: EV Charging Assistant Rewards",
+      "description": "Electric vehicle owners earn rewards for charging during off-peak hours with clean energy",
+      "customer_type": "residential_ev",
+      "status": "active"
+    }
+  },
+
+  "verification_sources": [
+    {
+      "source_name": "APS Newsroom - Receive rewards, maintain grid reliability through APS Peak Solutions",
+      "url": "https://www.aps.com/en/About/Our-Company/Newsroom/Articles/Receive-rewards-maintain-grid-reliability-through-APS-Peak-Solutions",
+      "accessed_date": "2025-10-11",
+      "document_type": "news article",
+      "fields_verified": [
+        "program_launch_year",
+        "minimum_capacity_10kw",
+        "no_penalties",
+        "commercial_industrial_eligibility",
+        "CPower_partnership",
+        "payment_range_hundreds_to_hundreds_of_thousands"
+      ]
+    },
+    {
+      "source_name": "APS Virtual Power Plant Program Page",
+      "url": "https://www.aps.com/en/About/Sustainability-and-Innovation/Technology-and-Innovation/Virtual_Power_Plant",
+      "accessed_date": "2025-10-11",
+      "document_type": "program webpage",
+      "fields_verified": [
+        "virtual_power_plant_capacity_200MW",
+        "fall_2025_redesign",
+        "cool_rewards_details",
+        "related_programs"
+      ]
+    },
+    {
+      "source_name": "CPower - Arizona's Largest Utility Ramps its Demand Response program",
+      "url": "https://cpowerenergy.com/arizonas-largest-utility-ramps-its-demand-response-program-to-pursue-carbon-free-mission/",
+      "accessed_date": "2025-10-11",
+      "document_type": "blog post",
+      "fields_verified": [
+        "10kw_minimum_lower_than_typical_50kw",
+        "no_penalties_feature",
+        "support_for_100_percent_carbon_free_goal",
+        "attractive_to_first_time_participants"
+      ]
+    },
+    {
+      "source_name": "CPower - Arizona Public Service Customers Benefit from Helping the Grid",
+      "url": "https://cpowerenergy.com/arizona-public-service-aps-customers-benefit-from-helping-the-grid/",
+      "accessed_date": "2025-10-11",
+      "document_type": "blog post",
+      "fields_verified": [
+        "2023_total_earnings_870000",
+        "royal_paper_case_study_85000",
+        "program_launch_2010",
+        "day_ahead_notification_option"
+      ]
+    },
+    {
+      "source_name": "APS Business Solutions Page",
+      "url": "https://www.aps.com/en/Business/Save-Money-and-Energy/Business-Solutions",
+      "accessed_date": "2025-10-11",
+      "document_type": "program webpage",
+      "fields_verified": [
+        "program_existence",
+        "CPower_enrollment_link"
+      ]
+    },
+    {
+      "source_name": "CPower - Earn Revenue with CPower and APS: When the Mercury Rises Across Arizona",
+      "url": "https://cpowerenergy.com/earn-revenue-with-cpower-and-aps-when-the-mercury-rises-across-arizona/",
+      "accessed_date": "2025-10-11",
+      "document_type": "blog post",
+      "fields_verified": [
+        "55_days_above_110F_summer_2023",
+        "commercial_industrial_focus"
+      ]
+    },
+    {
+      "source_name": "APS Newsroom - APS Record Shattered: Customers' Energy Use Sets New Peak Twice in Two Days",
+      "url": "https://www.aps.com/en/About/Our-Company/Newsroom/Articles/APS-Record-Shattered-Customers-Energy-Use-Sets-New-Peak",
+      "accessed_date": "2025-10-11",
+      "document_type": "press release",
+      "fields_verified": [
+        "august_4_2024_peak_8210MW",
+        "4pm_to_7pm_peak_hours"
+      ]
+    }
+  ],
+
+  "data_gaps_and_limitations": {
+    "missing_critical_data": [
+      "Specific capacity payment rates ($/kW-month or $/kW-season)",
+      "Specific performance payment rates ($/kWh)",
+      "Event duration (minimum, typical, maximum hours)",
+      "Maximum number of events per season/year",
+      "Maximum hours per season/year",
+      "Minimum response time for non-day-ahead events",
+      "Event granularity and dispatch intervals",
+      "Minimum rest hours between events",
+      "Maximum consecutive events",
+      "Specific notification methods",
+      "Enrollment periods and deadlines",
+      "Detailed nomination/bidding process",
+      "Precise temperature thresholds for event triggers"
+    ],
+    "data_not_publicly_available": [
+      "Capacity and performance payment rates - appear to be customized per participant based on facility assessment",
+      "Detailed event parameters - likely provided to enrolled participants only",
+      "Complete historical event log with dates, times, and durations",
+      "Individual participant earnings and performance data",
+      "Program tariffs or detailed terms and conditions",
+      "API or software platform documentation"
+    ],
+    "verification_limitations": [
+      "Payment rate information is not disclosed in any public source - would require direct contact with CPower or APS",
+      "Event operational details (duration, frequency, notification specifics) not documented publicly",
+      "Program is undergoing redesign for Fall 2025 - current details may change",
+      "No official APS tariff sheet found for Peak Solutions program",
+      "Arizona Corporation Commission filings for this specific program not located",
+      "Historical event data limited to major peak demand records reported in press releases"
+    ]
+  },
+
+  "research_notes": "Conducted comprehensive web research on APS Peak Solutions program on 2025-10-11. Research included APS official sources, CPower partner sources, press releases, and web searches for regulatory filings. Program is well-documented for high-level features (eligibility, launch date, partnership structure, no penalties) but specific operational and financial details are not publicly available. The 10 kW minimum and no-penalty structure are consistently highlighted across sources as differentiators. Payment structure appears to be customized per participant rather than published fixed rates. Found good earnings examples (2023 collective $870K, Royal Paper $85K) but not underlying rate structures. Program appears to operate primarily June-September during Arizona's extreme summer heat, with peak hours 4-7 PM. Arizona does not observe Daylight Saving Time. Program is part of larger APS Virtual Power Plant initiative approaching 200 MW total capacity. Fall 2025 redesign mentioned but details not available. For complete operational parameters and financial details, direct enrollment or contact with CPower (844-276-9371) would be required. Overall data quality is moderate - good program description and eligibility details, but missing critical operational and payment specifics that would be needed for optimization modeling.",
+
+  "integration_metadata": {
+    "optimizer_compatible": true,
+    "api_available": "not available",
+    "api_documentation_url": "not available",
+    "api_notes": "CPower likely provides monitoring and notification platform to participants but details not publicly available",
+    "data_quality_score": 5,
+    "last_verified_date": "2025-10-11",
+    "verification_thoroughness": "Comprehensive web research conducted including APS official sources, CPower partner pages, press releases, news articles, and searches for regulatory filings. Primary limitations are lack of published payment rates, detailed event parameters, and program documentation typically available only to enrolled participants.",
+    "recommended_next_steps": [
+      "Contact CPower at 844-276-9371 for specific payment rates and facility assessment",
+      "Visit cpowerenergy.com/aps to request enrollment information and detailed program terms",
+      "Contact APS directly for tariff schedules if available",
+      "Search Arizona Corporation Commission eDocket system for program filings and approvals",
+      "Monitor for Fall 2025 program redesign announcements and updated documentation",
+      "Request participant handbook or terms and conditions from CPower",
+      "Interview current program participants for real-world operational experience"
+    ],
+    "notes": "Program is mature (14+ years), actively operating, and part of APS's strategic clean energy initiatives. The low 10 kW minimum and no-penalty structure make it accessible for smaller commercial customers and first-time DR participants. Payment structures appear customized based on facility assessment rather than published fixed rates. Good candidate for battery or flexible load optimization given summer-focused operation, predictable peak hours (4-7 PM), and day-ahead notification option. However, lack of published event limits (max events/hours per year) makes revenue forecasting challenging without direct program enrollment. Program redesign planned for Fall 2025 may bring changes to structure and potentially better public documentation."
+  }
+}

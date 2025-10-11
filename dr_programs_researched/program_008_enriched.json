@@ -1,0 +1,221 @@
+{
+  "program_id": "CALIFORNIA-LADWP-DEMAND-RESPONSE-PROGRAM",
+  "program_name": "LADWP Commercial and Industrial Demand Response Program",
+  "program_type": "utility",
+  "status": "active",
+  "states": [
+    "California"
+  ],
+  "utilities": [
+    "Los Angeles Department of Water and Power (LADWP)"
+  ],
+  "isos_rtos": [],
+  "data_sources": {
+    "program_url": "https://www.ladwp.com/commercial-services/programs-and-rebates-commercial/demand-response-program",
+    "terms_and_conditions_url": "https://www.ladwp.com/sites/default/files/2025-06/Terms%20and%20Conditions%20-%20LADWP%20Demand%20Response%20CI%20Program.pdf",
+    "fact_sheet_url": "https://www.ladwp.com/sites/default/files/2024-04/2023_FACT_SHEET_Demand_Response_01.pdf",
+    "case_study_url": "https://www.ladwp.com/publications/newsletters/articles/demand-response-action-bank-america-plaza",
+    "research_date": "2025-10-11",
+    "data_quality_notes": "Comprehensive research from official LADWP website, program documentation, case studies, and web searches. All data verified from authoritative sources."
+  },
+  "payment_structure": {
+    "has_capacity_payment": true,
+    "has_performance_payment": true,
+    "capacity_rate": {
+      "value": "10.00 (day-ahead) or 15.00 (2-hour advance)",
+      "unit": "$/kW-month",
+      "varies_by_season": "no",
+      "notes": "Capacity payments are $10/kW/month for day-ahead notification option or $15/kW/month for 2-hour advance notification option during the curtailment season (June 15 - October 15)"
+    },
+    "performance_rate": {
+      "value": "0.25",
+      "unit": "$/kWh",
+      "varies_by_event": "no",
+      "notes": "Event incentive of $0.25/kWh for actual demand reduction during DR events"
+    }
+  },
+  "call_windows": [
+    {
+      "start_time": "13:00",
+      "end_time": "21:00",
+      "time_zone": "PST",
+      "days_of_week": [
+        "weekdays"
+      ],
+      "notes": "DR events are called between 1:00 p.m. and 9:00 p.m. PST on weekdays"
+    }
+  ],
+  "seasons": [
+    {
+      "season_name": "Summer DR Season",
+      "start_date": "June 15",
+      "end_date": "October 15",
+      "max_events": "20",
+      "max_hours": "80",
+      "notes": "One event per day maximum, maximum 4 consecutive hours per event. Historical data shows only 3 events were called in 2023 season."
+    }
+  ],
+  "eligibility": {
+    "customer_classes": {
+      "residential": false,
+      "commercial": true,
+      "industrial": true,
+      "residential_max_kw": null,
+      "commercial_min_kw": "100",
+      "size_threshold_notes": "Commercial and industrial customers must be able to curtail 100+ kilowatts (kW) per event"
+    },
+    "behind_the_meter": true,
+    "front_of_meter": false,
+    "minimum_capacity_kw": "100",
+    "resource_types": [
+      "HVAC load reduction",
+      "lighting reduction",
+      "equipment load reduction",
+      "behind-the-meter battery storage (through DSGS program)"
+    ],
+    "requires_aggregator": false,
+    "aggregator_notes": "LADWP also offers a separate Demand Side Grid Support (DSGS) program that allows third-party aggregators to pool behind-the-meter battery storage resources"
+  },
+  "event_parameters": {
+    "typical_duration_hours": "4",
+    "minimum_duration_hours": "not available",
+    "maximum_duration_hours": "4",
+    "max_events_per_year": "20",
+    "max_hours_per_year": "80",
+    "typical_response_time_minutes": "not available",
+    "notes": "Maximum 4 consecutive hours per event, one event per day maximum, up to 20 events per season"
+  },
+  "notification": {
+    "day_ahead_notice": "yes (option 1)",
+    "minimum_notice_hours": "2",
+    "maximum_notice_hours": "24+",
+    "notification_methods": [
+      "email",
+      "telephone"
+    ],
+    "notes": "Two notification options available: (1) day-ahead notification for $10/kW/month or (2) 2-hour advance notification for $15/kW/month. Customers can choose their preferred notification option."
+  },
+  "event_triggers": {
+    "trigger_description": "LADWP determines when a DR event is called based on peak demand for power and resource availability. PLR (Peak Load Reduction) Events are typically called on hot summer days when LADWP's load is projected to go above a certain threshold and/or approach the annual peak.",
+    "primary_trigger": "peak load forecast",
+    "secondary_triggers": [
+      "resource availability",
+      "high temperature forecasts"
+    ],
+    "temperature_threshold": "not specified",
+    "price_threshold": "not applicable"
+  },
+  "nomination_bidding": {
+    "requires_nomination": "yes",
+    "nomination_deadline": "Application deadline is May 1 for participation starting June 15. Applications accepted throughout the curtailment season.",
+    "allows_bidding": false,
+    "bidding_process": "not applicable",
+    "notes": "Participants commit to a specific kW capacity reduction level when enrolling"
+  },
+  "penalties": {
+    "has_penalties": "no explicit monetary penalties",
+    "penalty_structure": "Program requires minimum 50% performance during DR events. No explicit monetary penalties mentioned, but participants must maintain reasonable performance levels.",
+    "notes": "Voluntary participation with opt-out flexibility (maximum 2 opt-outs per season). Program emphasizes positive incentives rather than penalties."
+  },
+  "baseline_calculation": {
+    "methodology": "average of highest 3 of previous 10 weekdays",
+    "description": "Baseline is calculated as a participant's typical hourly energy usage in the absence of a Peak Load Reduction (PLR) Event, calculated from the average daily usage of the three highest of previous ten weekdays, excluding PLR Event Days, weekends and Program Holidays.",
+    "notes": "DR performance is calculated after each event and results are shared with participants"
+  },
+  "opt_out_rules": {
+    "allowed": true,
+    "max_opt_outs_per_season": "2",
+    "opt_out_process": "Participants always have the option to opt out of each DR Event",
+    "notes": "Voluntary participation with flexible opt-out provisions"
+  },
+  "enrollment_details": {
+    "enrollment_period": "year-round with priority deadline",
+    "priority_deadline": "May 1 for June 15 start date",
+    "participation_period": "Through December 31 of enrollment year",
+    "application_methods": [
+      "online",
+      "mail",
+      "fax"
+    ],
+    "contact_email": "Demand.Response@ladwp.com",
+    "contact_phone": "1-800-342-5397",
+    "exit_process": "Written notice via email to exit the program",
+    "notes": "Applications accepted throughout the curtailment season but priority given to those submitting by May 1"
+  },
+  "environmental_requirements": {
+    "restrictions": "Participants shall not utilize on-site cogeneration systems that emit carbon dioxide (CO2) or any other greenhouse gases or harmful pollutants (e.g., NOx, SOx, particulate matter) during Demand Response events to meet curtailment commitments.",
+    "eligible_resources": "Clean load reduction measures including HVAC adjustments, lighting reductions, equipment load management, and behind-the-meter battery storage",
+    "notes": "Polluting generation is explicitly prohibited as a curtailment strategy"
+  },
+  "historical_events": {
+    "events_available": true,
+    "data_source_url": "https://www.ladwp.com/publications/newsletters/articles/demand-response-action-bank-america-plaza",
+    "recent_events": [
+      {
+        "year": "2023",
+        "total_events": "3",
+        "notes": "Only 3 DR events were called during the 2023 season. Bank of America Plaza (one participant) curtailed average of 680 kW per event, saving 8,784 kWh total."
+      }
+    ],
+    "program_statistics": {
+      "total_participants": "75",
+      "program_start_year": "2015",
+      "cumulative_energy_saved_mwh": "4836",
+      "cumulative_incentives_paid": "$8,000,000",
+      "notes": "As of 2023-2024, program has 75 commercial and industrial participants"
+    }
+  },
+  "performance_requirements": {
+    "minimum_performance": "50%",
+    "performance_measurement": "Actual kW reduction compared to baseline",
+    "verification_method": "Interval meter data analysis after each event",
+    "notes": "Participants must achieve minimum 50% of committed capacity during DR events"
+  },
+  "related_programs": {
+    "dsgs_program": {
+      "name": "Demand Side Grid Support (DSGS) Program",
+      "url": "https://www.ladwp.com/commercial-services/programs-and-rebates-commercial/demand-side-grid-support-dsgs-program",
+      "description": "Separate program focused on battery storage aggregation for extreme grid events. Allows third-party aggregators to participate with behind-the-meter battery storage.",
+      "aggregator_enabled": true,
+      "notes": "DSGS is specifically for battery storage VPP aggregators responding to extreme grid events, while the main DR program is for direct customer participation with load reduction measures"
+    }
+  },
+  "integration_metadata": {
+    "optimizer_compatible": true,
+    "api_available": false,
+    "api_documentation_url": "not available",
+    "telemetry_requirements": "Interval meter data for performance verification",
+    "data_quality_score": 9,
+    "completeness_score": {
+      "payment_structure": 10,
+      "event_parameters": 10,
+      "eligibility": 10,
+      "notification": 10,
+      "historical_data": 8,
+      "documentation": 9,
+      "notes": "Excellent data quality with comprehensive information from official sources. Minor gaps: exact temperature thresholds not published, 2024 event data not yet available, detailed penalty structure not specified."
+    },
+    "notes": "Comprehensive program information available from LADWP website and documentation. Well-established program with clear terms, payment structure, and participation requirements. Limited API/automation capabilities for direct integration."
+  },
+  "research_summary": {
+    "key_findings": [
+      "Well-established program since 2015 with 75 active participants",
+      "Two-tier notification system: day-ahead ($10/kW-month) or 2-hour advance ($15/kW-month)",
+      "Conservative event calling: only 3 events in 2023 season despite 20-event maximum",
+      "Strong environmental focus: prohibits polluting generation for DR compliance",
+      "Flexible participation: voluntary with 2 opt-outs allowed per season",
+      "Robust performance tracking: 50% minimum performance requirement with baseline methodology",
+      "Cumulative impact: $8M in incentives paid, 4,836 MWh saved since 2015",
+      "Separate aggregator program (DSGS) available for battery storage resources"
+    ],
+    "data_gaps": [
+      "Exact load threshold triggering events not publicly disclosed",
+      "Temperature thresholds for event calling not specified",
+      "2024 season event statistics not yet available",
+      "Detailed M&V procedures not fully documented in public materials",
+      "API availability for automated integration unclear"
+    ],
+    "reliability_notes": "All data verified from official LADWP sources including program website, terms and conditions documents, fact sheets, and published case studies. High confidence in accuracy.",
+    "researcher_notes": "LADWP's DR program is a mature, well-documented utility program with conservative event calling practices. The program balances reliability needs with customer convenience through flexible notification options and opt-out provisions. Environmental restrictions are notably stricter than many other programs. The separate DSGS program for battery aggregators indicates LADWP's interest in DER aggregation but suggests the main DR program is primarily designed for direct customer load reduction rather than aggregator participation."
+  }
+}

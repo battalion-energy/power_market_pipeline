@@ -1,0 +1,241 @@
+{
+  "program_id": "ARKANSAS-AGRICULTURAL-IRRIGATION-LOAD-CONTROL-PROG",
+  "program_name": "Agricultural Irrigation Load Control Program (AILC)",
+  "program_type": "utility",
+  "status": "active",
+  "states": [
+    "Arkansas"
+  ],
+  "utilities": [
+    "Entergy Arkansas"
+  ],
+  "isos_rtos": [],
+  "data_sources": {
+    "primary_program_url": "https://www.entergyarkansas.com/energyefficiency/business/agricultural-irrigation",
+    "regulatory_approval": "Arkansas Public Service Commission",
+    "data_quality_notes": "Comprehensive research conducted 2025-10-11. All data verified from utility website.",
+    "sources": [
+      {
+        "url": "https://www.entergyarkansas.com/energyefficiency/business/agricultural-irrigation",
+        "date_accessed": "2025-10-11",
+        "description": "Primary program page with current details"
+      },
+      {
+        "url": "https://www.entergyarkansas.com/energyefficiency/agricultural-solutions/agricultural-irrigation",
+        "date_accessed": "2025-10-11",
+        "description": "Additional program information and historical data"
+      }
+    ]
+  },
+  "payment_structure": {
+    "has_capacity_payment": true,
+    "has_performance_payment": false,
+    "capacity_rate": {
+      "rate_type": "monthly_fixed_per_hp",
+      "currency": "USD",
+      "amount_range": "$20-$100 per month",
+      "payment_schedule": [
+        {
+          "hp_rating": 10,
+          "monthly_payment_usd": 20
+        },
+        {
+          "hp_rating": 15,
+          "monthly_payment_usd": 30
+        },
+        {
+          "hp_rating": 20,
+          "monthly_payment_usd": 40
+        },
+        {
+          "hp_rating": 25,
+          "monthly_payment_usd": 50
+        },
+        {
+          "hp_rating": 30,
+          "monthly_payment_usd": 60
+        },
+        {
+          "hp_rating": 40,
+          "monthly_payment_usd": 80
+        },
+        {
+          "hp_rating": 50,
+          "monthly_payment_usd": 100
+        }
+      ],
+      "payment_timing": "Approximately 2 weeks after each month ends",
+      "payment_months": ["June", "July", "August"],
+      "notes": "Payments based on rated horsepower of pump motors. Average savings reported as $100 per pump across the summer program period."
+    },
+    "performance_rate": {
+      "notes": "No performance-based payments. Fixed capacity payments only based on horsepower."
+    }
+  },
+  "call_windows": [
+    {
+      "season_name": "Summer Peak Season",
+      "start_hour": "12:00",
+      "end_hour": "21:00",
+      "days_of_week": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      "timezone": "Central Time (CT)",
+      "notes": "Interruptions restricted to weekdays only, no earlier than noon, no later than 9 p.m."
+    }
+  ],
+  "seasons": [
+    {
+      "season_name": "Summer Program Period",
+      "start_date": "June 1",
+      "end_date": "August 31",
+      "max_events": 15,
+      "max_hours": 60,
+      "notes": "Active months: June through August. Maximum 15 total interruptions per summer. Historical data shows only 3-4 actual interruption days per year (2019: 3 days, 2020: 4 days)."
+    }
+  ],
+  "eligibility": {
+    "customer_classes": {
+      "residential": false,
+      "commercial": false,
+      "industrial": false,
+      "agricultural": true,
+      "residential_max_kw": null,
+      "commercial_min_kw": null,
+      "size_threshold_notes": "Agricultural customers only. Must have Agriculture Water Pumping Service Tariff (AP rate schedule - APA or APB)."
+    },
+    "behind_the_meter": true,
+    "front_of_meter": false,
+    "minimum_capacity_kw": "not specified in HP terms",
+    "minimum_usage": "64 hours per month during program months (June-August)",
+    "resource_types": [
+      "Agricultural irrigation well pumps"
+    ],
+    "requires_aggregator": false,
+    "aggregator_info": {
+      "program_agent": "Connected Energy, Inc.",
+      "role": "Program administration and technology provider"
+    }
+  },
+  "event_parameters": {
+    "typical_duration_hours": "up to 4",
+    "minimum_duration_hours": "not specified",
+    "maximum_duration_hours": 4,
+    "max_events_per_year": 15,
+    "max_events_per_week": 2,
+    "max_hours_per_year": 60,
+    "typical_response_time_minutes": "immediate",
+    "response_mechanism": "automatic_load_control",
+    "notes": "Maximum 4-hour interruptions. No more than 15 total interruptions per summer. No more than twice per week. Remote controlled disconnect switch provides immediate response."
+  },
+  "notification": {
+    "day_ahead_notice": "not specified",
+    "minimum_notice_hours": "not specified",
+    "maximum_notice_hours": "not specified",
+    "notification_methods": [
+      "automated system control"
+    ],
+    "notes": "Program uses direct load control with remote switches. Notification requirements not specified in public documentation. Participants receive remote access to control their own pumps via web interface."
+  },
+  "event_triggers": {
+    "trigger_description": "Entergy dispatches load control during peak demand periods in summer months (June-August) to manage system peak load and maintain grid reliability.",
+    "primary_trigger": "system_peak_demand",
+    "secondary_triggers": ["grid_reliability"],
+    "temperature_threshold": null,
+    "price_threshold": "not applicable",
+    "notes": "Utility-dispatched program for peak demand management. Historical data shows conservative use: only 3-4 interruption days per year despite 15-event maximum."
+  },
+  "nomination_bidding": {
+    "requires_nomination": false,
+    "nomination_deadline": "not applicable",
+    "allows_bidding": false,
+    "bidding_process": "not applicable",
+    "notes": "Direct load control program with fixed payments. No bidding or nomination required."
+  },
+  "penalties": {
+    "has_penalties": false,
+    "penalty_structure": "not applicable",
+    "notes": "No penalties specified. Participants can terminate participation at any time, but payments stop immediately upon termination."
+  },
+  "technology": {
+    "control_method": "direct_load_control",
+    "device_type": "remote_controlled_disconnect_switch",
+    "communication_protocol": "not publicly disclosed",
+    "customer_interface": "web_application",
+    "device_ownership": "utility_owned",
+    "installation_cost": 0,
+    "notes": "Entergy installs remote control device at no cost to customer. Device allows both utility dispatch and customer remote control via computer, smartphone, or tablet through secure web interface. Installation and maintenance is Entergy's responsibility."
+  },
+  "participation_terms": {
+    "contract_length": "voluntary annual participation",
+    "enrollment_period": "open enrollment",
+    "termination_terms": "Can terminate anytime, payments stop immediately",
+    "enrollment_process": "Contact 1-855-664-FARM (3276) or email farmers@entergy.com",
+    "minimum_commitment": "none specified",
+    "automatic_renewal": "not specified"
+  },
+  "historical_events": {
+    "events_available": true,
+    "data_source_url": "program documentation",
+    "recent_events": [
+      {
+        "year": 2019,
+        "total_interruption_days": 3,
+        "notes": "Only 3 days with interruptions during entire summer season"
+      },
+      {
+        "year": 2020,
+        "total_interruption_days": 4,
+        "notes": "Only 4 days with interruptions during entire summer season"
+      }
+    ],
+    "notes": "Historical data demonstrates conservative dispatch: 3-4 interruption days per year vs. 15-event maximum allowed."
+  },
+  "program_performance": {
+    "participant_satisfaction": {
+      "year": 2019,
+      "satisfaction_rate": 0.78,
+      "continuation_rate": 0.87,
+      "notes": "2019 survey: 78% farmer satisfaction, 87% planned to continue participation"
+    },
+    "capacity_enrolled": "not publicly disclosed",
+    "participation_count": "not publicly disclosed",
+    "notes": "Program tracks individual pump enrollments based on horsepower rather than reporting aggregate MW capacity publicly."
+  },
+  "integration_metadata": {
+    "optimizer_compatible": true,
+    "api_available": false,
+    "api_documentation_url": "not available",
+    "data_quality_score": 9,
+    "completeness_score": {
+      "payment_structure": 10,
+      "event_parameters": 9,
+      "eligibility": 10,
+      "technology": 8,
+      "historical_performance": 7,
+      "overall": 9
+    },
+    "research_notes": "Comprehensive program with well-documented parameters. Payment structure clearly defined with horsepower-based tiers. Event constraints well-specified (4-hour max, 15 events/summer max, 2/week max, weekdays only, noon-9pm window). Historical performance data available showing conservative dispatch (3-4 actual event days vs. 15 maximum). Technology provides dual benefit: utility dispatch capability plus farmer remote control. Only gaps: specific MW capacity enrolled, detailed notification procedures, and technical device specifications.",
+    "confidence_level": "high",
+    "verification_date": "2025-10-11",
+    "last_updated": "2025-10-11"
+  },
+  "additional_notes": {
+    "program_benefits": [
+      "Free remote control device installation",
+      "Customer retains ability to control pumps remotely via web/smartphone",
+      "No installation or usage fees",
+      "Monthly payments during summer season",
+      "Can participate with one or all pumps",
+      "Flexible termination with no penalties"
+    ],
+    "unique_features": [
+      "Dual-use technology: utility dispatch + farmer control",
+      "Horsepower-based payment tiers (simple and transparent)",
+      "Agricultural-specific program design",
+      "Conservative historical dispatch (high reliability for farmers)",
+      "High participant satisfaction and retention"
+    ],
+    "target_audience": "Arkansas agricultural irrigation customers with electric well pumps on Agriculture Water Pumping Service Tariff",
+    "program_agent": "Connected Energy, Inc.",
+    "regulatory_status": "Approved by Arkansas Public Service Commission"
+  }
+}
