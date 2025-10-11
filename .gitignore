@@ -31,6 +31,7 @@ MANIFEST
 
 # Generated output
 *.csv
+!bess_mapping/**/*/.csv
 !specs/screenshots/*.csv  # Keep reference data
 annual_output/
 test_daily_output/

@@ -43,13 +43,15 @@ class RTMPriceDownloader(BaseDownloader):
         return "RTM_Prices"
 
     def get_endpoint(self) -> str:
-        # ERCOT RT prices endpoint
-        return "np6-785-cd/rtm_spp"
+        # FIXED: NP6-785-CD doesn't exist. Use NP6-905-CD (15-min SPP) instead
+        # NP6-788-CD (5-min LMP) uses archive download, not suitable for date range queries
+        return "np6-905-cd/spp_node_zone_hub"
 
     def get_output_dir(self) -> Path:
         return self.output_dir / "RTM_Settlement_Point_Prices"
 
     def format_params(self, start_date: datetime, end_date: datetime) -> Dict:
+        # NP6-905-CD uses deliveryDate parameters (Settlement Point Prices)
         return {
             "deliveryDateFrom": start_date.strftime("%Y-%m-%d"),
             "deliveryDateTo": end_date.strftime("%Y-%m-%d"),

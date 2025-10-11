@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Create BESS revenue stacked bar charts with % TB2 line overlay.
-Generates quarterly and monthly charts for 2022, 2023, and 2024.
+Generates quarterly, monthly, and YTD charts. Now supports 2025.
 """
 
 import pandas as pd
@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from pathlib import Path
 import logging
-from datetime import datetime
+from datetime import datetime, date
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(message)s')
 logger = logging.getLogger(__name__)
@@ -171,7 +171,25 @@ def _period_revenue_exact(year: int, month_start: int, month_end: int, df_map: p
                      'rt_revenue': rt_net,
                      'as_revenue': as_total,
                      'total_revenue': total})
-    return pd.DataFrame(rows)
+    # Always return a DataFrame with the expected schema so downstream joins don't fail
+    expected_cols = [
+        'bess_name',
+        'capacity_mw',
+        'settlement_point_final',
+        'da_revenue',
+        'rt_revenue',
+        'as_revenue',
+        'total_revenue',
+    ]
+    if not rows:
+        return pd.DataFrame(columns=expected_cols)
+    # Ensure column order
+    df = pd.DataFrame(rows)
+    # Add any missing expected columns (robust to future additions)
+    for c in expected_cols:
+        if c not in df.columns:
+            df[c] = np.nan
+    return df[expected_cols]
 
 
 def create_period_charts(year: int, df_revenue_all: pd.DataFrame, tb2_daily: pl.DataFrame,
@@ -182,32 +200,38 @@ def create_period_charts(year: int, df_revenue_all: pd.DataFrame, tb2_daily: pl.
     logger.info(f"Creating period charts for {year}")
     logger.info(f"{'='*100}")
 
-    # Load raw revenue file to get monthly/quarterly breakdowns
-    # Try TELEMETERED first, fallback to regular
+    # Load raw revenue file for the year if present (not strictly required for exact parquets aggregation)
     revenue_file_telem = f"bess_revenue_{year}_TELEMETERED.csv"
-    revenue_file = f"bess_revenue_{year}.csv"
-
-    if Path(revenue_file_telem).exists():
-        revenue_file = revenue_file_telem
-
-    df_year_detail = pd.read_csv(revenue_file)
+    revenue_file_regular = f"bess_revenue_{year}.csv"
+    df_year_detail = pd.DataFrame()
+    try:
+        if Path(revenue_file_telem).exists():
+            df_year_detail = pd.read_csv(revenue_file_telem)
+        elif Path(revenue_file_regular).exists():
+            df_year_detail = pd.read_csv(revenue_file_regular)
+        else:
+            logger.warning(f"No annual revenue CSV found for {year}; proceeding with parquet aggregation only")
+    except Exception as e:
+        logger.warning(f"Could not load revenue CSV for {year}: {e}")
 
     # Merge with mapping
-    df_year_detail = df_year_detail.merge(
-        df_mapping[['gen_resource', 'settlement_point', 'capacity_mw_mapping']],
-        on='gen_resource', how='left', suffixes=('_orig', '_from_mapping')
-    )
-    # Use mapping capacity if available, otherwise use existing
-    if 'capacity_mw' in df_year_detail.columns:
-        df_year_detail['capacity_mw'] = df_year_detail['capacity_mw_mapping'].fillna(df_year_detail['capacity_mw'])
-    else:
-        df_year_detail['capacity_mw'] = df_year_detail['capacity_mw_mapping']
+    # If revenue detail is available, enrich with mapping; otherwise skip (we aggregate from parquets below)
+    if not df_year_detail.empty and 'gen_resource' in df_year_detail.columns:
+        df_year_detail = df_year_detail.merge(
+            df_mapping[['gen_resource', 'settlement_point', 'capacity_mw_mapping']],
+            on='gen_resource', how='left', suffixes=('_orig', '_from_mapping')
+        )
+        # Use mapping capacity if available, otherwise use existing
+        if 'capacity_mw' in df_year_detail.columns:
+            df_year_detail['capacity_mw'] = df_year_detail['capacity_mw_mapping'].fillna(df_year_detail['capacity_mw'])
+        else:
+            df_year_detail['capacity_mw'] = df_year_detail['capacity_mw_mapping']
 
-    # Use settlement_point from mapping if available
-    if 'settlement_point_from_mapping' in df_year_detail.columns:
-        df_year_detail['settlement_point_final'] = df_year_detail['settlement_point_from_mapping'].fillna(df_year_detail['resource_node'])
-    else:
-        df_year_detail['settlement_point_final'] = df_year_detail['resource_node']
+        # Use settlement_point from mapping if available
+        if 'settlement_point_from_mapping' in df_year_detail.columns:
+            df_year_detail['settlement_point_final'] = df_year_detail['settlement_point_from_mapping'].fillna(df_year_detail['resource_node'])
+        else:
+            df_year_detail['settlement_point_final'] = df_year_detail['resource_node']
 
     # For simplicity, divide annual revenue into periods and use proportional TB2
     # This is approximate - ideally we'd recalculate from monthly data
@@ -217,7 +241,7 @@ def create_period_charts(year: int, df_revenue_all: pd.DataFrame, tb2_daily: pl.
         'Q1': (1, 91),   # Jan-Mar (91 days in non-leap year)
         'Q2': (2, 91),   # Apr-Jun
         'Q3': (3, 92),   # Jul-Sep
-        'Q4': (4, 91),   # Oct-Dec
+        'Q4': (4, 92),   # Oct-Dec
     }
 
     # Get TB2 data for this year
@@ -245,7 +269,13 @@ def create_period_charts(year: int, df_revenue_all: pd.DataFrame, tb2_daily: pl.
         df_q = _period_revenue_exact(year, start_month, end_month, df_mapping, base_dir)
 
         # Join with TB2
-        df_q_pl = pl.from_pandas(df_q)
+        df_q_pl = pl.from_pandas(df_q).with_columns([
+            pl.col('capacity_mw').cast(pl.Float64, strict=False),
+            pl.col('da_revenue').cast(pl.Float64, strict=False),
+            pl.col('rt_revenue').cast(pl.Float64, strict=False),
+            pl.col('as_revenue').cast(pl.Float64, strict=False),
+            pl.col('total_revenue').cast(pl.Float64, strict=False),
+        ])
         df_q_with_tb2 = df_q_pl.join(
             tb2_q_avg,
             left_on='settlement_point_final',
@@ -254,24 +284,37 @@ def create_period_charts(year: int, df_revenue_all: pd.DataFrame, tb2_daily: pl.
         )
 
         # Calculate per kW and % TB2 (annualized)
+        _scale_q = 365 / days_in_q
         df_q_with_tb2 = df_q_with_tb2.with_columns([
-            # Annualized revenue per kW (multiply quarterly by 4 to get annual rate)
-            (pl.col('da_revenue') / (pl.col('capacity_mw') * 1000) * (365/days_in_q)).alias('da_per_kw'),
-            (pl.col('rt_revenue') / (pl.col('capacity_mw') * 1000) * (365/days_in_q)).alias('rt_per_kw'),
+            pl.when(pl.col('capacity_mw') > 0)
+              .then(pl.col('da_revenue') / (pl.col('capacity_mw') * 1000.0) * pl.lit(_scale_q))
+              .otherwise(0.0)
+              .alias('da_per_kw'),
+            pl.when(pl.col('capacity_mw') > 0)
+              .then(pl.col('rt_revenue') / (pl.col('capacity_mw') * 1000.0) * pl.lit(_scale_q))
+              .otherwise(0.0)
+              .alias('rt_per_kw'),
             pl.lit(0.0).alias('regup_per_kw'),
             pl.lit(0.0).alias('regdown_per_kw'),
-            (pl.col('as_revenue') / (pl.col('capacity_mw') * 1000) * (365/days_in_q)).alias('reserves_per_kw'),
+            pl.when(pl.col('capacity_mw') > 0)
+              .then(pl.col('as_revenue') / (pl.col('capacity_mw') * 1000.0) * pl.lit(_scale_q))
+              .otherwise(0.0)
+              .alias('reserves_per_kw'),
             pl.lit(0.0).alias('ecrs_per_kw'),
             pl.lit(0.0).alias('nonspin_per_kw'),
-            (pl.col('total_revenue') / (pl.col('capacity_mw') * 1000) * (365/days_in_q)).alias('total_per_kw'),
+            pl.when(pl.col('capacity_mw') > 0)
+              .then(pl.col('total_revenue') / (pl.col('capacity_mw') * 1000.0) * pl.lit(_scale_q))
+              .otherwise(0.0)
+              .alias('total_per_kw'),
 
-            # % vs TB2
-            ((pl.col('total_revenue') / pl.col('capacity_mw')) / (pl.col('avg_TB2') * pl.col('days')) * 100).alias('pct_total_vs_tb2')
+            # % vs TB2 (guard against null/zero denominators)
+            pl.when((pl.col('capacity_mw') > 0) & (pl.col('avg_TB2').fill_null(0.0) > 0) & (pl.col('days').fill_null(0) > 0))
+              .then(((pl.col('total_revenue') / pl.col('capacity_mw')) / (pl.col('avg_TB2') * pl.col('days'))) * 100.0)
+              .otherwise(None)
+              .alias('pct_total_vs_tb2')
         ])
 
         df_q_chart = df_q_with_tb2.to_pandas()
-        df_q_chart = df_q_chart[df_q_chart['avg_TB2'].notna()].copy()
-
         create_chart(df_q_chart, f"{year} {q_name}", year, output_dir)
 
     # Monthly breakdowns
@@ -301,7 +344,13 @@ def create_period_charts(year: int, df_revenue_all: pd.DataFrame, tb2_daily: pl.
         df_m = _period_revenue_exact(year, month_num, month_num, df_mapping, base_dir)
 
         # Join with TB2
-        df_m_pl = pl.from_pandas(df_m)
+        df_m_pl = pl.from_pandas(df_m).with_columns([
+            pl.col('capacity_mw').cast(pl.Float64, strict=False),
+            pl.col('da_revenue').cast(pl.Float64, strict=False),
+            pl.col('rt_revenue').cast(pl.Float64, strict=False),
+            pl.col('as_revenue').cast(pl.Float64, strict=False),
+            pl.col('total_revenue').cast(pl.Float64, strict=False),
+        ])
         df_m_with_tb2 = df_m_pl.join(
             tb2_m_avg,
             left_on='settlement_point_final',
@@ -310,29 +359,134 @@ def create_period_charts(year: int, df_revenue_all: pd.DataFrame, tb2_daily: pl.
         )
 
         # Calculate per kW and % TB2 (annualized)
+        _scale_m = 365 / days_in_month
         df_m_with_tb2 = df_m_with_tb2.with_columns([
-            (pl.col('da_revenue') / (pl.col('capacity_mw') * 1000) * (365/days_in_month)).alias('da_per_kw'),
-            (pl.col('rt_revenue') / (pl.col('capacity_mw') * 1000) * (365/days_in_month)).alias('rt_per_kw'),
+            pl.when(pl.col('capacity_mw') > 0)
+              .then(pl.col('da_revenue') / (pl.col('capacity_mw') * 1000.0) * pl.lit(_scale_m))
+              .otherwise(0.0)
+              .alias('da_per_kw'),
+            pl.when(pl.col('capacity_mw') > 0)
+              .then(pl.col('rt_revenue') / (pl.col('capacity_mw') * 1000.0) * pl.lit(_scale_m))
+              .otherwise(0.0)
+              .alias('rt_per_kw'),
             pl.lit(0.0).alias('regup_per_kw'),
             pl.lit(0.0).alias('regdown_per_kw'),
-            (pl.col('as_revenue') / (pl.col('capacity_mw') * 1000) * (365/days_in_month)).alias('reserves_per_kw'),
+            pl.when(pl.col('capacity_mw') > 0)
+              .then(pl.col('as_revenue') / (pl.col('capacity_mw') * 1000.0) * pl.lit(_scale_m))
+              .otherwise(0.0)
+              .alias('reserves_per_kw'),
             pl.lit(0.0).alias('ecrs_per_kw'),
             pl.lit(0.0).alias('nonspin_per_kw'),
-            (pl.col('total_revenue') / (pl.col('capacity_mw') * 1000) * (365/days_in_month)).alias('total_per_kw'),
+            pl.when(pl.col('capacity_mw') > 0)
+              .then(pl.col('total_revenue') / (pl.col('capacity_mw') * 1000.0) * pl.lit(_scale_m))
+              .otherwise(0.0)
+              .alias('total_per_kw'),
 
-            ((pl.col('total_revenue') / pl.col('capacity_mw')) / (pl.col('avg_TB2') * pl.col('days')) * 100).alias('pct_total_vs_tb2')
+            pl.when((pl.col('capacity_mw') > 0) & (pl.col('avg_TB2').fill_null(0.0) > 0) & (pl.col('days').fill_null(0) > 0))
+              .then(((pl.col('total_revenue') / pl.col('capacity_mw')) / (pl.col('avg_TB2') * pl.col('days'))) * 100.0)
+              .otherwise(None)
+              .alias('pct_total_vs_tb2')
         ])
 
         df_m_chart = df_m_with_tb2.to_pandas()
-        df_m_chart = df_m_chart[df_m_chart['avg_TB2'].notna()].copy()
-
         create_chart(df_m_chart, f"{year} {month_name}", year, output_dir)
+
+    # YTD breakdown (through last available date for the year)
+    # Prefer TB2 last date; if unavailable, fall back to max local_date from any dispatch parquet.
+    try:
+        last_dt = tb2_year.select(pl.col('DeliveryDate').max()).item()
+    except Exception:
+        last_dt = None
+    if last_dt is None:
+        try:
+            ddir = base_dir / 'bess_analysis' / 'hourly' / 'dispatch'
+            # pick any matching file for the year
+            candidates = list(ddir.glob(f'*_{year}_dispatch.parquet'))
+            if candidates:
+                df_any = pl.read_parquet(candidates[0])
+                last_dt = df_any.select(pl.col('local_date').max()).item()
+        except Exception:
+            last_dt = None
+    if last_dt is not None:
+        if isinstance(last_dt, datetime):
+            last_date = last_dt.date()
+        else:
+            last_date = last_dt
+        if isinstance(last_date, date) and last_date.year == year:
+            # TB2 over YTD
+            tb2_ytd = tb2_year.filter(pl.col('DeliveryDate') <= pl.lit(last_date))
+            tb2_ytd_avg = tb2_ytd.group_by('SettlementPoint').agg([
+                pl.col('TB2').mean().alias('avg_TB2'),
+                pl.col('TB2').count().alias('days')
+            ])
+
+            # Exact YTD revenue (aggregate months 1..last_date.month)
+            df_ytd = _period_revenue_exact(year, 1, int(last_date.month), df_mapping, base_dir)
+
+            df_ytd_pl = pl.from_pandas(df_ytd).with_columns([
+                pl.col('capacity_mw').cast(pl.Float64, strict=False),
+                pl.col('da_revenue').cast(pl.Float64, strict=False),
+                pl.col('rt_revenue').cast(pl.Float64, strict=False),
+                pl.col('as_revenue').cast(pl.Float64, strict=False),
+                pl.col('total_revenue').cast(pl.Float64, strict=False),
+            ])
+            df_ytd_with_tb2 = df_ytd_pl.join(
+                tb2_ytd_avg,
+                left_on='settlement_point_final',
+                right_on='SettlementPoint',
+                how='left'
+            )
+
+            # Determine number of days in YTD from the last_date
+            start_of_year = date(year, 1, 1)
+            days_in_ytd = (last_date - start_of_year).days + 1
+            _scale_ytd = 365 / days_in_ytd if days_in_ytd > 0 else 0.0
+
+            df_ytd_with_tb2 = df_ytd_with_tb2.with_columns([
+                pl.when(pl.col('capacity_mw') > 0)
+                  .then(pl.col('da_revenue') / (pl.col('capacity_mw') * 1000.0) * pl.lit(_scale_ytd))
+                  .otherwise(0.0)
+                  .alias('da_per_kw'),
+                pl.when(pl.col('capacity_mw') > 0)
+                  .then(pl.col('rt_revenue') / (pl.col('capacity_mw') * 1000.0) * pl.lit(_scale_ytd))
+                  .otherwise(0.0)
+                  .alias('rt_per_kw'),
+                pl.lit(0.0).alias('regup_per_kw'),
+                pl.lit(0.0).alias('regdown_per_kw'),
+                pl.when(pl.col('capacity_mw') > 0)
+                  .then(pl.col('as_revenue') / (pl.col('capacity_mw') * 1000.0) * pl.lit(_scale_ytd))
+                  .otherwise(0.0)
+                  .alias('reserves_per_kw'),
+                pl.lit(0.0).alias('ecrs_per_kw'),
+                pl.lit(0.0).alias('nonspin_per_kw'),
+                pl.when(pl.col('capacity_mw') > 0)
+                  .then(pl.col('total_revenue') / (pl.col('capacity_mw') * 1000.0) * pl.lit(_scale_ytd))
+                  .otherwise(0.0)
+                  .alias('total_per_kw'),
+                pl.when((pl.col('capacity_mw') > 0) & (pl.col('avg_TB2').fill_null(0.0) > 0) & (pl.col('days').fill_null(0) > 0))
+                  .then(((pl.col('total_revenue') / pl.col('capacity_mw')) / (pl.col('avg_TB2') * pl.col('days'))) * 100.0)
+                  .otherwise(None)
+                  .alias('pct_total_vs_tb2')
+            ])
+
+            df_ytd_chart = df_ytd_with_tb2.to_pandas()
+            create_chart(df_ytd_chart, f"{year} YTD (thru {last_date:%b %d})", year, output_dir)
 
 
 def main():
     logger.info("=" * 100)
-    logger.info("BESS QUARTERLY & MONTHLY REVENUE CHARTS (2022-2024)")
+    logger.info("BESS QUARTERLY, MONTHLY & YTD REVENUE CHARTS (2022-2025)")
     logger.info("=" * 100)
+
+    # Optional CLI for year selection and base-dir override
+    try:
+        import argparse
+        ap = argparse.ArgumentParser(add_help=False)
+        ap.add_argument('--years', nargs='*', type=int, default=None)
+        ap.add_argument('--base-dir', default=None)
+        known, _ = ap.parse_known_args()
+    except Exception:
+        known = type('K', (), {'years': None, 'base_dir': None})()
 
     # Create output directory
     output_dir = Path("bess_revenue_charts_periods")
@@ -340,7 +494,7 @@ def main():
 
     # Load all revenue data (prefer TELEMETERED)
     all_revenue = []
-    for year in range(2019, 2025):
+    for year in range(2019, 2026):
         file_telem = f"bess_revenue_{year}_TELEMETERED.csv"
         file_regular = f"bess_revenue_{year}.csv"
         p_t = Path(file_telem)
@@ -359,9 +513,21 @@ def main():
     df_revenue_all = pd.concat(all_revenue, ignore_index=True)
     logger.info(f"Loaded {len(df_revenue_all)} battery-year records")
 
-    # Load TB2 daily data
-    tb2_daily = pl.read_parquet('tb2_daily_2019_2024.parquet')
-    logger.info(f"Loaded daily TB2 data")
+    # Load TB2 daily data (try 2019-2025, fallback to 2019-2024)
+    tb2_path_candidates = [
+        'tb2_daily_2019_2025.parquet',
+        'tb2_daily_2019_2024.parquet',
+        'tb2_daily.parquet',
+    ]
+    tb2_daily = None
+    for p in tb2_path_candidates:
+        if Path(p).exists():
+            tb2_daily = pl.read_parquet(p)
+            logger.info(f"Loaded daily TB2 data from {p}")
+            break
+    if tb2_daily is None:
+        logger.warning("No TB2 daily parquet found; skipping period charts")
+        return
 
     # Load mapping
     df_mapping = pd.read_csv('bess_mapping/BESS_UNIFIED_MAPPING_V3_CLARIFIED.csv')
@@ -373,8 +539,10 @@ def main():
     })
 
     # Create charts for each year (exact aggregation)
-    for year in [2024, 2023, 2022]:
-        create_period_charts(year, df_revenue_all, tb2_daily, df_mapping, output_dir, Path('/pool/ssd8tb/data/iso/ERCOT/ercot_market_data/ERCOT_data'))
+    years = known.years if known.years else [2025, 2024, 2023, 2022]
+    base_dir = Path(known.base_dir) if known.base_dir else Path('/pool/ssd8tb/data/iso/ERCOT/ercot_market_data/ERCOT_data')
+    for year in years:
+        create_period_charts(year, df_revenue_all, tb2_daily, df_mapping, output_dir, base_dir)
 
     logger.info("\n" + "=" * 100)
     logger.info(f"✅ All quarterly and monthly charts generated in {output_dir}/")

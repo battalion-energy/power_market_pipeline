@@ -185,6 +185,8 @@ def main():
     parser.add_argument('--start-date', type=str, help='Start date (YYYY-MM-DD)')
     parser.add_argument('--end-date', type=str, help='End date (YYYY-MM-DD)')
     parser.add_argument('--year', type=int, help='Download specific year')
+    parser.add_argument('--quick-skip', action='store_true',
+                        help='Quick skip mode: only check file existence (fast)')
 
     args = parser.parse_args()
 
@@ -233,20 +235,29 @@ def main():
         date_str = current_date.strftime('%Y-%m-%d')
         output_file = output_dir / f"nodal_da_lmp_{date_str}.csv"
 
-        # Skip if file already exists and appears complete
+        # Skip if file already exists
         if output_file.exists():
-            try:
-                df_check = pd.read_csv(output_file)
-                datetime_col = next((col for col in df_check.columns if 'datetime_beginning' in col.lower()), None)
-                if datetime_col:
-                    hours = df_check[datetime_col].apply(lambda x: pd.to_datetime(x).hour).nunique()
-                    if hours >= 24:
-                        logger.info(f"⏭️  Skipping {date_str} - already complete ({hours} hours)")
-                        skip_count += 1
-                        current_date += timedelta(days=1)
-                        continue
-            except:
-                pass  # If check fails, try downloading anyway
+            if args.quick_skip:
+                # Quick mode: just check file size (should be >10MB for full day)
+                file_size_mb = output_file.stat().st_size / 1024 / 1024
+                if file_size_mb > 10:
+                    skip_count += 1
+                    current_date += timedelta(days=1)
+                    continue
+            else:
+                # Full verify mode: check CSV completeness (SLOW)
+                try:
+                    df_check = pd.read_csv(output_file)
+                    datetime_col = next((col for col in df_check.columns if 'datetime_beginning' in col.lower()), None)
+                    if datetime_col:
+                        hours = df_check[datetime_col].apply(lambda x: pd.to_datetime(x).hour).nunique()
+                        if hours >= 24:
+                            logger.info(f"⏭️  Skipping {date_str} - already complete ({hours} hours)")
+                            skip_count += 1
+                            current_date += timedelta(days=1)
+                            continue
+                except:
+                    pass  # If check fails, try downloading anyway
 
         try:
             if download_nodal_day(client, current_date, output_dir):
