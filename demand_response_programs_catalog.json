@@ -1,0 +1,2021 @@
+{
+  "catalog_metadata": {
+    "version": "1.2",
+    "last_updated": "2025-10-10",
+    "data_quality_note": "This catalog contains ONLY verified data from official sources. Any unavailable data is explicitly marked as 'not available' with source URLs provided for manual verification. v1.1 adds customer class designations (residential, commercial, industrial). v1.2 adds size thresholds for customer class eligibility.",
+    "sources": [
+      "DOE FEMP Demand Response Database",
+      "ISO/RTO official websites and tariffs",
+      "State regulatory commission filings",
+      "Utility program documentation"
+    ]
+  },
+  "programs": [
+    {
+      "program_id": "ERCOT-ERS",
+      "program_name": "ERCOT Emergency Response Service (ERS)",
+      "program_type": "iso",
+      "status": "active",
+      "description": "Emergency demand response program that pays qualified loads and generators to make themselves available for deployment during grid emergencies to prevent system-wide load shedding.",
+      "geography": {
+        "states": [
+          "TX"
+        ],
+        "utilities": [],
+        "isos": [
+          "ERCOT"
+        ],
+        "service_territories": [
+          "ERCOT footprint (approximately 90% of Texas electric load)"
+        ]
+      },
+      "eligibility": {
+        "behind_the_meter": true,
+        "front_of_meter": true,
+        "minimum_capacity_kw": "not specified in sources",
+        "maximum_capacity_kw": null,
+        "resource_types": [
+          "load reduction",
+          "generator",
+          "aggregated loads",
+          "aggregated generators"
+        ],
+        "requires_aggregator": false,
+        "notes": "Must be a Qualified Scheduling Entity (QSE) or work through one. QSE must be capable of receiving XML messaging and Verbal Dispatch Instructions (VDI). Customer classes: Wholesale market program requiring QSE status - commercial/industrial only",
+        "customer_classes": {
+          "residential": false,
+          "commercial": true,
+          "industrial": true,
+          "size_threshold_notes": "Wholesale market program requiring QSE status - commercial/industrial only. No specific size thresholds."
+        }
+      },
+      "notification": {
+        "day_ahead_notice": false,
+        "minimum_notice_hours": null,
+        "maximum_notice_hours": null,
+        "notification_methods": [
+          "XML message",
+          "Verbal Dispatch Instructions (VDI) to QSE Hotline"
+        ]
+      },
+      "payment_structure": {
+        "has_capacity_payment": true,
+        "has_performance_payment": false,
+        "capacity_rate": {
+          "value": "varies by auction",
+          "unit": "$/MW-month",
+          "varies_by_season": true,
+          "seasonal_rates": [
+            {
+              "season": "December-March",
+              "rate": "varies by procurement auction",
+              "unit": "$/MW-month",
+              "notes": "2023 range: $0.29/MWh to $53/MWh in summer high-stress hours. Total 2023 program cost approximately $49 million."
+            },
+            {
+              "season": "April-May",
+              "rate": "varies by procurement auction",
+              "unit": "$/MW-month"
+            },
+            {
+              "season": "June-September",
+              "rate": "varies by procurement auction",
+              "unit": "$/MW-month"
+            },
+            {
+              "season": "October-November",
+              "rate": "varies by procurement auction",
+              "unit": "$/MW-month"
+            }
+          ],
+          "notes": "Participants are paid based on clearing price from competitive auction, contract capacity, and participation hours. 2024 total program costs approximately $573 million (includes system administrative fees)."
+        },
+        "performance_rate": {
+          "value": "capacity payment only",
+          "unit": "N/A",
+          "varies_by_season": false,
+          "varies_by_time": false,
+          "notes": "Payment is primarily capacity-based through auction clearing prices"
+        },
+        "penalty_structure": {
+          "has_penalties": "not specified in sources",
+          "penalty_rate": "not available",
+          "penalty_unit": "not available",
+          "penalty_description": "not available"
+        },
+        "bonus_payments": [],
+        "forward_curve_available": false,
+        "forward_curve_url": null
+      },
+      "seasons": [
+        {
+          "season_name": "Winter",
+          "start_date": "12-01",
+          "end_date": "03-31",
+          "max_events": "not specified",
+          "max_hours": "not specified"
+        },
+        {
+          "season_name": "Spring",
+          "start_date": "04-01",
+          "end_date": "05-31",
+          "max_events": "not specified",
+          "max_hours": "not specified"
+        },
+        {
+          "season_name": "Summer",
+          "start_date": "06-01",
+          "end_date": "09-30",
+          "max_events": "not specified",
+          "max_hours": "not specified"
+        },
+        {
+          "season_name": "Fall",
+          "start_date": "10-01",
+          "end_date": "11-30",
+          "max_events": "not specified",
+          "max_hours": "not specified"
+        }
+      ],
+      "call_windows": [
+        {
+          "window_id": "any_time",
+          "start_hour": 0,
+          "end_hour": 23,
+          "days_of_week": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+          ],
+          "seasons": [
+            "Winter",
+            "Spring",
+            "Summer",
+            "Fall"
+          ],
+          "timezone": "America/Chicago",
+          "notes": "ERS can be called any time during grid emergency conditions"
+        }
+      ],
+      "event_parameters": {
+        "typical_duration_hours": "not specified",
+        "minimum_duration_hours": "not specified",
+        "maximum_duration_hours": "not specified",
+        "event_granularity_minutes": 5,
+        "response_time_minutes_ers10": 10,
+        "response_time_minutes_ers30": 30,
+        "max_events_per_season": "not specified",
+        "max_events_per_year": "not specified",
+        "max_hours_per_season": "not specified",
+        "max_hours_per_year": "not specified",
+        "max_consecutive_events": "not specified",
+        "minimum_rest_hours": "not specified",
+        "notes": "Four service types: Weather-Sensitive ERS-10, Non-Weather-Sensitive ERS-10, Weather-Sensitive ERS-30, Non-Weather-Sensitive ERS-30"
+      },
+      "event_triggers": {
+        "trigger_description": "PRC (Physical Responsive Capability) threshold",
+        "primary_trigger": "PRC falls below 3,000 MW and is not expected to recover within 30 minutes following deployment of non-spinning reserves",
+        "secondary_triggers": [
+          "Energy Emergency Alert (EEA) Level 1, 2, or 3 conditions"
+        ],
+        "temperature_threshold": null,
+        "price_threshold": null,
+        "other_conditions": "Deployed to prevent or alleviate actual or anticipated Energy Emergency Alert events"
+      },
+      "nomination_bidding": {
+        "requires_nomination": true,
+        "nomination_frequency": "seasonal",
+        "nomination_deadline": "Procurement occurs four times per year for each season",
+        "allows_price_bidding": true,
+        "bidding_structure": "Competitive auction with clearing price mechanism. QSEs submit offers specifying capacity and price. ERCOT evaluates based on cost-effectiveness, geographic location, and grid congestion impact.",
+        "enrollment_period": {
+          "start_date": "varies by season",
+          "end_date": "varies by season",
+          "recurring": true,
+          "notes": "Four procurement cycles per year"
+        }
+      },
+      "special_programs": {
+        "is_rec_based": false,
+        "rec_type": null,
+        "scheduled_dispatch": false,
+        "clean_peak_standard": false,
+        "special_attributes": [
+          "emergency_only",
+          "reliability_program",
+          "auction_based"
+        ]
+      },
+      "program_history": {
+        "launch_year": "not available",
+        "program_evolution": [],
+        "budget_committed_through": "not available",
+        "total_annual_budget": "Approximately $573 million in 2024 (includes administrative fees)"
+      },
+      "historical_events": [
+        {
+          "event_id": "2021-02-15-winter-storm-uri",
+          "event_date": "2021-02-15",
+          "start_time": "09:45",
+          "end_time": "20:35",
+          "duration_hours": 10.83,
+          "season": "Winter",
+          "notification_time": "not available",
+          "advance_notice_hours": "not available",
+          "call_window": "all_day",
+          "performance_payment_rate": "not available",
+          "total_mw_called": "all contracted ERS resources deployed",
+          "notes": "Winter Storm Uri - all ERS Resources with deployment obligation were deployed during Energy Emergency Alert"
+        },
+        {
+          "event_id": "2023-09-06-summer-heat",
+          "event_date": "2023-09-06",
+          "start_time": "19:30",
+          "end_time": "20:30",
+          "duration_hours": 1,
+          "season": "Summer",
+          "notification_time": "not available",
+          "advance_notice_hours": "not available",
+          "call_window": "evening",
+          "performance_payment_rate": "not available",
+          "total_mw_called": "not available",
+          "notes": "Energy Emergency Alert Level 2 (EEA 2) issued around 7:30 PM local time, lifted after approximately 1 hour. First ERS deployment since February 2021."
+        }
+      ],
+      "historical_events_notes": "Between February 2021 and September 2023, no ERS deployments occurred. Full historical event data available at ERCOT website in 'ERS Event History' document dated September 2024.",
+      "data_sources": [
+        {
+          "source_name": "ERCOT Emergency Response Service",
+          "url": "https://www.ercot.com/services/programs/load/eils",
+          "last_updated": "2024-10-10",
+          "data_type": "program_rules"
+        },
+        {
+          "source_name": "ERCOT ERS Forms & Supporting Documents",
+          "url": "https://www.ercot.com/services/programs/load/eils/documents",
+          "last_updated": "2024-10-10",
+          "data_type": "historical_events"
+        },
+        {
+          "source_name": "2024 State of the Market Report for ERCOT",
+          "url": "https://www.potomaceconomics.com/wp-content/uploads/2025/06/2024-State-of-the-Market-Report.pdf",
+          "last_updated": "2024-10-10",
+          "data_type": "pricing"
+        }
+      ],
+      "integration_metadata": {
+        "optimizer_compatible": true,
+        "api_available": true,
+        "api_documentation_url": "https://www.ercot.com/services/programs/load/eils/documents",
+        "data_quality_score": 7,
+        "last_verified_date": "2025-10-10",
+        "notes": "Requires QSE status for participation. XML messaging integration required. Event triggers based on grid conditions (PRC < 3000 MW) make this suitable for co-optimization with energy arbitrage."
+      }
+    },
+    {
+      "program_id": "CAISO-ELRP",
+      "program_name": "CAISO Emergency Load Reduction Program (ELRP)",
+      "program_type": "iso",
+      "status": "active",
+      "description": "Emergency demand response program that pays $2/kWh for load reduction during grid emergency events, typically May-October between 4-9 PM.",
+      "geography": {
+        "states": [
+          "CA"
+        ],
+        "utilities": [
+          "PG&E",
+          "SCE",
+          "SDG&E"
+        ],
+        "isos": [
+          "CAISO"
+        ],
+        "service_territories": [
+          "CAISO territory - California IOUs"
+        ]
+      },
+      "eligibility": {
+        "behind_the_meter": true,
+        "front_of_meter": true,
+        "minimum_capacity_kw": "varies by utility and customer type",
+        "maximum_capacity_kw": null,
+        "resource_types": [
+          "battery storage",
+          "load curtailment",
+          "distributed generation",
+          "aggregated DER"
+        ],
+        "requires_aggregator": false,
+        "notes": "Can participate directly or through aggregator/DRP Customer classes: Both residential (Power Saver Rewards at $1/kWh) and non-residential ($2/kWh). Expanded to residential in 2022.",
+        "customer_classes": {
+          "residential": true,
+          "commercial": true,
+          "industrial": true,
+          "commercial_min_kw": 1,
+          "size_threshold_notes": "Residential: No minimum. Non-residential: Must be able to reduce load by minimum of 1 kW. Residential compensated at $1/kWh, non-residential at $2/kWh."
+        }
+      },
+      "notification": {
+        "day_ahead_notice": true,
+        "minimum_notice_hours": 0,
+        "maximum_notice_hours": 24,
+        "notification_methods": [
+          "email",
+          "SMS",
+          "phone",
+          "aggregator notification"
+        ],
+        "notes": "Day-Ahead events: notification by 5 PM day before (CAISO declares by 3 PM). Day-Of events: notification shortly after CAISO EEA declaration."
+      },
+      "payment_structure": {
+        "has_capacity_payment": false,
+        "has_performance_payment": true,
+        "capacity_rate": null,
+        "performance_rate": {
+          "value": 2,
+          "unit": "$/kWh",
+          "varies_by_season": false,
+          "varies_by_time": false,
+          "notes": "Also expressed as $2,000/MWh. Zero penalties if participants cannot participate."
+        },
+        "penalty_structure": {
+          "has_penalties": false,
+          "penalty_rate": 0,
+          "penalty_unit": "N/A",
+          "penalty_description": "No penalties for non-performance"
+        },
+        "bonus_payments": [],
+        "forward_curve_available": false,
+        "forward_curve_url": null
+      },
+      "seasons": [
+        {
+          "season_name": "Summer Peak",
+          "start_date": "05-01",
+          "end_date": "10-31",
+          "max_events": "not specified",
+          "max_hours": 60,
+          "notes": "Program runs May through October. Participants will not be asked to participate for more than 60 hours per year."
+        }
+      ],
+      "call_windows": [
+        {
+          "window_id": "afternoon_evening_peak",
+          "start_hour": 16,
+          "end_hour": 21,
+          "days_of_week": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+          ],
+          "seasons": [
+            "Summer Peak"
+          ],
+          "timezone": "America/Los_Angeles",
+          "notes": "Events occur between 4-9 PM on any day of the week"
+        }
+      ],
+      "event_parameters": {
+        "typical_duration_hours": 2,
+        "minimum_duration_hours": 1,
+        "maximum_duration_hours": 5,
+        "event_granularity_minutes": "not specified",
+        "response_time_minutes": "varies by event type",
+        "max_events_per_season": "not specified",
+        "max_events_per_year": "not specified",
+        "max_hours_per_season": 60,
+        "max_hours_per_year": 60,
+        "max_consecutive_events": "not specified - can be called on consecutive days",
+        "minimum_rest_hours": "not specified"
+      },
+      "event_triggers": {
+        "trigger_description": "CAISO Energy Emergency Alert (EEA) declarations",
+        "primary_trigger": "Day-Ahead: EEA Watch declaration by CAISO by 3 PM day before. Day-Of: EEA Watch, EEA-1, EEA-2, or EEA-3 declaration.",
+        "secondary_triggers": [
+          "Residential: Flex Alert issued by CAISO",
+          "High locational marginal prices in CAISO markets",
+          "Extreme heat waves"
+        ],
+        "temperature_threshold": null,
+        "price_threshold": "Day-ahead DLAP prices exceeding $200/MWh for DSGS Option 3",
+        "other_conditions": "IOUs exercise discretion in calling events based on anticipated grid conditions"
+      },
+      "nomination_bidding": {
+        "requires_nomination": true,
+        "nomination_frequency": "annual",
+        "nomination_deadline": "varies by utility",
+        "allows_price_bidding": false,
+        "bidding_structure": "Fixed $2/kWh payment, no bidding required",
+        "enrollment_period": {
+          "start_date": "varies",
+          "end_date": "varies",
+          "recurring": true
+        }
+      },
+      "special_programs": {
+        "is_rec_based": false,
+        "rec_type": null,
+        "scheduled_dispatch": false,
+        "clean_peak_standard": false,
+        "special_attributes": [
+          "emergency_only",
+          "performance_payment_only",
+          "no_penalties"
+        ]
+      },
+      "program_history": {
+        "launch_year": 2021,
+        "program_evolution": [
+          {
+            "year": 2021,
+            "change_description": "Program launched with ~200 MW non-residential participation. Called 4 times in early summer 2021."
+          },
+          {
+            "year": 2022,
+            "change_description": "Multiple dispatches during severe heat wave August 31 - September 9, 2022"
+          },
+          {
+            "year": 2024,
+            "change_description": "10 event days dispatched. July 24 dispatched all groups except A.4 and A.6. A.5 only group dispatched after September."
+          }
+        ],
+        "budget_committed_through": "not available",
+        "total_annual_budget": "not available"
+      },
+      "historical_events": [
+        {
+          "event_id": "2021-summer",
+          "event_date": "2021-06-01",
+          "start_time": "not available",
+          "end_time": "not available",
+          "duration_hours": "not available",
+          "season": "Summer Peak",
+          "notification_time": "not available",
+          "advance_notice_hours": "not available",
+          "call_window": "afternoon_evening_peak",
+          "performance_payment_rate": 2,
+          "total_mw_called": 200,
+          "notes": "Called 4 times in early summer 2021 with nearly 200 MW of enrolled non-residential participation"
+        },
+        {
+          "event_id": "2022-heat-wave",
+          "event_date": "2022-08-31",
+          "start_time": "not available",
+          "end_time": "not available",
+          "duration_hours": "not available",
+          "season": "Summer Peak",
+          "notification_time": "not available",
+          "advance_notice_hours": "not available",
+          "call_window": "afternoon_evening_peak",
+          "performance_payment_rate": 2,
+          "total_mw_called": "not available",
+          "notes": "Multiple dispatches during severe heat wave period August 31 - September 9, 2022. Record-setting temperatures over 10-day period."
+        },
+        {
+          "event_id": "2024-07-24",
+          "event_date": "2024-07-24",
+          "start_time": "not available",
+          "end_time": "not available",
+          "duration_hours": "not available",
+          "season": "Summer Peak",
+          "notification_time": "not available",
+          "advance_notice_hours": "not available",
+          "call_window": "afternoon_evening_peak",
+          "performance_payment_rate": 2,
+          "total_mw_called": "not available",
+          "notes": "All groups dispatched except A.4 and A.6"
+        }
+      ],
+      "historical_events_notes": "10 event days total in 2024. Specific dates for all events not available in public sources. More detailed event data may be available at CPUC ELRP Data and Information page.",
+      "data_sources": [
+        {
+          "source_name": "CPUC Emergency Load Reduction Program",
+          "url": "https://www.cpuc.ca.gov/industries-and-topics/electrical-energy/electric-costs/demand-response-dr/emergency-load-reduction-program",
+          "last_updated": "2024-10-10",
+          "data_type": "program_rules"
+        },
+        {
+          "source_name": "CPUC ELRP Data and Information",
+          "url": "https://www.cpuc.ca.gov/industries-and-topics/electrical-energy/electric-costs/demand-response-dr/emergency-load-reduction-program-data-and-information",
+          "last_updated": "2024-10-10",
+          "data_type": "historical_events"
+        },
+        {
+          "source_name": "CAISO 2024 Summer Loads and Resources Assessment",
+          "url": "https://www.caiso.com/documents/2024-summer-loads-and-resources-assessment.pdf",
+          "last_updated": "2024-10-10",
+          "data_type": "program_rules"
+        }
+      ],
+      "integration_metadata": {
+        "optimizer_compatible": true,
+        "api_available": true,
+        "api_documentation_url": "https://www.caiso.com/emergency-notifications",
+        "data_quality_score": 8,
+        "last_verified_date": "2025-10-10",
+        "notes": "High performance payment of $2/kWh makes this very attractive for battery optimization. Event triggers are based on CAISO EEA declarations which can be monitored via API. Limited to 60 hours/year."
+      }
+    },
+    {
+      "program_id": "MA-CONNECTED-SOLUTIONS",
+      "program_name": "Connected Solutions (Massachusetts)",
+      "program_type": "utility",
+      "status": "active",
+      "description": "Utility demand response program for battery storage and smart thermostats that pays annual performance incentives based on average discharged power during summer peak events.",
+      "geography": {
+        "states": [
+          "MA"
+        ],
+        "utilities": [
+          "Eversource",
+          "National Grid"
+        ],
+        "isos": [
+          "ISONE"
+        ],
+        "service_territories": [
+          "Eversource MA",
+          "National Grid MA"
+        ]
+      },
+      "eligibility": {
+        "behind_the_meter": true,
+        "front_of_meter": false,
+        "minimum_capacity_kw": "varies by technology",
+        "maximum_capacity_kw": null,
+        "resource_types": [
+          "battery storage",
+          "smart thermostat"
+        ],
+        "requires_aggregator": false,
+        "notes": "Residential and commercial customers with eligible battery storage or smart thermostats Customer classes: Residential battery storage and smart thermostat program. Systems < 50kW.",
+        "customer_classes": {
+          "residential": true,
+          "commercial": false,
+          "industrial": false,
+          "residential_max_kw": 50,
+          "commercial_min_kw": 50,
+          "size_threshold_notes": "Systems < 50kW qualify as residential. Systems >= 50kW should enroll through Commercial ConnectedSolutions Program."
+        }
+      },
+      "notification": {
+        "day_ahead_notice": true,
+        "minimum_notice_hours": 24,
+        "maximum_notice_hours": 24,
+        "notification_methods": [
+          "automated system notification"
+        ],
+        "notes": "Notification given day before peak energy event. Events typically called on hot days."
+      },
+      "payment_structure": {
+        "has_capacity_payment": true,
+        "has_performance_payment": true,
+        "capacity_rate": {
+          "value": 275,
+          "unit": "$/kW-year",
+          "varies_by_season": false,
+          "notes": "Average $275/kW annual incentive for Eversource and National Grid MA customers. Payment based on average discharged AC power in kW during events, paid at end of year."
+        },
+        "performance_rate": {
+          "value": "included in capacity payment",
+          "unit": "$/kW-year",
+          "varies_by_season": false,
+          "varies_by_time": false,
+          "notes": "Payment is performance-based but calculated as annual $/kW based on actual discharge during events"
+        },
+        "penalty_structure": {
+          "has_penalties": false,
+          "penalty_rate": 0,
+          "penalty_unit": "N/A",
+          "penalty_description": "No penalties for non-performance"
+        },
+        "bonus_payments": [],
+        "forward_curve_available": false,
+        "forward_curve_url": null
+      },
+      "seasons": [
+        {
+          "season_name": "Summer Peak",
+          "start_date": "06-01",
+          "end_date": "09-30",
+          "max_events": 20,
+          "max_hours": 60,
+          "notes": "Events occur on non-holiday weekdays between June 1 and September 30"
+        }
+      ],
+      "call_windows": [
+        {
+          "window_id": "afternoon_evening",
+          "start_hour": 15,
+          "end_hour": 20,
+          "days_of_week": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday"
+          ],
+          "seasons": [
+            "Summer Peak"
+          ],
+          "timezone": "America/New_York",
+          "notes": "All events occur between 3:00 PM and 8:00 PM on non-holiday weekdays"
+        }
+      ],
+      "event_parameters": {
+        "typical_duration_hours": 2.5,
+        "minimum_duration_hours": 2,
+        "maximum_duration_hours": 3,
+        "event_granularity_minutes": "not specified",
+        "response_time_minutes": "not specified",
+        "max_events_per_season": 20,
+        "max_events_per_year": 20,
+        "max_hours_per_season": 60,
+        "max_hours_per_year": 60,
+        "max_consecutive_events": "not specified",
+        "minimum_rest_hours": "not specified",
+        "notes": "Typically 10-20 events per summer, each lasting 2-3 hours. About 15 peak events typical."
+      },
+      "event_triggers": {
+        "trigger_description": "High temperature forecast and grid stress conditions",
+        "primary_trigger": "Hot day temperature forecasts indicating high electricity demand",
+        "secondary_triggers": [],
+        "temperature_threshold": "not specified",
+        "price_threshold": null,
+        "other_conditions": "Peak demand periods on especially hot days"
+      },
+      "nomination_bidding": {
+        "requires_nomination": true,
+        "nomination_frequency": "annual",
+        "nomination_deadline": "varies",
+        "allows_price_bidding": false,
+        "bidding_structure": "Fixed payment rate, enrollment required",
+        "enrollment_period": {
+          "start_date": "varies",
+          "end_date": "varies",
+          "recurring": true
+        }
+      },
+      "special_programs": {
+        "is_rec_based": false,
+        "rec_type": null,
+        "scheduled_dispatch": false,
+        "clean_peak_standard": false,
+        "special_attributes": [
+          "behind_the_meter_only",
+          "automated_dispatch",
+          "performance_based"
+        ]
+      },
+      "program_history": {
+        "launch_year": "not available",
+        "program_evolution": [],
+        "budget_committed_through": "not available",
+        "total_annual_budget": "not available"
+      },
+      "historical_events": [],
+      "historical_events_notes": "Historical event data not available in public sources. Utilities track events internally but specific dates/times not published.",
+      "data_sources": [
+        {
+          "source_name": "National Grid ConnectedSolutions",
+          "url": "https://www.nationalgridus.com/MA-Business/Energy-Saving-Programs/ConnectedSolutions",
+          "last_updated": "2024-10-10",
+          "data_type": "program_rules"
+        },
+        {
+          "source_name": "Eversource Battery Storage Demand Response",
+          "url": "https://www.eversource.com/content/residential/save-money-energy/energy-efficiency-programs/demand-response/battery-storage-demand-response/ma",
+          "last_updated": "2024-10-10",
+          "data_type": "program_rules"
+        },
+        {
+          "source_name": "Clean Energy Group ConnectedSolutions Resource Page",
+          "url": "https://www.cleanegroup.org/initiatives/energy-storage-policy-and-regulation/connectedsolutions/",
+          "last_updated": "2024-10-10",
+          "data_type": "program_rules"
+        }
+      ],
+      "integration_metadata": {
+        "optimizer_compatible": true,
+        "api_available": false,
+        "api_documentation_url": null,
+        "data_quality_score": 6,
+        "last_verified_date": "2025-10-10",
+        "notes": "Attractive for behind-the-meter batteries. $275/kW annual payment. Events called on hot days 3-8 PM. Automated dispatch through approved vendors. Limited public API availability."
+      }
+    },
+    {
+      "program_id": "RI-CONNECTED-SOLUTIONS",
+      "program_name": "Connected Solutions (Rhode Island)",
+      "program_type": "utility",
+      "status": "active",
+      "description": "Rhode Island utility demand response program for battery storage with tiered payment rates based on enrollment date.",
+      "geography": {
+        "states": [
+          "RI"
+        ],
+        "utilities": [
+          "Rhode Island Energy"
+        ],
+        "isos": [
+          "ISONE"
+        ],
+        "service_territories": [
+          "Rhode Island Energy territory"
+        ]
+      },
+      "eligibility": {
+        "behind_the_meter": true,
+        "front_of_meter": false,
+        "minimum_capacity_kw": "varies",
+        "maximum_capacity_kw": null,
+        "resource_types": [
+          "battery storage",
+          "smart thermostat"
+        ],
+        "requires_aggregator": false,
+        "customer_classes": {
+          "residential": true,
+          "commercial": false,
+          "industrial": false,
+          "size_threshold_notes": "Residential battery storage program. No specific size threshold documented."
+        },
+        "notes": "Customer classes: Residential battery storage program"
+      },
+      "notification": {
+        "day_ahead_notice": true,
+        "minimum_notice_hours": 24,
+        "maximum_notice_hours": 24,
+        "notification_methods": [
+          "automated system notification"
+        ]
+      },
+      "payment_structure": {
+        "has_capacity_payment": true,
+        "has_performance_payment": true,
+        "capacity_rate": {
+          "value": "225 or 400 depending on enrollment date",
+          "unit": "$/kW-year",
+          "varies_by_season": false,
+          "notes": "Enrolled before June 1, 2024: $400/kW guaranteed for 5 years. Enrolled after June 1, 2024: $225/kW. Program approved for 2024-2026."
+        },
+        "performance_rate": {
+          "value": "included in capacity payment",
+          "unit": "$/kW-year",
+          "varies_by_season": false,
+          "varies_by_time": false
+        },
+        "penalty_structure": {
+          "has_penalties": false,
+          "penalty_rate": 0,
+          "penalty_unit": "N/A",
+          "penalty_description": "No penalties"
+        },
+        "bonus_payments": [],
+        "forward_curve_available": false,
+        "forward_curve_url": null
+      },
+      "seasons": [
+        {
+          "season_name": "Summer Peak",
+          "start_date": "06-01",
+          "end_date": "09-30",
+          "max_events": 20,
+          "max_hours": 60
+        }
+      ],
+      "call_windows": [
+        {
+          "window_id": "afternoon_evening",
+          "start_hour": 15,
+          "end_hour": 20,
+          "days_of_week": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday"
+          ],
+          "seasons": [
+            "Summer Peak"
+          ],
+          "timezone": "America/New_York"
+        }
+      ],
+      "event_parameters": {
+        "typical_duration_hours": 2.5,
+        "minimum_duration_hours": 2,
+        "maximum_duration_hours": 3,
+        "event_granularity_minutes": "not specified",
+        "response_time_minutes": "not specified",
+        "max_events_per_season": 20,
+        "max_events_per_year": 20,
+        "max_hours_per_season": 60,
+        "max_hours_per_year": 60,
+        "max_consecutive_events": "not specified",
+        "minimum_rest_hours": "not specified"
+      },
+      "event_triggers": {
+        "trigger_description": "High temperature forecast and grid stress",
+        "primary_trigger": "Peak demand periods on hot days",
+        "secondary_triggers": [],
+        "temperature_threshold": "not specified",
+        "price_threshold": null,
+        "other_conditions": null
+      },
+      "nomination_bidding": {
+        "requires_nomination": true,
+        "nomination_frequency": "annual",
+        "nomination_deadline": "varies",
+        "allows_price_bidding": false,
+        "bidding_structure": "Fixed tiered payment rates"
+      },
+      "special_programs": {
+        "is_rec_based": false,
+        "rec_type": null,
+        "scheduled_dispatch": false,
+        "clean_peak_standard": false,
+        "special_attributes": [
+          "tiered_pricing",
+          "grandfathered_rates"
+        ]
+      },
+      "program_history": {
+        "launch_year": "not available",
+        "program_evolution": [
+          {
+            "year": 2024,
+            "change_description": "Rate reduction from $400/kW to $225/kW for new enrollments after June 1, 2024. Existing participants grandfathered at $400/kW for 5 years. Program approved for 2024-2026."
+          }
+        ],
+        "budget_committed_through": 2026,
+        "total_annual_budget": "not available"
+      },
+      "historical_events": [],
+      "historical_events_notes": "Historical event data not available in public sources",
+      "data_sources": [
+        {
+          "source_name": "Rhode Island Energy ConnectedSolutions",
+          "url": "https://www.rienergy.com/RI-Home/ConnectedSolutions/",
+          "last_updated": "2024-10-10",
+          "data_type": "program_rules"
+        }
+      ],
+      "integration_metadata": {
+        "optimizer_compatible": true,
+        "api_available": false,
+        "api_documentation_url": null,
+        "data_quality_score": 6,
+        "last_verified_date": "2025-10-10",
+        "notes": "Higher payment rate ($225-400/kW) than MA. Early enrollees get $400/kW guaranteed 5 years."
+      }
+    },
+    {
+      "program_id": "NH-CONNECTED-SOLUTIONS",
+      "program_name": "Connected Solutions (New Hampshire)",
+      "program_type": "utility",
+      "status": "active",
+      "description": "New Hampshire battery storage demand response program with upfront incentive payment.",
+      "geography": {
+        "states": [
+          "NH"
+        ],
+        "utilities": [
+          "Eversource"
+        ],
+        "isos": [
+          "ISONE"
+        ],
+        "service_territories": [
+          "Eversource NH"
+        ]
+      },
+      "eligibility": {
+        "behind_the_meter": true,
+        "front_of_meter": false,
+        "minimum_capacity_kw": "varies",
+        "maximum_capacity_kw": null,
+        "resource_types": [
+          "battery storage"
+        ],
+        "requires_aggregator": false,
+        "customer_classes": {
+          "residential": true,
+          "commercial": false,
+          "industrial": false,
+          "size_threshold_notes": "Residential battery storage program. No specific size threshold documented."
+        },
+        "notes": "Customer classes: Residential battery storage program"
+      },
+      "notification": {
+        "day_ahead_notice": true,
+        "minimum_notice_hours": 24,
+        "maximum_notice_hours": 24,
+        "notification_methods": [
+          "automated system notification"
+        ]
+      },
+      "payment_structure": {
+        "has_capacity_payment": true,
+        "has_performance_payment": false,
+        "capacity_rate": {
+          "value": 230,
+          "unit": "$/kWh",
+          "varies_by_season": false,
+          "notes": "Upfront payment of $230 per eligible kWh, up to $3,000 maximum. Paid once battery receives permission to operate and is accepted into program. Based on 80% of kWh discharge capacity."
+        },
+        "performance_rate": null,
+        "penalty_structure": {
+          "has_penalties": false,
+          "penalty_rate": 0,
+          "penalty_unit": "N/A",
+          "penalty_description": "No penalties"
+        },
+        "bonus_payments": [],
+        "forward_curve_available": false,
+        "forward_curve_url": null
+      },
+      "seasons": [
+        {
+          "season_name": "Summer Peak",
+          "start_date": "06-01",
+          "end_date": "09-30",
+          "max_events": 20,
+          "max_hours": 60
+        }
+      ],
+      "call_windows": [
+        {
+          "window_id": "afternoon_evening",
+          "start_hour": 15,
+          "end_hour": 20,
+          "days_of_week": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday"
+          ],
+          "seasons": [
+            "Summer Peak"
+          ],
+          "timezone": "America/New_York"
+        }
+      ],
+      "event_parameters": {
+        "typical_duration_hours": 2.5,
+        "minimum_duration_hours": 2,
+        "maximum_duration_hours": 3,
+        "event_granularity_minutes": "not specified",
+        "response_time_minutes": "not specified",
+        "max_events_per_season": 20,
+        "max_events_per_year": 20,
+        "max_hours_per_season": 60,
+        "max_hours_per_year": 60,
+        "max_consecutive_events": "not specified",
+        "minimum_rest_hours": "not specified"
+      },
+      "event_triggers": {
+        "trigger_description": "High temperature forecast and grid stress",
+        "primary_trigger": "Peak demand periods on hot days",
+        "secondary_triggers": [],
+        "temperature_threshold": "not specified",
+        "price_threshold": null,
+        "other_conditions": null
+      },
+      "nomination_bidding": {
+        "requires_nomination": true,
+        "nomination_frequency": "one-time",
+        "nomination_deadline": "at installation",
+        "allows_price_bidding": false,
+        "bidding_structure": "Fixed upfront payment"
+      },
+      "special_programs": {
+        "is_rec_based": false,
+        "rec_type": null,
+        "scheduled_dispatch": false,
+        "clean_peak_standard": false,
+        "special_attributes": [
+          "upfront_payment",
+          "one_time_incentive"
+        ]
+      },
+      "program_history": {
+        "launch_year": "not available",
+        "program_evolution": [],
+        "budget_committed_through": "not available",
+        "total_annual_budget": "not available"
+      },
+      "historical_events": [],
+      "historical_events_notes": "Historical event data not available in public sources",
+      "data_sources": [
+        {
+          "source_name": "Eversource NH Battery Storage Demand Response",
+          "url": "https://www.eversource.com/content/residential/save-money-energy/energy-efficiency-programs/demand-response/battery-storage-demand-response/nh",
+          "last_updated": "2024-10-10",
+          "data_type": "program_rules"
+        }
+      ],
+      "integration_metadata": {
+        "optimizer_compatible": true,
+        "api_available": false,
+        "api_documentation_url": null,
+        "data_quality_score": 5,
+        "last_verified_date": "2025-10-10",
+        "notes": "Unique upfront payment structure. $230/kWh up to $3,000. Based on 80% of battery capacity."
+      }
+    },
+    {
+      "program_id": "CA-DSGS",
+      "program_name": "California Demand Side Grid Support (DSGS)",
+      "program_type": "state",
+      "status": "active",
+      "description": "California state-funded battery demand response program providing monthly capacity payments during May-October, with VPP aggregator bonus.",
+      "geography": {
+        "states": [
+          "CA"
+        ],
+        "utilities": [
+          "PG&E",
+          "SCE",
+          "SDG&E",
+          "CCAs"
+        ],
+        "isos": [
+          "CAISO"
+        ],
+        "service_territories": [
+          "California statewide"
+        ]
+      },
+      "eligibility": {
+        "behind_the_meter": true,
+        "front_of_meter": false,
+        "minimum_capacity_kw": "varies",
+        "maximum_capacity_kw": null,
+        "resource_types": [
+          "battery storage"
+        ],
+        "requires_aggregator": true,
+        "notes": "Must participate through VPP aggregator Customer classes: Residential battery storage program (Powerwall and similar home batteries)",
+        "customer_classes": {
+          "residential": true,
+          "commercial": false,
+          "industrial": false,
+          "size_threshold_notes": "Residential battery storage program (Powerwall and similar home batteries). No specific size threshold documented."
+        }
+      },
+      "notification": {
+        "day_ahead_notice": true,
+        "minimum_notice_hours": "varies",
+        "maximum_notice_hours": 24,
+        "notification_methods": [
+          "aggregator notification"
+        ]
+      },
+      "payment_structure": {
+        "has_capacity_payment": true,
+        "has_performance_payment": false,
+        "capacity_rate": {
+          "value": "varies by month",
+          "unit": "$/kW-month",
+          "varies_by_season": true,
+          "seasonal_rates": [
+            {
+              "season": "May",
+              "rate": 7.0,
+              "unit": "$/kW-month"
+            },
+            {
+              "season": "June",
+              "rate": 7.25,
+              "unit": "$/kW-month"
+            },
+            {
+              "season": "July",
+              "rate": 13.1,
+              "unit": "$/kW-month"
+            },
+            {
+              "season": "August",
+              "rate": 14.04,
+              "unit": "$/kW-month"
+            },
+            {
+              "season": "September",
+              "rate": 14.97,
+              "unit": "$/kW-month"
+            },
+            {
+              "season": "October",
+              "rate": 8.19,
+              "unit": "$/kW-month"
+            }
+          ],
+          "notes": "Rates for 2024-2025. Annual capacity prices range $7,200-$19,200 depending on month and day-type selection. Participants can earn approximately $60-80 per kW per program year or up to $350/year per Powerwall."
+        },
+        "performance_rate": {
+          "value": 2,
+          "unit": "$/kWh",
+          "varies_by_season": false,
+          "varies_by_time": false,
+          "notes": "Some participants earn $2/kWh for energy shared with grid"
+        },
+        "penalty_structure": {
+          "has_penalties": "not specified",
+          "penalty_rate": "not available",
+          "penalty_unit": "not available",
+          "penalty_description": "not available"
+        },
+        "bonus_payments": [
+          {
+            "description": "VPP Aggregator Bonus",
+            "rate": 30,
+            "unit": "percent of capacity incentives",
+            "conditions": "VPP aggregators receive additional 30% bonus for program years 2023-2026"
+          }
+        ],
+        "forward_curve_available": true,
+        "forward_curve_url": "https://www.energy.ca.gov/programs-and-topics/programs/demand-side-grid-support-program"
+      },
+      "seasons": [
+        {
+          "season_name": "Summer Peak",
+          "start_date": "05-01",
+          "end_date": "10-31",
+          "max_events": "not specified",
+          "max_hours": "not specified"
+        }
+      ],
+      "call_windows": [
+        {
+          "window_id": "varies",
+          "start_hour": 16,
+          "end_hour": 21,
+          "days_of_week": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+          ],
+          "seasons": [
+            "Summer Peak"
+          ],
+          "timezone": "America/Los_Angeles",
+          "notes": "Event windows vary by option selected"
+        }
+      ],
+      "event_parameters": {
+        "typical_duration_hours": "varies",
+        "minimum_duration_hours": "not specified",
+        "maximum_duration_hours": "not specified",
+        "event_granularity_minutes": "not specified",
+        "response_time_minutes": "not specified",
+        "max_events_per_season": "not specified",
+        "max_events_per_year": "not specified",
+        "max_hours_per_season": "not specified",
+        "max_hours_per_year": "not specified",
+        "max_consecutive_events": "not specified",
+        "minimum_rest_hours": "not specified"
+      },
+      "event_triggers": {
+        "trigger_description": "Day-ahead price thresholds for Option 3",
+        "primary_trigger": "CAISO day-ahead DLAP prices exceeding $200/MWh (Option 3)",
+        "secondary_triggers": [
+          "Forecasted or anticipated grid stress conditions",
+          "High locational marginal prices",
+          "Extreme heat waves"
+        ],
+        "temperature_threshold": null,
+        "price_threshold": "$200/MWh day-ahead DLAP prices for Option 3",
+        "other_conditions": "VPP, VGI, and non-residential aggregations may be notified day-ahead or day-of"
+      },
+      "nomination_bidding": {
+        "requires_nomination": true,
+        "nomination_frequency": "annual",
+        "nomination_deadline": "varies by program year",
+        "allows_price_bidding": false,
+        "bidding_structure": "Fixed monthly capacity payments, must participate through approved VPP aggregator",
+        "enrollment_period": {
+          "start_date": "varies",
+          "end_date": "varies",
+          "recurring": true
+        }
+      },
+      "special_programs": {
+        "is_rec_based": false,
+        "rec_type": null,
+        "scheduled_dispatch": false,
+        "clean_peak_standard": false,
+        "special_attributes": [
+          "state_funded",
+          "vpp_required",
+          "aggregator_bonus",
+          "monthly_capacity_payments"
+        ]
+      },
+      "program_history": {
+        "launch_year": 2023,
+        "program_evolution": [
+          {
+            "year": 2024,
+            "change_description": "Program expanded to 500 MW of capacity. Fourth edition guidelines published."
+          },
+          {
+            "year": 2025,
+            "change_description": "Updated guidelines and monthly rate schedule for 2024-2025 program years"
+          }
+        ],
+        "budget_committed_through": 2026,
+        "total_annual_budget": "part of California Strategic Reliability Reserve"
+      },
+      "historical_events": [],
+      "historical_events_notes": "Historical event data not available in public sources. Events called based on price triggers and grid conditions.",
+      "data_sources": [
+        {
+          "source_name": "California Energy Commission DSGS Program",
+          "url": "https://www.energy.ca.gov/programs-and-topics/programs/demand-side-grid-support-program",
+          "last_updated": "2024-10-10",
+          "data_type": "program_rules"
+        },
+        {
+          "source_name": "DSGS Program Guidelines Fourth Edition",
+          "url": "https://www.energy.ca.gov/publications/2024/demand-side-grid-support-dsgs-program-guidelines-fourth-edition",
+          "last_updated": "2024-10-10",
+          "data_type": "program_rules"
+        }
+      ],
+      "integration_metadata": {
+        "optimizer_compatible": true,
+        "api_available": true,
+        "api_documentation_url": "varies by aggregator",
+        "data_quality_score": 7,
+        "last_verified_date": "2025-10-10",
+        "notes": "Strong monthly capacity payments ($7-$15/kW-month). 30% VPP aggregator bonus. Option 3 has clear price trigger ($200/MWh). Must work through approved aggregator."
+      }
+    },
+    {
+      "program_id": "MA-CLEAN-PEAK",
+      "program_name": "Massachusetts Clean Peak Energy Standard",
+      "program_type": "state",
+      "status": "active",
+      "description": "State renewable energy certificate program requiring retail electric suppliers to procure Clean Peak Energy Certificates (CPECs) from qualified clean energy resources that supply electricity or reduce demand during seasonal peak periods.",
+      "geography": {
+        "states": [
+          "MA"
+        ],
+        "utilities": [
+          "all MA retail electric suppliers"
+        ],
+        "isos": [
+          "ISONE"
+        ],
+        "service_territories": [
+          "Massachusetts statewide"
+        ]
+      },
+      "eligibility": {
+        "behind_the_meter": true,
+        "front_of_meter": true,
+        "minimum_capacity_kw": "varies",
+        "maximum_capacity_kw": null,
+        "resource_types": [
+          "battery storage",
+          "demand response",
+          "clean generation"
+        ],
+        "requires_aggregator": false,
+        "customer_classes": {
+          "residential": true,
+          "commercial": true,
+          "industrial": true,
+          "residential_max_kw": 50,
+          "commercial_min_kw": 50,
+          "size_threshold_notes": "Residential customers: inverter size < 50kW. Commercial/Industrial: >= 50kW."
+        },
+        "notes": "Customer classes: Both residential (< 50kW) and commercial/industrial (>= 50kW) eligible"
+      },
+      "notification": {
+        "day_ahead_notice": false,
+        "minimum_notice_hours": null,
+        "maximum_notice_hours": null,
+        "notification_methods": [],
+        "notes": "Scheduled dispatch windows, not event-based"
+      },
+      "payment_structure": {
+        "has_capacity_payment": false,
+        "has_performance_payment": true,
+        "capacity_rate": null,
+        "performance_rate": {
+          "value": "market-based",
+          "unit": "$/CPEC",
+          "varies_by_season": false,
+          "varies_by_time": false,
+          "notes": "Revenue from selling Clean Peak Energy Certificates (CPECs) in competitive market. Not a fixed payment rate."
+        },
+        "penalty_structure": {
+          "has_penalties": true,
+          "penalty_rate": "not specified",
+          "penalty_unit": "$/CPEC",
+          "penalty_description": "Suppliers face compliance penalties if they fail to procure required CPECs"
+        },
+        "bonus_payments": [],
+        "forward_curve_available": true,
+        "forward_curve_url": "https://www.mass.gov/info-details/clean-peak-procurement"
+      },
+      "seasons": [
+        {
+          "season_name": "Year-Round",
+          "start_date": "01-01",
+          "end_date": "12-31",
+          "max_events": null,
+          "max_hours": null,
+          "notes": "Seasonal peak demand periods established by DOER"
+        }
+      ],
+      "call_windows": [
+        {
+          "window_id": "seasonal_peak_periods",
+          "start_hour": "varies",
+          "end_hour": "varies",
+          "days_of_week": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+          ],
+          "seasons": [
+            "Year-Round"
+          ],
+          "timezone": "America/New_York",
+          "notes": "Specific seasonal peak demand periods established by MA DOER"
+        }
+      ],
+      "event_parameters": {
+        "typical_duration_hours": "not applicable",
+        "minimum_duration_hours": "not applicable",
+        "maximum_duration_hours": "not applicable",
+        "event_granularity_minutes": "not applicable",
+        "response_time_minutes": "not applicable",
+        "max_events_per_season": "not applicable",
+        "max_events_per_year": "not applicable",
+        "max_hours_per_season": "not applicable",
+        "max_hours_per_year": "not applicable",
+        "max_consecutive_events": "not applicable",
+        "minimum_rest_hours": "not applicable",
+        "notes": "Scheduled dispatch windows based on seasonal peak periods, not event-based"
+      },
+      "event_triggers": {
+        "trigger_description": "Scheduled seasonal peak periods",
+        "primary_trigger": "Pre-defined seasonal peak demand periods set by MA DOER",
+        "secondary_triggers": [],
+        "temperature_threshold": null,
+        "price_threshold": null,
+        "other_conditions": "Operates on scheduled windows, not triggered by emergencies"
+      },
+      "nomination_bidding": {
+        "requires_nomination": true,
+        "nomination_frequency": "annual",
+        "nomination_deadline": "varies",
+        "allows_price_bidding": true,
+        "bidding_structure": "Competitive RFP process for CPEC procurement. Staggered procurement schedule established as of October 2024.",
+        "enrollment_period": {
+          "start_date": "varies",
+          "end_date": "varies",
+          "recurring": true
+        }
+      },
+      "special_programs": {
+        "is_rec_based": true,
+        "rec_type": "Clean Peak Energy Certificate (CPEC)",
+        "scheduled_dispatch": true,
+        "clean_peak_standard": true,
+        "special_attributes": [
+          "certificate_trading",
+          "compliance_requirement",
+          "scheduled_windows",
+          "nepool_gis"
+        ]
+      },
+      "program_history": {
+        "launch_year": "not available",
+        "program_evolution": [
+          {
+            "year": 2024,
+            "change_description": "October 11, 2024: Emergency rulemaking filed requiring staggered procurement schedule for CPEC RFPs by November 12, 2024. March 25, 2024: Stakeholder feedback solicited for 2024 CPS Review."
+          }
+        ],
+        "budget_committed_through": "ongoing",
+        "total_annual_budget": "not applicable - market-based",
+        "notes": "State estimates $710 million net ratepayer savings and 560,000 metric tons CO2 reduction over 10 years"
+      },
+      "historical_events": [],
+      "historical_events_notes": "Not event-based. Uses scheduled seasonal peak periods defined by MA DOER.",
+      "data_sources": [
+        {
+          "source_name": "MA DOER Clean Peak Energy Standard",
+          "url": "https://www.mass.gov/clean-peak-energy-standard",
+          "last_updated": "2024-10-10",
+          "data_type": "program_rules"
+        },
+        {
+          "source_name": "Clean Peak Energy Standard Guidelines",
+          "url": "https://www.mass.gov/info-details/clean-peak-energy-standard-guidelines",
+          "last_updated": "2024-10-10",
+          "data_type": "program_rules"
+        },
+        {
+          "source_name": "Clean Peak Procurement",
+          "url": "https://www.mass.gov/info-details/clean-peak-procurement",
+          "last_updated": "2024-10-10",
+          "data_type": "pricing"
+        }
+      ],
+      "integration_metadata": {
+        "optimizer_compatible": true,
+        "api_available": false,
+        "api_documentation_url": null,
+        "data_quality_score": 5,
+        "last_verified_date": "2025-10-10",
+        "notes": "REC-based program with market pricing. Scheduled dispatch windows (not emergency events). Certificates traded via NEPOOL GIS. Requires understanding of seasonal peak periods and CPEC market prices for optimization."
+      }
+    },
+    {
+      "program_id": "ISONE-FCM-DR",
+      "program_name": "ISO-NE Forward Capacity Market Demand Response",
+      "program_type": "iso",
+      "status": "active",
+      "description": "ISO New England wholesale capacity market allowing demand response resources to compete with traditional generation for capacity payments 3 years forward.",
+      "geography": {
+        "states": [
+          "CT",
+          "MA",
+          "ME",
+          "NH",
+          "RI",
+          "VT"
+        ],
+        "utilities": [],
+        "isos": [
+          "ISONE"
+        ],
+        "service_territories": [
+          "ISO-NE footprint (all New England)"
+        ]
+      },
+      "eligibility": {
+        "behind_the_meter": true,
+        "front_of_meter": true,
+        "minimum_capacity_kw": "varies by resource type",
+        "maximum_capacity_kw": null,
+        "resource_types": [
+          "Active Demand Capacity Resources (ADCR)",
+          "Demand Response Resources (DRR)",
+          "aggregated DER"
+        ],
+        "requires_aggregator": false,
+        "notes": "Can participate directly or through aggregator. Must qualify through FCA qualification process. Customer classes: Wholesale capacity market - commercial/industrial only",
+        "customer_classes": {
+          "residential": false,
+          "commercial": true,
+          "industrial": true,
+          "size_threshold_notes": "Wholesale capacity market - commercial/industrial only. Minimum capacity varies by resource type."
+        }
+      },
+      "notification": {
+        "day_ahead_notice": "varies",
+        "minimum_notice_hours": "varies by dispatch type",
+        "maximum_notice_hours": "varies by dispatch type",
+        "notification_methods": [
+          "ISO dispatch instructions"
+        ]
+      },
+      "payment_structure": {
+        "has_capacity_payment": true,
+        "has_performance_payment": true,
+        "capacity_rate": {
+          "value": "auction-based",
+          "unit": "$/kW-month",
+          "varies_by_season": false,
+          "notes": "FCA 18 (Feb 2024) for delivery period June 2027-May 2028. More than 8% (2,614 MW) of obligations from DR and aggregated DER."
+        },
+        "performance_rate": {
+          "value": "LMP-based",
+          "unit": "$/MWh",
+          "varies_by_season": false,
+          "varies_by_time": true,
+          "notes": "DRRs can participate in energy and reserve markets, compensated at locational marginal prices"
+        },
+        "penalty_structure": {
+          "has_penalties": true,
+          "penalty_rate": "not specified",
+          "penalty_unit": "$/kW",
+          "penalty_description": "Performance penalties for failure to deliver during shortage conditions"
+        },
+        "bonus_payments": [],
+        "forward_curve_available": true,
+        "forward_curve_url": "https://www.iso-ne.com/markets-operations/markets/forward-capacity-market"
+      },
+      "seasons": [
+        {
+          "season_name": "Year-Round Delivery",
+          "start_date": "06-01",
+          "end_date": "05-31",
+          "max_events": "not specified",
+          "max_hours": "not specified",
+          "notes": "Delivery period runs June 1 through May 31 (3 years after auction)"
+        }
+      ],
+      "call_windows": [
+        {
+          "window_id": "dispatch_as_needed",
+          "start_hour": 0,
+          "end_hour": 23,
+          "days_of_week": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+          ],
+          "seasons": [
+            "Year-Round Delivery"
+          ],
+          "timezone": "America/New_York",
+          "notes": "Can be dispatched any time based on system needs"
+        }
+      ],
+      "event_parameters": {
+        "typical_duration_hours": "varies",
+        "minimum_duration_hours": "varies",
+        "maximum_duration_hours": "varies",
+        "event_granularity_minutes": 5,
+        "response_time_minutes": "varies by resource type",
+        "max_events_per_season": "not specified",
+        "max_events_per_year": "not specified",
+        "max_hours_per_season": "not specified",
+        "max_hours_per_year": "not specified",
+        "max_consecutive_events": "not specified",
+        "minimum_rest_hours": "not specified"
+      },
+      "event_triggers": {
+        "trigger_description": "Market-based dispatch and reliability needs",
+        "primary_trigger": "Economic dispatch based on offers in energy market or reliability needs",
+        "secondary_triggers": [],
+        "temperature_threshold": null,
+        "price_threshold": null,
+        "other_conditions": "ADCRs participate in FCM. DRRs can participate in energy and reserve markets."
+      },
+      "nomination_bidding": {
+        "requires_nomination": true,
+        "nomination_frequency": "annual",
+        "nomination_deadline": "Forward Capacity Auction held annually, 3 years before delivery",
+        "allows_price_bidding": true,
+        "bidding_structure": "Competitive auction for capacity supply obligations (CSO). Resources bid offers and compete with traditional generation.",
+        "enrollment_period": {
+          "start_date": "varies",
+          "end_date": "varies",
+          "recurring": true,
+          "notes": "Must complete qualification process before auction participation"
+        }
+      },
+      "special_programs": {
+        "is_rec_based": false,
+        "rec_type": null,
+        "scheduled_dispatch": false,
+        "clean_peak_standard": false,
+        "special_attributes": [
+          "wholesale_market",
+          "three_year_forward",
+          "competitive_with_generation",
+          "performance_based"
+        ]
+      },
+      "program_history": {
+        "launch_year": "not available",
+        "program_evolution": [
+          {
+            "year": 2024,
+            "change_description": "FCA 18 held Feb 5, 2024 for delivery period June 2027-May 2028. DR and aggregated DER represented 8% (2,614 MW) of capacity obligations."
+          }
+        ],
+        "budget_committed_through": "not applicable - market-based",
+        "total_annual_budget": "not applicable - market-based"
+      },
+      "historical_events": [],
+      "historical_events_notes": "Market-based dispatch, not traditional event-based DR. Dispatch occurs based on economic offers and system reliability needs.",
+      "data_sources": [
+        {
+          "source_name": "ISO-NE Forward Capacity Market",
+          "url": "https://www.iso-ne.com/markets-operations/markets/forward-capacity-market",
+          "last_updated": "2024-10-10",
+          "data_type": "program_rules"
+        },
+        {
+          "source_name": "ISO-NE Demand Resources",
+          "url": "https://www.iso-ne.com/markets-operations/markets/demand-resources",
+          "last_updated": "2024-10-10",
+          "data_type": "program_rules"
+        },
+        {
+          "source_name": "ISO-NE 2024 Annual Markets Report",
+          "url": "https://www.iso-ne.com/static-assets/documents/100023/2024-annual-markets-report.pdf",
+          "last_updated": "2024-10-10",
+          "data_type": "pricing"
+        }
+      ],
+      "integration_metadata": {
+        "optimizer_compatible": true,
+        "api_available": true,
+        "api_documentation_url": "https://www.iso-ne.com/markets-operations/markets/forward-capacity-market/fcm-participation-guide",
+        "data_quality_score": 6,
+        "last_verified_date": "2025-10-10",
+        "notes": "Wholesale capacity market with 3-year forward commitment. DR can compete equally with generation. Requires qualification process. Complex but potentially lucrative for large resources."
+      }
+    },
+    {
+      "program_id": "PJM-ECONOMIC-DR",
+      "program_name": "PJM Economic Demand Response",
+      "program_type": "iso",
+      "status": "active",
+      "description": "PJM wholesale energy market demand response program allowing resources to bid load reductions and be compensated at locational marginal prices.",
+      "geography": {
+        "states": [
+          "DE",
+          "IL",
+          "IN",
+          "KY",
+          "MD",
+          "MI",
+          "NC",
+          "NJ",
+          "OH",
+          "PA",
+          "TN",
+          "VA",
+          "WV",
+          "DC"
+        ],
+        "utilities": [],
+        "isos": [
+          "PJM"
+        ],
+        "service_territories": [
+          "PJM Interconnection footprint"
+        ]
+      },
+      "eligibility": {
+        "behind_the_meter": true,
+        "front_of_meter": true,
+        "minimum_capacity_kw": "varies",
+        "maximum_capacity_kw": null,
+        "resource_types": [
+          "load reduction",
+          "battery storage",
+          "aggregated load"
+        ],
+        "requires_aggregator": false,
+        "customer_classes": {
+          "residential": false,
+          "commercial": true,
+          "industrial": true,
+          "size_threshold_notes": "Wholesale energy market - commercial/industrial only. No specific size thresholds."
+        },
+        "notes": "Customer classes: Wholesale energy market - commercial/industrial only"
+      },
+      "notification": {
+        "day_ahead_notice": "varies",
+        "minimum_notice_hours": 0,
+        "maximum_notice_hours": 24,
+        "notification_methods": [
+          "market dispatch"
+        ]
+      },
+      "payment_structure": {
+        "has_capacity_payment": false,
+        "has_performance_payment": true,
+        "capacity_rate": null,
+        "performance_rate": {
+          "value": "LMP",
+          "unit": "$/MWh",
+          "varies_by_season": false,
+          "varies_by_time": true,
+          "notes": "Paid locational marginal price (LMP) when dispatched. Historic maximum strike price up to $1,849/MWh."
+        },
+        "penalty_structure": {
+          "has_penalties": "not specified",
+          "penalty_rate": "not available",
+          "penalty_unit": "not available",
+          "penalty_description": "not available"
+        },
+        "bonus_payments": [],
+        "forward_curve_available": false,
+        "forward_curve_url": null
+      },
+      "seasons": [],
+      "call_windows": [
+        {
+          "window_id": "market_based",
+          "start_hour": 0,
+          "end_hour": 23,
+          "days_of_week": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+          ],
+          "seasons": [],
+          "timezone": "America/New_York",
+          "notes": "Economic dispatch whenever LMP-based bid clears"
+        }
+      ],
+      "event_parameters": {
+        "typical_duration_hours": "varies",
+        "minimum_duration_hours": "varies",
+        "maximum_duration_hours": "varies",
+        "event_granularity_minutes": 5,
+        "response_time_minutes": "varies",
+        "max_events_per_season": "not applicable",
+        "max_events_per_year": "not applicable",
+        "max_hours_per_season": "not applicable",
+        "max_hours_per_year": "not applicable",
+        "max_consecutive_events": "not applicable",
+        "minimum_rest_hours": "not applicable"
+      },
+      "event_triggers": {
+        "trigger_description": "Economic dispatch based on LMP thresholds",
+        "primary_trigger": "Load-weighted LMP exceeds participant's bid price",
+        "secondary_triggers": [],
+        "temperature_threshold": null,
+        "price_threshold": "Set by participant bid (up to $1,849/MWh)",
+        "other_conditions": "Called whenever economic and competitive with generation"
+      },
+      "nomination_bidding": {
+        "requires_nomination": true,
+        "nomination_frequency": "ongoing",
+        "nomination_deadline": "day-ahead or real-time",
+        "allows_price_bidding": true,
+        "bidding_structure": "Participants bid price threshold for dispatch. Called when market LMP exceeds bid price.",
+        "enrollment_period": {
+          "start_date": "ongoing",
+          "end_date": "ongoing",
+          "recurring": true
+        }
+      },
+      "special_programs": {
+        "is_rec_based": false,
+        "rec_type": null,
+        "scheduled_dispatch": false,
+        "clean_peak_standard": false,
+        "special_attributes": [
+          "wholesale_energy_market",
+          "price_responsive",
+          "economic_dispatch"
+        ]
+      },
+      "program_history": {
+        "launch_year": "not available",
+        "program_evolution": [],
+        "budget_committed_through": "not applicable - market-based",
+        "total_annual_budget": "not applicable - market-based",
+        "notes": "2024 capacity market revenue decreased 24.1% to $116.6M (from $153.7M in 2023). 2024/2025 delivery year capacity cleared at $28.92/MW-day in most zones."
+      },
+      "historical_events": [],
+      "historical_events_notes": "Market-based dispatch, not traditional event DR. Dispatched whenever LMP exceeds participant's bid threshold.",
+      "data_sources": [
+        {
+          "source_name": "PJM Demand Response",
+          "url": "https://www.pjm.com/markets-and-operations/demand-response.aspx",
+          "last_updated": "2024-10-10",
+          "data_type": "program_rules"
+        },
+        {
+          "source_name": "2024 State of the Market Report for PJM Section 6",
+          "url": "https://www.monitoringanalytics.com/reports/PJM_State_of_the_Market/2024/2024-som-pjm-sec6.pdf",
+          "last_updated": "2024-10-10",
+          "data_type": "pricing"
+        }
+      ],
+      "integration_metadata": {
+        "optimizer_compatible": true,
+        "api_available": true,
+        "api_documentation_url": "https://www.pjm.com/markets-and-operations/demand-response.aspx",
+        "data_quality_score": 5,
+        "last_verified_date": "2025-10-10",
+        "notes": "Pure economic dispatch based on LMP. Highly suitable for battery arbitrage optimization. Requires monitoring real-time LMP and bidding strategy."
+      }
+    },
+    {
+      "program_id": "CONED-CSRP-DLRP",
+      "program_name": "Con Edison Commercial System Relief Program (CSRP) and Distribution Load Relief Program (DLRP)",
+      "program_type": "utility",
+      "status": "active",
+      "description": "Con Edison utility demand response programs providing capacity payments for load reduction during network emergencies. DLRP is emergency-based; CSRP helps delay infrastructure investments.",
+      "geography": {
+        "states": [
+          "NY"
+        ],
+        "utilities": [
+          "Consolidated Edison"
+        ],
+        "isos": [
+          "NYISO"
+        ],
+        "service_territories": [
+          "Con Edison service territory (NYC and Westchester)"
+        ]
+      },
+      "eligibility": {
+        "behind_the_meter": true,
+        "front_of_meter": false,
+        "minimum_capacity_kw": "varies by program",
+        "maximum_capacity_kw": null,
+        "resource_types": [
+          "load curtailment",
+          "battery storage",
+          "distributed generation"
+        ],
+        "requires_aggregator": false,
+        "notes": "Can participate through aggregator or direct enrollment. Can stack with NYISO SCR program. Customer classes: Commercial and industrial customers only",
+        "customer_classes": {
+          "residential": false,
+          "commercial": true,
+          "industrial": true,
+          "size_threshold_notes": "Commercial and industrial customers only. No specific size thresholds documented."
+        }
+      },
+      "notification": {
+        "day_ahead_notice": "varies",
+        "minimum_notice_hours": "varies",
+        "maximum_notice_hours": 24,
+        "notification_methods": [
+          "email",
+          "phone",
+          "SMS",
+          "aggregator notification"
+        ]
+      },
+      "payment_structure": {
+        "has_capacity_payment": true,
+        "has_performance_payment": true,
+        "capacity_rate": {
+          "value": "varies by tier and program",
+          "unit": "$/kW-month",
+          "varies_by_season": true,
+          "notes": "Tier 2 networks paid at higher rate than Tier 1. Both Reservation and Voluntary options available. Specific 2024 rates in Rider T section beginning Leaf 268. Contact demandresponse@coned.com for current rates."
+        },
+        "performance_rate": {
+          "value": "included in capacity payment",
+          "unit": "$/kW",
+          "varies_by_season": false,
+          "varies_by_time": false
+        },
+        "penalty_structure": {
+          "has_penalties": "not specified",
+          "penalty_rate": "not available",
+          "penalty_unit": "not available",
+          "penalty_description": "not available"
+        },
+        "bonus_payments": [],
+        "forward_curve_available": false,
+        "forward_curve_url": null
+      },
+      "seasons": [
+        {
+          "season_name": "Capability Period",
+          "start_date": "varies",
+          "end_date": "varies",
+          "max_events": "not specified",
+          "max_hours": "not specified",
+          "notes": "Program operates on NYISO capability periods"
+        }
+      ],
+      "call_windows": [
+        {
+          "window_id": "network_emergency",
+          "start_hour": 0,
+          "end_hour": 23,
+          "days_of_week": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+          ],
+          "seasons": [
+            "Capability Period"
+          ],
+          "timezone": "America/New_York",
+          "notes": "Called during network emergencies or to address distribution system needs"
+        }
+      ],
+      "event_parameters": {
+        "typical_duration_hours": "not specified",
+        "minimum_duration_hours": "not specified",
+        "maximum_duration_hours": "not specified",
+        "event_granularity_minutes": "not specified",
+        "response_time_minutes": "not specified",
+        "max_events_per_season": "not specified",
+        "max_events_per_year": "not specified",
+        "max_hours_per_season": "not specified",
+        "max_hours_per_year": "not specified",
+        "max_consecutive_events": "not specified",
+        "minimum_rest_hours": "not specified"
+      },
+      "event_triggers": {
+        "trigger_description": "Network emergencies and distribution system stress",
+        "primary_trigger": "DLRP: Network emergencies. CSRP: Distribution system needs to defer infrastructure investments",
+        "secondary_triggers": [],
+        "temperature_threshold": null,
+        "price_threshold": null,
+        "other_conditions": "Utility exercises discretion based on network conditions"
+      },
+      "nomination_bidding": {
+        "requires_nomination": true,
+        "nomination_frequency": "annual",
+        "nomination_deadline": "before capability period",
+        "allows_price_bidding": false,
+        "bidding_structure": "Fixed payment rates by tier. Reservation option (mandatory) or Voluntary option available.",
+        "enrollment_period": {
+          "start_date": "varies",
+          "end_date": "varies",
+          "recurring": true
+        }
+      },
+      "special_programs": {
+        "is_rec_based": false,
+        "rec_type": null,
+        "scheduled_dispatch": false,
+        "clean_peak_standard": false,
+        "special_attributes": [
+          "utility_program",
+          "network_reliability",
+          "stackable_with_nyiso",
+          "tiered_pricing"
+        ]
+      },
+      "program_history": {
+        "launch_year": "not available",
+        "program_evolution": [
+          {
+            "year": 2024,
+            "change_description": "CSRP enrollment increased 7% from 437 MW to 466.20 MW. DLRP enrollment decreased 3% from 488 MW to 472.51 MW."
+          }
+        ],
+        "budget_committed_through": "not available",
+        "total_annual_budget": "not available"
+      },
+      "historical_events": [],
+      "historical_events_notes": "Historical event data not publicly available. Contact Con Edison for program performance history.",
+      "data_sources": [
+        {
+          "source_name": "Con Edison Smart Usage Rewards",
+          "url": "https://www.coned.com/en/save-money/rebates-incentives-tax-credits/rebates-incentives-tax-credits-for-commercial-industrial-buildings-customers/smart-usage-rewards",
+          "last_updated": "2024-10-10",
+          "data_type": "program_rules"
+        },
+        {
+          "source_name": "Con Edison Rider T Program Guidelines",
+          "url": "https://www.coned.com/-/media/files/coned/documents/save-money-energy/rebates-incentives-tax-credits/smart-usage-rewards/smart-usage-program-guidelines.pdf",
+          "last_updated": "2024-10-10",
+          "data_type": "program_rules"
+        },
+        {
+          "source_name": "Contact: demandresponse@coned.com",
+          "url": "mailto:demandresponse@coned.com",
+          "last_updated": "2024-10-10",
+          "data_type": "enrollment"
+        }
+      ],
+      "integration_metadata": {
+        "optimizer_compatible": true,
+        "api_available": false,
+        "api_documentation_url": null,
+        "data_quality_score": 4,
+        "last_verified_date": "2025-10-10",
+        "notes": "Limited public data on payment rates and event history. Can stack with NYISO programs. Must contact utility for detailed participation terms."
+      }
+    }
+  ]
+}

@@ -1,0 +1,529 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Demand Response Program Schema",
+  "description": "Comprehensive schema for defining demand response programs in the United States",
+  "type": "object",
+  "required": ["program_id", "program_name", "program_type", "status"],
+  "properties": {
+    "program_id": {
+      "type": "string",
+      "description": "Unique identifier for the program"
+    },
+    "program_name": {
+      "type": "string",
+      "description": "Official name of the demand response program"
+    },
+    "program_type": {
+      "type": "string",
+      "enum": ["wholesale_market", "utility", "retail_provider", "state", "iso", "aggregator", "other"],
+      "description": "Type of demand response program"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["active", "inactive", "planned", "discontinued"],
+      "description": "Current status of the program"
+    },
+    "description": {
+      "type": "string",
+      "description": "Detailed description of the program"
+    },
+    "geography": {
+      "type": "object",
+      "description": "Geographic applicability of the program",
+      "properties": {
+        "states": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "List of US state codes (e.g., TX, NY, CA)"
+        },
+        "utilities": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "List of utility companies where program is valid"
+        },
+        "isos": {
+          "type": "array",
+          "items": {"type": "string"},
+          "enum": ["ERCOT", "CAISO", "NYISO", "ISONE", "PJM", "MISO", "SPP"],
+          "description": "List of ISOs where program is valid"
+        },
+        "service_territories": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Specific service territories or zones"
+        }
+      }
+    },
+    "eligibility": {
+      "type": "object",
+      "description": "Eligibility requirements for program participation",
+      "properties": {
+        "customer_classes": {
+          "type": "object",
+          "description": "Customer class eligibility",
+          "properties": {
+            "residential": {
+              "type": "boolean",
+              "description": "Whether residential customers are eligible"
+            },
+            "commercial": {
+              "type": "boolean",
+              "description": "Whether commercial customers are eligible"
+            },
+            "industrial": {
+              "type": "boolean",
+              "description": "Whether industrial customers are eligible"
+            },
+            "residential_max_kw": {
+              "type": "number",
+              "description": "Maximum system size in kW for residential eligibility (if applicable)"
+            },
+            "commercial_min_kw": {
+              "type": "number",
+              "description": "Minimum system size in kW for commercial eligibility (if applicable)"
+            },
+            "size_threshold_notes": {
+              "type": "string",
+              "description": "Additional notes about size thresholds and class distinctions"
+            }
+          }
+        },
+        "behind_the_meter": {
+          "type": "boolean",
+          "description": "Whether behind-the-meter resources are eligible"
+        },
+        "front_of_meter": {
+          "type": "boolean",
+          "description": "Whether front-of-meter resources are eligible"
+        },
+        "minimum_capacity_kw": {
+          "type": "number",
+          "description": "Minimum capacity requirement in kW"
+        },
+        "maximum_capacity_kw": {
+          "type": "number",
+          "description": "Maximum capacity limit in kW (if any)"
+        },
+        "resource_types": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Eligible resource types (e.g., battery, generator, load curtailment)"
+        },
+        "requires_aggregator": {
+          "type": "boolean",
+          "description": "Whether participation requires an aggregator"
+        }
+      }
+    },
+    "notification": {
+      "type": "object",
+      "description": "Notice and dispatch requirements",
+      "properties": {
+        "day_ahead_notice": {
+          "type": "boolean",
+          "description": "Whether day-ahead notice is provided"
+        },
+        "minimum_notice_hours": {
+          "type": "number",
+          "description": "Minimum notice time in hours before event"
+        },
+        "maximum_notice_hours": {
+          "type": "number",
+          "description": "Maximum notice time in hours before event"
+        },
+        "notification_methods": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Methods of notification (email, SMS, API, phone, etc.)"
+        }
+      }
+    },
+    "payment_structure": {
+      "type": "object",
+      "description": "Compensation structure for program participation",
+      "properties": {
+        "has_capacity_payment": {
+          "type": "boolean",
+          "description": "Whether program includes capacity payments"
+        },
+        "has_performance_payment": {
+          "type": "boolean",
+          "description": "Whether program includes performance/energy payments"
+        },
+        "capacity_rate": {
+          "type": "object",
+          "description": "Capacity payment rate structure",
+          "properties": {
+            "value": {"type": "number"},
+            "unit": {
+              "type": "string",
+              "enum": ["$/kW-year", "$/kW-month", "$/kW-season", "$/MW-day"],
+              "description": "Unit of capacity payment"
+            },
+            "varies_by_season": {"type": "boolean"},
+            "seasonal_rates": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "season": {"type": "string"},
+                  "rate": {"type": "number"},
+                  "unit": {"type": "string"}
+                }
+              }
+            }
+          }
+        },
+        "performance_rate": {
+          "type": "object",
+          "description": "Performance payment rate structure",
+          "properties": {
+            "value": {"type": "number"},
+            "unit": {
+              "type": "string",
+              "enum": ["$/kWh", "$/MWh", "$/kW-event"],
+              "description": "Unit of performance payment"
+            },
+            "varies_by_season": {"type": "boolean"},
+            "varies_by_time": {"type": "boolean"},
+            "seasonal_rates": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "season": {"type": "string"},
+                  "rate": {"type": "number"},
+                  "unit": {"type": "string"}
+                }
+              }
+            }
+          }
+        },
+        "penalty_structure": {
+          "type": "object",
+          "description": "Penalties for non-performance",
+          "properties": {
+            "has_penalties": {"type": "boolean"},
+            "penalty_rate": {"type": "number"},
+            "penalty_unit": {"type": "string"},
+            "penalty_description": {"type": "string"}
+          }
+        },
+        "bonus_payments": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "description": {"type": "string"},
+              "rate": {"type": "number"},
+              "unit": {"type": "string"},
+              "conditions": {"type": "string"}
+            }
+          },
+          "description": "Additional bonus payment opportunities"
+        },
+        "forward_curve_available": {
+          "type": "boolean",
+          "description": "Whether published forward pricing curve exists"
+        },
+        "forward_curve_url": {
+          "type": "string",
+          "description": "URL to forward pricing information"
+        }
+      }
+    },
+    "seasons": {
+      "type": "array",
+      "description": "Seasonal structure of the program",
+      "items": {
+        "type": "object",
+        "required": ["season_name", "start_date", "end_date"],
+        "properties": {
+          "season_name": {
+            "type": "string",
+            "description": "Name of season (e.g., Summer, Winter, Peak)"
+          },
+          "start_date": {
+            "type": "string",
+            "format": "date",
+            "description": "Start date (MM-DD format)"
+          },
+          "end_date": {
+            "type": "string",
+            "format": "date",
+            "description": "End date (MM-DD format)"
+          },
+          "max_events": {
+            "type": "integer",
+            "description": "Maximum number of events in this season"
+          },
+          "max_hours": {
+            "type": "number",
+            "description": "Maximum total hours of events in this season"
+          }
+        }
+      }
+    },
+    "call_windows": {
+      "type": "array",
+      "description": "Time windows when events can be called",
+      "items": {
+        "type": "object",
+        "required": ["start_hour", "end_hour"],
+        "properties": {
+          "window_id": {"type": "string"},
+          "start_hour": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 23,
+            "description": "Start hour in 24-hour format (local time)"
+          },
+          "end_hour": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 23,
+            "description": "End hour in 24-hour format (local time)"
+          },
+          "days_of_week": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+            },
+            "description": "Days when this window is valid"
+          },
+          "seasons": {
+            "type": "array",
+            "items": {"type": "string"},
+            "description": "Seasons when this window applies"
+          },
+          "timezone": {
+            "type": "string",
+            "description": "Timezone for this window (e.g., America/New_York)"
+          }
+        }
+      }
+    },
+    "event_parameters": {
+      "type": "object",
+      "description": "Parameters defining event characteristics",
+      "properties": {
+        "typical_duration_hours": {
+          "type": "number",
+          "description": "Typical event duration in hours"
+        },
+        "minimum_duration_hours": {
+          "type": "number",
+          "description": "Minimum event duration in hours"
+        },
+        "maximum_duration_hours": {
+          "type": "number",
+          "description": "Maximum event duration in hours"
+        },
+        "event_granularity_minutes": {
+          "type": "integer",
+          "description": "Granularity of event dispatch (e.g., 15 for 15-minute intervals)"
+        },
+        "response_time_minutes": {
+          "type": "integer",
+          "description": "Required response time in minutes from notification"
+        },
+        "max_events_per_season": {
+          "type": "integer",
+          "description": "Maximum events per season (if not defined per season)"
+        },
+        "max_events_per_year": {
+          "type": "integer",
+          "description": "Maximum events per year"
+        },
+        "max_hours_per_season": {
+          "type": "number",
+          "description": "Maximum total event hours per season"
+        },
+        "max_hours_per_year": {
+          "type": "number",
+          "description": "Maximum total event hours per year"
+        },
+        "max_consecutive_events": {
+          "type": "integer",
+          "description": "Maximum number of consecutive days with events"
+        },
+        "minimum_rest_hours": {
+          "type": "number",
+          "description": "Minimum hours between events"
+        }
+      }
+    },
+    "nomination_bidding": {
+      "type": "object",
+      "description": "Nomination and bidding process requirements",
+      "properties": {
+        "requires_nomination": {
+          "type": "boolean",
+          "description": "Whether capacity nomination is required"
+        },
+        "nomination_frequency": {
+          "type": "string",
+          "enum": ["annual", "seasonal", "monthly", "event-based", "none"],
+          "description": "How often nominations must be submitted"
+        },
+        "nomination_deadline": {
+          "type": "string",
+          "description": "Deadline for nominations (e.g., '30 days before season start')"
+        },
+        "allows_price_bidding": {
+          "type": "boolean",
+          "description": "Whether participants can bid prices"
+        },
+        "bidding_structure": {
+          "type": "string",
+          "description": "Description of bidding process if applicable"
+        },
+        "enrollment_period": {
+          "type": "object",
+          "properties": {
+            "start_date": {"type": "string"},
+            "end_date": {"type": "string"},
+            "recurring": {"type": "boolean"}
+          }
+        }
+      }
+    },
+    "special_programs": {
+      "type": "object",
+      "description": "Special program characteristics",
+      "properties": {
+        "is_rec_based": {
+          "type": "boolean",
+          "description": "Whether program is based on Renewable Energy Certificates"
+        },
+        "rec_type": {
+          "type": "string",
+          "description": "Type of REC or environmental certificate (e.g., Clean Peak Certificate)"
+        },
+        "scheduled_dispatch": {
+          "type": "boolean",
+          "description": "Whether program uses scheduled dispatch windows vs event-based"
+        },
+        "clean_peak_standard": {
+          "type": "boolean",
+          "description": "Whether program is a Clean Peak Standard program"
+        },
+        "special_attributes": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Other special program characteristics"
+        }
+      }
+    },
+    "program_history": {
+      "type": "object",
+      "description": "Historical information about the program",
+      "properties": {
+        "launch_year": {
+          "type": "integer",
+          "description": "Year the program was launched"
+        },
+        "program_evolution": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "year": {"type": "integer"},
+              "change_description": {"type": "string"}
+            }
+          },
+          "description": "Major changes to program over time"
+        },
+        "budget_committed_through": {
+          "type": "integer",
+          "description": "Year through which program has committed budget"
+        },
+        "total_annual_budget": {
+          "type": "number",
+          "description": "Total annual program budget if available"
+        }
+      }
+    },
+    "historical_events": {
+      "type": "array",
+      "description": "Historical event calls for this program",
+      "items": {
+        "type": "object",
+        "required": ["event_date", "start_time", "end_time"],
+        "properties": {
+          "event_id": {"type": "string"},
+          "event_date": {
+            "type": "string",
+            "format": "date"
+          },
+          "start_time": {
+            "type": "string",
+            "format": "time"
+          },
+          "end_time": {
+            "type": "string",
+            "format": "time"
+          },
+          "duration_hours": {"type": "number"},
+          "season": {"type": "string"},
+          "notification_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When notification was sent"
+          },
+          "advance_notice_hours": {"type": "number"},
+          "call_window": {"type": "string"},
+          "performance_payment_rate": {"type": "number"},
+          "total_mw_called": {"type": "number"},
+          "notes": {"type": "string"}
+        }
+      }
+    },
+    "data_sources": {
+      "type": "array",
+      "description": "Sources of information for this program",
+      "items": {
+        "type": "object",
+        "properties": {
+          "source_name": {"type": "string"},
+          "url": {"type": "string"},
+          "last_updated": {
+            "type": "string",
+            "format": "date"
+          },
+          "data_type": {
+            "type": "string",
+            "enum": ["program_rules", "pricing", "historical_events", "enrollment"]
+          }
+        }
+      }
+    },
+    "integration_metadata": {
+      "type": "object",
+      "description": "Metadata for integration with optimization systems",
+      "properties": {
+        "optimizer_compatible": {
+          "type": "boolean",
+          "description": "Whether program can be integrated with battery optimizer"
+        },
+        "api_available": {
+          "type": "boolean",
+          "description": "Whether program has API for automated dispatch"
+        },
+        "api_documentation_url": {"type": "string"},
+        "data_quality_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10,
+          "description": "Quality score of available data (0-10)"
+        },
+        "last_verified_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "notes": {"type": "string"}
+      }
+    }
+  }
+}

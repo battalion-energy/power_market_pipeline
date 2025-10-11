@@ -156,20 +156,21 @@ def _period_revenue_exact(year: int, month_start: int, month_end: int, df_map: p
         rt_net = float(df_dp.select(pl.col('rt_net_revenue_hour').sum()).item() or 0.0)
         da_energy = float(df_dp.select(pl.col('da_energy_revenue_hour').sum()).item() or 0.0)
         # AS revenues (hourly awards × MCPC)
-        def safe_sum(col):
-            return float(df_aw.select(pl.when(pl.col(col).is_not_null(), pl.col(col)).otherwise(0.0).sum()).item() or 0.0)
-        as_regup = safe_sum('regup_mw') * 0.0
-        # compute hourly sum of awards*mcpc
-        for prod in [('regup_mw','regup_mcpc'),('regdown_mw','regdown_mcpc'),('rrs_mw','rrs_mcpc'),('ecrs_mw','ecrs_mcpc'),('nonspin_mw','nonspin_mcpc')]:
-            c_mw,c_p = prod
+        for c_mw, c_p in [('regup_mw','regup_mcpc'),('regdown_mw','regdown_mcpc'),('rrs_mw','rrs_mcpc'),('ecrs_mw','ecrs_mcpc'),('nonspin_mw','nonspin_mcpc')]:
             if c_mw in df_aw.columns and c_p in df_aw.columns:
-                df_aw = df_aw.with_columns(((pl.col(c_mw).fill_null(0.0) * pl.col(c_p).fill_null(0.0)).alias(f'{c_mw}_rev')))
+                df_aw = df_aw.with_columns((pl.col(c_mw).fill_null(0.0) * pl.col(c_p).fill_null(0.0)).alias(f'{c_mw}_rev'))
         as_total = 0.0
         for c in ['regup_mw_rev','regdown_mw_rev','rrs_mw_rev','ecrs_mw_rev','nonspin_mw_rev']:
             if c in df_aw.columns:
                 as_total += float(df_aw.select(pl.col(c).sum()).item() or 0.0)
         total = da_energy + rt_net + as_total
-        rows.append({'bess_name': bess,'capacity_mw': float(cap),'settlement_point_final': sp,'da_revenue': da_energy,'rt_revenue': rt_net,'as_revenue': as_total,'total_revenue': total})
+        rows.append({'bess_name': bess,
+                     'capacity_mw': float(cap),
+                     'settlement_point_final': sp,
+                     'da_revenue': da_energy,
+                     'rt_revenue': rt_net,
+                     'as_revenue': as_total,
+                     'total_revenue': total})
     return pd.DataFrame(rows)
 
 
@@ -257,8 +258,8 @@ def create_period_charts(year: int, df_revenue_all: pd.DataFrame, tb2_daily: pl.
             # Annualized revenue per kW (multiply quarterly by 4 to get annual rate)
             (pl.col('da_revenue') / (pl.col('capacity_mw') * 1000) * (365/days_in_q)).alias('da_per_kw'),
             (pl.col('rt_revenue') / (pl.col('capacity_mw') * 1000) * (365/days_in_q)).alias('rt_per_kw'),
-            ((pl.col('dam_as_gen_regup') + pl.col('dam_as_load_regup')) / (pl.col('capacity_mw') * 1000) * (365/days_in_q)).alias('regup_per_kw'),
-            ((pl.col('dam_as_gen_regdown') + pl.col('dam_as_load_regdown')) / (pl.col('capacity_mw') * 1000) * (365/days_in_q)).alias('regdown_per_kw'),
+            pl.lit(0.0).alias('regup_per_kw'),
+            pl.lit(0.0).alias('regdown_per_kw'),
             (pl.col('as_revenue') / (pl.col('capacity_mw') * 1000) * (365/days_in_q)).alias('reserves_per_kw'),
             pl.lit(0.0).alias('ecrs_per_kw'),
             pl.lit(0.0).alias('nonspin_per_kw'),
@@ -312,8 +313,8 @@ def create_period_charts(year: int, df_revenue_all: pd.DataFrame, tb2_daily: pl.
         df_m_with_tb2 = df_m_with_tb2.with_columns([
             (pl.col('da_revenue') / (pl.col('capacity_mw') * 1000) * (365/days_in_month)).alias('da_per_kw'),
             (pl.col('rt_revenue') / (pl.col('capacity_mw') * 1000) * (365/days_in_month)).alias('rt_per_kw'),
-            ((pl.col('dam_as_gen_regup') + pl.col('dam_as_load_regup')) / (pl.col('capacity_mw') * 1000) * (365/days_in_month)).alias('regup_per_kw'),
-            ((pl.col('dam_as_gen_regdown') + pl.col('dam_as_load_regdown')) / (pl.col('capacity_mw') * 1000) * (365/days_in_month)).alias('regdown_per_kw'),
+            pl.lit(0.0).alias('regup_per_kw'),
+            pl.lit(0.0).alias('regdown_per_kw'),
             (pl.col('as_revenue') / (pl.col('capacity_mw') * 1000) * (365/days_in_month)).alias('reserves_per_kw'),
             pl.lit(0.0).alias('ecrs_per_kw'),
             pl.lit(0.0).alias('nonspin_per_kw'),
@@ -342,14 +343,19 @@ def main():
     for year in range(2019, 2025):
         file_telem = f"bess_revenue_{year}_TELEMETERED.csv"
         file_regular = f"bess_revenue_{year}.csv"
+        p_t = Path(file_telem)
+        p_r = Path(file_regular)
+        try:
+            if p_t.exists() and p_t.stat().st_size > 0:
+                all_revenue.append(pd.read_csv(p_t))
+            elif p_r.exists() and p_r.stat().st_size > 0:
+                all_revenue.append(pd.read_csv(p_r))
+        except Exception:
+            pass
 
-        if Path(file_telem).exists():
-            df_year = pd.read_csv(file_telem)
-            all_revenue.append(df_year)
-        elif Path(file_regular).exists():
-            df_year = pd.read_csv(file_regular)
-            all_revenue.append(df_year)
-
+    if not all_revenue:
+        logger.warning("No annual revenue CSVs found; skipping charts")
+        return
     df_revenue_all = pd.concat(all_revenue, ignore_index=True)
     logger.info(f"Loaded {len(df_revenue_all)} battery-year records")
 

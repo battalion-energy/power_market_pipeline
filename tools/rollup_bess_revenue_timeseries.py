@@ -117,7 +117,8 @@ def main():
     args = p.parse_args()
 
     base = Path(args.base_dir)
-    out_dir = Path(args.out_dir) if args.out_dir else (base / 'bess_analysis' / 'rollups')
+    # Default to repo-local output unless --out-dir is given to avoid permission issues
+    out_dir = Path(args.out_dir) if args.out_dir else Path('tools/output/rollups')
     out_dir.mkdir(parents=True, exist_ok=True)
 
     years = [int(x) for x in args.years.split(',')]
