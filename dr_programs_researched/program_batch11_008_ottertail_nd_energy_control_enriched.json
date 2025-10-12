@@ -1,0 +1,389 @@
+{
+  "program_id": "OTTERTAIL-ND-ENERGY-CONTROL",
+  "program_name": "Energy Control Options",
+  "program_type": "direct_load_control",
+  "status": "active",
+  "description": "Otter Tail Power Company's Energy Control Options is a portfolio of direct load control programs offering reduced electric rates (25-50% below standard rates) in exchange for allowing the utility to control specific loads during peak demand periods. The flagship Residential Demand Control (RDC) program provides approximately 25% rate reduction for all energy used by residential customers who install a UL-approved demand controller. The portfolio includes specialized programs for water heating control, thermal storage, air conditioning cycling, and dual fuel systems. Commercial and industrial customers can participate through interruptible heating, thermal storage, and air conditioning control programs. Service may be controlled up to 14 hours per day for most programs, with dual fuel heating controllable up to 24 hours per day. The program has been in operation for many years and is available across North Dakota, Minnesota, and South Dakota service territories.",
+  "geography": {
+    "states": ["ND", "MN", "SD"],
+    "utilities": ["Otter Tail Power Company"],
+    "isos": ["MISO"],
+    "service_territories": [
+      "Bemidji",
+      "Crookston",
+      "Devils Lake",
+      "Fergus Falls",
+      "Grand Forks",
+      "Jamestown",
+      "Wahpeton",
+      "Various rural communities in western Minnesota, eastern North Dakota, and northeastern South Dakota"
+    ]
+  },
+  "eligibility": {
+    "customer_classes": {
+      "residential": true,
+      "commercial": true,
+      "industrial": true,
+      "commercial_min_kw": 20,
+      "size_threshold_notes": "Residential programs available to all residential customers with qualifying loads. Commercial/industrial programs require measured demand of at least 20 kW during most recent 12 months for demand-based rates. No maximum size specified."
+    },
+    "behind_the_meter": true,
+    "front_of_meter": false,
+    "minimum_capacity_kw": null,
+    "maximum_capacity_kw": null,
+    "resource_types": [
+      "Electric heating systems",
+      "Water heaters",
+      "Air conditioning (central)",
+      "Thermal storage systems (underfloor heating, central storage furnaces)",
+      "Heat pumps",
+      "Electric vehicle charging (when paired with thermal storage)",
+      "Dual fuel systems (electric + alternate fuel backup)",
+      "General household loads via demand controller (RDC)"
+    ],
+    "requires_aggregator": false
+  },
+  "notification": {
+    "day_ahead_notice": false,
+    "minimum_notice_hours": null,
+    "maximum_notice_hours": null,
+    "notification_methods": [
+      "My Account portal alerts (optional for customers)",
+      "Direct control signal to equipment",
+      "Demand controller automatic management"
+    ]
+  },
+  "payment_structure": {
+    "has_capacity_payment": false,
+    "has_performance_payment": false,
+    "capacity_rate": {
+      "value": null,
+      "unit": null,
+      "varies_by_season": false,
+      "seasonal_rates": []
+    },
+    "performance_rate": {
+      "value": null,
+      "unit": null,
+      "varies_by_season": false,
+      "varies_by_time": false,
+      "seasonal_rates": []
+    },
+    "rate_reduction_structure": {
+      "description": "Instead of traditional capacity or performance payments, this program offers significantly reduced electric rates. Payment is structured as ongoing rate reduction rather than separate incentive payments.",
+      "residential_rdc": {
+        "rate_reduction_percentage": 25,
+        "typical_annual_savings": 300,
+        "currency": "USD",
+        "north_dakota_rates": {
+          "customer_charge_monthly": 20.10,
+          "demand_charge_per_kw": 8.00,
+          "energy_charge_june_sept_per_kwh": 0.03379,
+          "energy_charge_oct_may_per_kwh": 0.03461
+        },
+        "notes": "Demand charge based on highest one-hour winter-season demand reading in past 12 months. Typical customer saves approximately $300/year."
+      },
+      "general_energy_control": {
+        "rate_reduction_range_percent": "30-50",
+        "notes": "Various energy control programs offer 30-50% reduction below standard rates depending on program type and control flexibility"
+      },
+      "equipment_costs": {
+        "rdc_controller_purchase": 875,
+        "rdc_controller_lease": {
+          "monthly_payment": 20,
+          "number_of_payments": 48,
+          "final_buyout": 1,
+          "total_cost": 961,
+          "notes": "Lease payments added to monthly electric service statement"
+        }
+      }
+    },
+    "penalty_structure": {
+      "has_penalties": true,
+      "penalty_rate": null,
+      "penalty_unit": null,
+      "penalty_description": "Fixed Time of Delivery programs (rate codes 301, 302, 303) have penalty rates for unauthorized usage outside delivery window (10 PM - 6 AM). RDC program charges demand-based rates if customer exceeds their set demand level. Specific penalty rates not publicly disclosed in available documentation."
+    },
+    "bonus_payments": [
+      {
+        "description": "Additional heat pump rebate for RDC customers",
+        "amount": 40,
+        "unit": "$/ton",
+        "condition": "When heat pump is subject to energy control on RDC Rate"
+      }
+    ],
+    "forward_curve_available": false,
+    "forward_curve_url": null
+  },
+  "seasons": [
+    {
+      "season_name": "Summer",
+      "start_date": "June 1",
+      "end_date": "September 30",
+      "notes": "Lower energy charges during summer months. Air conditioning control programs operate during cooling season (maximum 300 hours of cycling)."
+    },
+    {
+      "season_name": "Winter",
+      "start_date": "October 1",
+      "end_date": "May 31",
+      "notes": "Higher energy charges during winter months. Demand charges based on highest one-hour winter-season demand reading. Heating load control programs most active during winter."
+    }
+  ],
+  "call_windows": [
+    {
+      "window_description": "Evening peak control",
+      "typical_start_time": "18:00",
+      "typical_end_time": "21:00",
+      "days_of_week": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+      "season": "All year",
+      "notes": "Historical control events show typical 25-30 minute durations during 6-9 PM window. Actual control timing varies by load type and system needs."
+    },
+    {
+      "window_description": "Off-peak delivery (Fixed Time of Delivery programs)",
+      "typical_start_time": "22:00",
+      "typical_end_time": "06:00",
+      "days_of_week": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+      "season": "All year",
+      "notes": "Rate codes 301, 302, 303: Energy only delivered during this window. Other hours unauthorized and subject to penalty rates."
+    }
+  ],
+  "event_parameters": {
+    "typical_duration_hours": 0.5,
+    "minimum_duration_hours": null,
+    "maximum_duration_hours": 14,
+    "event_granularity_minutes": 15,
+    "response_time_minutes": 0,
+    "max_events_per_season": null,
+    "max_events_per_year": null,
+    "max_hours_per_season": null,
+    "max_hours_per_year": null,
+    "max_consecutive_events": null,
+    "minimum_rest_hours": null,
+    "control_characteristics": {
+      "rdc_program": "Service may be controlled up to 14 hours per day. Demand controller automatically manages loads when demand exceeds customer-set level.",
+      "water_heating": "Loads may be controlled up to 14 hours per day",
+      "air_conditioning_control": "Central cooling cycled 15 minutes on / 15 minutes off. Dual stage systems: first stage runs continuously, second stage shut off during control. Maximum 300 hours of cycling during cooling season.",
+      "thermal_storage": "Loads may be controlled up to 14 hours per day",
+      "dual_fuel_heating": "Heating loads may be controlled up to 24 hours per day. Water heating loads may be controlled up to 14 hours per day.",
+      "typical_event_duration": "Historical data shows typical control events lasting 25-30 minutes"
+    }
+  },
+  "nomination_bidding": {
+    "requires_nomination": true,
+    "nomination_frequency": "One-time at enrollment",
+    "nomination_deadline": "Must enroll and install approved equipment before participation begins",
+    "allows_price_bidding": false,
+    "bidding_structure": null,
+    "enrollment_period": {
+      "start_date": null,
+      "end_date": null,
+      "recurring": false,
+      "notes": "Open enrollment year-round. Contact Customer Service Center at 800-257-4044 to enroll."
+    }
+  },
+  "special_programs": {
+    "is_rec_based": false,
+    "rec_type": null,
+    "scheduled_dispatch": false,
+    "clean_peak_standard": false,
+    "special_attributes": [
+      "Multiple program variants for different load types",
+      "Equipment purchase or lease-to-own options for RDC controllers",
+      "Customer can set preferred demand level on RDC controller",
+      "Applies to ALL energy used by customer (not just controlled loads) for RDC program",
+      "Combines with heating/cooling rebates for additional savings",
+      "Operates across three-state service territory with state-specific rates",
+      "48-hour history of control events available through My Account portal",
+      "Alert system available for customers to receive control event notifications",
+      "Fixed Time of Delivery programs restrict energy delivery to overnight hours only"
+    ]
+  },
+  "program_history": {
+    "launch_year": null,
+    "program_evolution": [
+      {
+        "year": 2024,
+        "change_description": "North Dakota Public Service Commission approved rate case including demand control program rates, effective January 1, 2024 on interim basis."
+      },
+      {
+        "year": 2025,
+        "change_description": "PSC approved final rates effective March 15, 2025 (to be implemented approximately 120 days after final order, likely Q1 2025). Net annual revenue increase of 6.16% for North Dakota customers."
+      }
+    ],
+    "budget_committed_through": null,
+    "total_annual_budget": null
+  },
+  "historical_events": [],
+  "data_sources": [
+    {
+      "source_name": "Otter Tail Power - Current and Recent Energy Control",
+      "url": "https://www.otpco.com/energy-control/current-and-recent-energy-control/",
+      "last_updated": "2025-10-12",
+      "data_type": "program_rules",
+      "notes": "Control event schedules and 48-hour history"
+    },
+    {
+      "source_name": "Otter Tail Power - Residential Demand Control (RDC)",
+      "url": "https://www.otpco.com/ways-to-save/programs/residential-demand-control-rdc/",
+      "last_updated": "2025-10-12",
+      "data_type": "program_rules",
+      "notes": "Detailed RDC program description, savings estimates, equipment costs"
+    },
+    {
+      "source_name": "Otter Tail Power - North Dakota Residential Rate Summary",
+      "url": "https://www.otpco.com/pricing/north-dakota/residential-rate-summary-nd/",
+      "last_updated": "2025-10-12",
+      "data_type": "rate_schedules",
+      "notes": "Complete rate structure for RDC Rate (code 241) in North Dakota"
+    },
+    {
+      "source_name": "Otter Tail Power - North Dakota Commercial Rate Summary",
+      "url": "https://www.otpco.com/pricing/north-dakota/commercial-rate-summary-nd/",
+      "last_updated": "2025-10-12",
+      "data_type": "rate_schedules",
+      "notes": "Commercial and industrial demand control program rates including dual fuel, thermal storage, air conditioning control"
+    },
+    {
+      "source_name": "Otter Tail Power - North Dakota Rates, Rules, and Regulations",
+      "url": "https://www.otpco.com/pricing/north-dakota/rates-rules-and-regulations-nd/",
+      "last_updated": "2025-10-12",
+      "data_type": "program_rules",
+      "notes": "Section 14 voluntary riders including water heating control (14.01), thermal storage (14.06), air conditioning control (14.08), bulk interruptible service (14.12)"
+    },
+    {
+      "source_name": "Otter Tail Power - North Dakota Rate Case Information",
+      "url": "https://www.otpco.com/pricing/north-dakota/north-dakota-rate-case/",
+      "last_updated": "2025-10-12",
+      "data_type": "regulatory_filings",
+      "notes": "2024-2025 rate case approval and implementation timeline"
+    }
+  ],
+  "integration_metadata": {
+    "optimizer_compatible": false,
+    "api_available": false,
+    "api_documentation_url": null,
+    "data_quality_score": 6,
+    "last_verified_date": "2025-10-12",
+    "notes": "Data quality score of 6/10. Strong documentation of program structure, rate reductions, control characteristics, and equipment costs. However, several key elements for battery optimization are missing: specific penalty rates, maximum event frequency/duration limits, exact control algorithms, and explicit battery storage eligibility. Program is clearly designed for traditional controllable loads (heating, cooling, water heating) rather than battery storage systems. No mention of battery participation in any available documentation. Rate reduction payment structure is well-documented but differs from traditional capacity/performance payment model used by most battery-suitable DR programs."
+  },
+  "related_dr_programs": {
+    "note": "All programs are part of Otter Tail Power's Energy Control Options portfolio",
+    "programs": [
+      {
+        "program_name": "Residential Demand Control (RDC)",
+        "rate_code": "241",
+        "customer_class": "Residential",
+        "rate_reduction": "~25%",
+        "control_hours": "Up to 14 hours/day",
+        "typical_savings": "$300/year"
+      },
+      {
+        "program_name": "Water Heating Control Rider",
+        "rate_code": "14.01",
+        "customer_class": "Residential and Commercial",
+        "control_hours": "Up to 14 hours/day"
+      },
+      {
+        "program_name": "Controlled Service - Deferred Load Rider (Thermal Storage)",
+        "rate_code": "14.06, 195, 197",
+        "customer_class": "Residential and Commercial",
+        "control_hours": "Up to 14 hours/day",
+        "notes": "Includes underfloor heating, central storage furnaces, water heaters, EV charging, heat pumps with heat storage"
+      },
+      {
+        "program_name": "Air Conditioning Control Rider",
+        "rate_code": "14.08, 760, 762",
+        "customer_class": "Residential and Commercial",
+        "control_method": "15 minutes on / 15 minutes off cycling",
+        "max_hours": "300 hours per cooling season",
+        "payment": "Monthly bill credits"
+      },
+      {
+        "program_name": "Dual Fuel - Small",
+        "rate_code": "185, 190",
+        "customer_class": "Commercial",
+        "control_hours": "Heating: up to 24 hours/day, Water heating: up to 14 hours/day",
+        "requirements": "Alternate fuel backup system"
+      },
+      {
+        "program_name": "Dual Fuel - Large",
+        "rate_code": "165, 170, 168C, 169C",
+        "customer_class": "Commercial/Industrial",
+        "control_hours": "Heating: up to 24 hours/day, Water heating: up to 14 hours/day",
+        "requirements": "CT metering, alternate fuel backup, Option 2 allows up to 5% off-peak load during control"
+      },
+      {
+        "program_name": "Fixed Time of Delivery",
+        "rate_code": "301, 302, 303",
+        "customer_class": "Commercial/Industrial",
+        "delivery_window": "10 PM - 6 AM only",
+        "notes": "Energy delivery restricted to overnight hours. Unauthorized usage subject to penalty rates."
+      },
+      {
+        "program_name": "Bulk Interruptible Service",
+        "rate_code": "14.12",
+        "customer_class": "Large Commercial/Industrial",
+        "notes": "Limited information available in public tariff summaries"
+      }
+    ]
+  },
+  "battery_suitability": {
+    "rating": "Poor",
+    "justification": "The Energy Control Options portfolio is poorly suited for battery energy storage systems for several critical reasons: (1) No explicit battery storage eligibility - all programs are designed around traditional controllable loads like heating, cooling, and water heating; (2) Payment structure is rate reduction rather than separate capacity/performance payments, making revenue calculation complex and likely uneconomical for standalone battery projects; (3) Control requirements (up to 14-24 hours/day) are incompatible with typical battery discharge durations (2-4 hours); (4) RDC program requires residential customer with UL-approved demand controller wired to panel, not designed for battery integration; (5) Commercial programs focus on interruptible heating with alternate fuel backup or thermal storage, not battery discharge; (6) No visibility into dispatch optimization or price signals that batteries could respond to; (7) Equipment costs ($875 purchase or $961 lease for RDC controller) add upfront investment; (8) Rate reduction benefit applies to all customer energy usage, which doesn't align with battery charging/discharging economics; (9) Program operates in MISO territory where wholesale market participation may offer better battery revenue opportunities; (10) No API or automated dispatch capability mentioned. While a behind-the-meter battery paired with a large commercial facility might technically qualify for some programs (e.g., using battery discharge as 'interruptible load'), the economics would be far inferior to wholesale market participation or ISO-based demand response programs with explicit capacity and energy payments.",
+    "technical_compatibility": {
+      "discharge_duration_match": "Poor - Programs designed for 14-24 hour control windows, batteries typically discharge 2-4 hours",
+      "response_time_match": "Good - Batteries can provide immediate response to control signals",
+      "cycling_frequency_match": "Unknown - Maximum event frequency not disclosed",
+      "control_technology_match": "Poor - Programs use demand controllers for residential, thermal storage/dual fuel for commercial, not battery-specific controls"
+    },
+    "economic_viability": {
+      "revenue_potential": "Low - Rate reduction payment structure makes it difficult to isolate battery-specific revenue. $300/year typical residential savings is far too low for battery project economics.",
+      "compared_to_wholesale": "Much worse - MISO wholesale market participation would offer significantly higher revenue potential for battery storage",
+      "stacking_opportunity": "Limited - Could theoretically stack with behind-the-meter benefits (demand charge reduction, energy arbitrage) but program structure not designed for this",
+      "payback_period": "Unfavorable - Equipment costs plus battery capital costs would result in very long payback periods given low annual savings"
+    },
+    "regulatory_barriers": {
+      "explicit_prohibition": false,
+      "implicit_barriers": true,
+      "barrier_description": "No explicit prohibition on batteries, but all program documentation and equipment specifications are designed around traditional load types. Unclear if utility would approve battery system as qualifying 'controllable load'. Would likely require custom interconnection agreement and program interpretation."
+    }
+  },
+  "research_summary": {
+    "time_spent_minutes": 25,
+    "key_finding": "Otter Tail Power's Energy Control Options is a well-established, multi-program portfolio offering 25-50% rate reductions for customers who allow load control. The flagship RDC program provides ~25% savings (~$300/year) for residential customers with demand controllers. Commercial programs include thermal storage, dual fuel, air conditioning control, and fixed time-of-delivery options. However, the entire portfolio is designed around traditional controllable loads (heating, cooling, water heating) with no mention of battery storage. The rate reduction payment structure, extended control hours (14-24 hours/day), and lack of battery-specific provisions make this poorly suited for battery energy storage optimization.",
+    "data_integrity": "All information verified from official Otter Tail Power Company website and North Dakota rate schedules. No data invented. Rate structures, control hours, equipment costs, and program descriptions extracted from primary sources. Some details missing (penalty rates, maximum event frequency, battery eligibility) because they are not disclosed in publicly available documentation.",
+    "program_classification": "Direct Load Control - Rate Reduction Model",
+    "recommendation_for_battery_optimization": "DO NOT prioritize this program for battery optimization. The Energy Control Options portfolio is designed for traditional controllable loads, not battery storage systems. Key barriers include: rate reduction payment structure (vs capacity/performance payments), extended control hours incompatible with battery discharge durations, no battery-specific eligibility or controls, and low annual savings ($300 typical residential) that cannot support battery economics. Battery developers in Otter Tail service territory should instead focus on: (1) MISO wholesale market participation (energy arbitrage, capacity market, ancillary services), (2) Behind-the-meter applications for large C&I customers (demand charge reduction, backup power, energy cost reduction), (3) Other utility programs in the region that explicitly accommodate battery storage. If pursuing Otter Tail programs, would need custom agreements and program interpretation - likely not economically viable given better alternatives.",
+    "missing_information": [
+      "Explicit battery storage eligibility or prohibition",
+      "Specific penalty rates for Fixed Time of Delivery programs",
+      "Maximum number of control events per year/season",
+      "Maximum total control hours per year/season",
+      "Exact control algorithms and dispatch logic",
+      "Historical event frequency data beyond 48-hour window",
+      "Detailed terms and conditions for Bulk Interruptible Service (14.12)",
+      "Process for custom load types not explicitly listed in tariffs",
+      "Interconnection requirements for non-traditional controllable resources",
+      "Metering and telemetry requirements for controlled loads",
+      "API or automated dispatch capabilities (if any)"
+    ],
+    "verified_information": [
+      "RDC program offers approximately 25% rate reduction for all energy usage",
+      "Typical RDC customer saves $300 annually",
+      "RDC controller equipment costs $875 purchase or $961 total via lease",
+      "North Dakota RDC rates: $20.10/month customer charge, $8/kW demand charge, 3.379-3.461 cents/kWh energy charge",
+      "Service may be controlled up to 14 hours/day for most programs",
+      "Dual fuel heating may be controlled up to 24 hours/day",
+      "Air conditioning control uses 15-min on/15-min off cycling, max 300 hours per season",
+      "Typical control events last 25-30 minutes during 6-9 PM window",
+      "Programs cover residential, commercial, and industrial customers",
+      "Commercial programs require minimum 20 kW measured demand for demand-based rates",
+      "Open enrollment year-round via Customer Service Center (800-257-4044)",
+      "Fixed Time of Delivery programs restrict energy to 10 PM - 6 AM window",
+      "Programs operate across North Dakota, Minnesota, and South Dakota",
+      "48-hour control event history available through My Account portal",
+      "Additional $40/ton heat pump rebate for RDC customers",
+      "2025 rates effective March 15, 2025 per North Dakota PSC approval"
+    ]
+  }
+}

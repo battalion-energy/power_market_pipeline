@@ -1,0 +1,312 @@
+{
+  "program_id": "central_hudson_tdr_001",
+  "program_name": "Central Hudson Targeted Demand Response (TDR) Program",
+  "program_type": "utility",
+  "status": "active",
+  "description": "The Central Hudson Targeted Demand Response (TDR) program is exclusively offered to commercial and industrial customers located in specific energy-constrained areas. The program uses demand response as an alternative to traditional growth-related infrastructure investments within targeted areas of Central Hudson's service territory, a strategy known as a 'non-wires alternative'. Participants commit to reduce their electricity usage at critical times during the summer season and receive monthly capacity payments.",
+  "geography": {
+    "states": ["NY"],
+    "utilities": ["Central Hudson Gas & Electric Corporation"],
+    "isos": ["NYISO"],
+    "service_territories": [
+      "Energy-constrained areas within Central Hudson service territory",
+      "Lower Hudson Valley Capacity Zone (implemented May 2014)",
+      "Targeted Demand Management (TDM) Load Zones"
+    ]
+  },
+  "eligibility": {
+    "customer_classes": {
+      "residential": false,
+      "commercial": true,
+      "industrial": true,
+      "size_threshold_notes": "Program is designed for commercial and industrial customers only. Residential customers have separate TDM programs."
+    },
+    "behind_the_meter": true,
+    "front_of_meter": "not specified",
+    "minimum_capacity_kw": 50,
+    "maximum_capacity_kw": "not specified",
+    "resource_types": [
+      "load curtailment",
+      "battery energy storage systems",
+      "behind-the-meter generation"
+    ],
+    "requires_aggregator": false,
+    "aggregator_notes": "Direct participants receive full rate. Aggregator participants receive negotiated rate.",
+    "additional_requirements": [
+      "Must be located in eligible program area (energy-constrained zones)",
+      "Must have interval metering installed",
+      "Minimum 10 days of interval meter data required by enrollment deadline",
+      "TDR Program participants are not eligible to participate in CSRP Program"
+    ]
+  },
+  "notification": {
+    "day_ahead_notice": true,
+    "minimum_notice_hours": 2,
+    "maximum_notice_hours": "not specified",
+    "notification_methods": [
+      "email",
+      "phone"
+    ],
+    "notification_details": "Day-ahead notices provided by 5 PM via email and phone. In-day notifications provided at least 2 hours prior to event start."
+  },
+  "payment_structure": {
+    "has_capacity_payment": true,
+    "has_performance_payment": true,
+    "capacity_rate": {
+      "value": 6.825,
+      "unit": "$/kW-month",
+      "varies_by_season": true,
+      "seasonal_rates": [
+        {
+          "season": "Summer (June-September)",
+          "rate": 6.825,
+          "unit": "$/kW-month",
+          "notes": "4-month season results in $27.30/kW total seasonal payment"
+        }
+      ],
+      "annual_equivalent": 27.30,
+      "annual_equivalent_notes": "Based on 4 months (June-September) at $6.825/kW-month = $27.30/kW per summer season",
+      "proration": "Prorated for partial season participation"
+    },
+    "performance_rate": {
+      "value": "not specified",
+      "unit": "not specified",
+      "varies_by_season": "not specified",
+      "varies_by_time": "not specified",
+      "performance_notes": "Performance determines payment percentage (0-100%). Must curtail committed load during events and test events. Participant incentives are paid based on actual seasonal-average reductions, calculated using the customer baseline load (CBL) baseline methodology."
+    },
+    "penalty_structure": {
+      "has_penalties": "not specified",
+      "penalty_rate": "not specified",
+      "penalty_unit": "not specified",
+      "penalty_description": "Penalties not explicitly stated in public materials. Performance requirements determine payment percentage."
+    },
+    "bonus_payments": [],
+    "forward_curve_available": false,
+    "forward_curve_url": "not available",
+    "payment_recipient_notes": "Direct participants receive full rate ($6.825/kW-month). Aggregator participants receive negotiated rate."
+  },
+  "seasons": [
+    {
+      "season_name": "Summer",
+      "start_date": "06-01",
+      "end_date": "09-30",
+      "max_events": "not specified",
+      "max_hours": "not specified",
+      "season_notes": "Program participation period is June 1 - September 30"
+    }
+  ],
+  "call_windows": [
+    {
+      "window_id": "standard_events",
+      "start_hour": 12,
+      "end_hour": 20,
+      "days_of_week": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday"
+      ],
+      "seasons": ["Summer"],
+      "timezone": "America/New_York",
+      "notes": "Events occur between noon and 8 PM. Will not occur on weekends or federal holidays."
+    },
+    {
+      "window_id": "test_events",
+      "start_hour": 14,
+      "end_hour": 18,
+      "days_of_week": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday"
+      ],
+      "seasons": ["Summer"],
+      "timezone": "America/New_York",
+      "notes": "Test events scheduled between July 24-August 7, 2 PM - 6 PM on non-holiday weekdays"
+    }
+  ],
+  "event_parameters": {
+    "typical_duration_hours": 4,
+    "minimum_duration_hours": 0.5,
+    "maximum_duration_hours": 8,
+    "event_granularity_minutes": "not specified",
+    "response_time_minutes": "not specified",
+    "max_events_per_season": "not specified",
+    "max_events_per_year": "not specified",
+    "max_hours_per_season": "not specified",
+    "max_hours_per_year": "not specified",
+    "max_consecutive_events": "not specified",
+    "minimum_rest_hours": "not specified",
+    "event_details": "Typical events last 4 hours of curtailment. Emergency situations may require up to 8 hours. Emergency triggers include temperatures over 95 degrees or infrastructure loss. Events last 0.5-4 hours during standard operations."
+  },
+  "nomination_bidding": {
+    "requires_nomination": true,
+    "nomination_frequency": "seasonal",
+    "nomination_deadline": "May 31 for full season participation; June 30 for partial season participation",
+    "allows_price_bidding": false,
+    "bidding_structure": "not applicable",
+    "enrollment_period": {
+      "start_date": "not specified",
+      "end_date": "May 31 (full season); June 30 (partial season)",
+      "recurring": true,
+      "enrollment_notes": "Enrollments accepted up to May 1st for June 1st start date and up to June 1st for July 1st start date. May 31 deadline for full season participation, June 30 for partial season participation."
+    }
+  },
+  "special_programs": {
+    "is_rec_based": false,
+    "rec_type": "not applicable",
+    "scheduled_dispatch": false,
+    "clean_peak_standard": false,
+    "special_attributes": [
+      "Non-wires alternative program",
+      "Targeted to energy-constrained areas",
+      "Can be stacked with NYISO Special Case Resource DR program",
+      "Uses Customer Baseline Load (CBL) methodology following NYISO standards"
+    ]
+  },
+  "baseline_methodology": {
+    "methodology_name": "Customer Baseline Load (CBL)",
+    "description": "Customer Baseline Load (CBL) is calculated as the average hourly usage during the top 5 days out of the last 10 eligible weekdays",
+    "follows_standard": "NYISO (New York Independent System Operator) methodology",
+    "adjustment_factors": "not specified"
+  },
+  "testing_requirements": {
+    "annual_tests_required": 1,
+    "test_duration_hours": 1,
+    "test_window_start": "July 24",
+    "test_window_end": "August 7",
+    "test_hours": "2 PM - 6 PM",
+    "test_days": "Non-holiday weekdays",
+    "test_notes": "If a demand response event is called prior to a test event being scheduled, there will no longer be a test event"
+  },
+  "program_history": {
+    "launch_year": "not specified",
+    "program_evolution": [],
+    "budget_committed_through": "not specified",
+    "total_annual_budget": "not specified",
+    "historical_notes": "Lower Hudson Valley Capacity Zone was implemented in May 2014, imposing electricity supply purchasing restrictions. FERC approved a plan in mid-2022 that allows for a broader range of energy resources, including renewables, to participate in the Hudson Valley's electric capacity market."
+  },
+  "historical_events": [],
+  "data_sources": [
+    {
+      "source_name": "Central Hudson Peak Perks - Targeted Demand Response Program Page",
+      "url": "https://cenhudpeakperks.com/targeted-demand-response/",
+      "last_updated": "2025-10-11",
+      "data_type": "program_rules",
+      "verified_data": [
+        "Minimum capacity: 50kW",
+        "Typical event duration: 4 hours",
+        "Emergency event duration: up to 8 hours",
+        "Event window: noon to 8 PM",
+        "Notification: day-ahead by 5 PM, in-day minimum 2 hours prior",
+        "Seasonal capacity payment: $6.825/kW-month",
+        "Season: June 1 - September 30",
+        "Enrollment deadlines: May 31 (full season), June 30 (partial season)",
+        "Test requirement: 1-hour test annually between July 24-August 7",
+        "Baseline: CBL methodology (average of top 5 days from last 10 eligible weekdays)",
+        "Emergency triggers: temperatures over 95 degrees or infrastructure loss"
+      ]
+    },
+    {
+      "source_name": "Central Hudson Commercial Demand Response Page",
+      "url": "https://www.cenhud.com/en/my-energy/save-energy-money/commercial-demand-response/",
+      "last_updated": "2025-10-11",
+      "data_type": "program_rules",
+      "verified_data": [
+        "TDR exclusively for customers in energy-constrained areas",
+        "Payment: $6.82/kW per month during June-September",
+        "Annual equivalent: $27.30/kW per summer",
+        "Requires interval metering",
+        "TDR participants not eligible for CSRP",
+        "Contact: CH.DLM@cenhud.com, 844-258-7761"
+      ]
+    },
+    {
+      "source_name": "Central Hudson Capacity Zone Information",
+      "url": "https://www.cenhud.com/en/my-energy/our-energy-future/capacity-zone/",
+      "last_updated": "2025-10-11",
+      "data_type": "program_rules",
+      "verified_data": [
+        "Lower Hudson Valley Capacity Zone implemented May 2014",
+        "FERC approved plan mid-2022 for broader resource participation",
+        "Program targets transmission-constrained areas in Lower Hudson Valley"
+      ]
+    },
+    {
+      "source_name": "Piclo Energy - Central Hudson Organization Page",
+      "url": "https://www.piclo.energy/organisations/central-hudson",
+      "last_updated": "2025-10-11",
+      "data_type": "program_rules",
+      "verified_data": [
+        "Payment confirmation: $27.30/kW each summer for load curtailment commitments",
+        "Program targets transmission-constrained areas"
+      ]
+    },
+    {
+      "source_name": "Central Hudson Peak Perks Program Rules",
+      "url": "https://cenhudpeakperks.com/program-rules/",
+      "last_updated": "2025-10-11",
+      "data_type": "program_rules",
+      "verified_data": [
+        "Conservation events: June 1 - September 30",
+        "Event window: noon to 8 PM",
+        "Event duration: 0.5-4 hours",
+        "No events on weekends or federal holidays"
+      ]
+    }
+  ],
+  "integration_metadata": {
+    "optimizer_compatible": true,
+    "api_available": "not specified",
+    "api_documentation_url": "not available",
+    "data_quality_score": 7.5,
+    "last_verified_date": "2025-10-11",
+    "notes": "High-quality data available for capacity payments, event windows, and eligibility requirements. Performance payment rates not publicly specified. Historical event data not available through public sources. Program well-documented for commercial/industrial participation with clear geographic targeting to energy-constrained areas. BESS applications viable given minimum 50kW threshold and stacking opportunity with NYISO programs.",
+    "data_gaps": [
+      "Specific performance payment rate ($/kWh or $/kW-event)",
+      "Exact penalty structure",
+      "Maximum events per season/year",
+      "Maximum hours per season/year",
+      "Historical event call data (dates, durations, advance notice)",
+      "Event granularity (5-min, 15-min, hourly)",
+      "Response time in minutes from notification",
+      "API availability for automated dispatch",
+      "Minimum rest hours between events",
+      "Maximum consecutive events"
+    ],
+    "contact_for_additional_info": {
+      "email": "CH.DLM@cenhud.com",
+      "phone": "844-258-7761",
+      "website": "https://cenhudpeakperks.com/targeted-demand-response/"
+    }
+  },
+  "program_relationships": {
+    "mutually_exclusive_with": ["Central Hudson Commercial System Relief Program (CSRP)"],
+    "stackable_with": ["NYISO Special Case Resource DR program"],
+    "notes": "TDR Program participants are not eligible to participate in CSRP Program. However, customers in targeted areas can stack TDM (Targeted Demand Management) participation with the NYISO's Special Case Resource DR program for additional revenue opportunities."
+  },
+  "metering_requirements": {
+    "interval_metering_required": true,
+    "minimum_data_history_days": 10,
+    "metering_notes": "Interval metering is mandatory. Minimum 10 days of interval meter data required by enrollment deadline."
+  },
+  "research_metadata": {
+    "research_date": "2025-10-11",
+    "research_duration_minutes": 30,
+    "researcher_notes": "Comprehensive research conducted across multiple authoritative sources. Payment structure is clearly documented: $6.825/kW-month for June-September season = $27.30/kW per summer (verified from multiple sources). Program is well-structured for commercial/industrial battery applications with 50kW minimum. Key data gap: performance payment rates are not publicly disclosed - requires direct contact with Central Hudson. Historical event data not available through public web sources. Geographic targeting to transmission-constrained Lower Hudson Valley areas confirmed. Program uses standard NYISO CBL methodology for baseline calculations. Notable feature: can stack with NYISO wholesale programs unlike CSRP. All financial data verified from official Central Hudson sources.",
+    "confidence_level": "high",
+    "verification_status": "verified",
+    "requires_followup": true,
+    "followup_items": [
+      "Contact Central Hudson to obtain performance payment rates",
+      "Request historical event data for 2023-2024 seasons",
+      "Obtain detailed tariff document (P.S.C. No. 15 Electric Tariff)",
+      "Clarify exact geographic boundaries of eligible zones",
+      "Determine event response time requirements in minutes",
+      "Confirm BESS-specific participation requirements if any"
+    ]
+  }
+}

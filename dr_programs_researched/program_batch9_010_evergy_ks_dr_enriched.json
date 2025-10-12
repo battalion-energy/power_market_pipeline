@@ -1,0 +1,45 @@
+{
+  "program_id": "DUPLICATE_OF_BATCH6_010",
+  "duplicate_status": "CONFIRMED DUPLICATE",
+  "original_research": "program_batch6_010_evergy_kansas_dr_enriched.json",
+  "original_research_date": "2025-10-11",
+  "duplicate_check_date": "2025-10-12",
+  "program_name": "Business Demand Response (BDR) Program",
+  "utility": "Evergy",
+  "state": "Kansas",
+  "iso_rto_territory": "SPP",
+  "program_type": "utility",
+  "status": "active",
+  "verification_notes": {
+    "url_match": "Identical URL: https://www.evergy.com/ways-to-save/incentives/demand-response",
+    "utility_match": "Same utility: Evergy",
+    "state_match": "Same state: Kansas",
+    "program_name_match": "Same program: Business Demand Response Program",
+    "conclusion": "This is 100% the same program researched in Batch 6, index 36. No new research required."
+  },
+  "referral": "For complete program details, payment structure analysis, battery suitability assessment, regulatory context, and all source documentation, see: /home/enrico/projects/power_market_pipeline/dr_programs_researched/program_batch6_010_evergy_kansas_dr_enriched.json",
+  "brief_summary_from_batch6": {
+    "program_overview": "Voluntary utility-level demand response program with pay-for-performance model, no financial penalties, participants can opt out of events",
+    "key_parameters": {
+      "minimum_load": "25 kW curtailable load",
+      "event_frequency": "1-20 events per season (7 events in 2023)",
+      "event_duration": "Up to 10 hours (4 hours typical in 2023)",
+      "notification": "At least 1 hour advance notice",
+      "season": "Summer-focused (June-August)",
+      "2024_changes": "Tiered participation (4, 6, or 8 events) with bonus incentives for extended duration (7-10 hours)"
+    },
+    "payment_structure": "NOT PUBLICLY DISCLOSED - Must contact Evergy at BDR@evergy.com or 833-303-9173 for specific rates. Third-party source mentioned '$25-$50 per kW annually' but unconfirmed.",
+    "baseline_methodology": "NOT PUBLICLY DOCUMENTED - Compensation based on reductions from baseline usage pattern but specific calculation method not disclosed",
+    "battery_suitability": "SUITABLE WITH CAVEATS - Program design compatible (voluntary, self-generation encouraged, no utility equipment control) but specific battery participation rules not documented. Direct contact with Evergy required for battery-specific details.",
+    "battery_suitability_rating": "Good - pending verification of battery-specific rules",
+    "regulatory_context": "Approved by Kansas Corporation Commission September 1, 2023 as part of KEEIA DSM Portfolio. May 2024 KCC settlement allows Evergy to control whether customers can offer DR to SPP wholesale markets.",
+    "contact": {
+      "email": "bdr@evergy.com",
+      "phone": "833-303-9173"
+    }
+  },
+  "data_quality_note": "Batch 6 research was comprehensive with 9 primary sources and detailed analysis. No additional research needed.",
+  "research_date": "2025-10-12",
+  "research_quality_score": 10,
+  "research_quality_justification": "Perfect score because this is a confirmed duplicate of already-completed comprehensive research. Original Batch 6 research was thorough with official sources, regulatory documents, and detailed analysis."
+}

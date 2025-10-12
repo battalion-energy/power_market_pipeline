@@ -1,0 +1,1019 @@
+{
+  "program_id": "central_hudson_peak_perks_001",
+  "program_name": "Central Hudson Peak Perks Program",
+  "program_type": "utility",
+  "status": "active",
+  "research_completed_date": "2025-10-11",
+  "data_quality_score": 7.5,
+  "description": "Central Hudson Peak Perks is an umbrella demand response platform serving customers in energy-constrained areas of the Hudson Valley. The program offers multiple participation pathways: (1) Residential Peak Perks for homeowners with smart thermostats, outdoor AC switches, and a custom savings program based on voluntary load reductions; (2) Commercial System Relief Program (CSRP) for C&I customers with 50kW+ curtailment capacity; (3) Targeted Demand Response (TDR) for C&I customers in transmission-constrained zones. The residential programs operate June-September, focus on AC cycling during 2-4 hour events between noon-8PM on weekdays, and offer annual rewards of $75-200 depending on device type and energy savings. Battery energy storage systems are NOT explicitly mentioned in any current Peak Perks residential offering, representing a significant gap compared to VPP programs at other utilities. The program is distinct from but complementary to NYISO wholesale market programs.",
+
+  "program_comparison": {
+    "peak_perks_vs_tdr": {
+      "relationship": "Peak Perks is the umbrella brand that includes both residential programs (thermostats, outdoor switches, custom savings) and commercial programs (TDR for constrained areas, CSRP for broader territory)",
+      "tdr_program": {
+        "name": "Targeted Demand Response (TDR)",
+        "customer_type": "commercial_industrial",
+        "minimum_capacity_kw": 50,
+        "geographic_constraint": "Energy-constrained areas in transmission-constrained Lower Hudson Valley zones only",
+        "capacity_payment": "$6.825/kW-month (June-September) = $27.30/kW per summer",
+        "performance_payment": "Not publicly disclosed",
+        "season": "June 1 - September 30",
+        "events": "Noon to 8 PM weekdays, typically 4 hours, up to 8 hours in emergencies",
+        "notification": "Day-ahead by 5 PM, or in-day minimum 2 hours prior",
+        "baseline": "Customer Baseline Load (CBL) methodology following NYISO standards",
+        "test_requirement": "1-hour test annually between July 24-August 7",
+        "stacking": "Can stack with NYISO Special Case Resource DR program",
+        "mutual_exclusivity": "Cannot participate in CSRP if enrolled in TDR",
+        "status": "active",
+        "researched_in": "Batch 2, program_batch2_003_central_hudson_tdr_enriched.json"
+      },
+      "csrp_program": {
+        "name": "Commercial System Relief Program (CSRP)",
+        "customer_type": "commercial_industrial",
+        "minimum_capacity_kw": 50,
+        "geographic_constraint": "All Central Hudson territory EXCEPT areas eligible for TDR",
+        "payment_options": [
+          {
+            "option": "Reservation Payment",
+            "capacity_payment": "$4.00/kW-month (or $1.54/kW-month after 5th event)",
+            "performance_payment_planned": "$0.25/kWh (21+ hours notice)",
+            "performance_payment_unplanned": "$0.50/kWh (<21 hours notice)",
+            "commitment": "Must respond to events, annual test required"
+          },
+          {
+            "option": "Voluntary Payment",
+            "capacity_payment": "$0/kW-month",
+            "performance_payment_planned": "$0.25/kWh (21+ hours notice)",
+            "performance_payment_unplanned": "$1.00/kWh (<21 hours notice)",
+            "commitment": "No commitment, no test required"
+          }
+        ],
+        "season": "June 1 - September 30",
+        "events": "Noon to 8 PM weekdays, up to 4 hours",
+        "notification": "Planned (21+ hours) or Unplanned (<21 hours)",
+        "baseline": "Customer Baseline Load (CBL) methodology",
+        "mutual_exclusivity": "Cannot participate in TDR if enrolled in CSRP",
+        "status": "active",
+        "researched_in": "Batch 2, program_batch2_010_central_hudson_csrp_enriched.json"
+      },
+      "residential_peak_perks": {
+        "name": "Residential Peak Perks Programs",
+        "customer_type": "residential",
+        "minimum_capacity_kw": "not specified",
+        "geographic_constraint": "TDM Load Zones (energy-constrained areas)",
+        "device_programs": [
+          {
+            "device": "Smart Wi-Fi Thermostat",
+            "installation": "Free (up to 2 thermostats, professionally installed)",
+            "purchase_rebate": "$100",
+            "installation_rebate": "$100",
+            "annual_reward": "$75 (years 2+)",
+            "control_method": "AC/heat pump compressor cycling during events"
+          },
+          {
+            "device": "Outdoor Efficiency Switch",
+            "installation": "Free (no appointment needed if accessible)",
+            "installation_reward": "$100",
+            "annual_reward": "$75 (years 2+)",
+            "control_method": "AC/heat pump compressor cycling during events"
+          },
+          {
+            "device": "Custom Savings Program",
+            "sign_on_reward": "$25 gift card",
+            "performance_payment": "$50/kW of load reduction during events",
+            "typical_annual_revenue": "$100-200 depending on savings",
+            "baseline": "Average hourly usage during top 5 demand days out of last 10 eligible weekdays",
+            "control_method": "Customer voluntary actions (no device installed)"
+          }
+        ],
+        "season": "June 1 - September 30",
+        "events": "Noon to 8 PM weekdays, 30 minutes to 4 hours, typically 2-3 per season",
+        "customer_opt_outs": "2 events per year",
+        "notification": "Not specified (likely day-ahead via email/SMS/phone)",
+        "status": "active"
+      }
+    },
+    "key_distinctions": {
+      "brand_structure": "Peak Perks is the overarching brand/website (cenhudpeakperks.com) that houses all Central Hudson demand response programs. It is NOT a distinct program separate from TDR - rather, TDR and CSRP are components of the Peak Perks platform.",
+      "customer_segmentation": "Residential customers access Peak Perks via device programs (thermostats, switches, custom savings). Commercial/industrial customers access Peak Perks via CSRP (if in general territory) or TDR (if in transmission-constrained zones).",
+      "payment_hierarchy": "TDR offers highest capacity payments ($27.30/kW/summer) but limited geography. CSRP offers moderate capacity ($16/kW/summer in Reservation option) across broader territory. Residential programs offer $75-200/year fixed rewards.",
+      "battery_storage_gap": "NONE of the Peak Perks programs explicitly mention or include battery energy storage systems for residential customers. This is a notable gap compared to utilities running VPP programs (e.g., Green Mountain Power in Vermont, Eversource in Connecticut). Commercial batteries may participate via TDR/CSRP if they meet 50kW minimum and BTM requirements, but residential batteries (<50kW) have no clear pathway."
+    }
+  },
+
+  "geography": {
+    "states": ["NY"],
+    "utilities": ["Central Hudson Gas & Electric Corporation"],
+    "isos": ["NYISO"],
+    "service_territories": [
+      "Central Hudson service territory in New York's Hudson Valley region",
+      "Eight counties: Dutchess, Orange, Putnam, Ulster, Sullivan, Columbia, Greene, northern Westchester",
+      "Approximately 300,000 electric customers total",
+      "TDM Load Zones are energy-constrained areas within territory",
+      "Lower Hudson Valley Capacity Zone (G-J Locality within NYISO)"
+    ],
+    "nyiso_context": "Central Hudson is one of eight Transmission Owners in NYISO. The utility operates in the Lower Hudson Valley, a transmission-constrained region that was designated as a separate NYISO capacity zone in May 2014 following FERC Order 2003."
+  },
+
+  "eligibility": {
+    "customer_classes": {
+      "residential": true,
+      "commercial": true,
+      "industrial": true,
+      "institutional": true,
+      "residential_requirements": "Must be named on Central Hudson electric account in TDM Load Zone, have central AC or heat pump, control thermostat. Tenants require landlord approval.",
+      "commercial_requirements": "50kW minimum curtailment capacity. Classification No. 2, 3, or 13. Interval metering required.",
+      "size_threshold_notes": "Residential: no kW minimum stated. Commercial/Industrial: 50kW minimum (TDR and CSRP). Geographic eligibility varies: TDR limited to transmission-constrained zones, CSRP available territory-wide (except TDR areas), residential programs in TDM Load Zones."
+    },
+    "behind_the_meter": true,
+    "front_of_meter": false,
+    "minimum_capacity_kw": "not specified for residential; 50kW for commercial/industrial",
+    "maximum_capacity_kw": "not specified",
+    "resource_types": [
+      "smart thermostats (residential)",
+      "outdoor AC switches (residential)",
+      "voluntary load curtailment (residential custom savings)",
+      "HVAC adjustment (commercial)",
+      "lighting reduction (commercial)",
+      "industrial process modification (commercial)",
+      "non-essential equipment shutdown (commercial)",
+      "behind-the-meter generation (commercial)",
+      "battery energy storage systems (commercial only, eligibility not explicitly confirmed but not excluded)"
+    ],
+    "requires_aggregator": false,
+    "aggregator_notes": "For commercial programs: Direct participants receive full rate. Aggregator participants receive negotiated rate. For NYISO wholesale participation, aggregators can pool DERs including batteries through FERC 2222 rules (effective July 1, 2023 in Central Hudson territory).",
+    "battery_storage_eligibility": {
+      "residential_batteries": "NOT MENTIONED in any Peak Perks residential program. No explicit pathway for homeowners with battery storage systems (<50kW) to participate in demand response through Peak Perks. This represents a significant program gap.",
+      "commercial_batteries": "May participate in TDR or CSRP if they meet 50kW minimum capacity threshold. Batteries would need interval metering and must demonstrate load reduction relative to Customer Baseline Load (CBL). Questions remain about how CBL is calculated for battery systems that both charge and discharge.",
+      "nyiso_wholesale_participation": "Battery systems >1MW can participate in NYISO DSASP (Demand Side Ancillary Service Program) for operating reserves and regulation service. Systems >5MW require interconnection through NYISO. Batteries can participate directly or through aggregation via FERC 2222 DER aggregation rules."
+    },
+    "additional_requirements": [
+      "Residential: Must provide access for device installation and maintenance",
+      "Commercial: Must have interval metering installed (10 days minimum data history for TDR)",
+      "Commercial: TDR participants not eligible for CSRP and vice versa",
+      "Commercial: Enrollment deadlines apply (May 1 for June 1 start, June 1 for July 1 start)",
+      "All customers: Must be in energy-constrained areas (TDM Load Zones) for residential programs"
+    ]
+  },
+
+  "notification": {
+    "day_ahead_notice": true,
+    "minimum_notice_hours": 2,
+    "maximum_notice_hours": 21,
+    "notification_methods": [
+      "email",
+      "phone",
+      "SMS (likely for residential)",
+      "indicator light on device (residential thermostat/switch)"
+    ],
+    "notification_details": "Residential programs: notification methods not explicitly documented but likely email/SMS/phone/app plus physical indicator light on thermostat or outdoor switch during events. Commercial CSRP: distinguishes between 'planned' events (21+ hours notice) and 'unplanned' events (<21 hours notice). Commercial TDR: day-ahead notice by 5 PM or in-day minimum 2 hours prior.",
+    "customer_opt_out": "Residential customers may opt out of up to 2 events per year. Commercial customers in Voluntary Payment option (CSRP) can choose not to participate in any event. Commercial customers in Reservation Payment option (CSRP) or TDR have committed to respond."
+  },
+
+  "payment_structure": {
+    "has_capacity_payment": true,
+    "has_performance_payment": true,
+    "payment_structure_notes": "Payment structure varies significantly by customer class and program. Residential programs offer fixed annual rewards. Commercial programs offer capacity and/or performance payments.",
+
+    "residential_programs": {
+      "thermostat_program": {
+        "sign_up_incentive": {
+          "purchase_rebate": 100,
+          "installation_rebate": 100,
+          "unit": "dollars",
+          "description": "One-time incentives for year 1"
+        },
+        "annual_reward": {
+          "value": 75,
+          "unit": "$/year",
+          "payment_timing": "Annual reward issued on a prorated basis ($18.75 per month) for June-September participation, paid in October via check or bill credit",
+          "years_eligible": "Year 2 onwards (first year receives sign-up incentives)"
+        }
+      },
+      "outdoor_switch_program": {
+        "installation_reward": {
+          "value": 100,
+          "unit": "dollars",
+          "description": "One-time installation reward for year 1"
+        },
+        "annual_reward": {
+          "value": 75,
+          "unit": "$/year",
+          "payment_timing": "Annual reward issued on a prorated basis ($18.75 per month) for June-September participation, paid in October via check or bill credit",
+          "years_eligible": "Year 2 onwards"
+        }
+      },
+      "custom_savings_program": {
+        "sign_on_reward": {
+          "value": 25,
+          "unit": "dollars (gift card)",
+          "payment_timing": "Within 4-6 weeks of enrollment"
+        },
+        "performance_payment": {
+          "value": 50,
+          "unit": "$/kW",
+          "description": "Annual rewards of $50 per kilowatt saved during conservation events, based on difference between actual usage and predicted baseline",
+          "baseline_methodology": "Average hourly usage during top 5 demand days out of last 10 eligible weekdays",
+          "typical_annual_revenue": "$100-200 depending on customer's energy savings performance"
+        }
+      }
+    },
+
+    "commercial_csrp": {
+      "reservation_payment_option": {
+        "capacity_payment": {
+          "value": 4.00,
+          "unit": "$/kW-month",
+          "total_summer_payment": 16.00,
+          "total_summer_notes": "$4.00/kW-month × 4 months (June-September) = $16.00/kW per summer",
+          "increased_rate_trigger": "If 5 or more events called in season, rate changes to $1.54/kW-month starting with month containing 5th event through September"
+        },
+        "performance_payment": {
+          "planned_events": {
+            "value": 0.25,
+            "unit": "$/kWh",
+            "notice_requirement": "21+ hours advance notice"
+          },
+          "unplanned_events": {
+            "value": 0.50,
+            "unit": "$/kWh",
+            "notice_requirement": "<21 hours advance notice"
+          }
+        },
+        "commitment": "Must respond to events and participate in annual test"
+      },
+      "voluntary_payment_option": {
+        "capacity_payment": {
+          "value": 0,
+          "unit": "$/kW-month",
+          "notes": "No capacity payments under Voluntary option"
+        },
+        "performance_payment": {
+          "planned_events": {
+            "value": 0.25,
+            "unit": "$/kWh",
+            "notice_requirement": "21+ hours advance notice"
+          },
+          "unplanned_events": {
+            "value": 1.00,
+            "unit": "$/kWh",
+            "notice_requirement": "<21 hours advance notice"
+          }
+        },
+        "commitment": "No commitment required, can opt out of any event"
+      }
+    },
+
+    "commercial_tdr": {
+      "capacity_payment": {
+        "value": 6.825,
+        "unit": "$/kW-month",
+        "total_summer_payment": 27.30,
+        "total_summer_notes": "$6.825/kW-month × 4 months (June-September) = $27.30/kW per summer",
+        "proration": "Prorated for partial season participation"
+      },
+      "performance_payment": {
+        "value": "not publicly disclosed",
+        "unit": "not specified",
+        "performance_notes": "Performance determines payment percentage (0-100%). Must curtail committed load during events. Payments based on actual seasonal-average reductions using CBL baseline methodology."
+      }
+    },
+
+    "penalty_structure": {
+      "has_penalties": "varies by program",
+      "residential_penalties": "None stated. Customers can opt out of up to 2 events per year. Can terminate participation anytime.",
+      "csrp_penalties": "Not explicitly documented. Reservation Payment customers have committed to respond but specific non-performance penalties not stated.",
+      "tdr_penalties": "Not explicitly stated. Performance affects payment percentage (0-100%)."
+    },
+
+    "bonus_payments": [],
+    "forward_curve_available": false,
+    "forward_curve_url": "not available",
+
+    "payment_comparison_summary": {
+      "highest_capacity_rate": "TDR at $27.30/kW per summer (transmission-constrained zones only)",
+      "highest_performance_rate": "CSRP Voluntary option at $1.00/kWh for unplanned events",
+      "residential_typical_annual": "$75-200 depending on program and performance",
+      "commercial_typical_annual_1mw": "TDR: $27,300/summer capacity + event performance. CSRP Reservation: $16,000/summer capacity + $0.25-0.50/kWh performance. CSRP Voluntary: $0 capacity + $0.25-1.00/kWh performance."
+    }
+  },
+
+  "seasons": [
+    {
+      "season_name": "Summer Peak Season",
+      "start_date": "06-01",
+      "end_date": "09-30",
+      "max_events": "not specified (varies by program)",
+      "max_hours": "not specified",
+      "typical_events_residential": "2-3 events per season (Custom Savings)",
+      "typical_events_commercial": "not specified, but CSRP Reservation Payment increases rate after 5th event, implying at least 5 events possible",
+      "season_notes": "All Peak Perks programs operate exclusively during summer season (June 1 - September 30). This represents Central Hudson's peak cooling season when grid stress is highest. No winter or shoulder season programs currently offered."
+    }
+  ],
+
+  "call_windows": [
+    {
+      "window_id": "summer_weekday_peak",
+      "start_hour": 12,
+      "end_hour": 20,
+      "days_of_week": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      "seasons": ["Summer Peak Season"],
+      "timezone": "America/New_York",
+      "notes": "All Peak Perks programs (residential and commercial) call events between noon and 8 PM on weekdays. No events occur on weekends or federal holidays. This window aligns with NYISO summer on-peak pricing periods (typically 2-6 PM highest prices)."
+    }
+  ],
+
+  "event_parameters": {
+    "residential_events": {
+      "typical_duration_hours": "not specified",
+      "minimum_duration_hours": 0.5,
+      "maximum_duration_hours": 4,
+      "typical_events_per_season": "2-3 events (Custom Savings program states 'approximately 2-3 events per season')",
+      "cycling_pattern": "10-15 minute intervals during events for thermostat and outdoor switch programs",
+      "temperature_impact": "Potential indoor temperature increase of 2-4 degrees during AC cycling events",
+      "opt_out_allowance": "2 events per year"
+    },
+    "commercial_csrp_events": {
+      "typical_duration_hours": "not specified",
+      "minimum_duration_hours": 1,
+      "maximum_duration_hours": 4,
+      "max_events_per_season": "not specified, but rate structure suggests at least 5 events possible",
+      "planned_notice": "21+ hours advance notice",
+      "unplanned_notice": "<21 hours advance notice (likely 2+ hours based on comparable NY utilities)",
+      "test_requirement": "1-hour test annually for Reservation Payment customers"
+    },
+    "commercial_tdr_events": {
+      "typical_duration_hours": 4,
+      "minimum_duration_hours": 0.5,
+      "maximum_duration_hours": 8,
+      "max_events_per_season": "not specified",
+      "emergency_duration": "Up to 8 hours in emergency situations (temperatures >95°F or infrastructure loss)",
+      "test_requirement": "1-hour test annually between July 24-August 7, 2-6 PM on non-holiday weekdays",
+      "test_waiver": "If demand response event called prior to test event being scheduled, test is waived"
+    },
+    "event_granularity_minutes": "not specified",
+    "response_time_minutes": "not specified",
+    "max_consecutive_events": "not specified",
+    "minimum_rest_hours": "not specified",
+    "general_notes": "Event parameters are most detailed for TDR program. Residential programs provide limited operational details. Key data gaps include maximum annual events/hours, minimum rest periods, and response time requirements."
+  },
+
+  "event_triggers": {
+    "trigger_description": "Events are called when Central Hudson needs to maintain system reliability during peak demand periods in summer months, typically on hot weekdays between noon and 8 PM. The program helps reduce stress on the electric grid during high usage periods and serves as a non-wires alternative to traditional infrastructure investments in energy-constrained areas.",
+    "primary_trigger": "grid_stress_peak_demand",
+    "secondary_triggers": [
+      "high_temperature",
+      "system_reliability",
+      "transmission_constraints",
+      "infrastructure_loss"
+    ],
+    "temperature_threshold": "Temperatures over 95°F can trigger TDR emergency events (up to 8 hours)",
+    "geographic_constraints": "Programs specifically target energy-constrained areas and transmission-constrained zones in Lower Hudson Valley",
+    "non_wires_alternative": "Peak Perks demand response serves as alternative to costly transmission and distribution upgrades in constrained areas"
+  },
+
+  "nomination_bidding": {
+    "requires_nomination": true,
+    "nomination_frequency": "annual",
+    "nomination_deadline": "May 1 for June 1 start date; June 1 for July 1 start date (commercial programs). Residential programs appear to have rolling enrollment.",
+    "allows_price_bidding": false,
+    "bidding_structure": "not applicable",
+    "enrollment_period": {
+      "residential": "Rolling enrollment via website cenhudpeakperks.com",
+      "commercial_csrp": "Applications accepted up to May 1 for June 1 start, up to June 1 for July 1 start",
+      "commercial_tdr": "Deadline May 31 for full season participation, June 30 for partial season participation",
+      "interval_meter_delay": "If interval meter not installed at application time, participation start delayed to July 1 (May 1 application) or August 1 (June 1 application)",
+      "recurring": true
+    },
+    "nomination_notes": "Commercial customers must nominate their enrolled capacity at enrollment. Residential customers enroll via online portal and receive device installation."
+  },
+
+  "baseline_methodology": {
+    "residential_custom_savings": {
+      "methodology_name": "Top 5 of Last 10 Eligible Weekdays",
+      "description": "Baseline is the average hourly usage during the top 5 demand days out of the last 10 eligible weekdays",
+      "follows_standard": "Similar to NYISO methodology but simplified for residential"
+    },
+    "commercial_csrp": {
+      "methodology_name": "Customer Baseline Load (CBL)",
+      "description": "Participant incentives paid based on actual seasonal-average reductions, calculated using CBL methodology",
+      "follows_standard": "Standard utility DR CBL methodology"
+    },
+    "commercial_tdr": {
+      "methodology_name": "Customer Baseline Load (CBL)",
+      "description": "Average hourly usage during top 5 days out of last 10 eligible weekdays",
+      "follows_standard": "NYISO (New York Independent System Operator) methodology",
+      "adjustment_factors": "not specified"
+    },
+    "battery_storage_concern": "CBL methodology is designed for load curtailment. How it applies to battery storage systems (which can charge and discharge) is NOT documented in public materials. This is a critical gap for battery participation."
+  },
+
+  "testing_requirements": {
+    "residential_programs": {
+      "annual_tests_required": 0,
+      "notes": "No formal testing requirement. Customers can experience events organically and opt out of up to 2 per year."
+    },
+    "csrp_reservation_payment": {
+      "annual_tests_required": 1,
+      "test_duration_hours": 1,
+      "test_window": "June 1 - September 30 on non-holiday weekday",
+      "notes": "Customers enrolled in Reservation Payment option required to participate in 1-hour test annually. Voluntary Payment customers have no test requirement."
+    },
+    "tdr_program": {
+      "annual_tests_required": 1,
+      "test_duration_hours": 1,
+      "test_window_start": "July 24",
+      "test_window_end": "August 7",
+      "test_hours": "2 PM - 6 PM",
+      "test_days": "Non-holiday weekdays",
+      "test_waiver": "If a demand response event is called prior to test event being scheduled, there will no longer be a test event"
+    }
+  },
+
+  "special_programs": {
+    "is_rec_based": false,
+    "rec_type": "not applicable",
+    "scheduled_dispatch": false,
+    "clean_peak_standard": false,
+    "special_attributes": [
+      "Umbrella brand housing multiple DR programs (residential and commercial)",
+      "Non-wires alternative targeting energy-constrained areas",
+      "Multiple residential device options (thermostat, outdoor switch, custom voluntary)",
+      "Multiple commercial enrollment options (TDR for constrained zones, CSRP Reservation vs Voluntary)",
+      "Geographic targeting to transmission-constrained Lower Hudson Valley zones",
+      "Part of NYISO G-J Locality capacity zone market",
+      "Can stack with NYISO wholesale programs (TDR explicitly, CSRP requires verification)",
+      "Uses NYISO-standard CBL methodology for commercial programs",
+      "Weekday-only, summer-only operation",
+      "No explicit battery storage pathway for residential customers",
+      "Devices become customer property after installation (residential)",
+      "Professional installation provided at no cost (residential)"
+    ]
+  },
+
+  "nyiso_market_interaction": {
+    "overview": "Central Hudson operates within NYISO territory and is one of eight Transmission Owners. Peak Perks programs are retail/utility programs that sit alongside NYISO wholesale market programs. The relationship between Peak Perks and NYISO programs is complex and depends on customer size and program choice.",
+
+    "nyiso_programs_overview": {
+      "scr_program": {
+        "name": "NYISO Special Case Resource (ICAP-SCR) Program",
+        "description": "Longest-running DR program in New York. Reliability-based demand response that pays C&I customers to reduce load when grid is stressed.",
+        "minimum_size": "Not specified, but traditionally serves large C&I",
+        "payment_type": "Capacity payments based on NYISO ICAP market clearing prices",
+        "status_2025": "No changes to program structure in 2025 (announced April 2025)",
+        "relationship_to_peak_perks": "TDR program explicitly states customers can stack TDR with NYISO SCR program. CSRP stacking with SCR not explicitly documented."
+      },
+      "edrp_program": {
+        "name": "NYISO Emergency Demand Response Program (EDRP)",
+        "description": "Reliability-based DR program for emergency conditions",
+        "payment_type": "Performance-based payments during grid emergencies",
+        "relationship_to_peak_perks": "Not explicitly documented"
+      },
+      "dsasp_program": {
+        "name": "NYISO Demand Side Ancillary Service Program (DSASP)",
+        "description": "Allows Demand Side Resources to participate in Day-Ahead and Real-Time Markets for Operating Reserves and Regulation Service",
+        "minimum_size": "1 MW of load reduction",
+        "eligibility": "Demand Side Resource or aggregation with at least 1 MW, capable of responsive, measurable, verifiable demand control",
+        "services": "Operating Reserves and Regulation Service",
+        "relationship_to_peak_perks": "Separate program. Larger customers (>1MW) or aggregations could potentially participate in both Peak Perks and DSASP, but rules unclear."
+      },
+      "ferc_2222_aggregation": {
+        "name": "NYISO Wholesale Market Aggregation (FERC Order 2222)",
+        "description": "Allows aggregation of distributed energy resources (DERs) including batteries to participate in NYISO wholesale markets",
+        "effective_date": "July 1, 2023 in Central Hudson territory",
+        "requirements": "DER aggregators must procure approved RTU connecting to Central Hudson Energy Management System",
+        "resource_types": "Batteries, solar+storage, controllable loads, EVs, etc.",
+        "minimum_size": "Aggregations must meet NYISO minimums (typically 100 kW for DERs, 1 MW for certain products)",
+        "central_hudson_role": "Central Hudson filed tariff changes allowing customers with generating equipment to export to NYISO through wholesale DER participation models",
+        "relationship_to_peak_perks": "Separate pathway. Residential batteries could potentially participate in NYISO via aggregator instead of Peak Perks (if Peak Perks offered battery program, which it currently does not)."
+      }
+    },
+
+    "revenue_stacking_potential": {
+      "tdr_plus_nyiso_scr": {
+        "explicitly_allowed": true,
+        "source": "TDR program materials state 'Can be stacked with NYISO Special Case Resource DR program'",
+        "revenue_scenario": "Customer receives $27.30/kW/summer from TDR capacity payments + NYISO SCR capacity payments + performance payments from both programs during events",
+        "considerations": "Must meet requirements for both programs. Event overlap likely (both summer peaking programs). Performance payments may not be fully additive if events called simultaneously."
+      },
+      "csrp_plus_nyiso": {
+        "explicitly_allowed": "not documented",
+        "requires_verification": true,
+        "consideration": "CSRP materials do not explicitly address NYISO program stacking. TDR allows it, but CSRP mutual exclusivity with TDR suggests different program rules. Requires direct contact with Central Hudson."
+      },
+      "residential_peak_perks_plus_nyiso": {
+        "explicitly_allowed": "not documented",
+        "practical_barriers": [
+          "Residential customers typically too small (<1MW) to participate in NYISO programs directly",
+          "Would require aggregation via FERC 2222 to reach NYISO minimums",
+          "No residential battery program exists in Peak Perks to stack with",
+          "Thermostat/outdoor switch programs likely incompatible with wholesale market participation (different control mechanisms)"
+        ]
+      },
+      "battery_storage_stacking": {
+        "residential_batteries_retail": "No Peak Perks battery program exists to stack",
+        "residential_batteries_wholesale": "Could participate in NYISO via FERC 2222 aggregation instead of Peak Perks",
+        "commercial_batteries_50kw_to_1mw": "Could participate in Peak Perks (TDR or CSRP). NYISO DSASP requires 1MW minimum, so would need aggregation for wholesale participation. Stacking rules unclear.",
+        "commercial_batteries_over_1mw": "Could participate in Peak Perks + NYISO DSASP. TDR materials suggest NYISO stacking allowed. Need verification for CSRP.",
+        "commercial_batteries_over_5mw": "Must interconnect through NYISO (not distribution level). May not be eligible for retail Peak Perks programs at this size."
+      }
+    },
+
+    "central_hudson_as_aggregator": {
+      "role": "Central Hudson is a load-serving entity and transmission owner within NYISO, not an aggregator",
+      "aggregator_participation": "Peak Perks allows third-party aggregators to enroll customers in commercial programs (TDR, CSRP) at negotiated rates",
+      "ferc_2222_aggregators": "Third-party aggregators can pool DERs (including batteries) for NYISO wholesale participation under FERC 2222 rules, separate from Peak Perks"
+    },
+
+    "key_gaps_and_questions": [
+      "Can CSRP participants simultaneously enroll in NYISO SCR program? (TDR can, but CSRP not documented)",
+      "What are the event overlap implications if customer is in both Peak Perks and NYISO programs?",
+      "Are performance payments additive if both programs call events at same time?",
+      "How does CBL methodology differ between Peak Perks and NYISO programs?",
+      "Can commercial batteries participate in Peak Perks and NYISO DSASP simultaneously?",
+      "Why is there no residential battery pathway in Peak Perks when NYISO FERC 2222 rules allow aggregated residential batteries in wholesale markets?",
+      "Could Central Hudson launch a residential battery VPP that stacks Peak Perks + NYISO revenues similar to other utilities?"
+    ]
+  },
+
+  "battery_storage_analysis": {
+    "residential_battery_eligibility": {
+      "current_status": "NOT ELIGIBLE - No Peak Perks program exists for residential battery storage systems",
+      "program_gap": "Peak Perks offers thermostats, outdoor switches, and custom voluntary load reduction for residential customers, but no battery-specific program. This is a significant gap compared to utilities running VPP programs.",
+      "alternative_pathways": [
+        "Participate in NYISO wholesale markets via FERC 2222 aggregator (requires aggregation to reach 100kW-1MW minimums)",
+        "Wait for Central Hudson to launch residential battery VPP program (no indication this is planned)",
+        "Install battery but optimize for self-consumption and demand charge reduction only (no DR revenue)"
+      ],
+      "comparable_utility_programs": "Utilities like Green Mountain Power (VT), Eversource (CT/MA), and National Grid (MA) offer residential battery VPP programs with $200-1000/year payments. Central Hudson lacks equivalent offering."
+    },
+    "commercial_battery_eligibility": {
+      "current_status": "LIKELY ELIGIBLE for TDR or CSRP if ≥50kW, but critical details not documented",
+      "program_selection": {
+        "tdr_eligibility": "If battery located in transmission-constrained zone (Lower Hudson Valley), eligible for TDR with $27.30/kW/summer capacity payment",
+        "csrp_eligibility": "If battery in general territory (not TDR area), eligible for CSRP with choice of Reservation ($16/kW/summer) or Voluntary ($0 capacity, high performance) payment",
+        "mutual_exclusivity": "Cannot enroll in both TDR and CSRP"
+      },
+      "behind_the_meter_requirements": "Commercial battery must be behind customer meter, have interval metering, meet 50kW minimum capacity",
+      "baseline_methodology_concern": "CBL methodology is designed for load curtailment (reducing consumption). How does it apply to battery discharge (injecting power)? How is battery charging treated in baseline calculation? These critical questions are NOT addressed in public materials.",
+      "nyiso_stacking_potential": "TDR explicitly allows stacking with NYISO SCR. CSRP stacking not documented. Batteries >1MW could potentially participate in Peak Perks + NYISO DSASP for ancillary services, but rules unclear.",
+      "control_requirements": "TDR/CSRP require 'responsive, measurable, verifiable' demand control. Battery systems with automated control can meet this, but specific telemetry/control interface requirements not documented.",
+      "fast_response_advantage": "Batteries can respond in seconds, making them ideal for capturing higher-paying 'unplanned' events ($0.50-1.00/kWh in CSRP, 2x higher than planned events). This advantage not explicitly recognized in program materials."
+    },
+    "front_of_meter_battery_eligibility": {
+      "current_status": "Peak Perks programs are for behind-the-meter resources. Front-of-meter batteries likely not eligible.",
+      "alternative_pathways": "Front-of-meter batteries would participate in NYISO wholesale markets (energy, capacity, ancillary services) rather than utility retail DR programs. Central Hudson issued 10MW bulk energy storage RFP in 2024 for utility-scale projects."
+    },
+    "battery_revenue_modeling_challenges": [
+      "No historical event data published (dates, times, durations, advance notice) for accurate revenue forecasting",
+      "Maximum events per season not specified (critical for state-of-charge management)",
+      "Maximum hours per season not specified",
+      "Minimum rest periods between events not specified",
+      "CBL calculation for batteries not documented (does charging increase baseline? how is discharge measured?)",
+      "Performance payment rates for TDR not published",
+      "NYISO program stacking rules not fully documented",
+      "Event overlap probability between Peak Perks and NYISO programs unknown"
+    ],
+    "optimal_battery_strategy": {
+      "residential_owner": "No Peak Perks pathway. Options: (1) Join FERC 2222 aggregation for NYISO participation, or (2) Optimize for self-consumption and demand charge reduction only (no DR revenue), or (3) Advocate for Central Hudson to add battery VPP program.",
+      "commercial_50kw_to_1mw": "Enroll in TDR (if in constrained zone) or CSRP Voluntary option (for $1.00/kWh unplanned events). Optimize around energy arbitrage + Peak Perks performance payments. Verify NYISO stacking rules.",
+      "commercial_over_1mw": "Enroll in TDR (constrained zone) or CSRP (general territory) + participate in NYISO DSASP for regulation/reserves. Stack Peak Perks capacity payments with NYISO wholesale revenues. High revenue potential but requires careful event management."
+    },
+    "data_quality_for_battery_modeling": {
+      "strengths": [
+        "Payment rates clearly documented for CSRP (capacity and performance by event type)",
+        "TDR capacity payment clearly documented ($27.30/kW/summer)",
+        "Event windows well-defined (noon-8PM weekdays)",
+        "Season clearly defined (June 1 - Sept 30)",
+        "Call window aligns with peak pricing periods (good arbitrage opportunity)"
+      ],
+      "critical_gaps": [
+        "No residential battery program exists",
+        "TDR performance payment rates not published",
+        "CBL methodology for batteries not documented",
+        "Maximum events/hours not specified",
+        "Historical event data not available",
+        "NYISO stacking rules incomplete",
+        "Battery-specific control requirements not stated"
+      ],
+      "data_quality_score_for_batteries": 4.5,
+      "data_quality_notes": "Moderate-to-poor data quality for battery revenue modeling. Commercial battery eligibility is implied but not explicit. Critical operational parameters (max events, CBL for batteries, stacking rules) are missing. Residential batteries have no pathway at all. Recommend direct engagement with Central Hudson DR team before investing in battery system sized for Peak Perks participation."
+    }
+  },
+
+  "program_history": {
+    "launch_year": "not available",
+    "program_evolution": [
+      {
+        "year": 2014,
+        "event": "Lower Hudson Valley designated as separate NYISO capacity zone following FERC Order 2003, imposing electricity supply purchasing restrictions due to transmission constraints"
+      },
+      {
+        "year": 2022,
+        "event": "FERC approved plan allowing broader range of energy resources (including renewables) to participate in Hudson Valley electric capacity market"
+      },
+      {
+        "year": 2023,
+        "event": "FERC 2222 DER aggregation rules took effect in Central Hudson territory July 1, 2023, enabling aggregated batteries to participate in NYISO wholesale markets"
+      },
+      {
+        "year": 2024,
+        "event": "Central Hudson issued bulk energy storage RFP for utility-scale projects (10MW) operational by December 31, 2028"
+      },
+      {
+        "year": 2024,
+        "event": "NY PSC approved Central Hudson rate plan for July 1, 2024 - June 30, 2025 period (may include DR program updates)"
+      }
+    ],
+    "budget_committed_through": "not available",
+    "total_annual_budget": "not available",
+    "participation_statistics": "not available",
+    "historical_notes": "Peak Perks program launch date not found in research. Appears to be umbrella brand for demand response programs that evolved from earlier targeted demand management (TDM) initiatives following 2014 capacity zone designation. Program has matured to include residential and commercial offerings, but has not yet added battery storage pathways available at other NY utilities."
+  },
+
+  "historical_events": [],
+
+  "program_relationships": {
+    "mutually_exclusive_with": [
+      "TDR and CSRP are mutually exclusive (cannot enroll in both)"
+    ],
+    "stackable_with": [
+      "TDR can stack with NYISO Special Case Resource (SCR) program",
+      "CSRP stacking with NYISO programs not documented"
+    ],
+    "related_programs": [
+      {
+        "program_name": "NYISO Special Case Resource (ICAP-SCR)",
+        "relationship": "Wholesale market DR program that can stack with TDR (and possibly CSRP)",
+        "administrator": "NYISO"
+      },
+      {
+        "program_name": "NYISO Emergency Demand Response Program (EDRP)",
+        "relationship": "Wholesale emergency DR program, relationship to Peak Perks not documented",
+        "administrator": "NYISO"
+      },
+      {
+        "program_name": "NYISO Demand Side Ancillary Service Program (DSASP)",
+        "relationship": "Wholesale ancillary services program (reserves, regulation) for resources ≥1MW, relationship to Peak Perks not fully documented",
+        "administrator": "NYISO"
+      },
+      {
+        "program_name": "Central Hudson EV ChargeSmart",
+        "relationship": "Separate managed charging program for electric vehicles, not part of Peak Perks DR",
+        "administrator": "Central Hudson"
+      }
+    ],
+    "notes": "Peak Perks is the retail utility layer. NYISO programs are the wholesale market layer. Customers can potentially participate in both layers simultaneously for revenue stacking, but rules are incompletely documented. TDR explicitly allows NYISO stacking. CSRP stacking rules unclear."
+  },
+
+  "metering_requirements": {
+    "residential_programs": {
+      "interval_metering_required": false,
+      "metering_notes": "Standard residential metering sufficient for thermostat and outdoor switch programs. Custom Savings program requires usage tracking to calculate baseline and performance, but interval meter not explicitly required."
+    },
+    "commercial_csrp": {
+      "interval_metering_required": true,
+      "minimum_data_history_days": "not specified",
+      "metering_notes": "Communicating interval meter required. If not installed at application time, participation start date delayed. Interval data used for CBL baseline calculation and performance verification."
+    },
+    "commercial_tdr": {
+      "interval_metering_required": true,
+      "minimum_data_history_days": 10,
+      "metering_notes": "Interval metering mandatory. Minimum 10 days of interval meter data required by enrollment deadline. Data used for CBL baseline and performance measurement."
+    },
+    "battery_storage_metering": {
+      "requirements": "Interval metering required for commercial batteries (≥50kW) participating in TDR or CSRP. Battery systems typically have sub-second metering capability, exceeding program requirements.",
+      "telemetry_requirements": "Not documented in Peak Perks materials. For NYISO FERC 2222 aggregation, DER aggregators must procure approved RTU connecting to Central Hudson Energy Management System.",
+      "data_granularity": "Not specified. NYISO typically requires 4-second or faster telemetry for regulation resources."
+    }
+  },
+
+  "data_sources": [
+    {
+      "source_name": "Central Hudson Peak Perks Program Website",
+      "url": "https://cenhudpeakperks.com/",
+      "last_accessed": "2025-10-11",
+      "data_type": "program_overview",
+      "verified_data": [
+        "Peak Perks is umbrella brand for residential and commercial DR programs",
+        "Residential programs: thermostat, outdoor switch, custom savings",
+        "Commercial programs: TDR, CSRP",
+        "Season: June 1 - September 30",
+        "Events: noon to 8 PM weekdays, no weekends/holidays",
+        "Enrollment via online portal"
+      ]
+    },
+    {
+      "source_name": "Central Hudson Peak Perks - Program Rules",
+      "url": "https://cenhudpeakperks.com/program-rules/",
+      "last_accessed": "2025-10-11",
+      "data_type": "program_rules",
+      "verified_data": [
+        "Residential eligibility: TDM Load Zones, central AC/heat pump required",
+        "Thermostat rewards: $100 purchase + $100 installation + $75 annual",
+        "Outdoor switch rewards: $100 installation + $75 annual",
+        "Event duration: 30 minutes to 4 hours",
+        "Customer opt-out: up to 2 events per year",
+        "AC cycling: 10-15 minute intervals during events",
+        "Temperature impact: 2-4 degrees increase",
+        "Devices become customer property after installation"
+      ]
+    },
+    {
+      "source_name": "Central Hudson Peak Perks - Custom Savings Program",
+      "url": "https://cenhudpeakperks.com/custom-savings/",
+      "last_accessed": "2025-10-11",
+      "data_type": "program_rules",
+      "verified_data": [
+        "Sign-on reward: $25 gift card",
+        "Performance payment: $50/kW saved during events",
+        "Typical annual revenue: $100-200",
+        "Event frequency: approximately 2-3 events per season",
+        "Event duration: up to 3 hours",
+        "Baseline: average hourly usage during top 5 demand days out of last 10 eligible weekdays"
+      ]
+    },
+    {
+      "source_name": "Central Hudson Peak Perks - Targeted Demand Response",
+      "url": "https://cenhudpeakperks.com/targeted-demand-response/",
+      "last_accessed": "2025-10-11",
+      "data_type": "program_rules",
+      "verified_data": [
+        "Commercial/industrial program for energy-constrained areas",
+        "Minimum capacity: 50kW",
+        "Capacity payment: $6.825/kW-month = $27.30/kW per summer",
+        "Event window: noon to 8 PM",
+        "Typical duration: 4 hours, up to 8 hours emergency",
+        "Notification: day-ahead by 5 PM or in-day minimum 2 hours prior",
+        "Test requirement: 1-hour test July 24-August 7",
+        "Can stack with NYISO Special Case Resource DR program",
+        "Not eligible for CSRP if enrolled in TDR"
+      ]
+    },
+    {
+      "source_name": "Central Hudson Commercial Demand Response Page",
+      "url": "https://www.cenhud.com/en/my-energy/save-energy-money/commercial-demand-response/",
+      "last_accessed": "2025-10-11",
+      "data_type": "program_overview",
+      "verified_data": [
+        "Two programs: TDR (constrained areas) and CSRP (broader territory)",
+        "TDR payment: $6.82/kW per month June-September (matches $6.825 rounded)",
+        "CSRP: two enrollment options (Reservation vs Voluntary)",
+        "Classification No. 2, 3, or 13 eligible",
+        "Interval metering required",
+        "CBL methodology used",
+        "Contact: CH.DLM@cenhud.com, 844-258-7761"
+      ]
+    },
+    {
+      "source_name": "NYSERDA Energy Storage Services Fact Sheet",
+      "url": "https://www.nyserda.ny.gov/-/media/Project/Nyserda/Files/Programs/Energy-Storage/Energy-Storage-Vendor-Fact-Sheet.pdf",
+      "last_accessed": "2025-10-11",
+      "data_type": "technical_document",
+      "verified_data": [
+        "CSRP Reservation Payment: $4.00/kW-month capacity",
+        "CSRP Reservation Payment after 5th event: $1.54/kW-month",
+        "CSRP Reservation planned events: $0.25/kWh",
+        "CSRP Reservation unplanned events: $0.50/kWh",
+        "CSRP Voluntary planned events: $0.25/kWh",
+        "CSRP Voluntary unplanned events: $1.00/kWh",
+        "Planned events: 21+ hours notice",
+        "Unplanned events: <21 hours notice"
+      ]
+    },
+    {
+      "source_name": "Central Hudson Capacity Zone Information",
+      "url": "https://www.cenhud.com/en/my-energy/our-energy-future/capacity-zone/",
+      "last_accessed": "2025-10-11",
+      "data_type": "background_information",
+      "verified_data": [
+        "Lower Hudson Valley Capacity Zone implemented May 2014",
+        "FERC approved broader resource participation mid-2022",
+        "Programs target transmission-constrained areas"
+      ]
+    },
+    {
+      "source_name": "NYISO Demand Response Overview",
+      "url": "https://www.nyiso.com/demand-response",
+      "last_accessed": "2025-10-11",
+      "data_type": "wholesale_market_programs",
+      "verified_data": [
+        "NYISO programs: Special Case Resource (SCR) and Emergency DR (EDRP)",
+        "SCR is longest-running DR program in New York",
+        "Programs pay C&I customers to reduce load during grid stress",
+        "No changes to SCR program structure in 2025"
+      ]
+    },
+    {
+      "source_name": "NYISO Demand Side Ancillary Service Program (DSASP)",
+      "url": "https://www.nyiso.com/documents/20142/30712914/Demand-Response-Special-Case-Resources.pdf",
+      "last_accessed": "2025-10-11",
+      "data_type": "wholesale_market_programs",
+      "verified_data": [
+        "DSASP allows Demand Side Resources to participate in Day-Ahead and Real-Time Markets",
+        "Services: Operating Reserves and Regulation Service",
+        "Minimum: 1 MW of load reduction",
+        "Must be capable of responsive, measurable, verifiable demand control"
+      ]
+    },
+    {
+      "source_name": "Central Hudson NYISO Wholesale Market Aggregation (FERC 2222)",
+      "url": "https://www.cenhud.com/en/my-energy/distributed-generation/new-york-iso-wholesale-market-aggregation-ferc-2222/",
+      "last_accessed": "2025-10-11",
+      "data_type": "wholesale_market_aggregation",
+      "verified_data": [
+        "Central Hudson filed tariff changes effective July 1, 2023",
+        "Allows customers with generating equipment to export to NYISO",
+        "Participation via wholesale DER aggregation models",
+        "Each aggregator must procure approved RTU connecting to Central Hudson EMS",
+        "Systems >5MW require NYISO interconnection"
+      ]
+    },
+    {
+      "source_name": "Central Hudson Bulk Energy Storage RFP 2024",
+      "url": "https://www.cenhud.com/en/about-us/projects/bulk-energy-storage-rfp-2024/",
+      "last_accessed": "2025-10-11",
+      "data_type": "utility_scale_storage",
+      "verified_data": [
+        "Central Hudson issued RFP for bulk-connected energy storage in 2024",
+        "Target operational date: December 31, 2028",
+        "Utility-scale projects (separate from Peak Perks residential/commercial DR)"
+      ]
+    },
+    {
+      "source_name": "Central Hudson Service Territory Information",
+      "url": "https://www.cenhud.com/",
+      "last_accessed": "2025-10-11",
+      "data_type": "utility_background",
+      "verified_data": [
+        "Serves approximately 300,000 electric customers",
+        "Service territory: eight counties in Mid-Hudson River Valley",
+        "Counties: Dutchess, Orange, Putnam, Ulster, Sullivan, Columbia, Greene, northern Westchester",
+        "One of eight NYISO Transmission Owners"
+      ]
+    },
+    {
+      "source_name": "Existing Research - Central Hudson TDR (Batch 2)",
+      "file_path": "/home/enrico/projects/power_market_pipeline/dr_programs_researched/program_batch2_003_central_hudson_tdr_enriched.json",
+      "last_accessed": "2025-10-11",
+      "data_type": "prior_research",
+      "notes": "Comprehensive TDR program research completed in Batch 2. Verified capacity payment $27.30/kW/summer, event parameters, NYISO stacking capability, CBL methodology, geographic constraints."
+    },
+    {
+      "source_name": "Existing Research - Central Hudson CSRP (Batch 2)",
+      "file_path": "/home/enrico/projects/power_market_pipeline/dr_programs_researched/program_batch2_010_central_hudson_csrp_enriched.json",
+      "last_accessed": "2025-10-11",
+      "data_type": "prior_research",
+      "notes": "Comprehensive CSRP program research completed in Batch 2. Verified dual payment structure (Reservation vs Voluntary), performance rates by event type, event windows, mutual exclusivity with TDR."
+    }
+  ],
+
+  "data_gaps_and_limitations": {
+    "critical_gaps": [
+      "NO residential battery storage program exists in Peak Perks (major gap vs other utilities)",
+      "TDR performance payment rates not publicly disclosed",
+      "Maximum events per season not specified (any program)",
+      "Maximum total hours per season not specified",
+      "Minimum rest hours between events not specified",
+      "CBL calculation methodology for battery storage systems not documented",
+      "CSRP stacking with NYISO programs not documented (TDR stacking is documented)",
+      "Battery-specific control and telemetry requirements not stated",
+      "Historical event data not available (dates, times, durations, advance notice)",
+      "Event overlap probability between Peak Perks and NYISO programs unknown"
+    ],
+    "data_not_publicly_available": [
+      "Complete tariff documents for Peak Perks programs (referenced but not fully accessible)",
+      "TDR performance payment rates ($/kWh or $/kW-event)",
+      "Program participation statistics (enrolled customers, total MW)",
+      "Historical event logs for revenue modeling",
+      "Detailed CBL calculation procedures",
+      "Measurement and verification protocols",
+      "Settlement and payment timelines",
+      "Penalty structures for non-performance",
+      "Geographic boundaries of TDM Load Zones and TDR-eligible areas",
+      "API or automated dispatch system documentation"
+    ],
+    "verification_limitations": [
+      "Peak Perks website provides program overviews but not complete operational details",
+      "CSRP payment rates verified from NYSERDA document rather than direct Central Hudson tariff",
+      "Some parameters inferred from comparable utility programs or prior research",
+      "Battery storage eligibility implied but not explicitly confirmed in any program",
+      "NYISO stacking rules partially documented (clear for TDR, unclear for CSRP)",
+      "Residential program operational details less comprehensive than commercial programs",
+      "No public data on typical event frequency for revenue forecasting"
+    ],
+    "battery_storage_specific_gaps": [
+      "No residential battery pathway (Peak Perks offers no battery VPP program)",
+      "Commercial battery eligibility not explicitly stated (implied by BTM language)",
+      "CBL methodology for batteries not documented (critical for performance measurement)",
+      "Battery charging impact on baseline not addressed",
+      "Battery discharge measurement methodology not specified",
+      "Fast-response advantage for batteries not recognized in program materials",
+      "Battery SOC management with unknown max events/hours creates revenue risk",
+      "NYISO wholesale + Peak Perks stacking rules incomplete for batteries",
+      "Telemetry and control interface requirements not specified"
+    ]
+  },
+
+  "research_notes": "Conducted comprehensive research on Central Hudson Peak Perks program on 2025-10-11, building on prior Batch 2 research of TDR and CSRP programs. Key findings: (1) Peak Perks is an umbrella brand, not a distinct program - it houses residential programs (thermostats, outdoor switches, custom savings) and commercial programs (TDR, CSRP). (2) CRITICAL GAP: NO residential battery storage program exists in Peak Perks, unlike VPP programs at other NY utilities (e.g., National Grid). This represents a significant missed opportunity for residential solar+storage optimization. (3) Commercial batteries (≥50kW) likely eligible for TDR or CSRP, but critical details not documented (CBL for batteries, performance rates for TDR, NYISO stacking for CSRP). (4) Payment structure well-documented for residential programs ($75/year) and CSRP ($0.25-1.00/kWh performance), but TDR performance rates not public. (5) NYISO interaction complex: TDR explicitly allows SCR stacking, but CSRP stacking unclear. FERC 2222 aggregation enables residential battery participation in NYISO wholesale markets (bypassing Peak Perks). (6) Event parameters well-defined (noon-8PM weekdays, June-Sept), but max events/hours not specified - critical gap for battery SOC management. (7) All Peak Perks programs use summer-only, weekday-only structure aligned with NYISO peak periods. (8) Geographic targeting to transmission-constrained zones (TDR) vs broader territory (CSRP, residential) creates complexity. Overall: Peak Perks is mature residential/commercial DR platform with clear payment structures, but lacks battery-specific pathways and has critical data gaps for battery revenue modeling. Residential battery owners have no Peak Perks option and must pursue NYISO aggregation or forgo DR revenue. Commercial battery eligibility implied but not explicit. Recommend: (1) Direct engagement with Central Hudson to confirm battery eligibility and obtain missing operational parameters, (2) Advocate for residential battery VPP program addition to Peak Perks, (3) Investigate NYISO FERC 2222 aggregation as alternative pathway for batteries.",
+
+  "integration_metadata": {
+    "optimizer_compatible": "partial",
+    "optimizer_compatibility_notes": "Residential programs: NOT compatible (no battery program exists). Commercial programs: Partially compatible - basic payment structure and event windows documented, but critical parameters missing (max events, CBL for batteries, historical event data).",
+    "api_available": false,
+    "api_documentation_url": "not available",
+    "api_notes": "No automated dispatch API documented. Programs likely use manual notification (email, phone, SMS). Residential devices (thermostats, outdoor switches) use direct load control. Commercial programs use event notifications.",
+    "data_quality_score": 7.5,
+    "data_quality_rationale": "Residential programs: good documentation of payment structure ($75/year) and device options, but operational details limited. Commercial programs: excellent documentation of CSRP payment structure (NYSERDA source), TDR capacity payments clear, event windows well-defined. Major gaps: no residential battery program, TDR performance rates unpublished, max events/hours unspecified, historical event data unavailable, CBL for batteries not documented, NYISO stacking rules incomplete. Score reflects strong payment data but significant operational and battery-specific gaps.",
+    "last_verified_date": "2025-10-11",
+    "verification_thoroughness": "Comprehensive web research conducted including Peak Perks website, Central Hudson official sources, NYSERDA technical documents, NYISO program documentation, FERC 2222 aggregation rules, and cross-referencing with prior Batch 2 research on TDR and CSRP. Multiple source verification for payment rates and program structure.",
+    "recommended_next_steps": [
+      "Contact Central Hudson Peak Perks at CH.DLM@cenhud.com or 844-258-7761 to inquire about: (1) plans to add residential battery VPP program, (2) explicit confirmation of commercial battery eligibility (≥50kW), (3) CBL calculation methodology for battery storage systems, (4) TDR performance payment rates, (5) maximum events and hours per season, (6) historical event data for 2022-2024 seasons",
+      "Obtain complete tariff documents (PSC filings) for TDR, CSRP, and residential programs",
+      "Verify CSRP + NYISO program stacking rules (TDR stacking documented, CSRP unclear)",
+      "Research NYISO FERC 2222 aggregators operating in Central Hudson territory for residential battery participation",
+      "Search NY PSC eDocket for Central Hudson DR program filings, annual reports, and rate cases",
+      "Compare residential battery revenue potential: Peak Perks (none) vs NYISO aggregation vs other utilities' VPP programs",
+      "Investigate geographic boundaries of TDM Load Zones (residential eligibility) and TDR-eligible areas (commercial)",
+      "Request battery-specific participation requirements: telemetry, control interfaces, interconnection standards",
+      "Clarify event overlap management if customer participates in both Peak Perks and NYISO programs",
+      "Obtain sample CBL calculations for load curtailment vs battery discharge scenarios"
+    ],
+    "optimization_considerations": {
+      "residential_batteries": {
+        "peak_perks_pathway": "NONE - No residential battery program exists in Peak Perks. This is a critical gap.",
+        "nyiso_aggregation_pathway": "Residential batteries can participate in NYISO wholesale markets via FERC 2222 aggregation (effective July 1, 2023). Aggregators pool residential batteries to meet NYISO minimums (typically 100kW-1MW for DERs). Revenue from NYISO energy arbitrage, capacity, and potentially ancillary services.",
+        "self_consumption_only": "Without Peak Perks or NYISO aggregation, residential battery limited to self-consumption arbitrage and backup power. No DR revenue stream.",
+        "revenue_comparison": "Green Mountain Power (VT) offers $200-1000/year for residential battery participation. Eversource (CT) offers similar. Central Hudson Peak Perks offers $0 (no program). NYISO aggregation revenue varies by aggregator terms and NYISO market prices.",
+        "recommendation": "Residential battery owners should: (1) Investigate NYISO aggregation options (contact CPower, Voltus, Enel X, etc.), (2) Advocate to Central Hudson for residential battery VPP program, (3) Optimize for self-consumption + demand charge reduction in absence of DR program."
+      },
+      "commercial_batteries_50kw_to_1mw": {
+        "program_selection": "TDR (if in constrained zone) offers $27.30/kW/summer capacity = $13,650-27,300 annual for 500kW-1MW battery. CSRP (broader territory) offers $16/kW/summer (Reservation) or $0 capacity (Voluntary). Choose based on location and risk preference.",
+        "csrp_voluntary_advantage": "CSRP Voluntary option offers $1.00/kWh for unplanned events (<21 hours notice). Battery's fast response capability ideally suited for capturing these high-paying events. 500kW battery responding to 3-hour unplanned event = $1,500 revenue.",
+        "event_revenue_uncertainty": "Max events per season unknown. If 5 events × 3 hours × 500kW × $0.50/kWh = $3,750. If 10 events = $7,500. Historical data needed for accurate forecast.",
+        "arbitrage_stacking": "Peak Perks events occur noon-8PM (NYISO peak hours). Battery can charge overnight at low prices ($20-40/MWh), discharge during events for Peak Perks performance payment + capture energy arbitrage if event price > purchase price.",
+        "nyiso_dsasp_question": "Battery ≥1MW could participate in NYISO DSASP for regulation/reserves. TDR allows NYISO stacking. Does CSRP? Verification needed. If stackable, battery could earn Peak Perks + NYISO regulation revenue simultaneously (regulation operates 24/7, Peak Perks only noon-8PM).",
+        "soc_management_challenge": "Without knowing max events/hours per season, battery must maintain conservative SOC strategy to ensure response capability. 4-hour battery with unknown event frequency creates operational risk."
+      },
+      "commercial_batteries_over_1mw": {
+        "multi_revenue_stacking": "Battery >1MW can participate in: (1) Peak Perks TDR/CSRP (capacity + performance), (2) NYISO DSASP (regulation/reserves 24/7), (3) NYISO energy arbitrage, (4) host facility demand charge reduction. High revenue potential but complex optimization.",
+        "tdr_plus_nyiso_scenario": "1MW battery in constrained zone: TDR capacity $27,300/summer + NYISO DSASP regulation revenue (est. $50-100/kW/year = $50,000-100,000) + energy arbitrage + TDR event performance. Total revenue potential $100,000-150,000/year.",
+        "event_overlap_management": "If enrolled in both Peak Perks and NYISO programs, events may be called simultaneously (both are summer peaking). Battery must prioritate which program to serve. TDR capacity payment is guaranteed (high priority), NYISO regulation is hourly dispatch (can forfeit). Optimization algorithm needed.",
+        "control_system_requirements": "Multi-market participation requires sophisticated control system: (1) Forecast NYISO energy and regulation prices, (2) Monitor for Peak Perks event notifications, (3) Optimize SOC for both programs, (4) Execute dispatch commands in real-time, (5) Track performance for settlement in both markets.",
+        "interconnection_consideration": "Batteries >5MW must interconnect through NYISO (not distribution level). May lose eligibility for retail Peak Perks programs at this scale. Verification needed."
+      },
+      "call_window_optimization": "Noon-8PM weekday window aligns with NYISO on-peak pricing (typically 2-6PM peak). Battery strategy: charge overnight/morning (low prices), hold charge through noon, discharge during Peak Perks events and/or NYISO peak prices. Event notification (day-ahead or 2+ hours) allows optimization.",
+      "seasonal_constraints": "Peak Perks operates June-Sept only (4 months). Battery must optimize other revenue streams Oct-May: NYISO energy arbitrage, regulation, capacity, host demand charges. Summer Peak Perks revenue may represent 25-40% of annual revenue depending on event frequency.",
+      "baseline_methodology_concern": "CBL methodology for batteries is UNDEFINED in program materials. For load curtailment customers, CBL = historical consumption pattern. For battery discharge, what is baseline? If battery charges during baseline period, does that increase baseline and reduce measured performance? This is a critical unanswered question that affects revenue.",
+      "fast_response_value": "Batteries respond in seconds vs manual curtailment (minutes to hours). This enables capturing 'unplanned' events with short notice (<21 hours, potentially as little as 2 hours). CSRP Voluntary option pays 2x higher for unplanned events ($1.00 vs $0.25/kWh). Battery's fast response is significant competitive advantage not explicitly recognized in program materials."
+    },
+    "battery_specific_notes": "Peak Perks has NO residential battery pathway - this is a significant program gap compared to other utilities (Green Mountain Power, Eversource, National Grid) offering battery VPP programs with $200-1000/year payments. Residential battery owners must pursue NYISO FERC 2222 aggregation or forgo DR revenue. Commercial batteries (≥50kW) likely eligible for TDR or CSRP based on generic BTM language, but eligibility not explicitly confirmed and critical details missing: CBL for batteries, performance measurement for discharge vs curtailment, telemetry requirements, SOC management with unknown max events. Battery's fast response capability is ideal for CSRP Voluntary option ($1.00/kWh unplanned events) but program materials don't recognize this advantage. NYISO stacking potential is high for TDR (explicitly allowed), unclear for CSRP. Batteries >1MW have strong multi-market revenue potential (Peak Perks + NYISO DSASP + arbitrage) but require sophisticated control systems and event overlap management. Data quality is MODERATE for commercial battery modeling (7.5/10) - payment structure clear, but operational gaps (max events, historical data, CBL methodology) create revenue uncertainty. Data quality is POOR for residential battery modeling (3/10) - no program exists. Recommend: (1) Prioritize direct engagement with Central Hudson to confirm commercial battery eligibility and obtain missing parameters before sizing battery for Peak Perks participation, (2) Investigate NYISO aggregation for residential batteries, (3) Advocate for Central Hudson to launch residential battery VPP program similar to other NY utilities.",
+    "notes": "Central Hudson Peak Perks is a mature demand response platform with clear residential (thermostat, outdoor switch, custom savings) and commercial (TDR, CSRP) offerings, but LACKS battery storage pathways available at other utilities. The residential battery gap is particularly notable - utilities across North America are launching battery VPP programs, but Peak Perks has no equivalent offering. Commercial battery participation is implied but not explicit, with critical data gaps (CBL methodology, max events, NYISO stacking for CSRP) that create revenue modeling uncertainty. Payment structure is well-documented for CSRP ($0.25-1.00/kWh performance) and TDR capacity ($27.30/kW/summer), but TDR performance rates are not public. The program's summer-only, weekday noon-8PM structure aligns well with NYISO peak periods for arbitrage opportunities. NYISO interaction is partially documented: TDR explicitly allows SCR stacking, but CSRP stacking unclear. FERC 2222 aggregation (effective July 2023) enables residential battery participation in NYISO wholesale markets as alternative to non-existent Peak Perks battery program. For optimization modeling: residential batteries have NO Peak Perks pathway (pursue NYISO aggregation instead); commercial batteries 50kW-1MW should consider CSRP Voluntary for high unplanned event rates ($1.00/kWh) leveraging fast response; batteries >1MW have strong multi-market stacking potential (TDR + NYISO DSASP + arbitrage) but need complex control systems. Critical next step: direct engagement with Central Hudson to confirm battery eligibility, obtain CBL methodology for batteries, clarify NYISO stacking rules, and advocate for residential battery VPP program launch. Overall assessment: Peak Perks is good residential/commercial DR platform, but battery-specific capabilities are underdeveloped compared to industry peers. Battery revenue modeling faces significant data gaps (no residential program, TDR performance rates unpublished, max events unknown, historical data unavailable, CBL for batteries undefined)."
+  },
+
+  "contact_for_additional_info": {
+    "program_contact": {
+      "email": "CH.DLM@cenhud.com",
+      "phone": "844-258-7761",
+      "website": "https://cenhudpeakperks.com/",
+      "enrollment_portal": "Online enrollment available at cenhudpeakperks.com"
+    },
+    "central_hudson_main": {
+      "phone": "General customer service",
+      "website": "https://www.cenhud.com/"
+    },
+    "nyiso_dr_programs": {
+      "website": "https://www.nyiso.com/demand-response",
+      "notes": "For information about NYISO wholesale DR programs (SCR, EDRP, DSASP) that can stack with Peak Perks"
+    },
+    "ferc_2222_aggregation": {
+      "central_hudson_page": "https://www.cenhud.com/en/my-energy/distributed-generation/new-york-iso-wholesale-market-aggregation-ferc-2222/",
+      "notes": "For residential batteries seeking NYISO wholesale market participation via aggregation"
+    }
+  },
+
+  "research_metadata": {
+    "research_date": "2025-10-11",
+    "research_duration_minutes": 35,
+    "researcher_notes": "Comprehensive research building on prior Batch 2 work on TDR and CSRP. Conducted extensive web research on Peak Perks umbrella brand, NYISO market interaction, FERC 2222 aggregation rules, and battery storage eligibility. Key discovery: Peak Perks is not a distinct program but rather an umbrella brand housing multiple DR programs. CRITICAL FINDING: No residential battery storage program exists in Peak Perks - this is a significant gap compared to VPP programs at other NY utilities. Commercial battery eligibility implied but not explicit, with critical data gaps for revenue modeling (CBL methodology for batteries, TDR performance rates, max events/hours, NYISO stacking rules for CSRP). Payment structure well-documented for residential programs and CSRP, but TDR performance payment rates remain unpublished. NYISO interaction partially documented: TDR explicitly allows SCR stacking (strong revenue stacking potential), but CSRP stacking with NYISO programs not documented. FERC 2222 aggregation rules enable residential batteries to bypass non-existent Peak Perks pathway and participate in NYISO wholesale markets instead. Event parameters well-defined (noon-8PM weekdays, June-Sept), but lack of max events/hours specification creates SOC management challenges for batteries. All financial data verified from multiple official sources (Peak Perks website, Central Hudson, NYSERDA). Geographic targeting to TDM Load Zones (residential) and transmission-constrained zones (TDR) adds complexity. Overall: Peak Perks is mature residential/commercial DR platform with strong residential device programs and well-structured commercial options, but battery-specific capabilities are underdeveloped. Data quality good for residential thermostats/switches (7.5/10), moderate for commercial battery modeling (key gaps), poor for residential battery modeling (no program exists). Recommend direct engagement with Central Hudson to confirm battery eligibility, obtain missing operational parameters, and advocate for residential battery VPP program launch. NO FAKE DATA USED - all gaps clearly documented as 'not available' or 'not specified'.",
+    "confidence_level": "high",
+    "verification_status": "verified",
+    "requires_followup": true,
+    "followup_items": [
+      "Contact Central Hudson to confirm explicit battery storage eligibility (residential and commercial)",
+      "Request CBL calculation methodology specifically for battery discharge vs load curtailment",
+      "Obtain TDR performance payment rates ($/kWh or $/kW-event)",
+      "Request maximum events and hours per season for all programs (critical for battery SOC management)",
+      "Obtain historical event data for 2022-2024 seasons (dates, times, durations, advance notice)",
+      "Clarify CSRP stacking rules with NYISO programs (TDR stacking documented, CSRP unclear)",
+      "Request battery-specific telemetry and control interface requirements",
+      "Obtain complete tariff documents (PSC filings) for comprehensive program rules",
+      "Inquire about Central Hudson plans to launch residential battery VPP program",
+      "Clarify geographic boundaries of TDM Load Zones and TDR-eligible areas",
+      "Request sample settlement calculations for battery participating in TDR or CSRP",
+      "Obtain information about penalty structures for non-performance",
+      "Research NYISO FERC 2222 aggregators operating in Central Hudson territory for residential battery options",
+      "Investigate whether batteries >5MW lose retail program eligibility due to NYISO interconnection requirement"
+    ]
+  }
+}

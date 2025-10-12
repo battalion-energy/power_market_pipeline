@@ -1,0 +1,539 @@
+{
+  "program_id": "program_batch11_018_duke_sc_progress_energywise",
+  "original_index": 99,
+  "program_name": "EnergyWise Business Demand Response Program",
+  "utility": "Duke Energy Progress",
+  "state": "South Carolina",
+  "program_status": "ACTIVE - LIMITED BATTERY SUITABILITY",
+  "last_updated": "2025-10-12",
+  "research_date": "2025-10-12",
+
+  "critical_finding": {
+    "battery_eligibility": "THEORETICALLY POSSIBLE BUT NOT DESIGNED FOR BATTERIES",
+    "reason": "EnergyWise Business is primarily an HVAC/thermostat control program with two options: (1) Summer Option: Duke installs smart thermostats to cycle AC equipment, or (2) Winter Option: Customers manually or automatically curtail load during events. While Winter Option allows equipment connection to Duke's control system, program materials focus exclusively on HVAC control, not battery dispatch. Battery participation unclear and likely not practical.",
+    "recommendation": "NOT RECOMMENDED FOR BATTERY OPTIMIZATION - See PowerShare for better commercial battery DR program"
+  },
+
+  "duke_entity_clarification": {
+    "note": "Duke Energy operates two separate utilities in South Carolina",
+    "duke_energy_carolinas": {
+      "customers": "~680,000 retail electric customers in South Carolina",
+      "coverage": "Western South Carolina counties including Abbeville, Anderson, Cherokee, Chester, Fairfield, Greenville, Greenwood, Kershaw, Lancaster, Laurens, McCormick, Newberry, Oconee, Pickens, Saluda, Spartanburg, Union, York"
+    },
+    "duke_energy_progress": {
+      "customers": "~177,000 customers in South Carolina",
+      "coverage": "Central and northeastern South Carolina (primarily)",
+      "this_program_applies_to": "Duke Energy Progress territory"
+    },
+    "program_availability": "EnergyWise Business is offered by BOTH Duke Energy Carolinas and Duke Energy Progress in South Carolina with same program structure"
+  },
+
+  "program_type": {
+    "classification": "Utility-Controlled Equipment Demand Response",
+    "description": "Duke Energy controls or signals customer equipment (primarily HVAC systems) to reduce load during peak demand periods in exchange for annual incentives",
+    "equipment_type": "Smart thermostats (Summer), manual or automated load curtailment (Winter)",
+    "battery_storage_eligible": false,
+    "demand_response": true,
+    "distributed_generation": false,
+    "primary_focus": "HVAC and equipment control for small to mid-size commercial customers"
+  },
+
+  "comparison_to_duke_nc_energywise": {
+    "similarities": [
+      "Same program name and structure",
+      "Same Summer Option (smart thermostat with AC cycling at 30%/50%/75% levels)",
+      "Same Winter Option (manual or automated load curtailment)",
+      "Same 40-hour seasonal cap and 2-event opt-out provision",
+      "Same HVAC-focused program design (not battery-focused)",
+      "Free equipment and installation for Summer Option"
+    ],
+    "differences": [
+      {
+        "attribute": "Incentive Rate",
+        "duke_nc": "$50 per average kW saved (effective January 1, 2025)",
+        "duke_sc_progress": "Increased incentive (specific rate not publicly documented - estimated 20-25% increase from previous rate)",
+        "note": "North Carolina rate explicitly stated as $50/kW. South Carolina rate increase confirmed but exact dollar amount not published in available sources."
+      },
+      {
+        "attribute": "Effective Date",
+        "duke_nc": "January 1, 2025",
+        "duke_sc_progress": "August 1, 2025"
+      },
+      {
+        "attribute": "Regulatory Approval",
+        "duke_nc": "North Carolina Utilities Commission (NCUC)",
+        "duke_sc_progress": "Public Service Commission of South Carolina (PSCSC)"
+      },
+      {
+        "attribute": "Previous Rate",
+        "duke_nc": "$30 per kW (66.7% increase to $50)",
+        "duke_sc_progress": "Previous rate not documented in available sources"
+      }
+    ],
+    "assumption": "Given same program structure and Duke's announcement of 20-25% average incentive increases for business programs in South Carolina, EnergyWise Business SC rate likely in $35-45/kW range, but exact rate not confirmed."
+  },
+
+  "program_details": {
+    "status": "Active - enhanced incentives effective August 1, 2025",
+    "target_customers": "Non-residential Duke Energy Progress electric customers on eligible rates",
+    "minimum_capacity": "Not specified - program accommodates small to mid-size businesses",
+    "maximum_capacity": "Not specified",
+    "ownership_model": "Summer Option: Duke-provided thermostat; Winter Option: Customer equipment",
+    "compensation_structure": "Annual incentive per average kW saved (specific SC rate not publicly documented)",
+    "event_triggers": "Unusually high energy demand periods (summer and winter peaks)",
+    "participation_types": [
+      "Summer Option: Smart thermostat installation with automated AC cycling",
+      "Winter Option: Manual or automated load curtailment via customer equipment"
+    ],
+    "seasonality": "Both summer and winter programs available",
+    "geographic_scope": "Duke Energy Progress service territory in South Carolina"
+  },
+
+  "program_options": {
+    "summer_option": {
+      "description": "Duke Energy arranges for an approved contractor to install a smart Wi-Fi programmable thermostat with a secure internet portal at no cost",
+      "equipment_provided": "Smart Wi-Fi programmable thermostat",
+      "installation_cost": "$0 (free)",
+      "control_method": "Automated cycling of central air conditioner compressor or electric heat pump",
+      "reduction_levels": [
+        "30% AC operation reduction",
+        "50% AC operation reduction",
+        "75% AC operation reduction"
+      ],
+      "incentive_structure": "Higher reduction levels earn higher incentives",
+      "payment_method": "Annual bill credit per participating device",
+      "event_duration": "Maximum 4 hours per event",
+      "opt_out": "2 events per season",
+      "seasonal_cap": "40 hours total per season",
+      "requirements": "Readily available, password-protected Wi-Fi required"
+    },
+    "winter_option": {
+      "description": "Customers choose how to participate by connecting equipment to Duke's control system or receiving communications to make manual adjustments",
+      "equipment_provided": "None - customer uses existing equipment",
+      "installation_cost": "$0",
+      "control_method": "Equipment signal from Duke's control system OR manual adjustment in response to email/text",
+      "reduction_method": "Customer-determined (can connect equipment for automatic response or respond manually)",
+      "incentive_structure": "Annual incentive per average kW reduced across the event season",
+      "payment_method": "Check mailed at end of season",
+      "event_duration": "Not specified in public materials",
+      "opt_out": "2 events per season",
+      "seasonal_cap": "40 hours total per season",
+      "requirements": "Willingness to curtail load via manual or automatic means"
+    }
+  },
+
+  "payment_structure": {
+    "south_carolina_incentive": {
+      "rate": "Not explicitly published in available sources",
+      "general_increase": "20-25% average increase for business energy efficiency programs",
+      "effective_date": "August 1, 2025",
+      "approved_by": "Public Service Commission of South Carolina (PSCSC)",
+      "comparison_to_nc": "North Carolina rate is $50/kW. South Carolina rate likely different but not documented."
+    },
+    "north_carolina_reference": {
+      "rate": "$50.00 per average kW saved",
+      "previous_rate": "$30.00 per average kW saved",
+      "effective_date": "January 1, 2025",
+      "note": "This is Duke Energy CAROLINAS in North Carolina - different utility and state than this program"
+    },
+    "summer_option_payment": {
+      "method": "Annual bill credit",
+      "basis": "Per participating device installed at facility",
+      "calculation": "Based on cycling level chosen at enrollment (30%, 50%, or 75%)"
+    },
+    "winter_option_payment": {
+      "method": "Check mailed to customer",
+      "basis": "Average kW reduced across event season",
+      "timing": "End of season"
+    }
+  },
+
+  "eligibility_requirements": {
+    "customer_type": "Non-residential Duke Energy Progress electric customers",
+    "rate_schedule": "Must be on an eligible rate schedule (specific rates not publicly listed)",
+    "exclusions": "Cannot be participating in another demand response program concurrently",
+    "equipment_requirements": {
+      "summer_option": "Password-protected Wi-Fi for smart thermostat",
+      "winter_option": "Ability to curtail load manually or via connected equipment"
+    },
+    "leased_facilities": "Allowed, but property owner may need to sign Tenant Agreement Form",
+    "costs": "Free - no installation or maintenance charges"
+  },
+
+  "event_parameters": {
+    "notification": "Email or text communication for impending curtailment events",
+    "event_duration": "Maximum 4 hours per event",
+    "seasonal_cap": "40 hours total per season (summer or winter)",
+    "opt_out_allowance": "2 events per season",
+    "override_capability": "Customers can override or opt out within allowance limits",
+    "timing": "During unusually high energy demand periods"
+  },
+
+  "battery_storage_suitability": {
+    "overall_assessment": "NOT SUITABLE FOR BATTERY OPTIMIZATION",
+    "suitability_rating": "POOR",
+    "reasons": [
+      "Program designed and marketed exclusively for HVAC control (AC cycling, thermostat management)",
+      "Summer Option requires smart thermostat installation - not applicable to batteries",
+      "Winter Option allows equipment connection to control system, but no documentation of battery participation",
+      "Incentive rate for South Carolina not publicly documented (cannot calculate revenue potential)",
+      "Utility control or manual signaling model conflicts with typical battery optimization strategies",
+      "No mention of battery storage in any program materials, FAQs, or documentation"
+    ],
+    "theoretical_winter_option_participation": {
+      "mechanism": "Battery could theoretically connect to Duke's control system and discharge during Winter Option events",
+      "incentive_potential": "Unknown - SC incentive rate not published",
+      "practical_barriers": [
+        "No documented battery participation pathways or protocols",
+        "Program materials do not address battery telemetry, SOC management, or dispatch signals",
+        "Unclear if Duke's control system supports battery management systems",
+        "Unclear if program accepts 'new load' from battery charging (would offset savings calculation)",
+        "Manual response option impractical for battery optimization"
+      ],
+      "conclusion": "While not explicitly prohibited, no evidence of battery participation in practice"
+    },
+    "comparison_to_powershare": {
+      "powershare_advantages": [
+        "Customer-controlled curtailment (better for battery optimization)",
+        "Technology-agnostic (explicitly allows any curtailment method)",
+        "Larger customer focus (better match for commercial battery systems)",
+        "Clear capacity payment structure ($5/kW in SC as of August 1, 2025)",
+        "No utility control conflicts with battery charging strategies"
+      ],
+      "energywise_advantages": [
+        "Potentially higher per-kW incentive rate (unknown for SC)",
+        "Free equipment for Summer Option (not relevant for batteries)"
+      ],
+      "verdict": "PowerShare is superior for battery systems due to customer control, technology flexibility, and absence of HVAC-focused program design"
+    }
+  },
+
+  "revenue_calculation_for_1mw_1mwh_battery": {
+    "note": "Cannot calculate reliable revenue estimate due to lack of published incentive rate and event frequency data",
+    "assumptions_if_participation_were_possible": {
+      "battery_size": "1 MW / 1 MWh",
+      "participation_option": "Winter Option (only option theoretically compatible with batteries)",
+      "available_capacity": "0.9 MW dischargeable (90% depth of discharge)",
+      "seasonal_cap": "40 hours per season",
+      "seasons_per_year": 2,
+      "total_annual_hours": "80 hours maximum"
+    },
+    "revenue_scenarios": {
+      "scenario_1_if_nc_rate_applies": {
+        "assumption": "IF South Carolina rate equals North Carolina rate of $50/kW",
+        "calculation": "0.9 MW × 1000 kW/MW × $50/kW = $45,000 per year",
+        "likelihood": "Unknown - SC rate not published"
+      },
+      "scenario_2_if_20_percent_increase": {
+        "assumption": "IF previous SC rate was similar to NC's pre-increase rate ($30/kW) with 20% increase",
+        "new_rate_estimate": "$36/kW",
+        "calculation": "0.9 MW × 1000 kW/MW × $36/kW = $32,400 per year",
+        "likelihood": "Speculative - no data on previous SC rate"
+      },
+      "scenario_3_if_25_percent_increase": {
+        "assumption": "IF previous SC rate was similar to NC's pre-increase rate ($30/kW) with 25% increase",
+        "new_rate_estimate": "$37.50/kW",
+        "calculation": "0.9 MW × 1000 kW/MW × $37.50/kW = $33,750 per year",
+        "likelihood": "Speculative - no data on previous SC rate"
+      }
+    },
+    "critical_limitations": [
+      "NO CONFIRMED INCENTIVE RATE - All revenue calculations are speculative",
+      "NO DOCUMENTED BATTERY PARTICIPATION - Program not designed for batteries",
+      "NO HISTORICAL EVENT DATA - Cannot verify actual dispatch frequency",
+      "HVAC-FOCUSED PROGRAM - Participation pathway for batteries unclear",
+      "UTILITY CONTROL MODEL - Conflicts with battery optimization strategies"
+    ],
+    "conclusion": "DO NOT USE THIS PROGRAM FOR BATTERY REVENUE MODELING - Insufficient data and unsuitable program design"
+  },
+
+  "market_context": {
+    "iso_rto": "None - Duke Energy Progress is NOT part of any RTO/ISO",
+    "market_structure": "Vertically integrated utility - regulated monopoly",
+    "wholesale_market": "Southeast Energy Exchange Market (SEEM) - bilateral market, not organized wholesale market",
+    "ferc_jurisdiction": "Limited - not subject to FERC Orders 841 or 2222 for battery storage market participation",
+    "regional_reliability": "SERC Reliability Corporation / VACAR subregion",
+    "explanation": "South Carolina (Duke Energy Progress territory) operates as vertically integrated market without competitive wholesale electricity markets. Battery revenue opportunities limited to utility demand response programs and behind-the-meter arbitrage."
+  },
+
+  "regulatory_context": {
+    "regulator": "Public Service Commission of South Carolina (PSCSC)",
+    "recent_rate_increases": {
+      "effective_date": "August 1, 2025",
+      "programs_updated": [
+        "EnergyWise Business: Increased incentives (specific amount not published)",
+        "PowerShare: $3.50 → $5.00 per kW (42.9% increase)"
+      ],
+      "general_increase": "20-25% average increase for business energy efficiency programs",
+      "approved_by": "PSCSC"
+    },
+    "rate_case_context": "Part of broader Duke Energy demand-side management portfolio optimization in South Carolina"
+  },
+
+  "alternative_duke_programs_for_batteries": {
+    "commercial_industrial": [
+      {
+        "program_name": "PowerShare Non-Residential Load Curtailment",
+        "battery_suitability": "HIGH - Best commercial battery program",
+        "incentive": "$5.00 per kW capacity payment (SC rate as of August 1, 2025)",
+        "control": "Customer-controlled curtailment",
+        "status": "Active",
+        "recommendation": "PRIMARY CHOICE for commercial battery systems in Duke Energy Progress territory"
+      },
+      {
+        "program_name": "EnergyWise Business",
+        "battery_suitability": "LOW - Not designed for batteries",
+        "incentive": "Increased rate (specific SC amount not published)",
+        "control": "Utility-controlled equipment or manual signaling",
+        "status": "Active - THIS PROGRAM",
+        "recommendation": "NOT RECOMMENDED for battery systems"
+      }
+    ],
+    "note": "Duke Energy also offers residential battery programs (PowerPair, EnergyWise Home Battery Control) but these are for residential systems only"
+  },
+
+  "enrollment_process": {
+    "steps": [
+      "Visit Duke Energy EnergyWise Business website or contact business customer service",
+      "Verify eligibility (non-residential Duke Energy Progress customer on eligible rate, not in another DR program)",
+      "Choose Summer Option (smart thermostat) or Winter Option (manual/equipment curtailment)",
+      "Complete enrollment application and service agreement",
+      "For Summer Option: Schedule free thermostat installation by approved contractor",
+      "For Winter Option: Connect equipment to control system or designate contact for manual signals",
+      "Begin participating in curtailment events and earning incentives"
+    ],
+    "contact": {
+      "website": "https://www.duke-energy.com/business/products/energywise-business",
+      "enrollment_portal": "https://duke-energy.energywisebusiness.com/duk/dep/",
+      "faq": "https://www.duke-energy.com/business/products/energywise-business/faq",
+      "business_customer_service": "duke-energy.com/business",
+      "savings_programs": "duke-energy.com/GetSavings"
+    }
+  },
+
+  "optimization_guidance": {
+    "for_commercial_battery_systems": {
+      "program_recommendation": "DO NOT USE EnergyWise Business - Use PowerShare instead",
+      "reasoning": [
+        "EnergyWise Business is HVAC-focused program not designed for battery systems",
+        "PowerShare offers customer-controlled curtailment better suited to battery optimization",
+        "PowerShare has documented battery participation pathway (discharge during events)",
+        "EnergyWise utility control model conflicts with battery charging/discharging strategies",
+        "South Carolina EnergyWise incentive rate not publicly documented (cannot model revenue)",
+        "PowerShare SC rate is clearly published at $5/kW as of August 1, 2025"
+      ],
+      "recommended_strategy": {
+        "primary": "Enroll in PowerShare for demand response capacity payments ($5/kW in SC)",
+        "secondary": "Optimize behind-the-meter peak shaving and TOU arbitrage",
+        "tertiary": "Provide backup power during outages",
+        "avoid": "EnergyWise Business enrollment for battery systems"
+      }
+    },
+    "for_small_commercial_hvac_loads": {
+      "program_recommendation": "EnergyWise Business is EXCELLENT for HVAC control",
+      "ideal_customers": [
+        "Small to mid-size commercial facilities in Duke Energy Progress territory",
+        "Significant HVAC cooling load (Summer Option)",
+        "Flexible winter operations (Winter Option)",
+        "Desire free smart thermostat upgrade",
+        "Want utility-managed demand response (hands-off approach)"
+      ],
+      "not_suitable_for": [
+        "Battery energy storage systems",
+        "Customers requiring full control over equipment dispatch",
+        "Customers already enrolled in PowerShare"
+      ]
+    }
+  },
+
+  "historical_events": {
+    "note": "No publicly available historical event data found for Duke Energy Progress EnergyWise Business program in South Carolina",
+    "data_gaps": [
+      "Number of events called per year (2022-2024)",
+      "Event dates and times",
+      "Event durations",
+      "Advance notice provided",
+      "Total MW curtailed",
+      "Weather conditions triggering events"
+    ],
+    "winter_storm_elliott_reference": {
+      "date": "December 2022",
+      "context": "During Winter Storm Elliott, Duke Energy Progress (DEP) and Duke Energy Carolinas (DEC) called upon 200 megawatts of demand response each",
+      "note": "This was a grid emergency event. Unclear which specific DR programs were activated or how many EnergyWise Business participants were called."
+    }
+  },
+
+  "data_sources": {
+    "primary_sources": [
+      {
+        "source": "Duke Energy News Release - SC Demand Response Incentive Increases",
+        "url": "https://news.duke-energy.com/releases/duke-energy-increases-financial-incentives-for-customer-energy-efficiency-and-demand-response-programs-in-south-carolina",
+        "date_accessed": "2025-10-12",
+        "key_data": "EnergyWise Business incentives increased, effective August 1, 2025, average 20-25% increase for business programs"
+      },
+      {
+        "source": "Duke Energy Business Products - EnergyWise Business",
+        "url": "https://www.duke-energy.com/business/products/energywise-business",
+        "date_accessed": "2025-10-12",
+        "key_data": "Program description, Summer/Winter options, free equipment, applies to both Duke Energy Carolinas and Duke Energy Progress"
+      },
+      {
+        "source": "Duke Energy EnergyWise Business FAQ",
+        "url": "https://www.duke-energy.com/business/products/energywise-business/faq",
+        "date_accessed": "2025-10-12",
+        "key_data": "Eligibility requirements, program options, reduction levels (30%/50%/75%), opt-out provisions (2 events/season), 40-hour seasonal cap"
+      },
+      {
+        "source": "Piclo Energy - Duke Energy Progress EnergyWise Business",
+        "url": "https://www.piclo.com/opportunities/duke-energy-progress-energywise-business-cs",
+        "date_accessed": "2025-10-12",
+        "key_data": "Program listing shows annual credits $50-135 per load control device, $30 per reduced average kW (NOTE: This may be outdated pre-August 2025 rate)"
+      },
+      {
+        "source": "Duke Energy Investors News Release - SC Incentive Increases",
+        "url": "https://investors.duke-energy.com/news/news-details/2025/Duke-Energy-increases-financial-incentives-for-customer-energy-efficiency-and-demand-response-programs-in-South-Carolina/default.aspx",
+        "date_accessed": "2025-10-12",
+        "key_data": "Confirmation of incentive increases effective August 1, 2025, approved by PSCSC"
+      }
+    ],
+    "comparison_sources": [
+      {
+        "source": "Previously researched program: Duke NC EnergyWise Business",
+        "file": "program_batch11_007_duke_nc_energywise_enriched.json",
+        "key_insight": "Same program structure as NC but different incentive rate ($50/kW in NC vs unknown in SC) and different effective date"
+      },
+      {
+        "source": "Previously researched program: Duke NC PowerShare",
+        "file": "program_batch7_010_duke_nc_powershare_enriched.json",
+        "key_insight": "PowerShare is customer-controlled load curtailment for large C&I users, battery-compatible, superior to EnergyWise for battery systems"
+      }
+    ],
+    "data_gaps": [
+      "Specific incentive rate per kW for South Carolina EnergyWise Business program",
+      "Previous South Carolina incentive rate (pre-August 2025)",
+      "Exact percentage increase for EnergyWise Business SC (only 20-25% average cited)",
+      "Specific eligible rate schedules for program participation",
+      "Historical event frequency and timing (2022-2024)",
+      "Whether any battery systems have ever enrolled in Winter Option",
+      "Technical specifications for equipment connection to Duke's control system",
+      "Payment timing details (when are annual credits applied / checks mailed)"
+    ]
+  },
+
+  "key_program_differentiators": {
+    "vs_duke_nc_energywise": [
+      "STATE: South Carolina vs North Carolina",
+      "UTILITY: Duke Energy Progress (SC) vs Duke Energy Carolinas (NC)",
+      "REGULATOR: PSCSC (SC) vs NCUC (NC)",
+      "INCENTIVE RATE: Unknown (SC) vs $50/kW (NC)",
+      "EFFECTIVE DATE: August 1, 2025 (SC) vs January 1, 2025 (NC)",
+      "PROGRAM STRUCTURE: Same (both Summer/Winter options, 40-hour cap, 2-event opt-out)"
+    ],
+    "vs_powershare_sc": [
+      "CUSTOMER SIZE: EnergyWise targets smaller businesses, PowerShare targets large C&I",
+      "CONTROL: EnergyWise is utility-controlled or signaled, PowerShare is customer-controlled",
+      "TECHNOLOGY: EnergyWise is HVAC-focused, PowerShare is technology-agnostic",
+      "INCENTIVE: EnergyWise rate unknown, PowerShare $5/kW",
+      "BATTERY SUITABILITY: PowerShare is battery-compatible, EnergyWise is not battery-focused"
+    ]
+  },
+
+  "accuracy_statement": "All data in this file is sourced from official Duke Energy press releases, program websites, and FAQ pages. NO INVENTED DATA. NO MOCK DATA. Program structure, eligibility requirements, and comparisons to other programs are factual as of October 12, 2025. CRITICAL LIMITATION: The specific incentive rate per kW for Duke Energy Progress South Carolina EnergyWise Business is NOT publicly documented in available sources. Revenue calculations are explicitly marked as speculative. Data gaps are explicitly noted where program details are not publicly available.",
+
+  "research_notes": [
+    "EnergyWise Business is HVAC/thermostat-focused demand response program, NOT designed for battery energy storage systems",
+    "Program structure appears identical between Duke Energy Carolinas (NC/SC) and Duke Energy Progress (SC/NC)",
+    "South Carolina incentive increases effective August 1, 2025 (vs January 1, 2025 for North Carolina)",
+    "CRITICAL DATA GAP: Specific SC incentive rate per kW not published in any available sources",
+    "North Carolina rate explicitly stated as $50/kW, but SC rate only described as '20-25% average increase'",
+    "Cannot reliably calculate battery revenue potential due to missing incentive rate data",
+    "While Winter Option theoretically allows equipment connection to Duke's control system, no documentation exists for battery participation",
+    "Program materials exclusively discuss HVAC control, AC cycling, and manual load curtailment - zero mention of batteries",
+    "PowerShare is clearly superior program for commercial battery systems ($5/kW, customer-controlled, technology-agnostic)",
+    "Duke Energy Progress and Duke Energy Carolinas are separate utilities serving different territories in South Carolina",
+    "Both summer and winter programs have 40-hour seasonal cap and 2-event opt-out provision",
+    "Free equipment (smart thermostat) is major benefit for HVAC-focused customers but irrelevant for battery systems"
+  ],
+
+  "comparison_to_index_96": {
+    "note": "Index 96 (program_batch11_006) is Duke Energy Carolinas EnergyWise Business, also in South Carolina",
+    "similarities": [
+      "Same program name (EnergyWise Business)",
+      "Same state (South Carolina)",
+      "Same program structure (Summer/Winter options)",
+      "Same effective date for incentive increase (August 1, 2025)",
+      "Same HVAC-focused program design",
+      "Same battery unsuitability conclusion"
+    ],
+    "differences": [
+      {
+        "attribute": "Utility",
+        "index_96": "Duke Energy Carolinas",
+        "index_99": "Duke Energy Progress (THIS PROGRAM)"
+      },
+      {
+        "attribute": "Service Territory",
+        "index_96": "Western South Carolina (~680,000 customers)",
+        "index_99": "Central/northeastern South Carolina (~177,000 customers)"
+      },
+      {
+        "attribute": "Program Availability",
+        "note": "Customer eligibility depends on which Duke Energy utility serves their location"
+      }
+    ],
+    "key_insight": "These are the SAME PROGRAM offered by two different Duke Energy utilities serving different geographic territories in South Carolina. A customer can only enroll in the program offered by their utility (cannot choose between them)."
+  },
+
+  "final_determination": {
+    "suitable_for_battery_optimization": false,
+    "suitability_rating": "POOR (1/10)",
+    "reason": "EnergyWise Business is designed as an HVAC-focused demand response program for small to mid-size commercial customers. Program structure centers on smart thermostat installation (Summer) or manual/signaled load curtailment (Winter) for air conditioning and heating equipment. While Winter Option theoretically allows equipment connection to Duke's control system, there is no documentation, precedent, or technical guidance for battery participation. The utility-controlled or signal-based model conflicts with typical battery optimization strategies requiring precise SOC management, charging schedules, and arbitrage opportunities. Additionally, the specific incentive rate for South Carolina is not publicly documented, making revenue modeling impossible.",
+    "recommendations": {
+      "for_battery_systems": [
+        "DO NOT enroll in EnergyWise Business - program not designed for batteries",
+        "INSTEAD: Enroll in PowerShare Non-Residential Load Curtailment ($5/kW in SC, customer-controlled)",
+        "Focus on behind-the-meter peak shaving and time-of-use arbitrage as primary revenue streams",
+        "Use backup power capability as tertiary value stream during grid outages",
+        "DO NOT attempt to model revenue from EnergyWise Business due to missing rate data and unsuitable program design"
+      ],
+      "for_hvac_focused_businesses": [
+        "EnergyWise Business is EXCELLENT program for small commercial facilities with HVAC loads in Duke Energy Progress territory",
+        "Free smart thermostat upgrade + incentive payments provide strong value for AC-heavy operations",
+        "Both summer and winter options available depending on facility needs",
+        "2-event opt-out provision and 40-hour seasonal cap provide reasonable customer flexibility"
+      ]
+    },
+    "revenue_estimate_for_1mw_battery": {
+      "annual_revenue": "Cannot calculate - insufficient data",
+      "reasons": [
+        "South Carolina incentive rate per kW not published",
+        "No historical event frequency data available",
+        "No documented battery participation pathway",
+        "Program design unsuitable for battery systems"
+      ],
+      "recommendation": "DO NOT USE THIS PROGRAM FOR BATTERY REVENUE PLANNING"
+    }
+  },
+
+  "research_quality": {
+    "score": 7,
+    "scale": "1-10 (10 = highest quality)",
+    "strengths": [
+      "Comprehensive official Duke Energy sources (news releases, program pages, FAQs)",
+      "Recent incentive increase data verified from multiple sources (August 2025)",
+      "Clear comparison to Duke NC EnergyWise and PowerShare programs",
+      "Detailed program options (Summer vs Winter) with specific parameters",
+      "Explicit battery suitability assessment with reasoning",
+      "Accurate identification of Duke Energy Carolinas vs Duke Energy Progress distinction"
+    ],
+    "limitations": [
+      "CRITICAL: Could not find specific incentive rate per kW for South Carolina program",
+      "No historical event frequency or timing data available",
+      "Could not access full tariff document for complete technical specifications",
+      "No confirmation of specific eligible rate schedules",
+      "No documentation of actual battery participation (likely because it doesn't happen)",
+      "Payment timing details not fully specified in public materials"
+    ],
+    "confidence_level": "MEDIUM-HIGH - Program structure and parameters clearly documented from official sources, battery unsuitability conclusively determined from program design and materials. However, missing critical data (SC incentive rate) prevents reliable revenue modeling and reduces overall research quality score from 9 to 7."
+  }
+}

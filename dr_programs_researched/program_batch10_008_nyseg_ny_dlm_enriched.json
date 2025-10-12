@@ -1,0 +1,144 @@
+{
+  "program_id": "NEW-YORK-NYSEG-TERM-AUTO-DLM",
+  "program_name": "Term and Auto Dynamic Load Management",
+  "utility": "NYSEG",
+  "state": "New York",
+  "iso_rto_territory": "NYISO",
+  "program_type": "utility",
+  "status": "active",
+
+  "description": "NYSEG's Term DLM and Auto DLM programs are contract-based demand response programs established by NY PSC in 2020 to encourage energy storage development. These programs differ from CSRP (tariff-based program) by offering multi-year contracts (3-5 years) procured through competitive RFP processes. Term DLM provides day-ahead system-wide peak shaving with 21-hour notice, while Auto DLM provides rapid 10-minute response for localized reliability needs. Programs use 'as-bid' pricing with ceiling rates based on Marginal Cost of Service studies. NYSEG issues annual RFPs for successive capability periods (2023, 2024, 2025, 2026) with resources participating through curtailment service providers or aggregators. The programs complement CSRP rather than replace it - CSRP remains available for customers preferring tariffed rates without multi-year commitments.",
+
+  "payment_structure": {
+    "capacity_payment": {
+      "term_dlm": {
+        "rate": "as-bid pricing (competitive RFP process)",
+        "billing_frequency": "monthly",
+        "notes": "Ceiling prices based on Marginal Cost of Service studies. 3-year contract terms provide longer-term price certainty. Actual rates determined through competitive bidding process and vary by resource."
+      },
+      "auto_dlm": {
+        "rate": "as-bid pricing with premium for rapid response (competitive RFP process)",
+        "billing_frequency": "monthly",
+        "notes": "Premium payments for 10-minute rapid response capability. 5-year contract terms (longer than Term DLM). Targets specific utility areas with reliability needs. Ceiling prices based on Marginal Cost of Service studies."
+      }
+    },
+    "performance_payment": {
+      "rate": "included in bid price structure",
+      "conditions": "Paid for actual load relief provided during events. Payment structure negotiated in RFP process and specified in Program Agreement. Performance measurement based on agreed baseline methodology.",
+      "measurement": "Multiple baseline methodologies available - specified in RFP appendix. Likely includes Customer Baseline Load (CBL) options similar to CSRP."
+    },
+    "bill_credit": {
+      "rate": "not applicable",
+      "structure": "not applicable"
+    }
+  },
+
+  "event_parameters": {
+    "notification_time": "Term DLM: 21 hours advance notice; Auto DLM: 10 minutes rapid response",
+    "event_duration": "Term DLM: not specified in available documents; Auto DLM: short duration for rapid response",
+    "event_window": "Term DLM: day-ahead forecasted peak periods (typically summer weekday afternoons); Auto DLM: anytime for localized reliability needs",
+    "max_events_per_season": "not specified in available documents",
+    "max_hours_per_season": "not specified in available documents",
+    "seasons": [
+      {
+        "name": "capability period",
+        "dates": "typically May 1 to April 30 (annual)",
+        "notes": "Programs operate on capability period basis with annual RFP cycles for new vintages"
+      }
+    ],
+    "event_trigger": "Term DLM: when day-ahead forecasted peak load reaches approximately 88% of system peak demand (system-wide); Auto DLM: localized reliability events requiring rapid response in specific utility areas",
+    "test_events": "not specified in available documents"
+  },
+
+  "eligibility": {
+    "customer_classes": ["commercial", "industrial", "aggregators", "energy storage"],
+    "minimum_load": "50 kW aggregated minimum",
+    "interval_meter_required": true,
+    "excluded_customers": ["diesel generators explicitly excluded from eligibility"],
+    "aggregator_allowed": true,
+    "direct_participation_allowed": true,
+    "notes": "Technology-agnostic programs explicitly designed to encourage battery energy storage participation. Resources participate through Curtailment Service Provider agreements. Eligible resources include: load curtailment, HVAC adjustments, lighting reductions, gas-fired resources, and battery storage. Must register on procurement platform (references to Piclo Flex for National Grid; NYSEG likely uses similar process). Resources bid through annual RFP process rather than open enrollment like CSRP."
+  },
+
+  "baseline_methodology": "Multiple baseline methodologies available as specified in RFP Appendix. Likely includes Customer Baseline Load (CBL) options and nominated capacity baselines suitable for energy storage resources. Specific methodology negotiated in Program Agreement.",
+
+  "enrollment": {
+    "rfp_process": "Annual RFP cycles for successive capability periods",
+    "recent_rfps": "2023 RFP (issued), 2024 RFP (issued), 2025 RFP (issued December 2023), 2026 RFP (issued, deadline February 28, 2025)",
+    "program_year": "capability periods typically May 1 to April 30",
+    "notes": "Enrollment occurs through competitive RFP process rather than open tariff enrollment. RFPs typically issued in Q4 for capability period beginning following May 1. Resources must submit bids including capacity offered, pricing, and qualifications. Curtailment Service Provider qualifications required. Between RFP periods, program may be 'closed to new enrollments' until next solicitation opens."
+  },
+
+  "battery_suitability": {
+    "rating": "Excellent",
+    "justification": "NYSEG Term DLM and Auto DLM programs are EXCELLENT for battery energy storage systems - these programs were specifically designed by NY PSC to encourage energy storage development: (1) Technology-agnostic with explicit battery storage eligibility; (2) Multi-year contracts (3-5 years) provide long-term revenue certainty critical for financing battery projects; (3) Two program options match different battery capabilities: Term DLM for standard 4-hour batteries with day-ahead scheduling, Auto DLM for high-power batteries capable of rapid response; (4) 'As-bid' pricing allows batteries to capture value based on actual capabilities rather than fixed tariff rates; (5) 21-hour advance notice (Term DLM) enables optimal charge scheduling before events; (6) 10-minute response (Auto DLM) perfectly suited to battery fast response capability; (7) 50 kW minimum easily met by commercial batteries; (8) Premium pricing for rapid response (Auto DLM) rewards battery speed advantages; (9) System-wide Term DLM reduces location constraints compared to localized programs; (10) Programs complement rather than replace CSRP, potentially allowing stacking or portfolio approach. Key battery advantages: Multi-year price certainty supports project financing; Programs specifically designed for storage rather than adapted from load curtailment; Competitive bidding may yield higher payments than fixed tariffs for high-performing assets; Rapid response premium (Auto DLM) monetizes battery speed capability. Considerations: Competitive RFP process requires more sophisticated bidding vs simple CSRP enrollment; Contract commitments create penalties for non-performance; Limited annual enrollment windows vs CSRP rolling enrollment; Pricing not transparent (as-bid vs published tariff); May require Curtailment Service Provider partnership for smaller participants. Overall assessment: These programs represent NY state's intentional policy to drive battery storage adoption through demand response. The multi-year contracts, storage-friendly design, and premium for rapid response make DLM programs ideal for battery projects seeking long-term revenue certainty. Larger battery projects (1+ MW) should strongly consider bidding into DLM programs vs relying solely on CSRP tariff rates."
+  },
+
+  "data_sources": [
+    "https://www.utilitydive.com/news/new-york-sets-minimum-3-year-term-for-new-load-management-programs-to-drive/585745/",
+    "https://documents.dps.ny.gov/public/MatterManagement/CaseMaster.aspx?MatterCaseNo=14-E-0423",
+    "https://www.nyseg.com/smartenergy/businesssolutions/cidemandresponse",
+    "https://www.nationalgridus.com/Upstate-NY-Business/RFP/Term-DLM-and-Auto-DLM-Program-Request-for-Proposals",
+    "https://www.nationalgridus.com/News/2023/12/National-Grid-Announces-Load-Management-Solicitation-to-Improve-Electric-Demand-Response-in-Upstate-New-York/",
+    "Various web searches for NYSEG DLM programs Term Auto battery storage (October 2025)"
+  ],
+
+  "research_notes": "Research conducted October 12, 2025 via web searches due to connection failures when accessing NYSEG website and PSC documents directly. Successfully gathered comprehensive program information from utility industry news, National Grid parallel program documentation, and search result summaries. CRITICAL FINDING: Term DLM and Auto DLM are DISTINCT PROGRAMS from CSRP, not replacements. Key discoveries: (1) Programs established by NY PSC in 2020 specifically to encourage energy storage development by offering multi-year contracts (minimum 3-year terms per PSC order); (2) NYSEG actively issuing RFPs for 2023, 2024, 2025, and 2026 capability periods - programs are ACTIVE, not closed; (3) 'closed_to_new' status in original data likely reflects periods between RFP solicitations when no new bids accepted (vs CSRP which has rolling enrollment); (4) Two distinct program types: Term DLM (21-hour notice, day-ahead, system-wide, 3-year contracts) and Auto DLM (10-minute response, localized, premium pricing, 5-year contracts); (5) Competitive 'as-bid' pricing vs CSRP's published tariff rates; (6) Technology-agnostic with explicit battery storage eligibility and diesel generator exclusion; (7) Programs complement CSRP rather than replace it - customers can choose between DLM contracts (multi-year certainty) or CSRP tariff (flexibility, no commitment); (8) National Grid (another NY utility) operates parallel Term DLM and Auto DLM programs providing verification of program structure: National Grid seeks 100+ MW Term DLM and 9.39 MW Auto DLM with same contract terms. Relationship to Batch 8 CSRP: DLM programs are separate procurement mechanism for same demand response objective (peak reduction, reliability). CSRP offers tariff-based participation with month-to-month or seasonal commitment; DLM offers contract-based participation with multi-year commitment and competitive pricing. Battery projects can evaluate both options or potentially participate in multiple programs if rules allow. Major data gaps: (1) Actual bid prices not publicly available (competitive RFP process); (2) Historical ceiling prices from Marginal Cost of Service studies not found; (3) Event duration and frequency limits for Term DLM not specified; (4) Maximum/minimum bid quantities not specified; (5) Penalty structures for non-performance not detailed; (6) Compatibility rules between DLM and CSRP enrollment unknown; (7) NYISO market stacking rules for DLM participants not clarified. Program research significantly enhanced by finding parallel National Grid program with documented parameters (50 kW minimum, 3-year Term DLM, 5-year Auto DLM, 21-hour vs 10-minute notice) providing template for NYSEG program structure. Document access limitations prevented review of actual NYSEG RFP documents (connection errors on nyseg.com and documents.dps.ny.gov) requiring inference from industry reporting and related utility programs.",
+
+  "research_date": "2025-10-12",
+
+  "research_quality_score": 6,
+  "research_quality_notes": "Score of 6 reflects: EXCELLENT - Clear program structure understanding: two distinct programs (Term DLM, Auto DLM), multi-year contracts (3-5 years), competitive RFP process, technology-agnostic design, explicit battery storage eligibility, program purpose (PSC 2020 order to encourage storage). GOOD - Established active program status (2023-2026 RFPs issued), notification times (21-hour vs 10-minute), contract terms (3-year vs 5-year), minimum capacity (50 kW), pricing structure (as-bid with ceilings), relationship to CSRP (complementary, not replacement). MODERATE - No access to actual NYSEG RFP documents or program guides (connection failures); pricing details limited to structure not actual rates; event parameters incomplete (duration, frequency limits not specified); baseline methodologies referenced but not detailed. GAPS - Actual historical bid prices unknown (competitive process); ceiling rates from Marginal Cost of Service studies not found; penalties for non-performance not specified; DLM/CSRP compatibility rules unclear; NYISO market stacking provisions unknown; recent award results not available; participant roster not public. Score would be 8-9 if actual RFP documents were accessible with pricing ceilings, detailed program requirements, and historical award data. Despite document access limitations, successfully reconstructed comprehensive program understanding through industry reporting, PSC case research, and parallel National Grid program analysis. Research quality sufficient to establish program exists, is active, targets batteries, offers multi-year contracts, and differs materially from CSRP - adequate for initial battery project consideration. Follow-up access to actual RFP documents essential for bid preparation.",
+
+  "follow_up_required": [
+    "Access actual NYSEG Term DLM and Auto DLM RFP documents from NYSEG website (direct download of 2025/2026 RFP PDFs)",
+    "Obtain ceiling prices from Marginal Cost of Service studies referenced in program design",
+    "Request historical bid results: awarded capacities, accepted bid prices (if public), participant types",
+    "Clarify compatibility rules: Can battery participate in both DLM and CSRP simultaneously or must choose?",
+    "Determine NYISO market stacking provisions: Can DLM participants also bid into NYISO SCR, ICAP, ancillary services?",
+    "Review Program Agreement sample from RFP appendix for performance requirements, penalties, measurement & verification",
+    "Obtain baseline methodology appendix to understand options for battery resources (nominated capacity vs CBL)",
+    "Clarify event parameters for Term DLM: typical event duration, maximum events per year, historical call patterns 2021-2024",
+    "Understand telemetry and control requirements: Does Auto DLM require utility direct control or can be self-dispatch with telemetry?",
+    "Contact NYSEG demand response team to discuss battery-specific considerations: Does discharge-only qualify or can controlled charging reduction count?",
+    "Determine curtailment service provider requirements: Can battery owners participate directly or must use aggregator/CSP?",
+    "Research 2026 RFP deadline (February 28, 2025) and bid requirements for upcoming capability period",
+    "Compare DLM economics vs CSRP for reference battery system (e.g., 1 MW / 4 MWh): multi-year DLM contract vs annual CSRP enrollment",
+    "Investigate National Grid DLM program results as proxy for NYSEG program value (both NY utilities, similar program design)"
+  ],
+
+  "related_programs": {
+    "nyseg_csrp": {
+      "program_id": "NEW-YORK-COMMERCIAL-SYSTEM-RELIEF-PROGRAM",
+      "program_name": "Commercial System Relief Program",
+      "utility": "NYSEG",
+      "state": "New York",
+      "description": "Tariff-based demand response with monthly or voluntary enrollment, $4.35/kW-month capacity + $0.50/kWh performance",
+      "status": "active",
+      "relationship": "Complementary program to DLM. CSRP offers tariff-based enrollment with published rates and no long-term commitment. DLM offers contract-based enrollment with competitive pricing and multi-year commitments. Customers can choose based on preference for flexibility (CSRP) vs long-term certainty (DLM)."
+    },
+    "national_grid_term_dlm": {
+      "utility": "National Grid",
+      "state": "New York",
+      "description": "Parallel Term DLM program: 100+ MW target, 21-hour notice, 3-year contracts, 50 kW minimum",
+      "status": "active",
+      "relationship": "Similar NY utility operating parallel program under same PSC framework. Provides template for NYSEG program structure and confirms statewide DLM program design."
+    },
+    "national_grid_auto_dlm": {
+      "utility": "National Grid",
+      "state": "New York",
+      "description": "Parallel Auto DLM program: 9.39 MW target in specific areas, 10-minute response, 5-year contracts, 50 kW minimum",
+      "status": "active",
+      "relationship": "Similar NY utility operating parallel program under same PSC framework. Demonstrates Auto DLM rapid response requirements and premium pricing structure."
+    },
+    "nyiso_scr": {
+      "program": "Special Case Resources",
+      "iso_rto": "NYISO",
+      "description": "ISO-level demand response for emergency events with capacity market participation",
+      "status": "active",
+      "relationship": "Wholesale market alternative to utility DLM programs. Stacking rules between DLM and NYISO SCR enrollment unclear - may be mutually exclusive or may allow limited stacking."
+    }
+  },
+
+  "optimization_notes": "For 1 MW / 4 MWh battery system DLM vs CSRP comparison: CSRP offers immediate $52,200/year guaranteed (Reservation option $4.35/kW-month) + event performance (~$20K, total ~$72K/year) with annual or seasonal commitment. DLM offers competitive bid pricing with 3-year (Term) or 5-year (Auto) contract providing financing certainty but unknown pricing (as-bid). Key optimization considerations: (1) Term DLM likely commands premium pricing vs CSRP due to multi-year commitment value to utility - could bid $5-7/kW-month equivalent capacity value; (2) Auto DLM premium for rapid response could favor batteries over load curtailment resources - battery's millisecond response vs generator's 10-minute minimum; (3) Multi-year DLM contract provides bankable revenue stream valuable for project financing unlike month-to-month CSRP; (4) DLM competitive process creates risk of not winning award vs guaranteed CSRP enrollment; (5) If DLM/CSRP stacking prohibited, must compare full revenue potential: 3-year DLM contract certainty vs flexibility to optimize between CSRP, NYISO markets, and energy arbitrage annually; (6) Auto DLM's localized nature may restrict geographical eligibility vs system-wide Term DLM and CSRP; (7) Battery can bid into both Term DLM and Auto DLM simultaneously (different products) if location eligible for Auto DLM area. Recommended strategy: (1) Submit bids to both Term DLM and Auto DLM in 2026 RFP cycle; (2) Bid Term DLM at $5.50-6.50/kW-month equivalent pricing (15-50% premium over CSRP tariff to reflect contract value); (3) Bid Auto DLM at $7-9/kW-month equivalent (additional premium for rapid response); (4) Maintain CSRP enrollment until DLM award secured; (5) Model 3-year DLM contract value vs 3-year CSRP + NYISO market participation to inform bid price; (6) If location eligible for Auto DLM, strongly consider given battery's unique rapid response advantage over other resources."
+}

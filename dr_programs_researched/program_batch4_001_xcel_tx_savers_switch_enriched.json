@@ -1,0 +1,379 @@
+{
+  "program_id": "xcel_tx_savers_switch",
+  "program_name": "Xcel Energy Texas Saver's Switch Program",
+  "program_type": "utility",
+  "status": "active",
+  "description": "Xcel Energy's Saver's Switch program in Texas helps manage peak electricity demand by remotely cycling central air conditioning units and electric water heaters during high-demand periods. The program operates through Southwestern Public Service Company (SPS) in the Texas Panhandle region. Participants receive annual credits for allowing remote control of their AC units during peak demand events, which typically occur on hot summer days between 2 PM and 7 PM. The program uses a remote switch that cycles AC units on and off for 15-20 minute intervals, while the fan continues to circulate air.",
+  "geography": {
+    "states": ["TX"],
+    "utilities": ["Xcel Energy", "Southwestern Public Service Company (SPS)"],
+    "isos": ["SPP"],
+    "service_territories": [
+      "Texas Panhandle",
+      "Amarillo, TX",
+      "Lubbock area (note: Lubbock Power & Light has since moved to ERCOT)",
+      "Texas South Plains region"
+    ],
+    "critical_geography_note": "IMPORTANT: Xcel Energy's Texas service territory (Southwestern Public Service Company) is part of the Southwest Power Pool (SPP) grid, NOT ERCOT. The Texas Panhandle joined SPP in 1978 and remains outside ERCOT jurisdiction. This program does NOT integrate with ERCOT demand response mechanisms."
+  },
+  "eligibility": {
+    "customer_classes": {
+      "residential": true,
+      "commercial": false,
+      "industrial": false,
+      "residential_max_kw": null,
+      "size_threshold_notes": "Program is designed for residential customers with central air conditioning. Apartment and condo residents are eligible only with owner approval and ground-level dedicated AC units. Not applicable to rooftop ACs, window units, or wall units."
+    },
+    "behind_the_meter": true,
+    "front_of_meter": false,
+    "minimum_capacity_kw": null,
+    "maximum_capacity_kw": null,
+    "resource_types": [
+      "central_air_conditioning",
+      "electric_water_heater"
+    ],
+    "requires_aggregator": false,
+    "additional_requirements": [
+      "Must be an Xcel Energy customer in participating service areas",
+      "Must have central air conditioning installed",
+      "For apartments/condos: owner approval required",
+      "For apartments/condos: ground-level dedicated AC unit required",
+      "Cannot be rooftop AC, window unit, or wall unit",
+      "Remote-controlled switch must be installed by Xcel Energy"
+    ]
+  },
+  "notification": {
+    "day_ahead_notice": false,
+    "minimum_notice_hours": null,
+    "maximum_notice_hours": null,
+    "notification_methods": [
+      "automated_switch_activation"
+    ],
+    "notice_details": {
+      "advance_notice_provided": "No specific advance notice documented - program operates via automated switch activation",
+      "notification_to_customer": "Customers typically 'don't even notice' when system is activated according to program materials"
+    }
+  },
+  "payment_structure": {
+    "has_capacity_payment": true,
+    "has_performance_payment": false,
+    "capacity_rate": {
+      "value": 10,
+      "unit": "$/season",
+      "varies_by_season": false,
+      "seasonal_rates": [
+        {
+          "season": "Summer (June-September)",
+          "rate": 10,
+          "unit": "$ flat credit per season",
+          "notes": "Participants save $10 on their June through September electric energy charges each year they participate. Credit applied to October electric bill."
+        }
+      ],
+      "payment_timing": "Annual credit applied to October electric bill"
+    },
+    "performance_rate": {
+      "value": null,
+      "unit": null,
+      "varies_by_season": false,
+      "varies_by_time": false,
+      "notes": "No performance-based payment. All compensation is a flat annual credit for program participation."
+    },
+    "penalty_structure": {
+      "has_penalties": false,
+      "penalty_rate": null,
+      "penalty_unit": null,
+      "penalty_description": "No penalties documented for non-performance or override of switch."
+    },
+    "bonus_payments": [
+      {
+        "description": "Additional payment for electric water heater enrollment",
+        "rate": 2,
+        "unit": "$/month year-round",
+        "conditions": "Available if customer enrolls a qualifying electric water heater in addition to AC unit. Water heater will shut off usually for 4-6 hours during hot summer days or cold winter afternoons. Stored hot water remains available during shutdown period."
+      }
+    ],
+    "payment_caps": {
+      "maximum_annual_incentive": null,
+      "minimum_annual_incentive": null,
+      "payment_method": "bill_credit",
+      "notes": "Base payment: $10 annual credit (June-September period, paid in October). Optional water heater addition: $2/month year-round ($24 annually). Maximum combined: $34/year if both AC and water heater enrolled."
+    },
+    "forward_curve_available": false,
+    "forward_curve_url": null
+  },
+  "seasons": [
+    {
+      "season_name": "Summer Peak Season",
+      "start_date": "06-01",
+      "end_date": "09-30",
+      "max_events": null,
+      "max_hours": null,
+      "notes": "Primary season for AC cycling events. Based on recent years (2019-2024), events occurred only once per year during this period, lasting 2-4 hours. Typical activation window is 2 PM to 7 PM on hot summer days."
+    },
+    {
+      "season_name": "Winter Season (Water Heater Only)",
+      "start_date": "10-01",
+      "end_date": "05-31",
+      "max_events": null,
+      "max_hours": null,
+      "notes": "Water heaters may be controlled during cold winter afternoons if enrolled. AC units are not cycled during winter months."
+    }
+  ],
+  "call_windows": [
+    {
+      "window_id": "summer_afternoon_peak",
+      "start_hour": 14,
+      "end_hour": 19,
+      "days_of_week": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday"
+      ],
+      "seasons": ["Summer Peak Season"],
+      "timezone": "America/Chicago",
+      "notes": "Saver's Switch is typically activated between 2 PM and 7 PM on control days. AC units cycle on and off for 15-20 minute intervals while fan continues circulating air."
+    }
+  ],
+  "event_parameters": {
+    "typical_duration_hours": 3,
+    "minimum_duration_hours": 2,
+    "maximum_duration_hours": 4,
+    "event_granularity_minutes": null,
+    "response_time_minutes": null,
+    "max_events_per_season": null,
+    "max_events_per_year": null,
+    "max_hours_per_season": null,
+    "max_hours_per_year": 300,
+    "max_consecutive_events": null,
+    "minimum_rest_hours": null,
+    "cycling_specifications": {
+      "ac_cycling_pattern": "15-20 minute intervals (on/off cycling)",
+      "fan_operation": "Fan stays on continuously during cycling to circulate pre-cooled air",
+      "water_heater_shutoff_duration": "4-6 hours during event",
+      "water_heater_stored_hot_water": "Remains available during shutoff period"
+    },
+    "historical_frequency": {
+      "events_per_year_2019_2024": 1,
+      "duration_range_hours": "2-4 hours per event",
+      "source": "Regulatory news from 2024 indicates program was activated just once per year during the past five years"
+    },
+    "maximum_control_hours": {
+      "value": 300,
+      "unit": "hours per year",
+      "notes": "Maximum allowable control hours per year. However, actual usage is typically a small fraction of this maximum. Recent history shows only 2-4 hours used per year (single annual event)."
+    },
+    "customer_impact": "Most customers 'don't even notice' the system's activation according to program marketing materials"
+  },
+  "nomination_bidding": {
+    "requires_nomination": false,
+    "nomination_frequency": "none",
+    "nomination_deadline": null,
+    "allows_price_bidding": false,
+    "bidding_structure": null,
+    "enrollment_period": {
+      "start_date": null,
+      "end_date": null,
+      "recurring": true,
+      "notes": "Rolling enrollment available. Customers can enroll at any time through poweredbyefi.org website or by contacting Xcel Energy."
+    },
+    "enrollment_process": [
+      "Complete online enrollment at poweredbyefi.org/xcelenergytx",
+      "Xcel Energy schedules switch installation",
+      "Technician installs remote-controlled switch on AC unit and/or water heater",
+      "Customer begins receiving annual credits"
+    ]
+  },
+  "performance_measurement": {
+    "baseline_methodology": "not_applicable",
+    "measurement_granularity": "program_participation",
+    "performance_verification": "payment_based_on_enrollment_not_measured_performance",
+    "reporting": "no_individual_performance_reporting",
+    "notes": "This is a traditional direct load control program. Customers receive flat annual payment for allowing control, regardless of actual load reduction achieved. No individual metering or performance measurement."
+  },
+  "special_programs": {
+    "is_rec_based": false,
+    "rec_type": null,
+    "scheduled_dispatch": false,
+    "clean_peak_standard": false,
+    "special_attributes": [
+      "traditional_direct_load_control",
+      "hardware_switch_required",
+      "multi_state_program",
+      "spp_territory_not_ercot"
+    ],
+    "multi_state_participation": {
+      "total_customers_all_states": 320000,
+      "states_included": ["Minnesota", "Colorado", "Texas", "New Mexico", "others"],
+      "program_consistency": "Program operates across multiple Xcel Energy service territories with similar structure but state-specific regulatory frameworks"
+    },
+    "grid_operator_integration": {
+      "grid_operator": "Southwest Power Pool (SPP)",
+      "ercot_integration": false,
+      "spp_coordination": "Xcel Energy coordinates load management with SPP regional transmission organization",
+      "critical_note": "This program does NOT participate in ERCOT markets or ERCOT demand response programs. Texas Panhandle is part of SPP, not ERCOT."
+    }
+  },
+  "program_history": {
+    "launch_year": 2004,
+    "program_evolution": [
+      {
+        "year": 2004,
+        "change_description": "Program launched with traditional Saver's Switch hardware"
+      },
+      {
+        "year": 2019,
+        "change_description": "Regulatory review in some jurisdictions regarding cycling ratios. South Dakota regulators drew limits on switch usage."
+      }
+    ],
+    "budget_committed_through": null,
+    "total_annual_budget": null,
+    "total_enrolled_customers": 320000,
+    "enrollment_note": "320,000 business and residential customers enrolled across all Xcel Energy service territories (Minnesota, Colorado, Texas, New Mexico, and other states)"
+  },
+  "historical_events": [],
+  "program_operations": {
+    "control_mechanism": "Remote-controlled hardware switch installed on AC unit and/or water heater",
+    "cycling_method": "Automated cycling of compressor (15-20 min intervals) while fan continues operating",
+    "customer_comfort": "Program designed to minimize customer discomfort - fan continues circulating pre-cooled air, most customers don't notice activation",
+    "override_capability": null,
+    "installation": "Professional installation by Xcel Energy technician at no cost to customer"
+  },
+  "data_sources": [
+    {
+      "source_name": "Xcel Energy Texas Saver's Switch Program Page (poweredbyefi.org)",
+      "url": "https://www.poweredbyefi.org/xcelenergytx/rebates-xtx/savers-switch.html",
+      "last_updated": "2025-10-11",
+      "data_type": "program_rules",
+      "verification_status": "primary_source",
+      "notes": "Official Xcel Energy Texas program enrollment page with payment rates and eligibility details."
+    },
+    {
+      "source_name": "Xcel Energy Texas Service Page",
+      "url": "https://tx.my.xcelenergy.com/s/residential/heating-cooling/savers-switch",
+      "last_updated": "2025-10-11",
+      "data_type": "program_rules",
+      "verification_status": "primary_source",
+      "notes": "Main Xcel Energy Texas program description page."
+    },
+    {
+      "source_name": "Xcel Energy Texas Demand-Side Management Filings",
+      "url": "https://www.xcelenergy.com/company/rates_and_regulations/filings/texas_demand-side_management",
+      "last_updated": "2025-10-11",
+      "data_type": "program_rules",
+      "verification_status": "regulatory_filing",
+      "notes": "Regulatory filings page for Southwestern Public Service Company Texas DSM programs. Annual reports from 2008-2024 available."
+    },
+    {
+      "source_name": "FMLink Article on Saver's Switch Demand Reduction",
+      "url": "https://www.fmlink.com/articles/xcel-energy-customers-help-reduce-electricity-demand-with-saver%EF%BF%BDs-switch-program/",
+      "last_updated": "2025-10-11",
+      "data_type": "program_rules",
+      "verification_status": "secondary_source",
+      "notes": "Article describing program operations including 320,000 customer enrollment across multiple states and cycling intervals."
+    },
+    {
+      "source_name": "T&D World Article - Saver's Switch Program Reduces Demand",
+      "url": "https://www.tdworld.com/distributed-energy-resources/demand-side-management/article/20955919/xcel-energys-savers-switch-program-reduces-demand",
+      "last_updated": "2025-10-11",
+      "data_type": "program_rules",
+      "verification_status": "secondary_source",
+      "notes": "Industry publication article on program structure and benefits."
+    },
+    {
+      "source_name": "Piclo Energy Platform - Saver's Switch Program",
+      "url": "https://www.piclo.energy/opportunities/saver-s-switch-program",
+      "last_updated": "2025-10-11",
+      "data_type": "program_rules",
+      "verification_status": "aggregator_platform",
+      "notes": "Third-party demand response platform listing with program details."
+    },
+    {
+      "source_name": "News Articles on Texas Panhandle Grid (SPP vs ERCOT)",
+      "url": "https://www.myhighplains.com/news/local-news/explained-why-the-panhandle-is-on-a-different-power-grid-than-the-rest-of-texas/",
+      "last_updated": "2025-10-11",
+      "data_type": "program_rules",
+      "verification_status": "news_source",
+      "notes": "Confirms Texas Panhandle is part of Southwest Power Pool (SPP), not ERCOT. Critical for understanding grid integration context."
+    },
+    {
+      "source_name": "KELOLAND News - Regulators Draw Line on Xcel's Saver's Switch",
+      "url": "https://www.keloland.com/news/capitol-news-bureau/regulators-draw-line-on-xcels-smart-switch-use/",
+      "last_updated": "2025-10-11",
+      "data_type": "historical_events",
+      "verification_status": "news_source",
+      "notes": "2024 article reporting that events occurred just once per year during the past five years, lasting 2-4 hours. Discusses regulatory oversight and cycling ratios."
+    }
+  ],
+  "integration_metadata": {
+    "optimizer_compatible": false,
+    "api_available": false,
+    "api_documentation_url": null,
+    "data_quality_score": 6.0,
+    "last_verified_date": "2025-10-11",
+    "notes": "CRITICAL LIMITATION: This program operates in SPP territory, NOT ERCOT. It cannot be integrated with ERCOT battery optimization strategies. Program is traditional direct load control with flat annual payments, not event-based market participation. Limited optimization value due to: (1) non-ERCOT territory, (2) residential-only program with small payments ($10-34/year), (3) automated switch control with no customer dispatch flexibility, (4) extremely low event frequency (1 event/year historically), (5) no performance-based payments or price signals.",
+    "optimization_considerations": [
+      "NOT APPLICABLE TO ERCOT BATTERY OPTIMIZATION - Program is in SPP territory",
+      "Residential program only - not suitable for commercial battery systems",
+      "No dispatch flexibility - automated switch control only",
+      "Payment is flat annual credit, not performance-based",
+      "Extremely low event frequency (1 event per year in recent history)",
+      "Total annual payment only $10-34 per household",
+      "No real-time price signals or market integration",
+      "Hardware switch controls load directly - no customer decision-making",
+      "Program designed for traditional residential AC load, not batteries"
+    ],
+    "ercot_relevance": "NONE - This program operates in Southwest Power Pool (SPP) territory in the Texas Panhandle, completely separate from ERCOT jurisdiction. It has no integration with ERCOT markets, ERCOT demand response programs, or ERCOT price signals.",
+    "battery_applicability": "Not applicable. This is a traditional residential direct load control program for AC units and water heaters with hardware switch installation. It does not support behind-the-meter battery participation and provides no economic optimization opportunities for battery storage systems.",
+    "research_caveats": [
+      "Advanced notice hours not specified - program appears to operate via automated switch with no customer notification",
+      "Maximum events per year not explicitly stated in tariff, but historical data shows 1 event/year",
+      "Total enrolled customers (320,000) is across all Xcel service territories, Texas-specific enrollment not disclosed",
+      "Individual event dates and historical event log not available from public sources",
+      "Exact cycling algorithm (15 vs 20 minutes) may vary by jurisdiction and regulatory approval"
+    ]
+  },
+  "critical_program_details": {
+    "utility_type": "investor_owned_utility",
+    "operating_company": "Southwestern Public Service Company (SPS) - wholly owned subsidiary of Xcel Energy Inc.",
+    "grid_operator": "Southwest Power Pool (SPP) - NOT ERCOT",
+    "regulatory_jurisdiction": "Texas Public Utility Commission (for retail programs), FERC (for wholesale/transmission)",
+    "service_territory_specifics": "Texas Panhandle and South Plains region including Amarillo. Note: Lubbock Power & Light has since transitioned from SPP to ERCOT, but Xcel/SPS territory remains in SPP.",
+    "program_type_classification": "Traditional direct load control (DLC)",
+    "payment_model": "Flat annual enrollment credit",
+    "customer_value_proposition": "Small annual bill credit ($10-34/year) in exchange for allowing occasional automated AC/water heater cycling during extreme peak demand",
+    "grid_benefit": "Provides capacity resource to SPP for managing peak demand and grid reliability",
+    "historical_utilization": "Very low - only 1 event per year during 2019-2024 period, 2-4 hours duration",
+    "multi_state_context": "Part of broader Xcel Energy Saver's Switch program operating across 8 states with 320,000+ enrolled customers"
+  },
+  "research_notes": {
+    "data_integrity": "All payment rates, eligibility requirements, and program structure verified from official Xcel Energy sources. Grid operator context (SPP vs ERCOT) verified from multiple independent news sources and regulatory information. No data was invented. Historical event frequency from regulatory news reporting.",
+    "missing_information": [
+      "Exact maximum events per year not specified in program rules",
+      "Advance notification hours not documented (appears program operates via automated switch with no advance notice)",
+      "Texas-specific enrollment numbers (only multi-state total of 320,000 available)",
+      "Detailed historical event log (dates, times, durations) not publicly available",
+      "Individual customer override capabilities not specified",
+      "Specific baseline methodology or performance verification (appears to be enrollment-based, not performance-based)",
+      "API or automated integration capabilities not documented",
+      "Coordination mechanisms with SPP grid operator not detailed in public materials"
+    ],
+    "clarifications": {
+      "spp_not_ercot": "CRITICAL: Xcel Energy's Texas service territory (Southwestern Public Service Company) operates in the Southwest Power Pool (SPP) regional transmission organization, NOT in ERCOT. The Texas Panhandle joined SPP in 1978 and remains outside ERCOT's jurisdiction. This means the program has NO integration with ERCOT markets, ERCOT demand response programs, or ERCOT operational mechanisms.",
+      "lubbock_exception": "Lubbock Power & Light (municipal utility) historically was part of SPP but has since built 150 miles of transmission lines to connect to ERCOT. However, Xcel Energy/SPS territory in the Panhandle remains in SPP.",
+      "payment_structure": "This is a simple capacity payment program structured as a flat annual credit. Customers receive $10 for June-September participation (paid in October) regardless of actual load reduction or number of events. Optional $2/month year-round for water heater enrollment. No performance-based payments.",
+      "event_frequency": "Despite program rules allowing up to 300 hours of control per year, actual usage has been minimal. Regulatory reporting from 2024 indicates only 1 event per year during 2019-2024 period, lasting 2-4 hours each. This is substantially lower than the theoretical maximum.",
+      "residential_only": "Program is designed exclusively for residential customers with central AC and electric water heaters. Not applicable to commercial or industrial customers. Separate business programs may exist but were not found in research.",
+      "hardware_requirement": "Unlike modern smart thermostat programs, this program requires physical installation of a remote-controlled switch by Xcel Energy technicians. This is traditional direct load control technology.",
+      "customer_experience": "Program marketing emphasizes that 'most customers don't even notice' when the switch is activated because the fan continues running and cycling occurs in short 15-20 minute intervals.",
+      "multi_state_program": "Saver's Switch operates across multiple Xcel Energy service territories including Minnesota, Colorado, Texas, New Mexico, and others. Total enrollment across all states is approximately 320,000 customers. Program structure is similar across states but specific payments and regulations vary by jurisdiction."
+    },
+    "research_duration_minutes": 28,
+    "researcher_confidence": "high",
+    "verification_date": "2025-10-11",
+    "critical_limitation_for_ercot_battery_optimization": "THIS PROGRAM IS NOT RELEVANT FOR ERCOT BATTERY OPTIMIZATION. It operates in SPP territory (Texas Panhandle), not ERCOT territory. It is a residential direct load control program with flat annual payments ($10-34/year), not a market-based demand response program suitable for commercial battery storage optimization. The program has no integration with ERCOT markets, prices, or operational systems."
+  }
+}

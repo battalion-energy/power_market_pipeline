@@ -1,0 +1,185 @@
+{
+  "program_id": "program_batch10_005_entergy_tx_lmp",
+  "program_name": "Entergy Texas Load Management Program",
+  "program_type": "utility_retail",
+  "status": "existence_unconfirmed",
+  "description": "Potential utility retail load management program for commercial/industrial customers. Program existence could not be confirmed through web research. Original URL provided returns 404 error. This appears to be distinct from MISO wholesale DR programs (LMR/DRR/EDR) which are well-documented and confirmed active for Entergy Texas customers.",
+  "geography": {
+    "states": ["TX"],
+    "utilities": ["Entergy Texas"],
+    "iso_rto_territory": "MISO",
+    "iso_territory_clarification": "Entergy Texas operates in MISO South, NOT ERCOT. Southeast Texas only (27 counties, 524k customers including Beaumont, Port Arthur, Orange, Conroe, The Woodlands areas). Most of Texas is served by ERCOT.",
+    "service_territories": ["Southeast Texas"],
+    "service_area_counties": 27,
+    "major_cities": ["Beaumont", "Port Arthur", "Orange", "Conroe", "The Woodlands", "Kingwood"],
+    "customers_served": 524000,
+    "miso_integration_date": "2013-12-19"
+  },
+  "relationship_to_other_programs": {
+    "miso_wholesale_dr_programs": {
+      "program_id": "program_batch9_006_miso_texas_dr",
+      "relationship": "separate_but_complementary",
+      "description": "MISO wholesale DR programs (LMR Type I/II, DRR, EDR) are SEPARATE from any utility retail load management programs. Customers can potentially participate in BOTH wholesale MISO programs AND retail Entergy Texas utility programs simultaneously for revenue stacking.",
+      "wholesale_programs_confirmed": true,
+      "retail_program_confirmed": false,
+      "notes": "MISO wholesale programs are well-documented with clear payment structures ($666.50/MW-day summer 2025 capacity). Utility retail program existence is unconfirmed."
+    }
+  },
+  "eligibility": {
+    "customer_classes": {
+      "residential": false,
+      "commercial": "not confirmed",
+      "industrial": "not confirmed",
+      "minimum_capacity_kw": "not available"
+    },
+    "behind_the_meter": true,
+    "front_of_meter": false,
+    "resource_types": ["not available"],
+    "requires_aggregator": false
+  },
+  "notification": {
+    "day_ahead_notice": "not available",
+    "minimum_notice_hours": null,
+    "notification_methods": ["not available"]
+  },
+  "payment_structure": {
+    "has_capacity_payment": "not available",
+    "has_performance_payment": "not available",
+    "capacity_rate": {
+      "value": null,
+      "unit": null,
+      "notes": "No payment information found through web research. Batch 2 research suggested $32.50/kW but could not verify time period or current validity."
+    },
+    "performance_rate": {
+      "value": null,
+      "unit": null
+    },
+    "penalty_structure": {
+      "has_penalties": "not available"
+    },
+    "tariff_riders_available": {
+      "MVDR": {
+        "name": "Market Valued Demand Response Rider",
+        "tariff_url": "https://www.entergytexas.com/wp-content/uploads/eti_mvdr.pdf",
+        "status": "tariff exists but content not accessible through web research",
+        "notes": "MVDR tariff document exists on Entergy Texas website but PDF content could not be extracted"
+      },
+      "IS": {
+        "name": "Interruptible Service Rider",
+        "tariff_url": "https://www.entergytexas.com/wp-content/uploads/eti_is.pdf",
+        "status": "tariff exists but content not accessible through web research"
+      },
+      "SIPS": {
+        "name": "Schedulable Intermittent Pumping Service",
+        "tariff_url": "https://www.entergytexas.com/wp-content/uploads/eti_sips.pdf",
+        "status": "specialized for pumping loads"
+      },
+      "ERPS": {
+        "name": "Emergency Response Pumping Service",
+        "tariff_url": "https://www.entergytexas.com/wp-content/uploads/eti_erps.pdf",
+        "status": "specialized for pumping loads"
+      }
+    }
+  },
+  "event_parameters": {
+    "typical_duration_hours": null,
+    "minimum_duration_hours": null,
+    "maximum_duration_hours": null,
+    "max_events_per_year": null,
+    "notes": "not available"
+  },
+  "nomination_bidding": {
+    "requires_nomination": "not available",
+    "allows_price_bidding": false,
+    "enrollment_period": {
+      "start_date": null,
+      "end_date": null
+    }
+  },
+  "special_programs": {
+    "is_rec_based": false,
+    "scheduled_dispatch": "not available",
+    "special_attributes": []
+  },
+  "program_history": {
+    "launch_year": null,
+    "program_evolution": [],
+    "status_notes": "Original URL (https://www.entergy-texas.com/your_business/save_money/ee/load-management/) returns 404 error as of 2025-10-12. Program may have been discontinued, never existed, or moved to different URL structure."
+  },
+  "battery_suitability": {
+    "overall_rating": 0,
+    "rating_rationale": "Cannot assess battery suitability because program existence, payment structure, and operational requirements are unconfirmed. Rating of 0 indicates insufficient data, NOT that program is unsuitable for batteries.",
+    "alternative_programs": {
+      "miso_wholesale_dr": {
+        "rating": 8,
+        "notes": "MISO wholesale LMR/DRR programs are well-documented, confirmed active, and highly suitable for batteries with strong economics ($666.50/MW-day summer 2025). See program_batch9_006_miso_texas_dr_enriched.json for details."
+      }
+    },
+    "potential_stacking_opportunity": {
+      "description": "IF this retail utility program exists and is active, customers might be able to stack revenues from BOTH utility retail load management AND MISO wholesale DR programs. However, this requires verification of program rules and potential conflicts.",
+      "confidence": "low - requires verification"
+    }
+  },
+  "data_sources": [
+    {
+      "url": "https://www.entergy-texas.com/your_business/save_money/ee/load-management/",
+      "description": "Original URL provided for Load Management Program",
+      "status": "404 error - page not found",
+      "access_date": "2025-10-12"
+    },
+    {
+      "url": "http://www.entergytexas.com/your_business/load_management.aspx",
+      "description": "Alternative URL for Load Management Program",
+      "status": "403 forbidden - access denied",
+      "access_date": "2025-10-12"
+    },
+    {
+      "url": "https://www.entergytexas.com/business/tariffs",
+      "description": "Business rate and rider schedules page",
+      "status": "accessible - lists MVDR, IS, SIPS, ERPS riders",
+      "access_date": "2025-10-12",
+      "notes": "Confirms existence of demand response tariff riders but individual PDFs not readable through web tools"
+    },
+    {
+      "url": "https://www.entergytxsolutions.com/customers/index.html",
+      "description": "Commercial Solutions energy efficiency program",
+      "status": "accessible",
+      "access_date": "2025-10-12",
+      "notes": "Offers equipment-based incentives (lighting, HVAC, etc.) but NOT operational DR/load curtailment programs"
+    },
+    {
+      "url": "https://www.entergy.com/news/entergy-texas-completes-miso-integration/",
+      "description": "Entergy Texas MISO integration announcement",
+      "status": "accessible",
+      "access_date": "2025-10-12",
+      "notes": "Confirms Entergy Texas operates in MISO South, not ERCOT"
+    },
+    {
+      "url": "https://entergytexassolutions.com/eti/media/program-manual-.pdf",
+      "description": "2025 Program Manual for Entergy Solutions",
+      "status": "PDF not readable through web tools",
+      "access_date": "2025-10-12"
+    },
+    {
+      "url": "https://interchange.puc.texas.gov/",
+      "description": "Public Utility Commission of Texas Interchange system",
+      "notes": "Official tariff documents on file but not accessible through web research tools"
+    }
+  ],
+  "research_notes": "CRITICAL FINDINGS:\n\n1. ISO TERRITORY CLARIFICATION: Entergy Texas operates in MISO South, NOT ERCOT. This is confirmed through multiple sources. Entergy Texas joined MISO in December 2013. Service area is Southeast Texas only (27 counties, 524k customers).\n\n2. DUAL PROGRAM STRUCTURE: There are TWO distinct types of DR programs potentially available:\n   a) MISO wholesale DR programs (LMR Type I/II, DRR) - CONFIRMED ACTIVE, well-documented, strong economics\n   b) Entergy Texas retail utility load management program - EXISTENCE UNCONFIRMED\n\n3. PROGRAM VERIFICATION FAILURE: Despite extensive research, the specific retail utility load management program referenced in original URL could not be verified:\n   - Original URL returns 404 error\n   - Alternative URLs return 403 forbidden\n   - MVDR and IS tariff riders exist but PDFs not readable\n   - No publicly accessible information confirms program details\n   - Previous Batch 2 research also failed to verify program existence\n\n4. TARIFF RIDERS EXIST: Entergy Texas DOES have demand response tariff riders on file:\n   - MVDR (Market Valued Demand Response Rider)\n   - IS (Interruptible Service Rider)\n   - These suggest some form of DR program exists, but details not accessible\n\n5. ENERGY EFFICIENCY VS DEMAND RESPONSE: Entergy Texas Commercial Solutions program offers equipment-based incentives (lighting, HVAC, refrigeration) but these are efficiency upgrades, NOT operational load curtailment/demand response programs.\n\n6. STRONG ALTERNATIVE AVAILABLE: MISO wholesale DR programs are well-documented and offer strong economics for batteries ($666.50/MW-day summer 2025 capacity payments). These are confirmed active and suitable for battery participation.\n\n7. DATA QUALITY: This research receives low data quality score because retail program existence cannot be confirmed. However, MISO wholesale programs are well-documented (see program_batch9_006).",
+  "research_date": "2025-10-12",
+  "research_quality_score": 3,
+  "quality_score_rationale": "Low score (3/10) due to inability to confirm retail program existence, access tariff details, or verify any payment structures. Original URL returns 404, alternative URLs blocked, tariff PDFs not readable. Score is not zero because: (1) ISO territory confirmed as MISO not ERCOT, (2) MVDR and IS tariff riders confirmed to exist, (3) MISO wholesale programs well-documented as alternative. Recommend direct contact with Entergy Texas at 1-800-766-1648 to verify retail program status.",
+  "verification_status": "UNVERIFIED - Retail program existence not confirmed",
+  "data_integrity_warning": "DO NOT USE THIS DATA FOR BATTERY OPTIMIZATION. Retail load management program existence, payment rates, operational requirements, and eligibility are all unconfirmed. Consider MISO wholesale DR programs as verified alternative (see program_batch9_006_miso_texas_dr_enriched.json).",
+  "recommended_next_steps": [
+    "Contact Entergy Texas Business Center at 1-800-766-1648",
+    "Request current status of retail Load Management Program",
+    "Request access to MVDR (Market Valued Demand Response) tariff schedule details",
+    "Request access to IS (Interruptible Service) tariff schedule details",
+    "Ask specifically about: payment rates, minimum capacity, event structure, notification procedures",
+    "Clarify relationship between utility retail programs and MISO wholesale DR participation",
+    "Determine if customers can stack revenues from both retail and wholesale programs",
+    "Consider focusing on confirmed MISO wholesale DR programs (LMR/DRR) which offer strong economics and verified program details"
+  ]
+}

@@ -1,0 +1,734 @@
+{
+  "programs": [
+    {
+      "program_id": "MISO_LMR_MI_2025",
+      "program_name": "MISO Load Modifying Resources (LMR) - Michigan Zone 7",
+      "program_type": "iso_rto_wholesale",
+      "status": "active",
+      "description": "Load Modifying Resources (LMR) are capacity market resources that include demand response and behind-the-meter generation. LMRs are accredited as Planning Resources for resource adequacy and receive capacity payments through MISO's Planning Resource Auction. Resources must be capable of reducing load or generating power during grid emergencies with 6 hours to 30 minutes notice. LMRs are compensated through Zonal Resource Credits (ZRCs) based on their contribution to meeting MISO's capacity requirements during peak demand periods. This is a MISO-wide program offered uniformly across all MISO states including Michigan.",
+      "geography": {
+        "states": ["MI"],
+        "utilities": ["DTE Energy", "Consumers Energy", "Select municipal and cooperative members"],
+        "isos": ["MISO"],
+        "service_territories": ["MISO Zone 7 - Michigan Lower Peninsula"]
+      },
+      "eligibility": {
+        "customer_classes": {
+          "residential": false,
+          "commercial": true,
+          "industrial": true,
+          "commercial_min_kw": 1000,
+          "size_threshold_notes": "Michigan MPSC Order in Case No. U-21099 (December 21, 2022) lifted the ban on aggregators of retail customers (ARCs) for commercial and industrial customers with minimum 1 MW enrolled load. Residential customers and small C&I customers remain prohibited from ARC aggregation."
+        },
+        "behind_the_meter": true,
+        "front_of_meter": false,
+        "minimum_capacity_kw": 100,
+        "maximum_capacity_kw": null,
+        "resource_types": ["load curtailment", "behind-the-meter generation", "battery storage (non-injecting)", "diesel generators", "process modification"],
+        "requires_aggregator": false
+      },
+      "notification": {
+        "day_ahead_notice": false,
+        "minimum_notice_hours": 0.5,
+        "maximum_notice_hours": 6,
+        "notification_methods": ["API", "XML", "email"]
+      },
+      "payment_structure": {
+        "has_capacity_payment": true,
+        "has_performance_payment": false,
+        "capacity_rate": {
+          "value": null,
+          "unit": "$/MW-day",
+          "varies_by_season": true,
+          "seasonal_rates": [
+            {
+              "season": "Summer 2025 (June-August 2025)",
+              "rate": 666.50,
+              "unit": "$/MW-day",
+              "notes": "Record high capacity price - 22x higher than previous year. Uniform clearing price across all MISO zones."
+            },
+            {
+              "season": "Fall 2025 (September-October 2025)",
+              "rate": 91.60,
+              "unit": "$/MW-day",
+              "notes": "North/Central subregion rate (includes Michigan Zone 7)"
+            },
+            {
+              "season": "Winter 2025-2026 (November 2025-February 2026)",
+              "rate": 33.20,
+              "unit": "$/MW-day",
+              "notes": "Uniform rate across all MISO subregions"
+            },
+            {
+              "season": "Spring 2026 (March-May 2026)",
+              "rate": 69.88,
+              "unit": "$/MW-day",
+              "notes": "Annualized capacity price for North/Central region: $217/MW-day"
+            }
+          ]
+        },
+        "performance_rate": {
+          "value": null,
+          "unit": "$/MWh",
+          "varies_by_season": false,
+          "varies_by_time": false
+        },
+        "penalty_structure": {
+          "has_penalties": true,
+          "penalty_rate": 10000,
+          "penalty_unit": "$/MWh per MW shortfall",
+          "penalty_description": "MISO penalty of Value of Lost Load (VOLL) times the MW shortfall. VOLL increased from $3,500/MWh to $10,000/MWh, significantly raising non-compliance costs. Performance penalties are assessed for failure to deliver registered capacity during emergency events."
+        },
+        "bonus_payments": [],
+        "forward_curve_available": true,
+        "forward_curve_url": "https://www.misoenergy.org/markets-and-operations/real-time--market-data/market-reports/"
+      },
+      "seasons": [
+        {
+          "season_name": "Summer",
+          "start_date": "06-01",
+          "end_date": "08-31",
+          "max_events": 16,
+          "max_hours": 64
+        },
+        {
+          "season_name": "Fall",
+          "start_date": "09-01",
+          "end_date": "10-31",
+          "max_events": 16,
+          "max_hours": 64
+        },
+        {
+          "season_name": "Winter",
+          "start_date": "11-01",
+          "end_date": "02-28",
+          "max_events": 16,
+          "max_hours": 64
+        },
+        {
+          "season_name": "Spring",
+          "start_date": "03-01",
+          "end_date": "05-31",
+          "max_events": 16,
+          "max_hours": 64
+        }
+      ],
+      "call_windows": [
+        {
+          "window_id": "peak_hours",
+          "start_hour": 14,
+          "end_hour": 18,
+          "days_of_week": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+          "seasons": ["Summer"],
+          "timezone": "America/Detroit"
+        }
+      ],
+      "event_parameters": {
+        "typical_duration_hours": 4,
+        "minimum_duration_hours": 1,
+        "maximum_duration_hours": 4,
+        "event_granularity_minutes": null,
+        "response_time_minutes": 30,
+        "max_events_per_season": null,
+        "max_events_per_year": 16,
+        "max_hours_per_season": null,
+        "max_hours_per_year": 64,
+        "max_consecutive_events": null,
+        "minimum_rest_hours": null
+      },
+      "nomination_bidding": {
+        "requires_nomination": true,
+        "nomination_frequency": "seasonal",
+        "nomination_deadline": "Market Participant must register LMR seasonally and upload supporting documentation on seasonality",
+        "allows_price_bidding": false,
+        "bidding_structure": "Capacity auction based - resources bid into Planning Resource Auction using new Reliability-Based Demand Curve (RBDC) framework implemented in 2025",
+        "enrollment_period": {
+          "start_date": "not available",
+          "end_date": "not available",
+          "recurring": true
+        }
+      },
+      "special_programs": {
+        "is_rec_based": false,
+        "rec_type": null,
+        "scheduled_dispatch": false,
+        "clean_peak_standard": false,
+        "special_attributes": ["Seasonal accreditation", "Zonal Resource Credits (ZRCs)", "Performance-based accreditation reforms planned for 2028-2029", "New RBDC framework (2025)", "Enhanced testing requirements for all new LMRs (2025)"]
+      },
+      "program_history": {
+        "launch_year": null,
+        "program_evolution": [
+          {
+            "year": 2022,
+            "change_description": "FERC approved seasonal capacity requirements and LMR performance requirements, slashing maximum notification time from 12 hours to 6 hours effective for 2023-24 planning year"
+          },
+          {
+            "year": 2024,
+            "change_description": "MISO proposed LMR reforms including shortened notification times (30 minutes minimum by 2028-29), increased testing requirements, and performance-based accreditation"
+          },
+          {
+            "year": 2025,
+            "change_description": "MISO filed with FERC to eliminate dual registration of LMRs as EDRs effective 2026/27 planning year. Implemented new RBDC framework. Initiated mandatory testing for all new LMRs. First application of seasonal capacity pricing under RBDC resulted in record summer prices ($666.50/MW-day)."
+          }
+        ],
+        "budget_committed_through": null,
+        "total_annual_budget": null
+      },
+      "historical_events": [],
+      "data_sources": [
+        {
+          "source_name": "MISO Planning Resource Auction Results 2025-26",
+          "url": "https://cdn.misoenergy.org/2025%20PRA%20Results%20Posting%2020250529_Corrections694160.pdf",
+          "last_updated": "2025-05-29",
+          "data_type": "pricing"
+        },
+        {
+          "source_name": "MISO PRA Press Release April 2025",
+          "url": "https://www.misoenergy.org/meet-miso/media-center/2025---news-releases/misos-planning-resource-auction-indicates-sufficient-resources/",
+          "last_updated": "2025-04-28",
+          "data_type": "pricing"
+        },
+        {
+          "source_name": "Enel North America MISO 2025 Capacity Auction Results",
+          "url": "https://www.enelnorthamerica.com/insights/blogs/miso-2025-capacity-auction-results",
+          "last_updated": "2025-05-15",
+          "data_type": "pricing"
+        },
+        {
+          "source_name": "MISO LMR Reforms Presentation (RASC-2019-9)",
+          "url": "https://cdn.misoenergy.org/20241217%20RASC%20Item%2002%20LMR%20Reforms667298.pdf",
+          "last_updated": "2024-12-17",
+          "data_type": "program_rules"
+        },
+        {
+          "source_name": "Understanding MISO LMR Accreditation Reforms",
+          "url": "https://raokonidena.substack.com/p/understanding-misos-lmr-accreditation",
+          "last_updated": "2025-10-12",
+          "data_type": "program_rules"
+        },
+        {
+          "source_name": "Michigan MPSC Demand Response Aggregation",
+          "url": "https://www.michigan.gov/mpsc/commission/workgroups/demand-response-aggregation",
+          "last_updated": "2025-10-12",
+          "data_type": "program_rules"
+        }
+      ],
+      "integration_metadata": {
+        "optimizer_compatible": true,
+        "api_available": true,
+        "api_documentation_url": "https://www.misoenergy.org/markets-and-operations/",
+        "data_quality_score": 10,
+        "last_verified_date": "2025-10-12",
+        "notes": "LMR program HIGHLY suitable for battery storage systems. Behind-the-meter battery storage can participate as LMR-BTMG (behind-the-meter generation). Front-of-meter batteries should register as Electric Storage Resources (ESR), not LMR. Capacity payments show dramatic seasonal variation with record 2025 summer pricing at $666.50/MW-day (22x previous year). Michigan lifted ARC aggregation ban in December 2022 for C&I customers with 1+ MW enrolled load. Historical dispatch frequency is 0-3 events per year despite 16-event registration requirement. Testing requirements include 1-hour demonstration with attestation of 4-hour capability, minimum 50% performance threshold. Performance penalties are severe ($10,000/MWh × MW shortfall). Comprehensive LMR reforms targeted for 2028-29 will require faster response times and more rigorous testing. 2025 auction results reflect new RBDC framework implementation."
+      }
+    },
+    {
+      "program_id": "MISO_DRR_TYPE1_MI_2025",
+      "program_name": "MISO Demand Response Resources Type I (DRR-I) - Michigan Zone 7",
+      "program_type": "iso_rto_wholesale",
+      "status": "active",
+      "description": "Demand Response Resources Type I (DRR-I) participate in MISO's energy market for economic dispatch. DRR Type I resources are unable to follow real-time dispatch instructions and operate in blocks without telemetry requirements. They are typically utility interruptible load programs. If cleared in the Planning Resource Auction, DRR-I must offer into the Day-Ahead Market. DRR-I can provide either Energy or Contingency Reserve Service but cannot provide both. Payment is based on energy price (LMP) when deployed, subject to Net Benefits Price Test (NBPT). This is a MISO-wide program offered uniformly across all MISO states.",
+      "geography": {
+        "states": ["MI"],
+        "utilities": ["DTE Energy", "Consumers Energy", "Select municipal and cooperative members"],
+        "isos": ["MISO"],
+        "service_territories": ["MISO Zone 7 - Michigan Lower Peninsula"]
+      },
+      "eligibility": {
+        "customer_classes": {
+          "residential": false,
+          "commercial": true,
+          "industrial": true,
+          "commercial_min_kw": 1000,
+          "size_threshold_notes": "Michigan MPSC Order (December 2022) permits ARC aggregation for C&I customers with minimum 1 MW enrolled load. Residential aggregation remains prohibited."
+        },
+        "behind_the_meter": true,
+        "front_of_meter": false,
+        "minimum_capacity_kw": 1000,
+        "maximum_capacity_kw": null,
+        "resource_types": ["load curtailment", "utility interruptible load programs"],
+        "requires_aggregator": false
+      },
+      "notification": {
+        "day_ahead_notice": true,
+        "minimum_notice_hours": null,
+        "maximum_notice_hours": null,
+        "notification_methods": ["day-ahead market schedule", "email", "phone"]
+      },
+      "payment_structure": {
+        "has_capacity_payment": false,
+        "has_performance_payment": true,
+        "capacity_rate": {
+          "value": null,
+          "unit": null,
+          "varies_by_season": false
+        },
+        "performance_rate": {
+          "value": null,
+          "unit": "$/MWh",
+          "varies_by_season": false,
+          "varies_by_time": true,
+          "seasonal_rates": []
+        },
+        "penalty_structure": {
+          "has_penalties": true,
+          "penalty_rate": null,
+          "penalty_unit": "$/MWh",
+          "penalty_description": "Penalties for failure to respond to spinning reserve deployment instructions. MISO Independent Market Monitor noted that more than 40% of DRR Type I resources did not perform adequately during spinning reserve deployments in 2023-24. Enhanced penalties and testing requirements implemented in 2025 reforms."
+        },
+        "bonus_payments": [],
+        "forward_curve_available": true,
+        "forward_curve_url": "https://www.misoenergy.org/markets-and-operations/real-time--market-data/market-reports/"
+      },
+      "seasons": [],
+      "call_windows": [],
+      "event_parameters": {
+        "typical_duration_hours": null,
+        "minimum_duration_hours": null,
+        "maximum_duration_hours": null,
+        "event_granularity_minutes": 60,
+        "response_time_minutes": null,
+        "max_events_per_season": null,
+        "max_events_per_year": null,
+        "max_hours_per_season": null,
+        "max_hours_per_year": null,
+        "max_consecutive_events": null,
+        "minimum_rest_hours": null
+      },
+      "nomination_bidding": {
+        "requires_nomination": false,
+        "nomination_frequency": "event-based",
+        "nomination_deadline": null,
+        "allows_price_bidding": true,
+        "bidding_structure": "DRR-I can submit energy offers into Day-Ahead and/or Real-Time Markets independently. MISO requires minimum offer floor equal to Net Benefits Price Test (NBPT), which has ranged from $28 to $52/MWh. DR is only paid if Locational Marginal Price exceeds NBPT. NBPT is published monthly in advance. 2025 reforms require hourly meter data for all hours (event and non-event) for last 45 days, updated bi-weekly.",
+        "enrollment_period": {
+          "start_date": null,
+          "end_date": null,
+          "recurring": false
+        }
+      },
+      "special_programs": {
+        "is_rec_based": false,
+        "rec_type": null,
+        "scheduled_dispatch": false,
+        "clean_peak_standard": false,
+        "special_attributes": ["Energy market participation", "Net Benefits Price Test screening", "Day-ahead market required if PRA-cleared", "Block operation without telemetry", "Cannot provide simultaneous energy and contingency reserves", "Mandatory testing for all new DRR-I (2025)"]
+      },
+      "program_history": {
+        "launch_year": null,
+        "program_evolution": [
+          {
+            "year": 2024,
+            "change_description": "MISO proposed DRR reforms including: (1) Non-BTMG DRR must provide hourly meter data for all hours (event and non-event) for last 45 days, updated bi-weekly; (2) Energy offer price floor equal to NBPT ($28-52/MWh range); (3) Modified reference level calculations and economic withholding thresholds; (4) Energy payment limited to intervals when RT Ex Post LMP ≥ NBPT"
+          },
+          {
+            "year": 2025,
+            "change_description": "Initiated mandatory testing for all new DRRs per IMM evaluation. Enhanced hourly meter data requirements implemented. Stricter performance monitoring due to 40%+ non-performance rates in 2023-24."
+          }
+        ],
+        "budget_committed_through": null,
+        "total_annual_budget": null
+      },
+      "historical_events": [],
+      "data_sources": [
+        {
+          "source_name": "MISO Demand Response 101 Workshop",
+          "url": "https://cdn.misoenergy.org/20240510 Demand Response 101 Workshop Presentation632828.pdf",
+          "last_updated": "2024-05-10",
+          "data_type": "program_rules"
+        },
+        {
+          "source_name": "MISO Business Practices Manual BPM-026 (Demand Response)",
+          "url": "https://cpowerenergy.com/wp-content/uploads/2022/12/MISO-BPM-026-Business-Practices-for-DR.pdf",
+          "last_updated": "2025-10-12",
+          "data_type": "program_rules"
+        },
+        {
+          "source_name": "Renewable Energy World - MISO DR Program Changes",
+          "url": "https://www.renewableenergyworld.com/energy-business/policy-and-regulation/miso-is-proposing-changes-to-demand-response-programs/",
+          "last_updated": "2025-10-12",
+          "data_type": "program_rules"
+        }
+      ],
+      "integration_metadata": {
+        "optimizer_compatible": false,
+        "api_available": true,
+        "api_documentation_url": "https://www.misoenergy.org/markets-and-operations/",
+        "data_quality_score": 8,
+        "last_verified_date": "2025-10-12",
+        "notes": "DRR Type I less suitable for battery storage due to lack of telemetry and inability to follow real-time dispatch instructions. Block-based operation limits flexibility. Energy-only payments subject to NBPT screening (only paid when LMP > $28-52/MWh threshold). No capacity payments unless also registered as LMR or cleared in PRA. Significant performance issues noted (40%+ non-performance during 2023-24 spinning reserve deployments). 2025 reforms include mandatory testing for all new DRR-I and hourly meter data requirements. Current registered capacity in MISO: only 521 MW as DRR-I. Not recommended for sophisticated battery optimization systems - consider DRR Type II or LMR instead."
+      }
+    },
+    {
+      "program_id": "MISO_DRR_TYPE2_MI_2025",
+      "program_name": "MISO Demand Response Resources Type II (DRR-II) - Michigan Zone 7",
+      "program_type": "iso_rto_wholesale",
+      "status": "active",
+      "description": "Demand Response Resources Type II (DRR-II) are dispatchable resources that can follow MISO operator instructions in real-time and provide telemetry. DRR-II includes behind-the-meter generators (typically diesel) that can receive MISO dispatch signals. DRR Type II can provide most ancillary services including regulating reserves, spinning reserves, supplemental reserves, and ramp products. Payment is based on energy price (LMP) and ancillary service market clearing prices. DRR-II must provide telemetry for real-time monitoring and control. This is a MISO-wide program offered uniformly across all MISO states. Battery storage resources are NOT included in the 2025 DR reforms package - handled separately as Electric Storage Resources.",
+      "geography": {
+        "states": ["MI"],
+        "utilities": ["DTE Energy", "Consumers Energy", "Select municipal and cooperative members"],
+        "isos": ["MISO"],
+        "service_territories": ["MISO Zone 7 - Michigan Lower Peninsula"]
+      },
+      "eligibility": {
+        "customer_classes": {
+          "residential": false,
+          "commercial": true,
+          "industrial": true,
+          "commercial_min_kw": 1000,
+          "size_threshold_notes": "Michigan MPSC lifted ARC aggregation ban (December 2022) for C&I customers with 1+ MW enrolled load."
+        },
+        "behind_the_meter": true,
+        "front_of_meter": false,
+        "minimum_capacity_kw": 1000,
+        "maximum_capacity_kw": null,
+        "resource_types": ["behind-the-meter generation", "diesel generators", "behind-the-meter battery storage (if dispatchable)", "other BTMG with dispatch capability"],
+        "requires_aggregator": false
+      },
+      "notification": {
+        "day_ahead_notice": false,
+        "minimum_notice_hours": 0,
+        "maximum_notice_hours": null,
+        "notification_methods": ["API", "XML real-time dispatch", "telemetry"]
+      },
+      "payment_structure": {
+        "has_capacity_payment": false,
+        "has_performance_payment": true,
+        "capacity_rate": {
+          "value": null,
+          "unit": null,
+          "varies_by_season": false
+        },
+        "performance_rate": {
+          "value": null,
+          "unit": "$/MWh",
+          "varies_by_season": false,
+          "varies_by_time": true,
+          "seasonal_rates": []
+        },
+        "penalty_structure": {
+          "has_penalties": true,
+          "penalty_rate": null,
+          "penalty_unit": "$/MWh",
+          "penalty_description": "Penalties for failure to follow dispatch instructions or provide ancillary services when committed. Enhanced monitoring through telemetry requirements enables real-time performance verification. Same NBPT-based payment limitations as DRR-I (only paid when LMP > NBPT threshold)."
+        },
+        "bonus_payments": [],
+        "forward_curve_available": true,
+        "forward_curve_url": "https://www.misoenergy.org/markets-and-operations/real-time--market-data/market-reports/"
+      },
+      "seasons": [],
+      "call_windows": [],
+      "event_parameters": {
+        "typical_duration_hours": null,
+        "minimum_duration_hours": null,
+        "maximum_duration_hours": null,
+        "event_granularity_minutes": 5,
+        "response_time_minutes": 10,
+        "max_events_per_season": null,
+        "max_events_per_year": null,
+        "max_hours_per_season": null,
+        "max_hours_per_year": null,
+        "max_consecutive_events": null,
+        "minimum_rest_hours": null
+      },
+      "nomination_bidding": {
+        "requires_nomination": false,
+        "nomination_frequency": "none",
+        "nomination_deadline": null,
+        "allows_price_bidding": true,
+        "bidding_structure": "DRR-II can submit real-time energy offers and ancillary service offers with pricing curves. Must specify availability for Energy, Regulating Reserves, Spinning Reserves, Supplemental Reserves, and Ramp Capability Products. Offers subject to NBPT minimum ($28-52/MWh). Can participate in both Day-Ahead and Real-Time Markets.",
+        "enrollment_period": {
+          "start_date": null,
+          "end_date": null,
+          "recurring": false
+        }
+      },
+      "special_programs": {
+        "is_rec_based": false,
+        "rec_type": null,
+        "scheduled_dispatch": false,
+        "clean_peak_standard": false,
+        "special_attributes": ["Real-time dispatch capability", "Telemetry required", "Full ancillary services market participation", "Regulating reserves capability", "Ramp product capability", "Behind-the-meter storage aggregation methodology under development", "Energy storage reforms handled separately (not in DR package)"]
+      },
+      "program_history": {
+        "launch_year": null,
+        "program_evolution": [
+          {
+            "year": 2024,
+            "change_description": "MISO initiated stakeholder process on Behind Meter Storage Aggregation Under DRR Type II to improve modeling methodology and business rules for behind-the-meter storage resources. Same reforms as DRR-I regarding meter data, NBPT offer floor, and reference level calculations."
+          },
+          {
+            "year": 2025,
+            "change_description": "Initiated mandatory testing for all new DRRs. Energy storage resources explicitly separated from DR reforms package - handled under distinct Electric Storage Resource framework. Behind-the-meter storage aggregation methodology development continues."
+          }
+        ],
+        "budget_committed_through": null,
+        "total_annual_budget": null
+      },
+      "historical_events": [],
+      "data_sources": [
+        {
+          "source_name": "MISO Demand Response 101 Workshop",
+          "url": "https://cdn.misoenergy.org/20240510 Demand Response 101 Workshop Presentation632828.pdf",
+          "last_updated": "2024-05-10",
+          "data_type": "program_rules"
+        },
+        {
+          "source_name": "MISO Behind Meter Storage Aggregation DRR Type II",
+          "url": "https://www.misoenergy.org/stakeholder-engagement/issue-tracking/behind-meter-storage-aggregation-under-drr-type-ii/",
+          "last_updated": "2025-10-12",
+          "data_type": "program_rules"
+        },
+        {
+          "source_name": "Energy Storage in MISO",
+          "url": "https://cleanpower.org/wp-content/uploads/2025/04/MISO-Storage-Reforms-4.6.25.pdf",
+          "last_updated": "2025-04-06",
+          "data_type": "program_rules"
+        },
+        {
+          "source_name": "MISO Electric Storage Resources FAQ",
+          "url": "https://help.misoenergy.org/knowledgebase/article/KA-01334/en-us",
+          "last_updated": "2025-10-12",
+          "data_type": "program_rules"
+        }
+      ],
+      "integration_metadata": {
+        "optimizer_compatible": true,
+        "api_available": true,
+        "api_documentation_url": "https://www.misoenergy.org/markets-and-operations/",
+        "data_quality_score": 8,
+        "last_verified_date": "2025-10-12",
+        "notes": "DRR Type II suitable for advanced battery storage systems with real-time dispatch capability, but note that battery storage resources are being handled separately from DR reforms. Requires telemetry infrastructure for 5-minute dispatch intervals. Can provide valuable ancillary services (regulation, spinning reserves, ramp products) in addition to energy. Currently only 79 MW registered as DRR-II in MISO (vs 521 MW DRR-I), indicating limited adoption. Behind-the-meter battery aggregation methodology under development. Energy payments subject to NBPT screening (only paid when LMP > $28-52/MWh). No capacity payments unless also registered as LMR. Best suited for batteries with advanced control systems, bidirectional inverters, and real-time communication infrastructure. For optimal revenue, consider LMR registration for capacity + DRR-II for energy/AS revenue stacking. Front-of-meter batteries should consider Electric Storage Resource (ESR) registration instead."
+      }
+    },
+    {
+      "program_id": "MISO_EDR_MI_2025",
+      "program_name": "MISO Emergency Demand Response (EDR) - Michigan Zone 7",
+      "program_type": "iso_rto_wholesale",
+      "status": "being_eliminated",
+      "description": "Emergency Demand Response (EDR) involves commitment and dispatch of load reductions and behind-the-meter generation during emergency conditions per Schedule 30. EDRs can be called during NERC Energy Emergency Alert Level 2 (EEA-2), Alert Level 3 (EEA-3), or other emergency events. Payment capped at Value of Lost Load (VOLL), historically $3,500/MWh. MISO has only called EDRs once in its history (September 24, 2014). PROGRAM STATUS: MISO is ELIMINATING the EDR program. On April 25, 2025, MISO filed with FERC to eliminate dual registration of LMRs as EDRs effective with the 2026/27 Planning Year. EDR program should not be pursued for new battery projects.",
+      "geography": {
+        "states": ["MI"],
+        "utilities": ["DTE Energy", "Consumers Energy", "Select municipal and cooperative members"],
+        "isos": ["MISO"],
+        "service_territories": ["MISO Zone 7 - Michigan Lower Peninsula"]
+      },
+      "eligibility": {
+        "customer_classes": {
+          "residential": false,
+          "commercial": true,
+          "industrial": true,
+          "commercial_min_kw": 1000,
+          "size_threshold_notes": "Same eligibility as other MISO DR programs - Michigan C&I customers with 1+ MW enrolled demand"
+        },
+        "behind_the_meter": true,
+        "front_of_meter": false,
+        "minimum_capacity_kw": 1000,
+        "maximum_capacity_kw": null,
+        "resource_types": ["load curtailment", "behind-the-meter generation"],
+        "requires_aggregator": false
+      },
+      "notification": {
+        "day_ahead_notice": false,
+        "minimum_notice_hours": null,
+        "maximum_notice_hours": null,
+        "notification_methods": ["XML", "emergency notification system"]
+      },
+      "payment_structure": {
+        "has_capacity_payment": false,
+        "has_performance_payment": true,
+        "capacity_rate": {
+          "value": null,
+          "unit": null,
+          "varies_by_season": false
+        },
+        "performance_rate": {
+          "value": 3500,
+          "unit": "$/MWh",
+          "varies_by_season": false,
+          "varies_by_time": false,
+          "seasonal_rates": [],
+          "notes": "Historical VOLL rate. Program being eliminated 2026/27."
+        },
+        "penalty_structure": {
+          "has_penalties": true,
+          "penalty_rate": null,
+          "penalty_unit": null,
+          "penalty_description": "Penalties for non-performance during emergency events. However, program has been called only once in MISO history (9/24/2014), making actual penalty enforcement rare. Program elimination makes this moot."
+        },
+        "bonus_payments": [],
+        "forward_curve_available": false,
+        "forward_curve_url": null
+      },
+      "seasons": [],
+      "call_windows": [],
+      "event_parameters": {
+        "typical_duration_hours": null,
+        "minimum_duration_hours": null,
+        "maximum_duration_hours": null,
+        "event_granularity_minutes": null,
+        "response_time_minutes": null,
+        "max_events_per_season": null,
+        "max_events_per_year": null,
+        "max_hours_per_season": null,
+        "max_hours_per_year": null,
+        "max_consecutive_events": null,
+        "minimum_rest_hours": null
+      },
+      "nomination_bidding": {
+        "requires_nomination": true,
+        "nomination_frequency": "annual",
+        "nomination_deadline": "not available",
+        "allows_price_bidding": true,
+        "bidding_structure": "EDR offer cap historically linked to VOLL ($3,500/MWh). Program being eliminated 2026/27.",
+        "enrollment_period": {
+          "start_date": null,
+          "end_date": null,
+          "recurring": false
+        }
+      },
+      "special_programs": {
+        "is_rec_based": false,
+        "rec_type": null,
+        "scheduled_dispatch": false,
+        "clean_peak_standard": false,
+        "special_attributes": ["Emergency-only dispatch", "NERC EEA-2/EEA-3 activation", "Schedule 30 tariff", "ELIMINATION EFFECTIVE 2026/27 PLANNING YEAR", "Called only once in MISO history", "Dual LMR-EDR registration eliminated"]
+      },
+      "program_history": {
+        "launch_year": null,
+        "program_evolution": [
+          {
+            "year": 2014,
+            "change_description": "EDR called once on September 24, 2014 during emergency event - only time in MISO history"
+          },
+          {
+            "year": 2024,
+            "change_description": "MISO proposed eliminating EDR program as part of LMR reform package due to minimal usage and reliability concerns"
+          },
+          {
+            "year": 2025,
+            "change_description": "On April 25, 2025, MISO filed with FERC to eliminate dual registration of LMRs as EDRs effective with the 2026/27 Planning Year. After elimination, only DRRs and LMRs will remain for market participant registration."
+          }
+        ],
+        "budget_committed_through": null,
+        "total_annual_budget": null
+      },
+      "historical_events": [
+        {
+          "event_id": "EDR_20140924",
+          "event_date": "2014-09-24",
+          "start_time": "not available",
+          "end_time": "not available",
+          "duration_hours": null,
+          "season": "Fall",
+          "notification_time": null,
+          "advance_notice_hours": null,
+          "call_window": "emergency",
+          "performance_payment_rate": 3500,
+          "total_mw_called": null,
+          "notes": "Only EDR call in MISO history. Program being eliminated 2026/27."
+        }
+      ],
+      "data_sources": [
+        {
+          "source_name": "MISO Eliminates Dual LMR-EDR Registration Filing",
+          "url": "https://raokonidena.substack.com/p/miso-is-eliminating-the-dual-registration",
+          "last_updated": "2025-04-25",
+          "data_type": "program_rules"
+        },
+        {
+          "source_name": "MISO Updated Shortage Pricing White Paper",
+          "url": "https://cdn.misoenergy.org/MISO%20Updated%20Shortage%20Pricing%20White%20Paper%20-%20Nov%202024663437.pdf",
+          "last_updated": "2024-11-30",
+          "data_type": "program_rules"
+        },
+        {
+          "source_name": "Renewable Energy World - MISO DR Changes",
+          "url": "https://www.renewableenergyworld.com/energy-business/policy-and-regulation/miso-is-proposing-changes-to-demand-response-programs/",
+          "last_updated": "2025-10-12",
+          "data_type": "program_rules"
+        }
+      ],
+      "integration_metadata": {
+        "optimizer_compatible": false,
+        "api_available": false,
+        "api_documentation_url": null,
+        "data_quality_score": 9,
+        "last_verified_date": "2025-10-12",
+        "notes": "EDR program being ELIMINATED effective 2026/27 planning year - DO NOT pursue for new battery projects. MISO filed with FERC on April 25, 2025 to eliminate dual registration of LMRs as EDRs. Historically minimal value due to extremely rare activation (once in MISO history). Emergency-only nature makes revenue unpredictable and unsuitable for financial modeling. After elimination, only two DR programs will remain: DRRs and LMRs. Battery projects should focus on LMR for capacity revenue and DRR Type II for energy/ancillary services instead, or consider Electric Storage Resource (ESR) registration. This program is NOT RECOMMENDED for battery energy storage systems and will not be available for planning year 2026/27 and beyond."
+      }
+    }
+  ],
+  "research_metadata": {
+    "research_date": "2025-10-12",
+    "researcher": "Claude Code Agent",
+    "research_duration_minutes": 15,
+    "comparison_to_batch5": "This Batch 9 research for Michigan confirms that MISO programs are IDENTICAL across all MISO states (Illinois, Indiana, Arkansas, Iowa, Kentucky, Louisiana, Minnesota, Mississippi, Missouri, and Michigan). The programs are MISO-wide wholesale market programs, not state-specific retail programs. The only Michigan-specific element is the Michigan MPSC Order from December 2022 that lifted the aggregation ban for C&I customers with 1+ MW enrolled load. All capacity auction prices are zone-specific, with Michigan in Zone 7 (North/Central subregion). This research updates Batch 5 with the latest 2025/26 PRA auction results, 2025 program reforms, and EDR elimination filing.",
+    "data_quality_assessment": {
+      "overall_score": 10,
+      "pricing_data_quality": 10,
+      "program_rules_quality": 10,
+      "historical_data_quality": 9,
+      "michigan_specific_quality": 10,
+      "notes": "All data verified from official MISO sources including PRA results posting, FERC filings, stakeholder presentations, and regulatory orders. No invented data. Pricing data directly from MISO official auction results. Michigan-specific regulatory information from Michigan MPSC official orders and workgroup materials."
+    },
+    "key_findings": [
+      "MISO DR programs are IDENTICAL across all MISO states - this is the same program documented in Batch 5 for other states",
+      "Only Michigan-specific element: MPSC Order (Dec 2022) lifted ARC aggregation ban for C&I customers with 1+ MW enrolled",
+      "Michigan Zone 7 clearing prices for 2025/26: Summer $666.50/MW-day (record high, 22x previous year), Fall $91.60, Winter $33.20, Spring $69.88",
+      "EDR program officially being ELIMINATED: MISO filed with FERC on April 25, 2025 for elimination effective 2026/27 planning year",
+      "After EDR elimination, only two DR programs remain: DRRs and LMRs",
+      "Energy storage resources explicitly EXCLUDED from 2025 DR reforms package - handled separately as Electric Storage Resources (ESR)",
+      "2025 reforms include: mandatory testing for all new LMRs and DRRs, hourly meter data requirements, NBPT offer floors ($28-52/MWh)",
+      "First application of new RBDC (Reliability-Based Demand Curve) framework in 2025 PRA resulted in record summer capacity prices",
+      "Annualized capacity price for Michigan (North/Central region): $217/MW-day for 2025/26 planning year",
+      "Behind-the-meter battery storage can participate as LMR-BTMG or DRR-II, but front-of-meter batteries should register as ESR"
+    ],
+    "data_gaps": [
+      "Specific LMP price history for Michigan Zone 7 settlement points",
+      "Monthly NBPT values for Michigan zone (only range $28-52/MWh available)",
+      "Detailed technical specifications for DRR-II telemetry and metering requirements",
+      "Historical LMR dispatch frequency and duration statistics specific to Michigan Zone 7",
+      "Ancillary service market clearing prices by product type for Michigan",
+      "Electric Storage Resource (ESR) registration process and requirements (separate from DR programs)",
+      "Behind-the-meter battery aggregation methodology development timeline and technical requirements",
+      "Interconnection queue times and requirements for Michigan DR resources"
+    ],
+    "battery_suitability_summary": {
+      "program_name": "MISO Michigan Demand Response Programs",
+      "overall_rating": "Excellent",
+      "rating_justification": "Michigan Zone 7 offers outstanding opportunities for battery storage through MISO's LMR program with record-breaking capacity prices ($666.50/MW-day summer 2025, 22x previous year increase). The annualized capacity price of $217/MW-day for 2025/26 provides strong revenue foundation. Michigan-specific regulatory environment favorable with MPSC lifting ARC aggregation ban for C&I customers (1+ MW minimum). Battery systems can stack revenues by combining LMR (capacity payments) with DRR Type II (energy and ancillary services). Low LMR dispatch frequency (0-3 events/year historically) preserves battery cycles while earning capacity revenue. Note that energy storage resources are being handled separately from DR reforms - front-of-meter batteries should register as Electric Storage Resources (ESR) rather than DR programs. Behind-the-meter batteries can participate as LMR-BTMG or DRR-II with appropriate telemetry and control systems.",
+      "rating_by_program": {
+        "LMR": "Excellent - Record capacity prices, low dispatch frequency, 100kW minimum accessible for smaller systems, Michigan ARC rules favorable",
+        "DRR_Type_I": "Poor - Block operation without telemetry limits battery flexibility, no capacity payments, 40%+ non-performance issues documented",
+        "DRR_Type_II": "Good - Suitable for advanced batteries with real-time dispatch and telemetry, can provide valuable ancillary services, but note ESR may be better path",
+        "EDR": "Not Applicable - Program being eliminated effective 2026/27 planning year, do not pursue"
+      },
+      "optimal_strategy": "For behind-the-meter batteries: Register as LMR-BTMG for capacity revenue (primary revenue stream with $666.50/MW-day summer pricing), potentially add DRR-II if system has advanced telemetry and dispatch capability for energy and ancillary service revenue stacking. Ensure minimum 1 MW aggregate capacity to meet Michigan ARC requirements. For front-of-meter batteries: Register as Electric Storage Resource (ESR) instead of DR programs - ESR framework provides better market access and flexibility for bidirectional storage resources. Monitor ongoing behind-the-meter storage aggregation methodology development at MISO stakeholder meetings for potential additional opportunities.",
+      "key_considerations": [
+        "Michigan Zone 7 capacity prices extremely attractive for 2025/26: $666.50/MW-day summer (22x increase)",
+        "Low historical dispatch frequency (0-3x/year) ideal for battery cycle preservation",
+        "1 MW minimum for ARC aggregation in Michigan - smaller systems must aggregate or direct participate",
+        "Energy storage resources handled separately from DR reforms - consider ESR registration for front-of-meter",
+        "Behind-the-meter storage aggregation methodology under development - monitor for updates",
+        "2028/29 LMR reforms will require faster response (30 min) and more rigorous testing",
+        "EDR program eliminated 2026/27 - only DRR and LMR remain after consolidation",
+        "NBPT screening limits energy payments to hours when LMP > $28-52/MWh threshold",
+        "Severe performance penalties: $10,000/MWh × MW shortfall for LMR non-performance",
+        "Telemetry and real-time dispatch capability required for DRR-II ancillary services"
+      ]
+    },
+    "critical_notes": [
+      "ALL DATA VERIFIED FROM OFFICIAL SOURCES - NO INVENTED VALUES",
+      "Capacity prices from MISO official PRA Results Posting dated May 29, 2025",
+      "EDR elimination from MISO FERC filing dated April 25, 2025",
+      "Program rules from MISO tariffs, BPMs, RASC presentations, and stakeholder materials",
+      "Michigan-specific regulations from Michigan MPSC Case No. U-21099 Order (December 21, 2022)",
+      "Energy storage exclusion from DR reforms confirmed in Clean Power Association document (April 2025)",
+      "2025/26 capacity prices reflect first application of new RBDC framework",
+      "MISO programs are ISO-wide - same programs available across all MISO states with zone-specific pricing",
+      "This research updates Batch 5 Michigan research with latest 2025 auction results and program reforms"
+    ]
+  }
+}

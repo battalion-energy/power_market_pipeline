@@ -1,0 +1,301 @@
+{
+  "program_id": "OREGON-IRRIGATION-PEAK-REWARDS",
+  "program_name": "Irrigation Peak Rewards",
+  "program_type": "utility",
+  "status": "active",
+  "description": "The Irrigation Peak Rewards program offers financial incentives to agricultural irrigation customers for allowing Idaho Power to remotely turn off specific irrigation pumps during peak demand periods. The program runs seasonally from June 15 to September 15 with a minimum of three load control events per season. Participants can choose from three interruption options (Early, Standard, or Extended) with varying event windows and payment rates. This is an agriculture-specific load control program designed for irrigation pump equipment, NOT a general-purpose demand response program for battery energy storage systems.",
+  "geography": {
+    "states": ["OR"],
+    "utilities": ["Idaho Power"],
+    "isos": [],
+    "service_territories": ["Idaho Power Oregon service territory"]
+  },
+  "eligibility": {
+    "customer_classes": {
+      "residential": false,
+      "commercial": false,
+      "industrial": false,
+      "commercial_min_kw": null,
+      "size_threshold_notes": "Program is exclusively for agricultural irrigation customers with irrigation pumps. Pumps 30 HP or less have a one-time $500 enrollment fee for new participants. All irrigation pumps are eligible regardless of size."
+    },
+    "behind_the_meter": true,
+    "front_of_meter": false,
+    "minimum_capacity_kw": null,
+    "maximum_capacity_kw": null,
+    "resource_types": ["irrigation pump load curtailment"],
+    "requires_aggregator": false
+  },
+  "notification": {
+    "day_ahead_notice": false,
+    "minimum_notice_hours": 4,
+    "maximum_notice_hours": null,
+    "notification_methods": ["phone", "automated control system"]
+  },
+  "payment_structure": {
+    "has_capacity_payment": true,
+    "has_performance_payment": true,
+    "capacity_rate": {
+      "value": null,
+      "unit": null,
+      "varies_by_season": false,
+      "seasonal_rates": [
+        {
+          "season": "2025 Early Option",
+          "rate": 2.75,
+          "unit": "$/kW-billing",
+          "notes": "Fixed incentive per billing kW for Early Option (3pm-9pm window)"
+        },
+        {
+          "season": "2025 Standard Option",
+          "rate": 5.25,
+          "unit": "$/kW-billing",
+          "notes": "Fixed incentive per billing kW for Standard Option (3pm-10pm window)"
+        },
+        {
+          "season": "2025 Extended Option",
+          "rate": 5.25,
+          "unit": "$/kW-billing",
+          "notes": "Fixed incentive per billing kW for Extended Option (3pm-11pm window)"
+        }
+      ]
+    },
+    "performance_rate": {
+      "value": null,
+      "unit": null,
+      "varies_by_season": false,
+      "varies_by_time": false,
+      "seasonal_rates": [
+        {
+          "season": "2025 Early Option - Fixed Energy Credit",
+          "rate": 0.004,
+          "unit": "$/kWh",
+          "notes": "Fixed energy credit for Early Option"
+        },
+        {
+          "season": "2025 Standard Option - Fixed Energy Credit",
+          "rate": 0.008,
+          "unit": "$/kWh",
+          "notes": "Fixed energy credit for Standard Option"
+        },
+        {
+          "season": "2025 Extended Option - Fixed Energy Credit",
+          "rate": 0.008,
+          "unit": "$/kWh",
+          "notes": "Fixed energy credit for Extended Option"
+        },
+        {
+          "season": "2025 Early Option - Variable Incentive",
+          "rate": 0.09,
+          "unit": "$/kWh-reduced",
+          "notes": "Variable incentive per event kWh reduced (paid after 3rd event) - Early Option"
+        },
+        {
+          "season": "2025 Standard Option - Variable Incentive",
+          "rate": 0.18,
+          "unit": "$/kWh-reduced",
+          "notes": "Variable incentive per event kWh reduced (paid after 3rd event) - Standard Option"
+        },
+        {
+          "season": "2025 Extended Option - Variable Incentive",
+          "rate": 0.25,
+          "unit": "$/kWh-reduced",
+          "notes": "Variable incentive per event kWh reduced (paid after 3rd event) - Extended Option"
+        }
+      ]
+    },
+    "penalty_structure": {
+      "has_penalties": true,
+      "penalty_rate": 3.25,
+      "penalty_unit": "$/kW-optout for Early Option, $6.25/kW-optout for Standard/Extended",
+      "penalty_description": "Opt-out fees apply when customer calls to opt out of a load control event. Early Option opt-out fee: $3.25 per billed demand (kW). Standard and Extended Option opt-out fee: $6.25 per billed demand (kW). Customers can opt out by calling 208-388-2534 preferably 1 hour before event, but can call during event."
+    },
+    "bonus_payments": [],
+    "forward_curve_available": false,
+    "forward_curve_url": null
+  },
+  "seasons": [
+    {
+      "season_name": "Summer Irrigation Season",
+      "start_date": "06-15",
+      "end_date": "09-15",
+      "max_events": null,
+      "max_hours": 60
+    }
+  ],
+  "call_windows": [
+    {
+      "window_id": "early_option_2025",
+      "start_hour": 15,
+      "end_hour": 21,
+      "days_of_week": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+      "seasons": ["Summer Irrigation Season"],
+      "timezone": "America/Denver"
+    },
+    {
+      "window_id": "standard_option_2025",
+      "start_hour": 15,
+      "end_hour": 22,
+      "days_of_week": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+      "seasons": ["Summer Irrigation Season"],
+      "timezone": "America/Denver"
+    },
+    {
+      "window_id": "extended_option_2025",
+      "start_hour": 15,
+      "end_hour": 23,
+      "days_of_week": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+      "seasons": ["Summer Irrigation Season"],
+      "timezone": "America/Denver"
+    }
+  ],
+  "event_parameters": {
+    "typical_duration_hours": 4,
+    "minimum_duration_hours": null,
+    "maximum_duration_hours": 4,
+    "event_granularity_minutes": null,
+    "response_time_minutes": null,
+    "max_events_per_season": null,
+    "max_events_per_year": null,
+    "max_hours_per_season": 60,
+    "max_hours_per_year": 60,
+    "max_consecutive_events": null,
+    "minimum_rest_hours": null
+  },
+  "nomination_bidding": {
+    "requires_nomination": true,
+    "nomination_frequency": "annual",
+    "nomination_deadline": "Spring enrollment period - enrollment packets mailed to eligible customers",
+    "allows_price_bidding": false,
+    "bidding_structure": "No price bidding - customers select interruption option (Early, Standard, or Extended) for each enrolled pump",
+    "enrollment_period": {
+      "start_date": "Spring (exact dates not specified)",
+      "end_date": "Before June 15 season start",
+      "recurring": true
+    }
+  },
+  "special_programs": {
+    "is_rec_based": false,
+    "rec_type": null,
+    "scheduled_dispatch": false,
+    "clean_peak_standard": false,
+    "special_attributes": [
+      "Agriculture-specific program for irrigation pumps only",
+      "Not applicable to battery energy storage systems",
+      "Requires Idaho Power-installed load control devices or manual load control for large facilities",
+      "Program expanded in 2025 to all irrigation customers",
+      "New Early Option added in 2025",
+      "Variable incentive payment changed from 4th event to 3rd event in 2025",
+      "One-time $500 enrollment fee for pumps 30 HP or less that have not previously participated"
+    ]
+  },
+  "program_history": {
+    "launch_year": null,
+    "program_evolution": [
+      {
+        "year": 2025,
+        "change_description": "Program expanded to ALL irrigation customers (previously limited). New Early Interruption Option added (3pm-9pm window). Variable incentive payment changed from after 4th event to after 3rd event."
+      }
+    ],
+    "budget_committed_through": null,
+    "total_annual_budget": null
+  },
+  "historical_events": [],
+  "data_sources": [
+    {
+      "source_name": "Idaho Power Irrigation Peak Rewards Main Page",
+      "url": "https://www.idahopower.com/ways-to-save/savings-for-your-business/irrigation-programs/irrigation-peak-rewards/",
+      "last_updated": "2025-10-12",
+      "data_type": "program_rules"
+    },
+    {
+      "source_name": "Idaho Power Irrigation Peak Rewards FAQ",
+      "url": "https://www.idahopower.com/energy-environment/ways-to-save/savings-for-your-business/irrigation-programs/irrigation-peak-rewards/frequently-asked-questions/",
+      "last_updated": "2025-10-12",
+      "data_type": "program_rules"
+    },
+    {
+      "source_name": "Idaho Power Oregon Retail Tariffs",
+      "url": "https://www.idahopower.com/about-us/company-information/rates-and-regulatory/retail-tariffs-oregon/",
+      "last_updated": "2025-10-12",
+      "data_type": "program_rules",
+      "notes": "Oregon Schedule 23 - Irrigation Peak Rewards Program (Optional)"
+    }
+  ],
+  "integration_metadata": {
+    "optimizer_compatible": false,
+    "api_available": false,
+    "api_documentation_url": null,
+    "data_quality_score": 7,
+    "last_verified_date": "2025-10-12",
+    "notes": "Data quality score is 7/10. Program details, payment rates, and structure are well-documented for 2025. However, this program is NOT suitable for battery energy storage systems - it is exclusively designed for agricultural irrigation pump load control. Historical event data not available. Tariff information confirmed to be Oregon Schedule 23, though specific tariff PDF was not accessible. No information about battery eligibility because this is an agriculture-specific program."
+  },
+  "battery_suitability": {
+    "rating": "NOT APPLICABLE - Agriculture-Specific Program",
+    "justification": "This program is NOT suitable for battery energy storage systems. The Irrigation Peak Rewards program is exclusively designed for agricultural irrigation customers with irrigation pumps. The program name explicitly states 'Irrigation' and all eligibility requirements specify agricultural irrigation equipment. The program provides load control of irrigation pumps through Idaho Power-installed devices or manual control. While the payment structure includes capacity-type payments ($2.75-$5.25/kW) and variable energy payments ($0.09-$0.25/kWh reduced), these are designed for pump load curtailment, not battery dispatch. Battery energy storage systems would not qualify for this program as they are not irrigation pumps. Idaho Power may have separate demand response programs for commercial/industrial customers or battery systems, but this specific program is agriculture-only.",
+    "key_limitations_for_batteries": [
+      "Eligibility restricted to agricultural irrigation customers only",
+      "Program designed for irrigation pump equipment, not energy storage",
+      "Requires installation of load control devices on irrigation pumps",
+      "Payment structure tied to pump curtailment, not battery operations",
+      "No mention of battery eligibility in any program documentation"
+    ]
+  },
+  "potential_annual_revenue_1mw_1mwh": {
+    "calculation_methodology": "NOT APPLICABLE - Program does not accept battery systems",
+    "assumptions": [],
+    "revenue_components": {
+      "capacity_payment_annual": 0,
+      "performance_payment_annual": 0,
+      "total_annual_revenue": 0
+    },
+    "notes": "Revenue calculation not applicable. This is an agriculture-specific irrigation pump program that does not accept battery energy storage systems. For battery revenue opportunities with Idaho Power, research other commercial/industrial demand response programs if available."
+  },
+  "research_summary": {
+    "time_spent_minutes": 35,
+    "key_finding": "This is an agriculture-specific demand response program for irrigation pump load control. It is NOT applicable to battery energy storage systems. The program offers three interruption options (Early, Standard, Extended) with capacity payments ranging from $2.75-$5.25/kW and variable energy payments of $0.09-$0.25/kWh for load reduction, but these payments are exclusively for agricultural irrigation customers with irrigation pumps.",
+    "data_integrity": "All data sourced from official Idaho Power website. No data invented. Payment rates, event windows, and program structure verified from multiple official sources. Clearly documented that this program is agriculture-specific and not applicable to battery systems.",
+    "program_classification": "Agricultural Load Control - Irrigation Equipment Only",
+    "recommendation_for_battery_optimization": "DO NOT pursue this program for battery energy storage systems - it is exclusively for agricultural irrigation customers. The program name 'Irrigation Peak Rewards' and all eligibility requirements confirm this is agriculture-specific. For battery opportunities with Idaho Power, research whether Idaho Power offers commercial/industrial demand response programs or time-of-use rates that could benefit battery operations. This program should not be included in battery optimization models.",
+    "missing_information": [
+      "Historical event data (dates, times, frequency)",
+      "Total enrolled capacity or number of participants",
+      "Actual performance metrics from past seasons",
+      "Oregon Schedule 23 tariff PDF (confirmed to exist but not accessible)",
+      "Information about other Idaho Power programs that may accept batteries"
+    ],
+    "verified_information": [
+      "Program runs June 15 - September 15 annually",
+      "Three interruption options: Early (3pm-9pm), Standard (3pm-10pm), Extended (3pm-11pm)",
+      "2025 capacity rates: $2.75/kW (Early), $5.25/kW (Standard/Extended)",
+      "2025 fixed energy credits: $0.004/kWh (Early), $0.008/kWh (Standard/Extended)",
+      "2025 variable incentives: $0.09/kWh (Early), $0.18/kWh (Standard), $0.25/kWh (Extended)",
+      "Variable incentive paid after 3rd event (changed from 4th in 2025)",
+      "Minimum 3 events per season, maximum 60 hours per season",
+      "Events up to 4 hours per day, up to 16 hours per week",
+      "4-hour minimum advance notice",
+      "Events Monday-Saturday (excluding holidays)",
+      "Opt-out fees: $3.25/kW (Early), $6.25/kW (Standard/Extended)",
+      "Program exclusively for agricultural irrigation customers with irrigation pumps",
+      "Oregon tariff Schedule 23",
+      "$500 one-time enrollment fee for pumps 30 HP or less (new participants)",
+      "Program expanded to all irrigation customers in 2025"
+    ]
+  },
+  "comparison_to_typical_dr_programs": {
+    "summary": "This is an agriculture-specific load control program, fundamentally different from commercial/industrial demand response programs that accept battery systems. While the payment structure superficially resembles DR programs (capacity + energy payments), the eligibility is restricted to irrigation pumps only. Typical battery-compatible DR programs have commercial/industrial eligibility with minimum capacity thresholds measured in kW of dispatchable load/generation, whereas this program measures in HP of irrigation pump equipment.",
+    "key_differences_from_battery_programs": [
+      "Eligibility: Agriculture irrigation only vs. Commercial/Industrial customers",
+      "Equipment: Irrigation pumps vs. Battery energy storage systems",
+      "Measurement: Horsepower (HP) vs. Kilowatts (kW) of battery capacity",
+      "Load Control: Curtailment of irrigation pumps vs. Battery discharge/charge",
+      "Season: Irrigation season (Jun-Sep) vs. Year-round or summer peak programs",
+      "Geographic: Agricultural areas vs. Urban/suburban commercial zones",
+      "Payment basis: Load reduction of pumps vs. Battery dispatch or capacity availability"
+    ]
+  },
+  "program_contact": {
+    "peak_rewards_specialist": "208-388-5461",
+    "customer_service": "208-388-2323 or 1-800-488-6151",
+    "opt_out_hotline": "208-388-2534"
+  }
+}

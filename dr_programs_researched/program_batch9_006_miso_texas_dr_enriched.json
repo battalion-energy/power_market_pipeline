@@ -1,0 +1,290 @@
+{
+  "program_id": "TEXAS-MISO-DEMAND-RESPONSE-OFFERINGS",
+  "program_name": "MISO Demand Response Offerings (Texas Service Territory)",
+  "utility": "MISO (serving Entergy Texas)",
+  "state": "Texas",
+  "iso_rto_territory": "MISO",
+  "geographic_coverage": {
+    "texas_presence_confirmed": true,
+    "service_area": "Southeast Texas only - Entergy Texas service territory",
+    "counties_served": 27,
+    "major_counties": ["Jasper", "Montgomery", "Newton", "Polk", "San Jacinto", "Trinity", "Tyler", "Walker"],
+    "major_cities": ["Beaumont", "Port Arthur", "Orange", "Conroe", "The Woodlands", "Kingwood"],
+    "customers_served": 524000,
+    "note": "MISO operates in limited portion of Texas. Majority of Texas is served by ERCOT. Entergy Texas joined MISO South region in 2013."
+  },
+  "program_type": "iso_rto_wholesale",
+  "status": "active_with_major_reforms_2025",
+  "programs_offered": [
+    {
+      "program_name": "Load Modifying Resource (LMR) - Type I",
+      "program_type": "capacity_market_emergency",
+      "notification_time": "6 hours",
+      "deployment_window": "30 minutes",
+      "minimum_size": "100 kW",
+      "capacity_credit": "50-100% based on notification time",
+      "status": "active",
+      "notes": "Long lead time LMR programs deployed during energy emergency alerts and warnings leading up to emergency event"
+    },
+    {
+      "program_name": "Load Modifying Resource (LMR) - Type II",
+      "program_type": "capacity_market_emergency",
+      "notification_time": "30 minutes",
+      "deployment_window": "30 minutes",
+      "minimum_size": "100 kW",
+      "capacity_credit": "100%",
+      "status": "active",
+      "notes": "Fast-response LMR program with shorter notification time. Reforms filed with FERC Q1 2025."
+    },
+    {
+      "program_name": "Emergency Demand Response (EDR)",
+      "program_type": "emergency_only",
+      "status": "eliminated_2025_26",
+      "notes": "MISO eliminated EDR programs starting summer 2025. MISO never called upon EDRs in its history. IMM found up to 25% of DR resources submitted mock tests instead of real tests."
+    },
+    {
+      "program_name": "Demand Response Resources (DRR)",
+      "program_type": "energy_market",
+      "status": "active",
+      "notes": "DRRs reduce demand rather than generate electricity. Accredited based on historical performance and availability during emergencies."
+    }
+  ],
+  "payment_structure": {
+    "capacity_market": {
+      "market_name": "Planning Resource Auction (PRA)",
+      "auction_frequency": "annual",
+      "seasonal_pricing": true,
+      "recent_pricing_2025_26": {
+        "summer_2025": {
+          "clearing_price_mw_day": 666.50,
+          "price_change_vs_2024": "2100% increase",
+          "notes": "Highest price in MISO history"
+        },
+        "fall_2025": {
+          "clearing_price_mw_day_north_central": 91.60,
+          "clearing_price_mw_day_south": 74.09
+        },
+        "winter_2025_26": {
+          "clearing_price_mw_day": 33.20,
+          "notes": "Flat across all subregions, reflecting ample surplus"
+        }
+      },
+      "capacity_credit_methodology": {
+        "drr_accreditation": "100% of capacity rating if meets documentation and verification standards",
+        "notification_time_sliding_scale": [
+          {
+            "notification_time": "less than 2 hours",
+            "duration_required": "more than 4 hours",
+            "capacity_credit": "100%"
+          },
+          {
+            "notification_time": "2-4 hours",
+            "capacity_credit": "70%"
+          },
+          {
+            "notification_time": "4-6 hours",
+            "capacity_credit": "50%"
+          },
+          {
+            "notification_time": "more than 6 hours",
+            "capacity_credit": "0%"
+          }
+        ]
+      },
+      "registration_deadline": "March 1 (for next auction)",
+      "testing_requirements": {
+        "changed_december_2024": true,
+        "notes": "MISO changed testing methodology on Dec 19, 2024 days before deadline for 2025/26 planning year. Changed again Jan 15, 2025 with new contracting requirements for aggregators."
+      }
+    },
+    "penalties": {
+      "penalty_structure": "Value of Lost Load (VOLL) times MW shortfall",
+      "voll_2025": "$10,000 per MWh",
+      "voll_historical": "$3,500 per MWh",
+      "notes": "Significant penalty increase for non-performance"
+    }
+  },
+  "event_parameters": {
+    "trigger_conditions": [
+      "Energy emergency alerts",
+      "Maximum generation alerts",
+      "Emergency events requiring system load reduction"
+    ],
+    "notification_advance": {
+      "lmr_type_i": "6 hours",
+      "lmr_type_ii": "30 minutes"
+    },
+    "deployment_time": {
+      "lmr_type_ii": "30 minutes from notification"
+    },
+    "event_duration": {
+      "minimum_for_100_percent_credit": "more than 4 hours (for <2hr notification)"
+    },
+    "historical_callouts": "MISO has never called upon EDRs in its history. Maximum generation alerts anticipated for summer 2025."
+  },
+  "eligibility": {
+    "minimum_capacity": "100 kW",
+    "customer_types": [
+      "commercial",
+      "industrial",
+      "aggregated_residential"
+    ],
+    "resource_types": [
+      "demand_reduction",
+      "behind_the_meter_generation",
+      "electric_storage_resources",
+      "load_modifying_resources"
+    ],
+    "registration_requirements": [
+      "Register with MISO as LMR",
+      "Meet notification time requirements (6hr or 30min)",
+      "Provide verification and documentation",
+      "Pass performance testing",
+      "Clear Planning Resource Auction (if capacity market participation)"
+    ],
+    "aggregation_allowed": true,
+    "aggregator_requirements": {
+      "contracting_requirements_added": "January 15, 2025",
+      "retail_customer_contracts": "required for aggregators"
+    }
+  },
+  "baseline_methodology": {
+    "methodologies_available": [
+      {
+        "name": "Firm Service Level",
+        "description": "Based solely on Demand Resource's ability to reduce to specified level of electricity demand, regardless of consumption or demand"
+      },
+      {
+        "name": "Meter Before/Meter After",
+        "description": "Electricity consumption or demand measured over prescribed period of time"
+      },
+      {
+        "name": "Baseline Type-II",
+        "description": "Uses statistical sampling to estimate electricity consumption of aggregated Demand Resource where interval metering is not available"
+      }
+    ],
+    "reference_document": "MISO Business Practice Manual BPM-026 (Demand Response)",
+    "performance_evaluation": "Based on historical performance and availability during emergencies"
+  },
+  "battery_suitability": {
+    "overall_rating": 8,
+    "suitability_factors": {
+      "explicit_storage_eligibility": {
+        "rating": 10,
+        "notes": "Electric Storage Resources (ESRs) explicitly allowed as LMRs. Can participate as Behind-the-Meter Generation or as dispatchable ESR in energy and ancillary services markets."
+      },
+      "fast_response_advantage": {
+        "rating": 9,
+        "notes": "Batteries ideal for LMR Type II (30-minute notification). Fast response enables 100% capacity credit vs 50-70% for slower resources."
+      },
+      "capacity_market_revenue": {
+        "rating": 9,
+        "notes": "Record-high summer 2025 capacity prices ($666.50/MW-day). Storage cleared 0.5 GW in 2025 auction vs only 50 MW in 2024."
+      },
+      "capacity_accreditation": {
+        "rating": 8,
+        "notes": "MISO provides 95% capacity credit for storage until historical performance established. New accreditation method benefits storage more than solar."
+      },
+      "stacking_opportunities": {
+        "rating": 8,
+        "notes": "Can stack capacity payments with energy market and ancillary services revenues. Batteries can provide energy arbitrage plus reliability services."
+      },
+      "operational_flexibility": {
+        "rating": 7,
+        "notes": "LMR obligations only during emergency events (rare - MISO never called EDRs historically). Batteries free for energy arbitrage most of time."
+      },
+      "market_growth": {
+        "rating": 8,
+        "notes": "Storage participation grew 10x from 2024 to 2025 auctions. High capacity prices driving rapid growth."
+      },
+      "program_stability_risk": {
+        "rating": 6,
+        "notes": "Major reforms ongoing. Testing methodology changed twice in late 2024/early 2025. EDR program eliminated. New penalty structure ($10k VOLL)."
+      }
+    },
+    "optimal_battery_configurations": [
+      {
+        "configuration": "2-4 hour duration battery",
+        "rationale": "Meets 4-hour minimum for 100% capacity credit with <2hr notification. Sufficient for emergency events."
+      },
+      {
+        "configuration": "Fast-ramping ESR",
+        "rationale": "30-minute deployment for Type II LMR enables highest capacity credit. Batteries naturally meet this requirement."
+      },
+      {
+        "configuration": "Dual-mode operation",
+        "rationale": "Register as ESR for energy/AS markets during normal operations. Serve as LMR during emergencies (rare)."
+      }
+    ],
+    "revenue_potential_estimate": {
+      "capacity_market_annual_2025": "$243,272 per MW-year (based on $666.50/MW-day summer, other seasons lower)",
+      "energy_arbitrage": "not quantified - depends on LMP spreads",
+      "ancillary_services": "not quantified - additional revenue stream available",
+      "notes": "Capacity revenue alone at 2025 prices provides strong economic case. Emergency callouts rare, so minimal impact on energy arbitrage operations."
+    },
+    "key_considerations": [
+      "Register by March 1 for next auction",
+      "Must pass performance testing - avoid mock test issues that plagued EDR program",
+      "Choose Type II if possible for 100% capacity credit",
+      "Monitor ongoing reforms - program rules changing rapidly",
+      "High penalties for non-performance ($10k/MWh VOLL) - ensure reliable operation",
+      "Only applies to Southeast Texas (Entergy service territory) - most of Texas is ERCOT"
+    ]
+  },
+  "data_sources": [
+    {
+      "url": "https://www.misoenergy.org/markets-and-operations/",
+      "description": "MISO Markets and Operations main page",
+      "access_date": "2025-10-12"
+    },
+    {
+      "url": "https://cdn.misoenergy.org/20240510 Demand Response 101 Workshop Presentation632828.pdf",
+      "description": "MISO Demand Response 101 Workshop (May 2024)",
+      "access_date": "2025-10-12"
+    },
+    {
+      "url": "https://www.pcienergysolutions.com/2025/03/06/what-is-a-dr-lmr-in-the-miso-market-understanding-demand-response-load-modifying-resources/",
+      "description": "PCI Energy Solutions - DR LMR in MISO Market explanation",
+      "access_date": "2025-10-12"
+    },
+    {
+      "url": "https://www.enelnorthamerica.com/solutions/energy-solutions/demand-response/miso-demand-response",
+      "description": "Enel North America - MISO Demand Response overview",
+      "access_date": "2025-10-12"
+    },
+    {
+      "url": "https://www.entergynewsroom.com/news/entergy-texas-completes-miso-integration/",
+      "description": "Entergy Texas MISO Integration announcement",
+      "access_date": "2025-10-12"
+    },
+    {
+      "url": "https://goentergy.com/entergy-texas-power-grid-what-is-it-and-why-should-i-care",
+      "description": "Entergy Texas service territory information",
+      "access_date": "2025-10-12"
+    },
+    {
+      "url": "https://www.sysotechnologies.com/2025/05/15/miso-2025-2026-capacity-auction-results/",
+      "description": "MISO 2025/26 Capacity Auction Results analysis",
+      "access_date": "2025-10-12"
+    },
+    {
+      "url": "https://www.renewableenergyworld.com/energy-storage/misos-new-method-for-capacity-accreditation-benefits-storage-more-than-solar/",
+      "description": "MISO capacity accreditation methodology for storage",
+      "access_date": "2025-10-12"
+    },
+    {
+      "url": "https://cdn.misoenergy.org/20241217%20RASC%20Item%2002%20LMR%20Reforms667298.pdf",
+      "description": "MISO LMR Reforms presentation (December 2024)",
+      "access_date": "2025-10-12"
+    },
+    {
+      "url": "https://cpowerenergy.com/wp-content/uploads/2022/12/MISO-BPM-026-Business-Practices-for-DR.pdf",
+      "description": "MISO Business Practices Manual BPM-026 (Demand Response)",
+      "access_date": "2025-10-12"
+    }
+  ],
+  "research_notes": "CONFIRMED: MISO does operate in Texas, but only in Southeast Texas through Entergy Texas (27 counties, 524k customers). Entergy Texas joined MISO South region in 2013. This represents a small footprint compared to ERCOT which covers most of Texas. The original database entry is CORRECT, not an error.\n\nMajor findings:\n1. MISO operates in Southeast Texas (Beaumont-Port Arthur, Conroe-The Woodlands areas) serving 524,000 customers across 27 counties through Entergy Texas\n2. 2025 is a transformational year for MISO DR programs - EDR eliminated, LMR reforms creating Type I (6hr) and Type II (30min) categories\n3. Record-high capacity prices in 2025 auction ($666.50/MW-day summer, 2100% increase from 2024) creating strong economics for battery participation\n4. Battery storage explicitly eligible as Electric Storage Resources (ESRs) and can participate as LMRs\n5. Storage participation grew 10x from 2024 to 2025 auctions (50 MW to 0.5 GW)\n6. Fast-response batteries ideal for Type II LMR (30min notification) earning 100% capacity credit vs 50-70% for slower resources\n7. Program stability concerns: Testing methodology changed twice in late 2024, new aggregator requirements, increased penalties ($10k/MWh VOLL)\n8. Emergency callouts historically rare (MISO never called EDRs), so minimal impact on energy arbitrage operations\n9. Strong battery suitability due to: explicit eligibility, fast response advantage, record capacity prices, 95% initial capacity credit, revenue stacking opportunities\n10. Key constraint: Only applies to Southeast Texas Entergy service territory, not ERCOT-served areas",
+  "research_date": "2025-10-12",
+  "research_quality_score": 9,
+  "quality_score_rationale": "Comprehensive research with multiple authoritative sources including MISO official documents, recent auction results, and reform announcements. Confirmed geographic presence in Texas through Entergy service territory. Detailed program structure, payment rates, and battery eligibility documented. Only limitation is lack of specific CBL calculation formulas (would require BPM-026 full document access). Strong confidence in findings."
+}

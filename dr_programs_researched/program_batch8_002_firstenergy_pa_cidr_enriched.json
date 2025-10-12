@@ -1,0 +1,91 @@
+{
+  "program_id": "PENNSYLVANIA-FIRSTENERGY-COMMERCIAL-AND-INDUSTRIAL-DEMAND-RESPONSE",
+  "program_name": "Commercial and Industrial Demand Response Program",
+  "utility": "FirstEnergy (Met-Ed, Penn Power, West Penn Power)",
+  "state": "Pennsylvania",
+  "iso_rto_territory": "PJM",
+  "program_type": "utility",
+  "status": "active",
+  "regulatory_basis": "Pennsylvania Act 129 of 2008",
+  "program_administrators": [
+    "CPower Energy",
+    "EnerNOC Inc."
+  ],
+  "payment_structure": {
+    "capacity_payment": {
+      "rate": "not available on public website - based on PJM capacity market clearing prices",
+      "billing_frequency": "monthly",
+      "notes": "PJM capacity market prices for relevant delivery years: 2024/2025: $28.92/MW-day, 2025/2026: $269.92/MW-day, 2026/2027: $329.17/MW-day (UCAP). Actual participant payments administered through CPower/EnerNOC and may differ from clearing prices."
+    },
+    "performance_payment": {
+      "rate": "not available on public website",
+      "conditions": "Based on reductions below customer baseline load (CBL) during demand response events"
+    },
+    "bill_credit": {
+      "rate": "not available",
+      "structure": "not available"
+    }
+  },
+  "event_parameters": {
+    "notification_time": "not available on public website",
+    "event_duration": "not available on public website",
+    "max_events_per_season": "not available on public website",
+    "max_hours_per_season": "not available on public website",
+    "seasons": ["summer (June through September)"],
+    "peak_hours": "not available on public website"
+  },
+  "eligibility": {
+    "customer_classes": [
+      "commercial",
+      "industrial",
+      "governmental",
+      "institutional"
+    ],
+    "minimum_load": "not available on public website",
+    "excluded_customers": [],
+    "service_territories": [
+      "Met-Ed",
+      "Penn Power",
+      "West Penn Power"
+    ]
+  },
+  "baseline_methodology": "PJM customer baseline load (CBL) methodology - Capacity baseline: Peak Load Contribution (PLC) based on average demand during 5 highest peak hours of 5 highest peak days on PJM grid during previous summer. Energy baseline: Average demand during dispatch hours on preceding days. Participants compensated for real-time reductions below energy baseline.",
+  "load_reduction_techniques": [
+    "Temporarily reducing or shutting down industrial processes",
+    "Turning off lights in groups or sequences",
+    "Reducing HVAC system usage",
+    "Shutting down large motors and compressors",
+    "Starting back-up generation"
+  ],
+  "battery_suitability": {
+    "rating": "Good",
+    "justification": "This is a utility-administered aggregation of PJM wholesale demand response programs (primarily Emergency Load Response Program). Battery storage is eligible to participate in PJM demand response programs, though PJM has historically created barriers for BESS using Surplus Interconnection Service. PJM capacity accreditation for BESS is 57-78% of installed capacity depending on discharge duration. Good rating because: 1) PJM capacity prices are at record highs ($269-329/MW-day for 2025-2027), making participation financially attractive, 2) BESS can provide precise, predictable curtailment responses, 3) Summer-focused program aligns with battery arbitrage opportunities, 4) Can potentially stack with wholesale market participation. Limited by: 1) Lack of public information on exact payment rates through FirstEnergy aggregation, 2) Must work through third-party aggregators (CPower/EnerNOC), 3) PJM interconnection barriers for BESS, 4) Minimum load requirements unknown."
+  },
+  "participation_notes": {
+    "aggregation_allowed": true,
+    "aggregators": [
+      "CPower Energy (844-422-8129)",
+      "EnerNOC Inc."
+    ],
+    "can_stack_with_pjm": "Program IS administered as part of PJM demand response markets through utility aggregation",
+    "enrollment_process": "Contact CPower or EnerNOC directly for enrollment and specific program terms"
+  },
+  "data_sources": [
+    "https://firstenergycorp.com/save_energy/save_energy_pennsylvania/west_penn_power/for_your_business/commercial-industrial-demand-response.html",
+    "https://cpowerenergy.com/firstenergycommercialdr/",
+    "https://www.puc.pa.gov/filing-resources/issues-laws-regulations/act-129/",
+    "https://insidelines.pjm.com/energy-storage-in-pjm-a-perspective/",
+    "https://www.pjm.com/-/media/markets-ops/demand-response/pjm-analysis-of-dr-baseline-methods-full-report.ashx",
+    "PJM 2025/2026 and 2026/2027 Base Residual Auction results"
+  ],
+  "research_notes": "This program is a utility-administered aggregation service that enables FirstEnergy Pennsylvania customers to participate in PJM wholesale demand response markets (primarily Emergency Load Response Program). The utility contracts with CPower and EnerNOC as approved aggregators. Key limitations: 1) No specific payment rates publicly available - must contact aggregators directly, 2) No event notification or duration specifications on public website, 3) No minimum load requirements published, 4) Program details administered by third-party aggregators rather than utility directly. PJM context: Capacity prices have increased dramatically (833% increase from 2024/2025 to 2025/2026), making demand response highly lucrative. However, PJM has historically created barriers for BESS participation through Surplus Interconnection Service restrictions. Battery operators should contact CPower/EnerNOC directly to determine: actual payment rates, event parameters, minimum load requirements, whether additional PJM program participation is allowed, and specific battery storage eligibility requirements. Act 129 requires Pennsylvania utilities to implement demand response programs, and FirstEnergy fulfills this requirement through this aggregation service.",
+  "research_date": "2025-10-11",
+  "research_quality_score": 4,
+  "data_completeness": {
+    "payment_structure": "poor - no specific rates available publicly",
+    "event_parameters": "poor - only season identified",
+    "eligibility": "fair - customer classes identified but no minimum load",
+    "baseline_methodology": "good - PJM CBL methodology documented",
+    "battery_suitability": "good - PJM BESS participation rules documented"
+  }
+}

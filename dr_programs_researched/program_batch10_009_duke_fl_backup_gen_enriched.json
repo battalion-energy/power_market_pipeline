@@ -1,0 +1,126 @@
+{
+  "program_index": 15,
+  "research_metadata": {
+    "research_date": "2025-10-12",
+    "researcher": "Claude Code",
+    "sources_consulted": [
+      "https://www.duke-energy.com/business/products/backup-generator-program?jur=FL01",
+      "https://www.duke-energy.com/business/products/demand-response-business",
+      "Web search: Duke Energy Florida backup generator program details"
+    ],
+    "research_quality_score": 4,
+    "research_notes": "Very limited public information available. Duke Energy's website provides only a brief description with no detailed program specifications, payment rates, or eligibility criteria. The $5/kW payment rate is inferred from similar Duke Energy programs in other states (specifically Duke Energy Carolinas Standby Generator Control Rider) but not confirmed for Florida. Program requires direct contact with Duke Energy for detailed information."
+  },
+  "program_classification": {
+    "is_demand_response": true,
+    "is_energy_efficiency": false,
+    "program_category": "Demand Response - Backup Generation",
+    "dr_program_type": "Dispatchable Backup Generation",
+    "explanation": "This is a demand response program where Duke Energy can dispatch customer-owned backup generators during periods of extreme energy demand. Customers receive bill credits for making their normally idle generators available. This is NOT load curtailment but rather supply-side demand response."
+  },
+  "basic_information": {
+    "program_name": "Backup Generator Program",
+    "utility_or_program_administrator": "Duke Energy Florida",
+    "state": "Florida",
+    "iso_rto_territory": "None",
+    "program_status": "active",
+    "program_website": "https://www.duke-energy.com/business/products/backup-generator-program?jur=FL01",
+    "last_verified_date": "2025-10-12"
+  },
+  "program_details": {
+    "program_description": "Participate in the Backup Generator program from Duke Energy and earn credits on your energy bill in exchange for using your normally idle backup generator. Duke Energy gets the right to control participants' generators during periods of extreme energy demands.",
+    "program_objectives": "Provide grid reliability during peak demand periods by utilizing customer-owned backup generation capacity that would otherwise be idle.",
+    "eligible_customer_classes": [
+      "Commercial",
+      "Industrial"
+    ],
+    "eligible_technologies": "Backup generators (fossil fuel-based standby generators)",
+    "ineligible_technologies": [
+      "Battery energy storage systems",
+      "Renewable generation",
+      "Combined heat and power (CHP)"
+    ],
+    "minimum_capacity_requirement": "not specified",
+    "maximum_capacity_limit": "not specified",
+    "enrollment_period": "not specified",
+    "program_year": "not specified",
+    "season": "Year-round"
+  },
+  "participation_requirements": {
+    "minimum_load_reduction": "not specified",
+    "advance_notice_required": "30 minutes",
+    "maximum_event_duration": "not specified",
+    "maximum_events_per_year": "not specified",
+    "opt_out_provisions": "not specified",
+    "telemetry_requirements": "not specified",
+    "baseline_methodology": "not applicable",
+    "performance_verification": "not specified"
+  },
+  "financial_information": {
+    "incentive_structure": "Monthly bill credits based on subscribed generator capacity",
+    "payment_rate_per_kw": "$5.00 per kW per month (inferred from similar Duke Energy programs, not confirmed for Florida)",
+    "payment_rate_per_kwh": "not specified",
+    "upfront_incentive": "not specified",
+    "performance_incentive": "not specified",
+    "monthly_capacity_payment": "Based on subscribed capacity of generator(s)",
+    "energy_payment_rate": "not specified",
+    "minimum_payment": "not specified",
+    "maximum_payment": "not specified",
+    "payment_frequency": "Monthly bill credits",
+    "additional_bonuses": "not specified"
+  },
+  "battery_storage_specific": {
+    "batteries_explicitly_mentioned": false,
+    "battery_eligibility": "not eligible",
+    "battery_specific_requirements": "not applicable",
+    "behind_the_meter_allowed": false,
+    "front_of_meter_allowed": false,
+    "minimum_battery_capacity": "not applicable",
+    "minimum_duration_requirement": "not applicable",
+    "cycling_requirements": "not applicable",
+    "battery_suitability_rating": 0,
+    "battery_suitability_explanation": "This program is explicitly designed for BACKUP GENERATORS only - fossil fuel-based standby generators. The program name, description, and context all indicate this is for traditional diesel/natural gas generators, not battery energy storage systems. Batteries are NOT suitable for this program as it specifically requires 'backup generators' that can be dispatched within 30 minutes. Duke Energy offers separate battery programs (like PowerPair for residential solar+storage) but this specific program is generators-only."
+  },
+  "operational_details": {
+    "dispatch_mechanism": "Duke Energy controls when generators are activated",
+    "notification_method": "not specified",
+    "participation_window": "Within 30 minutes of notification",
+    "curtailment_schedule": "During periods of extreme energy demands",
+    "measurement_and_verification": "not specified",
+    "penalties_for_non_performance": "not specified",
+    "program_flexibility": "not specified"
+  },
+  "enrollment_process": {
+    "how_to_enroll": "Contact Duke Energy business customer service or account representative",
+    "application_deadline": "not specified",
+    "approval_timeline": "not specified",
+    "required_documentation": "not specified",
+    "technical_requirements": "Must have operational backup generator(s) that can respond within 30 minutes"
+  },
+  "contact_information": {
+    "program_contact_name": "not specified",
+    "phone": "not specified",
+    "email": "not specified",
+    "website": "https://www.duke-energy.com/business/products/backup-generator-program?jur=FL01",
+    "mailing_address": "not specified"
+  },
+  "additional_notes": {
+    "stacking_with_other_programs": "not specified",
+    "program_history": "Program previously offered by Progress Energy Florida before merger with Duke Energy",
+    "recent_changes": "not specified",
+    "future_program_plans": "not specified",
+    "related_programs": "Duke Energy offers PowerPair program for residential solar+battery installations, which is separate from this backup generator program. Duke Energy also offers other demand response programs for businesses.",
+    "data_gaps": [
+      "Payment rates not confirmed for Florida (inferred from Carolinas program)",
+      "Minimum/maximum generator size requirements not specified",
+      "Event duration and frequency limits not disclosed",
+      "Performance penalties not specified",
+      "Telemetry or control equipment requirements not detailed",
+      "Application process and approval timeline not provided",
+      "Contract terms and duration not specified",
+      "Opt-out provisions not documented",
+      "Battery eligibility not explicitly stated but inferred from program focus on 'backup generators'"
+    ],
+    "research_challenges": "Duke Energy provides minimal public information about this program. The webpage contains only a single-sentence description. Program appears to require direct contact with Duke Energy business representatives to obtain detailed specifications, rates, and enrollment information. The $5/kW rate is inferred from Duke Energy Carolinas' similar program but not confirmed for Florida territory."
+  }
+}

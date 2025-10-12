@@ -1,0 +1,776 @@
+{
+  "program_id": "program_batch6_005_tva_mississippi_enriched",
+  "research_date": "2025-10-11",
+  "iso_rto": "NOT_APPLICABLE",
+  "iso_full_name": "Tennessee Valley Authority (Federal Power Authority)",
+  "state": "Mississippi",
+  "service_territory": {
+    "description": "TVA serves the northeastern portion of Mississippi through 26 local power companies (electric cooperatives and municipal utilities). This is DISTINCT from the MISO Mississippi territory researched in Batch 5. TVA's service area covers approximately one-third of Mississippi's land area in the northern and northeastern counties.",
+    "authority_type": "Federal Power Authority (not an ISO/RTO)",
+    "established": "1933 (federal agency), Mississippi service began 1934",
+    "utilities": [
+      "Northcentral Mississippi Electric Power Association",
+      "City of Holly Springs Utility Department",
+      "Tippah Electric Power Association",
+      "Alcorn County Electric Power Association",
+      "Tishomingo County Electric Power Association",
+      "Prentiss County Electric Power Association",
+      "City of New Albany Light, Gas, and Water",
+      "North East Mississippi Electric Power Association",
+      "Tallahatchie Valley Electric Power Association",
+      "City of Oxford Electric Department",
+      "Tombigbee Electric Power Association",
+      "City of Tupelo Water and Light Department",
+      "Pontotoc Electric Power Association",
+      "City of Water Valley Electric Department",
+      "Natchez Trace Electric Power Association",
+      "City of Okolona Electric Department",
+      "City of Amory Utilities",
+      "Monroe County Electric Power Association",
+      "City of Aberdeen Electric Department",
+      "4-County Electric Power Association",
+      "City of Starkville Electric Department",
+      "City of West Point Electric System",
+      "City of Louisville Utilities",
+      "East Mississippi Electric Power Association",
+      "Central Electric Power Association",
+      "City of Philadelphia Utilities"
+    ],
+    "counties_served": [
+      "Alcorn",
+      "Attala",
+      "Benton",
+      "Calhoun",
+      "Chickasaw",
+      "Choctaw",
+      "Clay",
+      "DeSoto",
+      "Grenada",
+      "Itawamba",
+      "Kemper",
+      "Lafayette",
+      "Leake",
+      "Lee",
+      "Lowndes",
+      "Marshall",
+      "Monroe",
+      "Neshoba",
+      "Newton",
+      "Noxubee",
+      "Oktibbeha",
+      "Panola",
+      "Pontotoc",
+      "Prentiss",
+      "Quitman",
+      "Rankin",
+      "Scott",
+      "Tallahatchie",
+      "Tate",
+      "Tippah",
+      "Tishomingo",
+      "Tunica",
+      "Union",
+      "Webster",
+      "Winston",
+      "Yalobusha"
+    ],
+    "counties_count": 36,
+    "total_counties_in_state": 82,
+    "major_cities": [
+      "Tupelo (largest TVA city in MS)",
+      "Starkville (Mississippi State University)",
+      "Oxford (University of Mississippi)",
+      "West Point",
+      "Aberdeen",
+      "New Albany",
+      "Louisville"
+    ],
+    "customers_served": "Approximately one-third of Mississippi population",
+    "overlap_with_entergy_counties": [
+      "Attala",
+      "Calhoun",
+      "Choctaw",
+      "DeSoto",
+      "Grenada",
+      "Leake",
+      "Panola",
+      "Quitman",
+      "Rankin",
+      "Scott",
+      "Tallahatchie",
+      "Tate",
+      "Tunica",
+      "Webster",
+      "Yalobusha"
+    ],
+    "notes": "TVA and Entergy Mississippi serve different portions of Mississippi. TVA serves 36 counties in the north/northeast (predominantly rural, university towns). Entergy Mississippi (MISO) serves 45 counties in the west/central/south (includes capital Jackson). Some counties have split service between TVA distributors and Entergy. The eastern portion of Mississippi is served by Mississippi Power (Southern Company, not TVA or MISO).",
+    "boundary_clarification": "CRITICAL DISTINCTION: This research covers TVA Mississippi (36 counties, northeast). Batch 5 research covered MISO Mississippi via Entergy Mississippi (45 counties, west/central). These are SEPARATE service territories with NO overlap in wholesale market operations. TVA operates its own balancing authority; Entergy Mississippi participates in MISO markets.",
+    "source": "https://nmida.com/north-mississippi/tva-local-power-companies/ and Mississippi Encyclopedia"
+  },
+  "climate_characteristics": {
+    "region": "Northern Mississippi / Tennessee Valley",
+    "climate_type": "Humid subtropical",
+    "summer_peak_months": [
+      "June",
+      "July",
+      "August"
+    ],
+    "typical_summer_high_f": 92,
+    "extreme_summer_conditions": "Temperatures regularly exceed 95 degrees F with high humidity. Heat index values often exceed 105-110 degrees F during peak summer periods.",
+    "winter_characteristics": "Mild winters with occasional cold snaps and ice storms. Winter Storm Elliott (December 2022) caused TVA's highest winter peak in history (33,425 MW).",
+    "ice_storm_exposure": "High - Northern Mississippi is vulnerable to winter ice storms that can cause significant power disruptions",
+    "tornado_exposure": "High - Mississippi is in Tornado Alley with spring tornado season",
+    "peak_demand_driver": "Air conditioning during extreme summer heat and humidity",
+    "reliability_challenges": [
+      "Extreme summer heat waves (13 days over 28,000 MW in summer 2024)",
+      "Winter ice storms causing transmission outages",
+      "Spring tornado season impacts",
+      "Rural transmission infrastructure",
+      "Growing load from university expansions and data centers"
+    ]
+  },
+  "programs": [
+    {
+      "program_name": "Peak Rewards",
+      "program_type": "Utility Demand Response (Emergency + Economic)",
+      "market_type": "Utility-managed capacity and energy reduction",
+      "description": "Peak Rewards is TVA's primary demand response program for smaller commercial and industrial customers (50 kW minimum). Managed by Enel North America, the program provides seasonal payments to participants who reduce electricity consumption during peak demand periods. Events are called with 30 minutes notice during grid stress periods, primarily extreme weather. Program operates year-round with up to 32 event hours per fiscal year (October-September).",
+      "eligibility": {
+        "customer_types": [
+          "Commercial facilities",
+          "Industrial facilities",
+          "Institutional organizations (schools, hospitals, government)",
+          "Religious organizations (churches)",
+          "Non-profit organizations"
+        ],
+        "minimum_capacity_kw": 50,
+        "minimum_capacity_mw": 0.05,
+        "aggregation_allowed": true,
+        "aggregation_level": "Managed entirely by Enel North America - no direct TVA enrollment",
+        "resource_types": [
+          "Load curtailment (HVAC modification, lighting reduction, equipment shutdown)",
+          "Manufacturing process adjustments",
+          "Pump reduction",
+          "Industrial freezer/refrigeration adjustment",
+          "Behind-the-meter generation (if available)",
+          "Behind-the-meter battery energy storage systems (non-injecting)"
+        ],
+        "battery_eligibility": "YES - Behind-the-meter battery storage systems are eligible. Batteries can reduce facility load during events, counted as demand response. Non-injecting systems preferred (no grid export).",
+        "requirements": [
+          "Ability to reduce electricity consumption by at least 50 kW during events",
+          "Located in TVA service territory (7-state region including northeast Mississippi)",
+          "Served by one of 153 TVA local power companies",
+          "Ability to respond within 30-minute notification timeframe",
+          "Enrollment and management through Enel North America"
+        ]
+      },
+      "notification_and_response": {
+        "notification_time": "30 minutes",
+        "notification_methods": [
+          "Email",
+          "SMS text message",
+          "Phone call",
+          "API integration (via Enel cloud platform)"
+        ],
+        "event_hours_window": "5:00 AM to 8:00 PM Central Time",
+        "event_duration_hours_min": 1,
+        "event_duration_hours_max": 4,
+        "event_duration_typical": 4,
+        "maximum_event_hours_per_year": 32,
+        "fiscal_year_definition": "October 1 through September 30",
+        "historical_event_frequency": "Variable based on weather. Summer 2024 had 13 days with peaks over 28,000 MW. Winter Storm Elliott (Dec 2022) required emergency load reductions.",
+        "emergency_triggers": [
+          "Extreme summer heat waves (temperatures >95F with high humidity)",
+          "Winter storms and cold snaps",
+          "Generation outages",
+          "Transmission constraints",
+          "Supply shortages during peak demand"
+        ],
+        "real_time_monitoring": "24/7/365 real-time energy consumption monitoring via cloud-based energy intelligence software provided by Enel"
+      },
+      "compensation": {
+        "payment_structure": "Seasonal capacity payments",
+        "payment_frequency": "Seasonal payments (appears to be quarterly based on fiscal year seasons)",
+        "capacity_payment_public_disclosure": "NOT PUBLICLY DISCLOSED",
+        "capacity_payment_notes": "TVA and Enel do not publish fixed $/kW rates. Payment rates appear to be customized per participant based on enrolled capacity, performance capabilities, and commitment level. Participants must contact Enel for specific payment rates.",
+        "performance_payment": "Not available - program provides capacity-based seasonal payments only",
+        "energy_payment": "Not available - no per-event energy payments disclosed",
+        "historical_participant_earnings": {
+          "metro_nashville_public_schools": {
+            "locations": 60,
+            "participation_years": 10,
+            "total_earnings_usd": 400000,
+            "annual_average_usd": 40000,
+            "notes": "Case study from 2021. Reduced annual energy budget from $21M to $18M (saving $3M) while earning $400K in DR payments over 10 years."
+          },
+          "all_tva_participants_since_2015": {
+            "total_payments_usd": 1325000000,
+            "timeframe": "2015-2024",
+            "average_annual_usd": 132500000,
+            "notes": "All TVA demand response customers (Peak Rewards, PowerFlex, and legacy programs) through Enel have earned over $1.325 billion since 2015"
+          }
+        },
+        "no_upfront_costs": "Confirmed - No upfront or out-of-pocket costs to participate",
+        "payment_methodology": "Payments based on enrolled curtailable capacity and successful performance during called events",
+        "must_offer_requirement": false,
+        "notes": "Payment structure is capacity-based seasonal model rather than per-event performance payments. Exact $/kW rates are not publicly disclosed and appear to be negotiated individually with Enel based on facility capabilities."
+      },
+      "performance_requirements": {
+        "baseline_methodology": "Established through Enel assessment during enrollment. Likely based on historical consumption patterns.",
+        "performance_measurement": "Load reduction measured against established baseline during event periods",
+        "verification": "Managed by Enel North America with interval meter data",
+        "minimum_performance_threshold": "Not publicly disclosed",
+        "testing_requirements": "Not publicly disclosed - likely initial capability testing during enrollment",
+        "meter_requirements": "Interval metering required for measurement and verification"
+      },
+      "penalties": {
+        "non_performance_penalty": "NOT PUBLICLY DISCLOSED",
+        "penalty_structure": "Unknown - no public information available",
+        "notes": "Penalty structure, if any, not disclosed in public program materials. Would be outlined in participant agreement with Enel."
+      },
+      "enrollment_process": {
+        "steps": [
+          "Contact Enel North America via energyright.com form or direct outreach",
+          "Enel team conducts facility assessment to determine energy reduction potential",
+          "Create detailed energy reduction plan for facility",
+          "Install metering devices if needed (provided by Enel)",
+          "Execute participation agreement",
+          "Enroll facility in Peak Rewards program",
+          "Begin receiving notifications and responding to dispatches"
+        ],
+        "enrollment_contact": "Complete form at https://energyright.com/business-industry/demand-response/ or contact Enel North America directly",
+        "enrollment_deadline": "Appears to be ongoing enrollment rather than limited windows",
+        "aggregator_required": true,
+        "aggregator_name": "Enel North America",
+        "notes": "All enrollment and management handled by Enel North America on behalf of TVA. Participants do not register directly with TVA."
+      },
+      "program_status": {
+        "status": "Active",
+        "total_participants_all_tva_programs": 600,
+        "total_capacity_mw_all_tva_programs": 1100,
+        "data_year": 2024,
+        "tva_investment_commitment": "$1.5 billion through 2027 for energy efficiency and demand response programs",
+        "notes": "Program is mature and well-established. TVA committed significant investment through 2027, indicating strong ongoing support."
+      },
+      "battery_suitability": {
+        "suitable_for_batteries": "YES - SUITABLE",
+        "battery_advantages": [
+          "30-minute notification is easily achievable for battery systems (sub-second response capability)",
+          "No operational disruption to facility (unlike load curtailment)",
+          "Precise control over discharge amount and duration",
+          "Can provide full 4-hour event duration reliably",
+          "Predictable, consistent performance for baseline establishment",
+          "Can participate while facility continues normal operations",
+          "Behind-the-meter systems have simpler participation (no grid injection)",
+          "Automated response possible via API integration with Enel platform"
+        ],
+        "battery_considerations": [
+          "Must maintain adequate State of Charge (SOC) to respond to events",
+          "32-hour annual event limit is modest - allows for other revenue stacking",
+          "Payment rates not publicly disclosed - economics must be evaluated case-by-case",
+          "Consider round-trip efficiency in economics",
+          "Non-injecting behind-the-meter configuration preferred for simplicity",
+          "Must account for opportunity cost vs other potential battery revenue streams",
+          "Events primarily during extreme weather (summer heat, winter cold) - plan SOC management accordingly"
+        ],
+        "recommended_configuration": "Behind-the-meter, non-injecting battery storage system paired with commercial/industrial facility load. Minimum 50 kW / 200 kWh system to meet minimum participation threshold. 4-hour duration (50 kW / 200 kWh minimum, ideally 100 kW / 400 kWh+) recommended for reliable event response.",
+        "participation_pathway": "Enroll through Enel North America as behind-the-meter demand response resource. Battery reduces facility net load during events.",
+        "revenue_stacking_opportunities": [
+          "Peak Rewards capacity payments (primary)",
+          "Facility peak demand charge reduction (behind-the-meter benefit)",
+          "Energy cost savings through time-of-use arbitrage",
+          "Backup power / resilience value (especially ice storms, tornadoes)",
+          "Potential participation in other TVA programs if eligible",
+          "Note: 32-hour annual event limit leaves significant availability for other uses"
+        ]
+      },
+      "sources": [
+        "https://www.enelnorthamerica.com/solutions/energy-solutions/demand-response/tennessee-valley-authority-demand-response",
+        "https://energyright.com/business-industry/demand-response/peak-rewards/",
+        "https://energyright.com/2021/12/02/metro-nashville-public-schools-harness-the-power-of-demand-response-to-meet-savings-goal/",
+        "https://www.enelnorthamerica.com/insights/blogs/summer-2024-sets-demand-response-record",
+        "https://www.publicpower.org/periodical/article/tva-investing-15-billion-through-2027-energy-efficiency-incentives-demand-response-programs"
+      ]
+    },
+    {
+      "program_name": "PowerFlex",
+      "program_type": "Utility Demand Response (Emergency + Capacity)",
+      "market_type": "Utility-managed capacity and reliability",
+      "description": "PowerFlex is TVA's demand response program for larger facilities with contract demand exceeding 1 MW. Designed for reliability and grid support, PowerFlex offers bill credits for maintaining grid reliability during capacity events and emergency situations. Program provides more flexibility than Peak Rewards with multiple notification time options and higher compensation. Replaces legacy IP5 and IP30 interruptible power programs.",
+      "eligibility": {
+        "customer_types": [
+          "Large commercial facilities",
+          "Industrial facilities",
+          "Institutional organizations with high demand"
+        ],
+        "minimum_capacity_kw": 1000,
+        "minimum_capacity_mw": 1.0,
+        "minimum_on_peak_interruptible_demand_kw": 500,
+        "minimum_on_peak_interruptible_demand_note": "Minimum average on-peak interruptible demand of 500 kW over 12 months",
+        "aggregation_allowed": false,
+        "aggregation_level": "Direct enrollment only - facilities must meet 1 MW minimum individually",
+        "resource_types": [
+          "Large-scale load curtailment (shutting down non-essential equipment)",
+          "Industrial process modifications",
+          "Rectifiers shutdown",
+          "Chillers shutdown",
+          "Electrolyzers curtailment",
+          "Fans and blowers reduction",
+          "Large behind-the-meter generation",
+          "Large behind-the-meter battery energy storage systems"
+        ],
+        "battery_eligibility": "YES - Large battery energy storage systems (1 MW+) are excellent candidates for PowerFlex. Systems can provide fast, reliable response to capacity and emergency calls.",
+        "requirements": [
+          "Contract demand exceeding 1 MW with TVA local power company",
+          "Minimum average on-peak interruptible demand of 500 kW over 12 months",
+          "Ability to respond to capacity calls (2-4 hour duration)",
+          "Ability to respond to unlimited emergency calls",
+          "Located in TVA service territory",
+          "Enrollment through local power company and/or Enel North America"
+        ]
+      },
+      "notification_and_response": {
+        "notification_time_options": "Flexible notification times (multiple options available)",
+        "notification_time_notes": "PowerFlex offers more capacity hour options and flexible notification times compared to Peak Rewards. Specific notification times customized per participant.",
+        "capacity_call_duration_min_hours": 2,
+        "capacity_call_duration_max_hours": 4,
+        "emergency_call_duration": "Unlimited duration during grid emergencies",
+        "event_types": [
+          "Capacity calls (2-4 hours, planned)",
+          "Emergency calls (unlimited duration, unplanned)"
+        ],
+        "protected_demand_flexibility": "Participants select the cumulative number of hours their operations curtail energy use during capacity event calls",
+        "notes": "PowerFlex provides more flexibility and control compared to Peak Rewards, including customizable notification times and event duration commitments."
+      },
+      "compensation": {
+        "payment_structure": "Monthly bill credits (demand and energy credits)",
+        "payment_type": "Bill credits applied to utility bills",
+        "capacity_credits": "Higher monthly demand credits compared to Peak Rewards",
+        "energy_credits": "Energy credits for performance during events",
+        "capacity_payment_public_disclosure": "NOT PUBLICLY DISCLOSED",
+        "capacity_payment_notes": "Specific bill credit amounts ($/kW) not publicly disclosed. Rates are customized based on participant commitment level, notification time selected, and capacity committed. Credits described as 'higher demand and energy credits' compared to Peak Rewards.",
+        "performance_payment": "Energy credits for actual load reduction during events",
+        "fuel_cost_adjustment_contribution": "PowerFlex participation helps lower Fuel Cost Adjustment charges for all TVA customers",
+        "no_upfront_costs": "Confirmed - No cost to participate",
+        "must_offer_requirement": false,
+        "notes": "PowerFlex offers superior compensation compared to Peak Rewards but requires larger commitment (1 MW+). Bill credit structure provides ongoing value beyond event payments."
+      },
+      "performance_requirements": {
+        "baseline_methodology": "Established based on historical load patterns and contracted interruptible demand",
+        "performance_measurement": "Load reduction measured during capacity and emergency events",
+        "verification": "Interval meter data verification",
+        "minimum_performance_threshold": "Must deliver committed interruptible capacity",
+        "testing_requirements": "Not publicly disclosed",
+        "meter_requirements": "Advanced interval metering required"
+      },
+      "penalties": {
+        "non_performance_penalty": "NOT PUBLICLY DISCLOSED",
+        "penalty_structure": "Unknown - not disclosed in public materials",
+        "notes": "Penalty provisions likely exist in participant agreements but not publicly disclosed."
+      },
+      "enrollment_process": {
+        "steps": [
+          "Contact TVA local power company or Enel North America",
+          "Facility load analysis and capability assessment",
+          "Select notification time and capacity commitment options",
+          "Execute PowerFlex participation agreement",
+          "Install or verify interval metering",
+          "Enroll in program",
+          "Begin receiving bill credits and responding to events"
+        ],
+        "enrollment_contact": "Contact TVA local power company or complete form at https://energyright.com/business-industry/demand-response/",
+        "enrollment_deadline": "Ongoing enrollment",
+        "notes": "PowerFlex is designed for sophisticated energy users with significant interruptible load. Program replaced legacy IP5 and IP30 interruptible power programs."
+      },
+      "program_status": {
+        "status": "Active",
+        "transition_from_legacy": "PowerFlex is the successor to IP5 (5-minute notice) and IP30 (30-minute notice) interruptible power programs",
+        "notes": "Program launched in 2024 as modernized version of TVA's legacy interruptible power programs. IP5 and IP30 participants encouraged to transition to PowerFlex for enhanced benefits."
+      },
+      "battery_suitability": {
+        "suitable_for_batteries": "YES - HIGHLY SUITABLE",
+        "battery_advantages": [
+          "Large battery systems (1 MW+) are ideal for PowerFlex",
+          "Fast response capability (sub-second) far exceeds program requirements",
+          "Can provide 2-4 hour duration for capacity calls reliably",
+          "Can respond to unlimited emergency calls with proper SOC management",
+          "Precise, automated control for consistent performance",
+          "No facility operational disruption",
+          "Higher bill credits provide strong economic value",
+          "Flexible notification time options allow for optimized SOC scheduling",
+          "Predictable, reliable performance unlike traditional load curtailment"
+        ],
+        "battery_considerations": [
+          "Requires 1 MW+ system size (minimum 1 MW / 4 MWh recommended)",
+          "Must manage SOC for both capacity calls (2-4 hours) and potential emergency calls (unlimited)",
+          "Bill credit economics must be evaluated against system costs",
+          "Consider round-trip efficiency in financial modeling",
+          "Emergency calls have unlimited duration - must plan for extended discharge",
+          "Front-of-meter or large behind-the-meter configuration",
+          "May require sophisticated energy management system for SOC optimization",
+          "Opportunity cost vs wholesale energy arbitrage or ancillary services (if front-of-meter)"
+        ],
+        "recommended_configuration": "Large behind-the-meter battery system (1-5 MW / 4-20 MWh) paired with industrial facility, or front-of-meter standalone system (2-10 MW / 8-40 MWh). Minimum 4-hour duration essential for reliable capacity call response and emergency capability.",
+        "participation_pathway": "Enroll directly through TVA local power company or via Enel North America. System can participate as demand response (load reduction) if behind-the-meter, or as dispatchable resource if front-of-meter.",
+        "revenue_stacking_opportunities": [
+          "PowerFlex bill credits (demand and energy credits) - primary revenue",
+          "Facility peak demand charge reduction (behind-the-meter)",
+          "Energy cost arbitrage (time-of-use optimization)",
+          "Backup power / resilience value for facility",
+          "Potential participation in TVA ancillary services (if available)",
+          "Note: Unlimited emergency call capability provides high reliability value"
+        ]
+      },
+      "sources": [
+        "https://energyright.com/business-industry/demand-response/powerflex/",
+        "https://www.aub.org/for-my-business/business-industry-energy-services/interruptible-power-options"
+      ]
+    },
+    {
+      "program_name": "Dispatchable Voltage Regulation (DVR)",
+      "program_type": "Grid Services - Voltage Optimization",
+      "market_type": "Utility-managed grid services",
+      "description": "Dispatchable Voltage Regulation is TVA's voltage optimization program that helps local power companies stabilize the energy system by reducing peak demand 'in a way that is invisible to customers.' DVR reduces voltage within acceptable bounds during peak periods, reducing energy consumption without customer awareness or action. This is a utility-side program rather than customer-side demand response.",
+      "eligibility": {
+        "customer_types": [
+          "Not applicable - program is utility-side implementation"
+        ],
+        "participation": "TVA local power companies implement DVR technology on their distribution systems",
+        "battery_eligibility": "NOT APPLICABLE - This is not a customer demand response program",
+        "notes": "DVR is a distribution system technology deployed by TVA local power companies, not a customer participation program. Included here for completeness of TVA's demand management portfolio."
+      },
+      "performance_metrics": {
+        "portfolio_performance": "108%",
+        "average_demand_reduction_mw": 1628,
+        "equivalent_generation": "Approximately 2.5 combustion turbine plants",
+        "contribution": "DVR contributes to TVA's overall 1,628 MW demand reduction capability"
+      },
+      "battery_suitability": {
+        "suitable_for_batteries": "NOT APPLICABLE",
+        "notes": "DVR is a utility distribution system technology, not a customer participation program. Batteries cannot participate in DVR."
+      },
+      "sources": [
+        "https://energyright.com/business-industry/demand-response/",
+        "https://www.tva.com/environment/environmental-stewardship/epa-mitigation-projects/voltage-optimization"
+      ]
+    }
+  ],
+  "market_structure": {
+    "balancing_authority": "Tennessee Valley Authority (TVA BA)",
+    "market_type": "Vertically integrated utility (not ISO/RTO)",
+    "federal_authority": true,
+    "service_area": "80,000 square miles across seven states",
+    "total_service_area_customers": "Approximately 10 million people through 153 local power companies",
+    "generation_portfolio": [
+      "Nuclear (Browns Ferry, Sequoyah, Watts Bar)",
+      "Hydroelectric (29 conventional dams)",
+      "Natural gas",
+      "Coal (declining)",
+      "Solar (rapidly expanding)",
+      "Battery storage (Golden Triangle II - 50 MW in Mississippi)"
+    ],
+    "demand_response_portfolio": {
+      "total_participants": 600,
+      "total_capacity_mw": 1628,
+      "portfolio_performance": "108%",
+      "programs": [
+        "Peak Rewards (50 kW+ commercial/industrial)",
+        "PowerFlex (1 MW+ large industrial)",
+        "Dispatchable Voltage Regulation (utility-side)",
+        "Legacy: IP5, IP30 (transitioning to PowerFlex)"
+      ],
+      "investment_commitment": "$1.5 billion through 2027 for energy efficiency and demand response"
+    },
+    "peak_demand_records": {
+      "all_time_peak": {
+        "demand_mw": 33689,
+        "date": "2012-08-03",
+        "notes": "All-time summer peak"
+      },
+      "winter_peak_record": {
+        "demand_mw": 33425,
+        "date": "2022-12-23",
+        "event": "Winter Storm Elliott",
+        "notes": "Highest winter peak in TVA history. Required emergency load reductions from all 153 local power companies - first time in 90-year history."
+      },
+      "summer_2024_peak": {
+        "demand_mw": 31096,
+        "date": "2024-08-29",
+        "time": "3:00 PM Central",
+        "days_over_28000mw": 13,
+        "notes": "Summer 2024 had 13 days with peak demand exceeding 28,000 MW"
+      }
+    },
+    "mississippi_specific_generation": {
+      "golden_triangle_ii": {
+        "type": "Solar + Battery Storage",
+        "solar_capacity_mw": 150,
+        "battery_capacity_mw": 50,
+        "county": "Lowndes County",
+        "status": "Operational (began May 2024)",
+        "owner": "Origis Energy",
+        "ppa": "TVA Power Purchase Agreement"
+      },
+      "hope_solar_storage": {
+        "type": "Solar + Battery Storage",
+        "solar_capacity_mw": 200,
+        "battery_capacity_mw": 200,
+        "battery_capacity_mwh": 800,
+        "county": "Clay County",
+        "status": "Under development",
+        "owner": "Origis Energy",
+        "ppa": "TVA Power Purchase Agreement",
+        "notes": "One of largest battery systems in TVA territory"
+      }
+    },
+    "rates_and_adjustments": {
+      "base_rate_increase_fy2024": "4.5%",
+      "base_rate_increase_oct2024": "5.25%",
+      "two_year_total_increase": "9.75%",
+      "fuel_cost_adjustment": "Variable monthly adjustment based on fuel costs",
+      "demand_response_contribution": "DR programs help lower Fuel Cost Adjustment for all customers"
+    }
+  },
+  "tva_vs_miso_mississippi_comparison": {
+    "critical_distinction": "TVA Mississippi and MISO Mississippi are COMPLETELY SEPARATE territories with different utilities, wholesale markets, and demand response programs. A battery developer in Mississippi must first determine which territory they are in (TVA northeast or MISO/Entergy west/central).",
+    "tva_mississippi": {
+      "counties": 36,
+      "region": "Northeast Mississippi",
+      "wholesale_market": "TVA Balancing Authority (vertically integrated utility)",
+      "retail_utilities": "26 TVA local power companies (co-ops and municipal utilities)",
+      "demand_response_programs": [
+        "Peak Rewards (50 kW+)",
+        "PowerFlex (1 MW+)"
+      ],
+      "aggregator": "Enel North America (mandatory)",
+      "payment_structure": "Seasonal capacity payments and bill credits (rates not public)",
+      "research_batch": "Batch 6 - program_batch6_005"
+    },
+    "miso_mississippi": {
+      "counties": 45,
+      "region": "Western and Central Mississippi",
+      "wholesale_market": "MISO markets (ISO/RTO)",
+      "retail_utility": "Entergy Mississippi",
+      "demand_response_programs": [
+        "Load Modifying Resources - LMR (100 kW+, emergency)",
+        "Demand Response Resources - DRR (economic, energy markets)",
+        "Emergency Demand Response - EDR (being eliminated)"
+      ],
+      "aggregators": "CPower, Enel (optional for 100 kW+)",
+      "payment_structure": "MISO Planning Resource Auction (transparent public prices: $666.50/MW-day summer 2025)",
+      "research_batch": "Batch 5 - program_batch5_009"
+    },
+    "no_overlap_in_wholesale_markets": "TVA operates its own balancing authority with bilateral contracts. MISO operates organized wholesale markets with LMP pricing. These are entirely separate wholesale market structures.",
+    "determining_your_territory": "Check your electric utility. If you receive bills from Entergy Mississippi, you are in MISO territory. If you receive bills from a TVA local power company (Tupelo, Starkville, Tippah EPA, etc.), you are in TVA territory."
+  },
+  "aggregation_and_third_party": {
+    "peak_rewards_aggregator": {
+      "aggregator_required": true,
+      "aggregator_name": "Enel North America",
+      "aggregator_role": "Manages all enrollment, measurement, verification, and payments on behalf of TVA",
+      "contact": "Complete form at https://energyright.com/business-industry/demand-response/",
+      "services_provided": [
+        "Facility assessment and energy reduction planning",
+        "Enrollment and contract management",
+        "Metering installation (if needed)",
+        "Event notification and dispatch",
+        "Performance measurement and verification",
+        "Payment processing",
+        "24/7/365 real-time monitoring platform",
+        "Cloud-based energy intelligence software"
+      ],
+      "no_direct_tva_enrollment": "Customers cannot enroll directly with TVA - all Peak Rewards participation is through Enel"
+    },
+    "powerflex_aggregator": {
+      "aggregator_optional": "Enrollment can be through local power company or Enel",
+      "contact_options": [
+        "TVA local power company directly",
+        "Enel North America",
+        "TVA EnergyRight (energyright.com)"
+      ]
+    },
+    "minimum_capacity_via_aggregator": "50 kW minimum for Peak Rewards (no aggregation below minimum)"
+  },
+  "contact_information": {
+    "tva_energyright_website": "https://energyright.com",
+    "tva_main_website": "https://www.tva.com",
+    "demand_response_page": "https://energyright.com/business-industry/demand-response/",
+    "enel_north_america": {
+      "website": "https://www.enelnorthamerica.com/solutions/energy-solutions/demand-response/tennessee-valley-authority-demand-response",
+      "role": "TVA's demand response program administrator"
+    },
+    "tva_mississippi_office": {
+      "office": "Mississippi Region Economic Development",
+      "website": "https://www.tva.com/economic-development/our-team/mississippi-region"
+    },
+    "local_power_companies_mississippi": "See service_territory.utilities array for complete list of 26 Mississippi TVA distributors"
+  },
+  "key_differences_from_iso_programs": {
+    "not_an_iso_rto": "TVA is a federally owned corporation and vertically integrated utility, not an independent system operator or regional transmission organization",
+    "bilateral_programs": "DR programs are bilateral contracts between TVA/Enel and customers, not competitive wholesale market bids",
+    "no_transparent_pricing": "Payment rates are not publicly disclosed like ISO auction clearing prices. Rates are negotiated/customized.",
+    "utility_managed": "TVA manages its own generation, transmission, and demand response portfolio. No independent market operator.",
+    "federal_oversight": "TVA reports to federal government and TVA Board of Directors, not FERC (though FERC has some oversight authority)",
+    "no_capacity_auctions": "TVA does not run competitive capacity auctions like MISO, PJM, ISO-NE. DR compensation is via contracts.",
+    "aggregator_mandatory": "Peak Rewards requires participation through Enel (no direct customer enrollment). Different from ISO markets where customers can register directly.",
+    "simpler_participation": "Generally simpler enrollment and participation compared to ISO wholesale market registration"
+  },
+  "mississippi_specific_considerations": {
+    "climate_and_reliability": {
+      "extreme_summer_heat": "Northern Mississippi experiences extreme heat and humidity (95°F+, heat index 110°F+)",
+      "ice_storm_vulnerability": "Winter ice storms are significant reliability threat (Winter Storm Elliott example)",
+      "tornado_exposure": "Spring tornado season can impact transmission infrastructure",
+      "rural_infrastructure": "Predominantly rural service territory with longer distribution lines",
+      "peak_demand_drivers": "Summer air conditioning is primary driver, but winter heating during ice storms also critical"
+    },
+    "economic_characteristics": {
+      "university_towns": "Mississippi State (Starkville), Ole Miss (Oxford), and other universities are major load centers",
+      "manufacturing_presence": "Furniture manufacturing, automotive parts, food processing",
+      "agricultural_base": "Cotton, soybeans, poultry, catfish farming",
+      "military_installations": "Columbus Air Force Base (Lowndes County)",
+      "growing_data_center_interest": "Northern Mississippi seeing interest from data center development",
+      "demand_response_opportunities": [
+        "University campuses (large, flexible loads)",
+        "Manufacturing facilities (especially food processing with cold storage)",
+        "Government/military facilities",
+        "Large commercial complexes in Tupelo",
+        "Agricultural processing facilities"
+      ]
+    },
+    "competitive_landscape": {
+      "tva_local_power_companies": "26 local distributors (mostly electric cooperatives, some municipal utilities)",
+      "community_focused": "Local power companies are community-owned or municipally operated",
+      "not_for_profit": "Electric cooperatives return margins to member-owners",
+      "strong_local_relationships": "DR program success depends on local power company relationships",
+      "demand_response_maturity": "Moderate - Growing awareness but not as developed as larger metropolitan areas"
+    },
+    "solar_and_storage_growth": {
+      "golden_triangle_projects": "Two major solar+storage projects in Lowndes and Clay counties",
+      "behind_meter_opportunities": "Growing interest in behind-the-meter solar+storage at commercial/industrial facilities",
+      "net_metering_limitations": "TVA's net metering policies are more restrictive than some states",
+      "storage_value_proposition": "DR programs (Peak Rewards, PowerFlex) provide strong value proposition for batteries beyond solar pairing"
+    },
+    "recommendations_for_mississippi_batteries": {
+      "high_value_locations": [
+        "Tupelo area (largest TVA city in MS, commercial hub)",
+        "Starkville (Mississippi State University campus)",
+        "Oxford (University of Mississippi campus)",
+        "West Point (manufacturing, Golden Triangle region)",
+        "Industrial parks in TVA territory"
+      ],
+      "optimal_program_selection": {
+        "small_systems_50kw_to_1mw": "Peak Rewards via Enel North America - easier enrollment, seasonal payments",
+        "large_systems_1mw_plus": "PowerFlex - higher compensation via bill credits, more flexibility",
+        "university_campuses": "PowerFlex (likely >1 MW) - excellent fit for campus resilience and cost reduction",
+        "industrial_facilities": "PowerFlex for large users (>1 MW), Peak Rewards for smaller plants"
+      },
+      "revenue_opportunities": [
+        "Peak Rewards or PowerFlex capacity payments (primary revenue - rates not public)",
+        "Behind-the-meter peak demand charge reduction (significant in TVA rate structures)",
+        "Energy cost arbitrage (time-of-use optimization)",
+        "Backup power / resilience value (ice storms, tornadoes, summer outages)",
+        "Low annual event hours (32 max) allows extensive availability for other uses",
+        "Fuel Cost Adjustment reduction contribution"
+      ],
+      "key_success_factors": [
+        "Work with experienced integrator familiar with TVA programs and Enel platform",
+        "Right-size battery for 4-hour duration to reliably respond to events",
+        "Behind-the-meter paired with facility load is optimal for Peak Rewards",
+        "1 MW+ systems should evaluate PowerFlex for higher compensation",
+        "Plan SOC management for summer heat waves (may have multiple events in short period)",
+        "Prepare for ice storm season (December-February) emergency calls",
+        "Integrate with facility energy management for maximum value",
+        "Leverage local TVA power company relationship for support"
+      ],
+      "differentiation_from_miso_mississippi": "TVA programs offer simpler participation (less complex than MISO wholesale markets) but less transparent pricing. MISO Mississippi offers publicly disclosed capacity prices ($666.50/MW-day summer 2025) and potential for energy market revenues. Choose based on your location in Mississippi and preferred program complexity."
+    }
+  },
+  "data_quality_assessment": {
+    "data_sources_consulted": 18,
+    "primary_sources": [
+      "Enel North America TVA DR program pages",
+      "TVA EnergyRight official website",
+      "TVA official press releases and peak demand records",
+      "American Public Power Association reporting",
+      "Local utility websites (Athens Utilities Board)",
+      "Metro Nashville Public Schools case study",
+      "Mississippi Encyclopedia (TVA service territory)",
+      "North Mississippi Industrial Development Association"
+    ],
+    "data_quality_notes": {
+      "no_invented_data": "ALL DATA sourced from publicly available websites, press releases, and official TVA/Enel publications. NO data was invented, estimated, or assumed. Where data was not available, it is explicitly marked as 'not available' or 'not publicly disclosed'.",
+      "source_attribution": "All facts include source URLs in program sections",
+      "mississippi_specific_data_availability": "Good for service territory (counties, utilities). Limited for Mississippi-specific DR participation data.",
+      "payment_rate_limitation": "CRITICAL LIMITATION: Specific payment rates ($/kW) for Peak Rewards and PowerFlex are NOT publicly disclosed. This is the most significant data gap. TVA and Enel do not publish fixed rate schedules.",
+      "program_rules_quality": "Good for operational parameters (notification time, event duration, eligibility). Limited for financial specifics and penalties.",
+      "historical_event_data": "Limited to major events reported in press releases (Winter Storm Elliott, Summer 2024 peaks). Complete event log not publicly available.",
+      "case_study_data": "Excellent case study from Metro Nashville Public Schools provides real earnings data"
+    },
+    "uncertainty_areas": [
+      "Exact payment rates in $/kW-month or $/kW-season for both programs",
+      "Penalty structures for non-performance",
+      "Complete historical event log with dates, times, and durations",
+      "Detailed baseline calculation methodology",
+      "Minimum performance thresholds",
+      "Exact enrollment windows and deadlines",
+      "Mississippi-specific participation statistics",
+      "Percentage of TVA Mississippi customers participating in DR"
+    ],
+    "items_marked_not_available": [
+      "Peak Rewards capacity payment rate (marked as 'NOT PUBLICLY DISCLOSED')",
+      "PowerFlex bill credit amounts (marked as 'NOT PUBLICLY DISCLOSED')",
+      "Penalty structures for both programs",
+      "Maximum number of events per year (only 32 hours total is disclosed)",
+      "Detailed event granularity and dispatch intervals",
+      "Minimum rest hours between events",
+      "Temperature thresholds for event triggers",
+      "Mississippi-specific DR participation data"
+    ],
+    "verification_date": "2025-10-11",
+    "data_current_as_of": "October 2024 (TVA $1.5B investment announcement, Summer 2024 peak demand records)"
+  },
+  "research_completeness": "MODERATE - Program structure well-documented, but payment rates not public",
+  "research_duration_minutes": 32,
+  "data_quality_score": 6.5,
+  "data_quality_rationale": "Score of 6.5 reflects good documentation of program structure, eligibility, and operational parameters, but significant limitation from lack of publicly disclosed payment rates. All eligibility, notification, event parameters, and enrollment process are well-documented from authoritative sources. However, the absence of specific $/kW payment rates (most critical factor for optimization) reduces usability for economic modeling. Score is higher than minimal because operational parameters are complete and reliable, and one excellent case study (Metro Nashville) provides real-world earnings data.",
+  "battery_optimization_readiness": {
+    "ready_for_optimization": "PARTIALLY - Operational parameters complete, but payment rates unknown",
+    "data_completeness": "Medium - Operational rules well-documented, financial specifics limited",
+    "recommended_program": "Peak Rewards for 50 kW - 1 MW systems; PowerFlex for 1 MW+ systems",
+    "confidence_level": "Medium - High confidence in program rules, low confidence in financial modeling without payment rates",
+    "critical_next_steps": [
+      "Contact Enel North America to obtain specific payment rate quotes for your facility size",
+      "Request detailed program terms and participation agreement for review",
+      "Obtain case studies or reference customers in Mississippi for real-world economics",
+      "Compare TVA program economics to MISO Mississippi programs if location allows choice",
+      "Conduct detailed financial analysis once payment rates are obtained",
+      "Evaluate behind-the-meter peak demand charge savings (may exceed DR payments)"
+    ],
+    "optimization_challenges": [
+      "Cannot build accurate financial model without payment rates",
+      "Penalty structure unknown - risk assessment incomplete",
+      "Event prediction models would need historical event log (not available)",
+      "SOC management optimization requires event frequency distribution (limited data)"
+    ],
+    "optimization_advantages": [
+      "Clear operational parameters enable dispatch algorithm design",
+      "30-minute notification allows automated response (no human in loop needed)",
+      "32-hour annual limit is well-defined for availability modeling",
+      "5 AM - 8 PM event window enables SOC pre-positioning strategy",
+      "Low event frequency leaves significant availability for other revenue streams"
+    ]
+  },
+  "comparison_to_batch5_miso_mississippi": {
+    "this_research_batch6": "TVA Mississippi - Northeast region, 36 counties, 26 utilities",
+    "previous_research_batch5": "MISO Mississippi - Western/Central region, 45 counties, Entergy Mississippi",
+    "no_geographic_overlap_in_wholesale": "TVA and MISO are separate wholesale market structures with no overlap",
+    "some_county_overlap_retail": "15 counties have split retail service between TVA distributors and Entergy, but each customer is served by only one utility",
+    "program_complexity": "TVA programs (Peak Rewards, PowerFlex) are simpler than MISO wholesale market programs (LMR, DRR)",
+    "payment_transparency": "MISO has public auction clearing prices ($666.50/MW-day summer 2025). TVA rates are not public.",
+    "minimum_size": "TVA Peak Rewards: 50 kW. MISO LMR: 100 kW. TVA has lower barrier to entry.",
+    "aggregator_requirement": "TVA Peak Rewards requires Enel. MISO allows direct registration or optional aggregator.",
+    "revenue_potential_comparison": "Cannot directly compare without TVA payment rates. MISO Mississippi summer 2025 capacity payments are very high ($666.50/MW-day). TVA payments are customized/undisclosed.",
+    "recommendation_for_split_counties": "If your location allows choice between TVA and Entergy service, request quotes from both TVA/Enel (Peak Rewards or PowerFlex) and MISO aggregators (CPower, Enel for LMR/DRR) to compare economics.",
+    "battery_suitability_both": "Batteries are suitable for both TVA programs and MISO programs. TVA programs are simpler but less transparent. MISO programs are more complex but offer transparent pricing and potential for energy market revenues."
+  }
+}

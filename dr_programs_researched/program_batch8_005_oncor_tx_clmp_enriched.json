@@ -1,0 +1,70 @@
+{
+  "program_id": "TEXAS-ONCOR-COMMERCIAL-LOAD-MANAGEMENT-PROGRAM",
+  "program_name": "Commercial Load Management Program",
+  "utility": "Oncor Electric Delivery Company LLC",
+  "state": "Texas",
+  "iso_rto_territory": "ERCOT",
+  "program_type": "utility",
+  "status": "active",
+  "payment_structure": {
+    "capacity_payment": {
+      "rate": "not publicly disclosed",
+      "billing_frequency": "not available",
+      "notes": "Incentive payments based on verified demand savings. Historical 2010 reference: $564/kW annual. Current rates require contacting Oncor EEPM Help Desk at 1-866-258-1874 or eepmsupport@oncor.com"
+    },
+    "performance_payment": {
+      "rate": "not publicly disclosed",
+      "conditions": "Demand savings calculated through meter data review"
+    },
+    "bill_credit": {
+      "rate": "not applicable",
+      "structure": "not applicable"
+    }
+  },
+  "event_parameters": {
+    "notification_time": "not available",
+    "event_duration": "not available",
+    "max_events_per_season": "not available",
+    "max_hours_per_season": "not available",
+    "seasons": ["summer peak period only"],
+    "operating_hours": "1 PM to 7 PM",
+    "operating_months": ["June", "July", "August", "September"],
+    "excluded_days": ["weekends", "Federal holidays"]
+  },
+  "eligibility": {
+    "customer_classes": ["commercial", "industrial"],
+    "minimum_load": "100 kW total estimated demand savings",
+    "excluded_customers": ["transmission-level for-profit customers"],
+    "eligible_providers": [
+      "national or local energy service companies",
+      "retail electric providers",
+      "individual customers identifying curtailable load in their own facilities"
+    ]
+  },
+  "baseline_methodology": "not publicly disclosed - demand savings calculated through meter data review",
+  "battery_suitability": {
+    "rating": "Limited",
+    "justification": "Program is designed for load curtailment during summer peak hours (1-7 PM, June-September). While batteries can technically provide demand reduction by discharging during these hours, several factors limit suitability: (1) Payment rates not publicly disclosed, making financial analysis impossible; (2) Texas regulations prevent transmission utilities like Oncor from using batteries for demand management functions - batteries are restricted to reliability functions only; (3) Program requires 100 kW minimum which is achievable by batteries, but lack of transparent payment structure creates uncertainty; (4) Batteries participating in ERCOT wholesale markets (DAM, SCED) would likely earn more revenue than utility demand response programs; (5) Load cannot be used in any other demand response program, creating exclusivity constraints. Battery storage projects would be better suited for ERCOT wholesale market participation (Load Resources, Ancillary Services) rather than this utility-administered program."
+  },
+  "program_constraints": {
+    "exclusivity": "Curtailable load cannot be used in any other demand response program",
+    "availability": "Load must be available for entire summer peak period",
+    "verification": "Incentive payments based on verified demand savings through meter data review",
+    "regulatory_restrictions": "Texas regulations prevent transmission utilities from using batteries for demand management functions"
+  },
+  "alternative_options": {
+    "ercot_wholesale_markets": "Battery storage can participate directly in ERCOT wholesale markets as Load Resources or Generation Resources, typically more profitable than utility DR programs",
+    "ercot_ancillary_services": "Batteries can provide regulation up/down, responsive reserve, and non-spinning reserve services",
+    "ercot_emergency_response_service": "ERS program requires 10-30 minute response time, may offer better compensation for batteries"
+  },
+  "data_sources": [
+    "https://www.oncor.com/us/en/home/partners/eepm-home/commercial-provider/load-management-program.html",
+    "https://www.oncor.com/content/oncorwww/us/en/home/partners/eepm-home/commercial-provider.html",
+    "ERCOT Load Resource documentation",
+    "Texas regulatory information regarding utility battery storage restrictions"
+  ],
+  "research_notes": "Oncor's CLM Program lacks transparent payment structure - specific incentive rates are not publicly available on their website or in readily accessible program documentation. The 2024 CLM Program Manual exists but was not fully accessible during research. Historical data from 2010 showed ~$564/kW annual payment, but current rates are unknown. Program administrator contact required: EEPM Help Desk 1-866-258-1874 or eepmsupport@oncor.com. CRITICAL: Texas regulations restrict transmission utilities like Oncor from using batteries for demand management functions - they can only use batteries for reliability/voltage control. This creates a fundamental barrier for battery participation in utility DR programs. Batteries would be better suited for direct ERCOT wholesale market participation as Load Resources or Generation Resources, which typically offer higher revenue opportunities through energy arbitrage, ancillary services, and capacity markets. The program's exclusivity requirement (cannot participate in other DR programs) further reduces attractiveness for battery assets that could otherwise stack multiple revenue streams.",
+  "research_date": "2025-10-11",
+  "research_quality_score": 4,
+  "quality_score_rationale": "Low score due to lack of publicly available payment rates, event parameters, and baseline methodology. Core program structure and eligibility requirements are documented, but critical financial information requires direct contact with Oncor. The regulatory restriction on battery participation is confirmed through ERCOT and Texas regulatory research, which is a key finding. Score would be 7-8 if payment rates were publicly available."
+}

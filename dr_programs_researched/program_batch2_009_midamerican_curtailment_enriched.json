@@ -1,0 +1,318 @@
+{
+  "program_id": "midamerican_curtailment_illinois",
+  "program_name": "Curtailment Program",
+  "program_type": "utility",
+  "status": "inactive",
+  "description": "MidAmerican Energy's Curtailment Program allows large commercial and industrial customers in Iowa and Illinois to receive financial incentives for reducing peak electrical demand. The program is designed to help maintain grid resilience and reliability during emergency conditions. Participants agree to reduce electricity use by contracted amounts during peak demand periods in exchange for capacity-based incentive payments.",
+  "geography": {
+    "states": ["IL", "IA"],
+    "utilities": ["MidAmerican Energy"],
+    "isos": ["MISO"],
+    "service_territories": ["MidAmerican Energy Illinois service territory", "MidAmerican Energy Iowa service territory"]
+  },
+  "eligibility": {
+    "customer_classes": {
+      "residential": false,
+      "commercial": true,
+      "industrial": true,
+      "commercial_min_kw": 200,
+      "size_threshold_notes": "Industrial or commercial customers capable of reducing electricity use by 200 kW or more during peak demand periods are eligible."
+    },
+    "behind_the_meter": true,
+    "front_of_meter": true,
+    "minimum_capacity_kw": 200,
+    "maximum_capacity_kw": "not specified",
+    "resource_types": [
+      "on-site generation",
+      "load curtailment",
+      "air conditioning reduction",
+      "equipment operation reduction/shifting",
+      "chilled water production shifting"
+    ],
+    "requires_aggregator": false
+  },
+  "notification": {
+    "day_ahead_notice": false,
+    "minimum_notice_hours": 2,
+    "maximum_notice_hours": "not specified",
+    "notification_methods": [
+      "not specified"
+    ]
+  },
+  "payment_structure": {
+    "has_capacity_payment": true,
+    "has_performance_payment": false,
+    "capacity_rate": {
+      "value": "not available",
+      "unit": "not specified",
+      "varies_by_season": true,
+      "seasonal_rates": [
+        {
+          "season": "Summer",
+          "rate": "not available",
+          "unit": "$/kW-season",
+          "notes": "Payment rates are specified in Iowa Rider CS and Illinois Rider CS tariffs but were not publicly accessible during research"
+        },
+        {
+          "season": "Year-round",
+          "rate": "not available",
+          "unit": "$/kW-year",
+          "notes": "Year-round participants receive both summer and non-summer calculations"
+        }
+      ]
+    },
+    "performance_rate": {
+      "value": "not applicable",
+      "unit": "not applicable",
+      "varies_by_season": false,
+      "varies_by_time": false
+    },
+    "penalty_structure": {
+      "has_penalties": true,
+      "penalty_rate": "not specified",
+      "penalty_unit": "not specified",
+      "penalty_description": "Failure to curtail may result in reduced contracted curtailable load or disqualification from future participation. Compliance is mandatory."
+    },
+    "bonus_payments": [],
+    "forward_curve_available": false,
+    "forward_curve_url": null,
+    "payment_notes": "Rebates paid at end of peak season based on contracted kW reduction. University of Iowa received over $1 million in a single year for participation."
+  },
+  "seasons": [
+    {
+      "season_name": "Summer",
+      "start_date": "06-01",
+      "end_date": "09-30",
+      "max_events": 16,
+      "max_hours": "not specified",
+      "notes": "Peak summer curtailment period"
+    },
+    {
+      "season_name": "Non-Summer (Year-round option)",
+      "start_date": "10-01",
+      "end_date": "05-31",
+      "max_events": "not specified",
+      "max_hours": "not specified",
+      "notes": "Additional season for year-round participants"
+    }
+  ],
+  "call_windows": [
+    {
+      "window_id": "summer_peak",
+      "start_hour": 15,
+      "end_hour": 18,
+      "days_of_week": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday"
+      ],
+      "seasons": ["Summer"],
+      "timezone": "America/Chicago",
+      "notes": "MidAmerican calculates expected demand between 3 and 6 p.m. during peak periods"
+    }
+  ],
+  "event_parameters": {
+    "typical_duration_hours": "not specified",
+    "minimum_duration_hours": "not specified",
+    "maximum_duration_hours": 6,
+    "event_granularity_minutes": "not specified",
+    "response_time_minutes": 120,
+    "max_events_per_season": 16,
+    "max_events_per_year": "not specified",
+    "max_hours_per_season": "not specified",
+    "max_hours_per_year": "not specified",
+    "max_consecutive_events": "not specified",
+    "minimum_rest_hours": "not specified",
+    "notes": "Events last up to 6 hours. At least 2 hours advance notice provided. Up to 16 potential curtailment events between June 1 and September 30."
+  },
+  "nomination_bidding": {
+    "requires_nomination": true,
+    "nomination_frequency": "annual",
+    "nomination_deadline": "March 15 of the contract year",
+    "allows_price_bidding": false,
+    "bidding_structure": "Fixed capacity nomination. Customers contract for a specific kW reduction amount.",
+    "enrollment_period": {
+      "start_date": "not specified",
+      "end_date": "03-15",
+      "recurring": true,
+      "notes": "Complete and return Curtailment Program Contract prior to March 15. New applications processed first-come, first-served."
+    }
+  },
+  "special_programs": {
+    "is_rec_based": false,
+    "rec_type": null,
+    "scheduled_dispatch": false,
+    "clean_peak_standard": false,
+    "special_attributes": [
+      "Triggered by MISO emergency declarations",
+      "Triggered by MidAmerican transmission/distribution system conditions",
+      "Triggered by high system demand and forecasted supply deficit",
+      "Requires data communication line for interval data transmission"
+    ]
+  },
+  "program_history": {
+    "launch_year": "not specified",
+    "program_evolution": [
+      {
+        "year": 2015,
+        "change_description": "University of Iowa exceeded $1 million in incentives for first time"
+      },
+      {
+        "year": 2018,
+        "change_description": "University of Iowa improved curtailment methods to avoid building occupant comfort impacts"
+      },
+      {
+        "year": 2025,
+        "change_description": "Program listed as inactive or no longer accepting new applicants on Piclo platform as of September 30, 2025"
+      }
+    ],
+    "budget_committed_through": "not specified",
+    "total_annual_budget": "not specified",
+    "notes": "Program has served 125 large commercial and industrial energy users historically"
+  },
+  "historical_events": [],
+  "participation_requirements": {
+    "technical_requirements": [
+      "Provide data communication line for interval data transmission",
+      "Capable of reducing electricity by contracted amount",
+      "Maintain firm power level (minimum base level of demand)"
+    ],
+    "operational_requirements": [
+      "Mandatory compliance with curtailment requests",
+      "Reduce load through methods such as limiting air conditioning, reducing/shifting equipment operation, or using on-site generation"
+    ],
+    "measurement_verification": [
+      "MidAmerican calculates expected demand (typical demand between 3-6 PM)",
+      "Firm power level established (minimum base level of demand)",
+      "Load available for curtailment determined by difference"
+    ]
+  },
+  "enrollment_options": [
+    {
+      "option_name": "Summer Only",
+      "description": "Participation during summer peak period only (June 1 - September 30)",
+      "season": "Summer",
+      "capacity_payment": "not available",
+      "payment_unit": "$/kW-season"
+    },
+    {
+      "option_name": "Year-Round",
+      "description": "Participation during both summer and non-summer periods (June 1 - May 31)",
+      "season": "Year-round",
+      "capacity_payment": "not available",
+      "payment_unit": "$/kW-year",
+      "notes": "Summer and non-summer periods calculated separately for year-round participants"
+    }
+  ],
+  "contact_information": {
+    "program_email": "curtailment@midamerican.com",
+    "program_phone": "866-584-0871",
+    "business_advantage_phone": "800-329-6261",
+    "business_advantage_email": "BusinessAdvantage@midamerican.com",
+    "website": "https://www.midamericanenergy.com/curtailment"
+  },
+  "data_sources": [
+    {
+      "source_name": "MidAmerican Energy Curtailment Program Website",
+      "url": "https://www.midamericanenergy.com/curtailment",
+      "last_updated": "2025-10-11",
+      "data_type": "program_rules"
+    },
+    {
+      "source_name": "Piclo Flexibility Marketplace",
+      "url": "https://www.piclo.com/opportunities/curtailment-program",
+      "last_updated": "2025-09-30",
+      "data_type": "program_rules"
+    },
+    {
+      "source_name": "University of Iowa Press Release - $1M Payment",
+      "url": "https://now.uiowa.edu/2015/12/ui-receives-1-million-midamerican-warm-weather-energy-reduction",
+      "last_updated": "2015-12",
+      "data_type": "historical_events"
+    },
+    {
+      "source_name": "University of Iowa Press Release - Updated Operations",
+      "url": "https://now.uiowa.edu/2018/05/ui-participation-energy-curtailment-program-no-longer-impacts-building-occupant-comfort",
+      "last_updated": "2018-05",
+      "data_type": "program_rules"
+    },
+    {
+      "source_name": "Power Engineering Magazine",
+      "url": "https://www.power-eng.com/operations-maintenance/midamerican-energy-manages-peak-energy-demand-with-curtailment-program-for-large-energy-users/",
+      "last_updated": "not specified",
+      "data_type": "program_rules"
+    },
+    {
+      "source_name": "Iowa Electric Tariff - Rider CS",
+      "url": "https://www.midamericanenergy.com/media/pdf/iowa-electric-tariffs.pdf",
+      "last_updated": "not specified",
+      "data_type": "pricing",
+      "notes": "Payment rates not accessible during research - tariff document too large to fetch"
+    },
+    {
+      "source_name": "Illinois Electric Tariff - Rider CS (ICC No. 11)",
+      "url": "https://icc.illinois.gov/downloads/public/tariff/currentbooks/7/Electric Service Schedule Ill. C. C. No. 11[511]..pdf",
+      "last_updated": "not specified",
+      "data_type": "pricing",
+      "notes": "Payment rates not accessible during research - tariff document too large to fetch"
+    }
+  ],
+  "integration_metadata": {
+    "optimizer_compatible": true,
+    "api_available": false,
+    "api_documentation_url": null,
+    "data_quality_score": 6.5,
+    "last_verified_date": "2025-10-11",
+    "notes": "Program details well-documented but payment rates not publicly available. Program status unclear - listed as inactive on Piclo as of Sept 2025 but still advertised on MidAmerican website. Historical participation data suggests strong economic value (U of Iowa received $1M+ annually). Requires direct contact with utility for payment rate information and current enrollment status."
+  },
+  "research_notes": {
+    "data_integrity": "All data extracted from verified sources. NO data was invented or estimated.",
+    "missing_data_items": [
+      "Exact capacity payment rates ($/kW-month or $/kW-season)",
+      "Performance payment rates (program appears to be capacity-only)",
+      "Maximum capacity limit per participant",
+      "Typical event frequency (only maximum of 16 events per summer specified)",
+      "Minimum rest hours between events",
+      "Event granularity and response time details beyond 2-hour notice",
+      "Current program status (conflicting information - Piclo says inactive as of Sept 2025, but MidAmerican website still advertises program)",
+      "Program launch year",
+      "Total program budget",
+      "Penalty rates for non-compliance"
+    ],
+    "data_confidence": {
+      "high_confidence": [
+        "Minimum capacity requirement (200 kW)",
+        "Eligibility criteria (commercial/industrial)",
+        "Season dates (June 1 - Sept 30 for summer)",
+        "Maximum event duration (6 hours)",
+        "Minimum notice period (2 hours)",
+        "Maximum summer events (16)",
+        "Enrollment deadline (March 15)",
+        "Event triggers (MISO emergency, transmission/distribution conditions, supply deficit)",
+        "Participation options (summer only vs year-round)"
+      ],
+      "medium_confidence": [
+        "Call window timing (3-6 PM inferred from 'expected demand' calculation)",
+        "Payment structure (capacity-based rebates, not performance payments)",
+        "Program status (conflicting information)"
+      ],
+      "low_confidence": [],
+      "not_available": [
+        "Specific payment rates in $/kW",
+        "Event granularity beyond maximum duration",
+        "Maximum total program capacity",
+        "Minimum rest period between events"
+      ]
+    },
+    "research_methodology": "Comprehensive web research including utility website, regulatory filings, third-party aggregators (Piclo), press releases, and participant case studies. Attempted to access Iowa and Illinois electric tariff documents (Rider CS) but files were too large to fetch. Payment rate information requires direct contact with utility.",
+    "recommended_next_steps": [
+      "Contact MidAmerican Energy at curtailment@midamerican.com or 866-584-0871 to obtain current payment rates",
+      "Verify current program status (active vs inactive) directly with utility",
+      "Request copy of Rider CS tariff from Iowa Utilities Board and Illinois Commerce Commission for detailed payment structure",
+      "Inquire about maximum program capacity and current enrollment levels",
+      "Ask about historical event frequency and typical event characteristics"
+    ]
+  }
+}

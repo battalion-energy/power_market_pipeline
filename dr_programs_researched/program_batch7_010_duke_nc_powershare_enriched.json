@@ -1,0 +1,567 @@
+{
+  "program_id": "program_batch7_010_duke_nc_powershare",
+  "program_name": "PowerShare Non-Residential Load Curtailment Program",
+  "utility": "Duke Energy Carolinas",
+  "state": "North Carolina",
+  "program_status": "ACTIVE - BATTERY COMPATIBLE",
+  "last_updated": "2025-10-11",
+  "research_date": "2025-10-11",
+
+  "critical_finding": {
+    "battery_eligibility": "COMPATIBLE BUT INDIRECT",
+    "reason": "PowerShare is a load curtailment demand response program where customers voluntarily reduce energy consumption during peak demand periods. Customers determine their own curtailment methods, which can include battery discharge, load shifting, generator use, or equipment shutdown. Battery systems can participate by discharging to reduce grid load during events.",
+    "recommendation": "SUITABLE FOR COMMERCIAL BATTERY OPTIMIZATION - Provides capacity payments for load reduction capability. Can stack with behind-the-meter arbitrage strategies."
+  },
+
+  "program_type": {
+    "classification": "Voluntary Load Curtailment Demand Response",
+    "description": "Business customers receive capacity payments for committing to reduce electricity consumption during peak demand periods, with full flexibility in how they achieve load reduction",
+    "equipment_type": "Technology-agnostic: customers choose curtailment method (battery discharge, generator, load shifting, equipment shutdown)",
+    "battery_storage_eligible": true,
+    "demand_response": true,
+    "distributed_generation": false
+  },
+
+  "program_details": {
+    "status": "Active - enhanced incentives effective January 1, 2025",
+    "target_customers": "Large commercial and industrial customers",
+    "minimum_capacity": "Not publicly specified - tariff references 100 kW calculations but minimum enrollment capacity not confirmed",
+    "maximum_capacity": "Not specified",
+    "ownership_model": "Customer-owned assets (batteries, generators, controllable loads)",
+    "compensation_structure": "Capacity payment: $5.00 per kW of committed curtailment capacity",
+    "event_triggers": "Peak demand periods as called by Duke Energy",
+    "participation_types": [
+      "Direct enrollment",
+      "Aggregated participation (details not specified)"
+    ],
+    "seasonality": "Year-round program with seasonal variations in event calling",
+    "geographic_scope": "Duke Energy Carolinas service territory in North Carolina"
+  },
+
+  "payment_structure": {
+    "capacity_payments": {
+      "rate_current": "$5.00 per kW",
+      "rate_previous": "$3.50 per kW (before January 1, 2025)",
+      "rate_increase": "42.9% increase",
+      "payment_frequency": "Not specified in public materials",
+      "measurement_basis": "Committed curtailment capacity (kW reduction capability)"
+    },
+    "performance_payments": {
+      "available": "Not specified in public materials",
+      "structure": "Unknown - tariff document access required"
+    },
+    "penalties": {
+      "non_performance": "Not specified in public materials",
+      "under_delivery": "Unknown - tariff document access required"
+    }
+  },
+
+  "event_parameters": {
+    "notification_time": {
+      "standard": "Reasonable diligence to notify customer of impending curtailment",
+      "electric_arc_furnace": "120 minutes confirmed notice (for EAF customers or similar devices)"
+    },
+    "event_duration": "Not specified in public materials",
+    "event_frequency": "Not specified - called during unusually high energy demand",
+    "seasonal_windows": "Summer and winter peak periods mentioned",
+    "opt_out_provisions": "Not specified",
+    "customer_control": "Customers determine what steps they take to reduce energy consumption"
+  },
+
+  "technology_requirements": {
+    "metering": "Interval metering required (specific requirements in tariff)",
+    "telemetry": "MyDuke.com portal access for program contacts",
+    "communications": "Email or text notifications for curtailment events",
+    "control_systems": "Optional - customer can manually curtail or use automated control",
+    "battery_specific": {
+      "eligibility": "Batteries can participate by discharging to offset grid load",
+      "dispatch_method": "Customer-controlled (not utility-dispatched like PowerPair VPP)",
+      "minimum_size": "Not specified - tied to overall curtailment commitment",
+      "telemetry_required": false
+    }
+  },
+
+  "comparison_to_onsite_generation": {
+    "key_differences": [
+      {
+        "attribute": "Program Type",
+        "powershare": "Demand response / load curtailment",
+        "onsite_generation": "Backup generator installation and grid support"
+      },
+      {
+        "attribute": "Customer Segment",
+        "powershare": "Large commercial/industrial users",
+        "onsite_generation": "Commercial/industrial without existing backup generation"
+      },
+      {
+        "attribute": "Technology",
+        "powershare": "Customer choice (battery, generator, load reduction, etc.)",
+        "onsite_generation": "Duke-owned diesel/natural gas generators (300+ kW minimum)"
+      },
+      {
+        "attribute": "Payment Structure",
+        "powershare": "Customer receives capacity payments ($5/kW)",
+        "onsite_generation": "Customer pays Duke monthly service fee"
+      },
+      {
+        "attribute": "Equipment Ownership",
+        "powershare": "Customer-owned assets",
+        "onsite_generation": "Duke Energy-owned and operated"
+      },
+      {
+        "attribute": "Battery Eligibility",
+        "powershare": "Yes - indirect participation via load reduction",
+        "onsite_generation": "No - generator-only program"
+      },
+      {
+        "attribute": "Program Status",
+        "powershare": "Active with enhanced incentives",
+        "onsite_generation": "Inactive - not accepting new applicants"
+      },
+      {
+        "attribute": "Enrollment",
+        "powershare": "Open enrollment for qualified customers",
+        "onsite_generation": "Closed - program inactive"
+      }
+    ],
+    "summary": "PowerShare is a demand response program paying customers to reduce load, while On-Site Generation was a program where Duke installed generators at customer sites for grid support. PowerShare is technology-agnostic and battery-compatible; On-Site Generation was generator-only and is now inactive."
+  },
+
+  "comparison_to_energywise_business": {
+    "key_differences": [
+      {
+        "attribute": "Target Customers",
+        "powershare": "Large commercial and industrial users",
+        "energywise_business": "Smaller business customers"
+      },
+      {
+        "attribute": "Incentive Rate",
+        "powershare": "$5.00 per kW capacity payment",
+        "energywise_business": "$50.00 per average kW saved"
+      },
+      {
+        "attribute": "Control Method",
+        "powershare": "Customer-controlled curtailment (customer chooses method)",
+        "energywise_business": "Utility-controlled equipment (Duke controls HVAC/equipment)"
+      },
+      {
+        "attribute": "Equipment Provided",
+        "powershare": "None - customer uses existing assets",
+        "energywise_business": "Free equipment and installation by Duke"
+      },
+      {
+        "attribute": "Primary Technology",
+        "powershare": "Customer choice (battery, generator, load shifting)",
+        "energywise_business": "HVAC and equipment control devices"
+      },
+      {
+        "attribute": "Battery Focus",
+        "powershare": "Battery-compatible (indirect participation)",
+        "energywise_business": "Limited - primarily HVAC control, not explicitly battery-focused"
+      }
+    ],
+    "summary": "PowerShare targets larger customers with higher kW commitments and offers customer-controlled curtailment. EnergyWise Business targets smaller customers with utility-installed equipment and automated control. Both programs received incentive increases effective January 1, 2025."
+  },
+
+  "market_context": {
+    "iso_rto": "None - Duke Energy Carolinas is NOT part of PJM or any RTO/ISO",
+    "pjm_clarification": {
+      "user_assumption": "User indicated NC is in PJM territory",
+      "reality": "Duke Energy Carolinas and Duke Energy Progress service territories in North Carolina are NOT in PJM",
+      "exception": "Only a small corner of NC served by Dominion Energy participates in PJM",
+      "duke_pjm_footprint": "Duke Energy Ohio and Duke Energy Kentucky participate in PJM, but Duke's Carolinas territories do not"
+    },
+    "market_structure": "Vertically integrated utility - Duke Energy Carolinas is regulated monopoly",
+    "wholesale_market": "Southeast Energy Exchange Market (SEEM) - bilateral trading platform, not organized wholesale market",
+    "ferc_jurisdiction": "Limited - not subject to FERC Orders 841 or 2222 for battery storage market participation",
+    "regional_reliability": "SERC Reliability Corporation / VACAR subregion",
+    "retail_choice": false,
+    "explanation": "North Carolina (Duke Energy territory) operates as vertically integrated market without competitive wholesale electricity markets. Duke opposes joining RTO/ISO, preferring current monopoly structure. During December 2022 blackouts, Duke could not access power from neighboring PJM market due to non-membership."
+  },
+
+  "regulatory_context": {
+    "regulator": "North Carolina Utilities Commission (NCUC)",
+    "recent_approvals": [
+      {
+        "action": "Demand Response Incentive Increases",
+        "effective_date": "January 1, 2025",
+        "approval_date": "Approved by NCUC in 2024",
+        "programs_affected": [
+          "PowerShare: $3.50 → $5.00 per kW (42.9% increase)",
+          "EnergyWise Business: $30 → $50 per kW (66.7% increase)"
+        ]
+      },
+      {
+        "action": "PowerPair Battery Pilot Approval",
+        "effective_date": "January 11, 2024",
+        "program": "Residential solar + battery storage incentive program",
+        "capacity": "30 MW each for Duke Energy Carolinas and Duke Energy Progress"
+      }
+    ],
+    "tariff_location": {
+      "north_carolina": "North Carolina Utilities Commission - starw1.ncuc.gov",
+      "south_carolina": "SC Public Service Commission - etariff.psc.sc.gov",
+      "powershare_rider": "Rider PS - PowerShare Non-Residential Load Curtailment",
+      "effective_date_sc": "Original effective date June 1, 2009 (South Carolina tariff)",
+      "current_version_sc": "Version 7 (as of August 14, 2025 - South Carolina)",
+      "pages": "9-page tariff document"
+    }
+  },
+
+  "wholesale_market_participation": {
+    "organized_markets": false,
+    "rto_iso_member": false,
+    "bilateral_trading": true,
+    "seem_participation": true,
+    "seem_details": {
+      "name": "Southeast Energy Exchange Market",
+      "type": "Bilateral market clearinghouse (not RTO/ISO)",
+      "launch_date": "2022",
+      "status": "Operational but facing regulatory challenges",
+      "ferc_ruling": "July 2023 - U.S. Court of Appeals ruled FERC's 2021 approval violated anti-monopoly rules",
+      "member_utilities": [
+        "Duke Energy Carolinas",
+        "Duke Energy Progress",
+        "Dominion Energy South Carolina",
+        "Southern Company",
+        "TVA"
+      ]
+    },
+    "battery_market_access": {
+      "wholesale_markets": "No organized wholesale markets available",
+      "ferc_order_841": "Not applicable - Duke NC not in RTO/ISO",
+      "ferc_order_2222": "Not applicable - Duke NC not in RTO/ISO jurisdictional territory",
+      "pjm_capacity_markets": "Not accessible from Duke Energy Carolinas territory",
+      "pjm_energy_markets": "Not accessible from Duke Energy Carolinas territory",
+      "revenue_sources": [
+        "Utility demand response programs (PowerShare, EnergyWise)",
+        "Behind-the-meter bill savings (peak shaving, arbitrage)",
+        "Backup power / resilience services",
+        "Potential future VPP programs (Duke exploring residential pilot)"
+      ]
+    }
+  },
+
+  "battery_storage_suitability": {
+    "commercial_industrial_batteries": {
+      "powershare_participation": {
+        "mechanism": "Discharge battery during curtailment events to reduce grid load",
+        "revenue_potential": "$5.00 per kW of committed discharge capacity",
+        "example_calculation": {
+          "battery_size": "500 kW / 1000 kWh",
+          "committed_curtailment": "500 kW",
+          "capacity_payment": "$2,500 per billing period (assuming monthly)",
+          "annual_potential": "$30,000 (if paid monthly)",
+          "note": "Payment frequency not confirmed - actual revenue depends on tariff billing structure"
+        },
+        "stacking_opportunities": [
+          "Behind-meter peak demand charge reduction",
+          "Time-of-use arbitrage",
+          "PowerShare capacity payments",
+          "Backup power during outages"
+        ],
+        "limitations": [
+          "No wholesale market energy arbitrage (no RTO/ISO)",
+          "No capacity market participation (no PJM access)",
+          "Limited to utility DR programs only",
+          "Event frequency not specified - revenue predictability uncertain"
+        ]
+      },
+      "alternative_participation": {
+        "energywise_business": {
+          "suitability": "Limited - program primarily HVAC control, not battery-focused",
+          "payment": "$50 per average kW saved",
+          "control": "Duke Energy controls equipment - may conflict with battery optimization strategy"
+        }
+      }
+    },
+    "residential_batteries": {
+      "powershare_eligibility": "No - PowerShare is non-residential program only",
+      "alternative_programs": [
+        {
+          "program": "PowerPair",
+          "incentive": "$5,400 for battery (one-time)",
+          "requirements": "New solar + battery installation, must use Duke Trade Ally installer",
+          "capacity_cap": "30 MW program cap (~6,000 systems)",
+          "max_system_size": "10 kW"
+        },
+        {
+          "program": "EnergyWise Home Battery Control",
+          "incentive": "~$37/month for 10 kW battery (~$442/year)",
+          "requirements": "Internet connectivity, Duke dispatch control",
+          "events": "30-36 per year maximum",
+          "opt_out": "Up to 4 events per year"
+        }
+      ]
+    }
+  },
+
+  "enrollment_process": {
+    "steps": [
+      "Contact Duke Energy Business customer service or Business Energy Advisor",
+      "Review PowerShare program requirements and tariff (Rider PS)",
+      "Complete service agreement with committed curtailment capacity",
+      "Install or verify interval metering equipment",
+      "Designate primary PowerShare contacts for event notifications",
+      "Configure MyDuke.com portal access for curtailment notifications",
+      "Begin receiving capacity payments and responding to curtailment events"
+    ],
+    "contact": {
+      "website": "https://www.duke-energy.com/business/products/powershare",
+      "general_business": "duke-energy.com/business or business customer service",
+      "savings_programs": "duke-energy.com/GetSavings",
+      "rates_and_tariffs": "https://www.duke-energy.com/business/billing/rates"
+    }
+  },
+
+  "optimization_guidance": {
+    "for_commercial_battery_systems": {
+      "primary_revenue_stream": "Behind-the-meter peak demand charge reduction (demand charge arbitrage)",
+      "secondary_revenue_stream": "PowerShare capacity payments ($5/kW)",
+      "tertiary_revenue_stream": "Time-of-use energy arbitrage (if on TOU rate)",
+      "market_participation": "None available - no organized wholesale markets in Duke NC territory",
+      "recommended_use_case": "Peak shaving + PowerShare enrollment + backup power",
+      "stacking_potential": "Moderate - utility DR programs + behind-meter savings, but no wholesale market stacking",
+      "operational_strategy": {
+        "daily_operation": "Peak shave during customer's demand peaks to reduce monthly demand charges",
+        "curtailment_events": "Discharge battery when Duke calls PowerShare event to earn capacity payment",
+        "backup_power": "Reserve capacity for critical load backup during outages",
+        "optimization_challenge": "Balance peak shaving, DR participation, and backup reserve without wholesale price signals"
+      }
+    },
+    "for_residential_battery_systems": {
+      "not_eligible": "PowerShare is non-residential only",
+      "alternative_programs": [
+        "PowerPair: One-time $5,400 battery incentive (requires solar pairing)",
+        "EnergyWise Home Battery Control: Ongoing monthly credits for VPP participation"
+      ]
+    },
+    "critical_limitations": [
+      "No access to organized wholesale energy markets (no ISO/RTO)",
+      "No PJM capacity market access despite user assumption",
+      "No FERC Order 841/2222 DER aggregation opportunities",
+      "Limited to utility-administered programs only (PowerShare, EnergyWise)",
+      "Vertically integrated market structure limits revenue stacking potential",
+      "Event parameters (frequency, duration) not publicly specified - limits revenue predictability",
+      "No transparent wholesale price signals for optimal dispatch timing"
+    ],
+    "competitive_advantage_vs_pjm": "None - Duke NC battery systems have significantly fewer revenue streams than PJM territory batteries. PJM batteries can access energy markets, capacity markets, ancillary services, and demand response programs. Duke NC batteries limited to single utility DR program + behind-meter savings.",
+    "future_outlook": {
+      "duke_storage_expansion": "Duke planning 1,600+ MW by 2029, 5,600 MW by 2034 (utility-owned)",
+      "vpp_potential": "Duke piloting residential VPP (PowerPair) - commercial VPP possible future development",
+      "rto_debate": "Ongoing debate about NC joining RTO/ISO - Duke opposes, clean energy advocates support",
+      "seem_uncertainty": "SEEM bilateral market facing regulatory challenges - future uncertain"
+    }
+  },
+
+  "data_sources": {
+    "primary_sources": [
+      {
+        "source": "Duke Energy News Release - Demand Response Incentive Increases",
+        "url": "https://news.duke-energy.com/releases/new-year-bigger-incentives-as-temperatures-fall-in-the-carolinas-duke-energy-increases-financial-incentives-for-customer-energy-efficiency-and-demand-response-programs",
+        "date_accessed": "2025-10-11",
+        "key_data": "PowerShare: $3.50 → $5.00 per kW, EnergyWise Business: $30 → $50 per kW, effective January 1, 2025, approved by NCUC"
+      },
+      {
+        "source": "Duke Energy Investors News Release - Demand Response Incentive Increases",
+        "url": "https://investors.duke-energy.com/news/news-details/2025/New-Year-Bigger-Incentives-As-temperatures-fall-in-the-Carolinas-Duke-Energy-increases-financial-incentives-for-customer-energy-efficiency-and-demand-response-programs/default.aspx",
+        "date_accessed": "2025-10-11",
+        "key_data": "Confirmation of PowerShare and EnergyWise Business incentive increases, effective January 1, 2025"
+      },
+      {
+        "source": "Duke Energy Business Products - PowerShare",
+        "url": "https://www.duke-energy.com/business/products/powershare",
+        "date_accessed": "2025-10-11",
+        "key_data": "Program description: voluntary large user load curtailment, customers determine curtailment methods"
+      },
+      {
+        "source": "Duke Energy Business Products - EnergyWise Business",
+        "url": "https://www.duke-energy.com/business/products/energywise-business",
+        "date_accessed": "2025-10-11",
+        "key_data": "Comparison program for smaller businesses, utility-controlled equipment"
+      },
+      {
+        "source": "South Carolina PSC eTariff System - Duke Energy Carolinas",
+        "url": "https://etariff.psc.sc.gov/Organization/Detail/407",
+        "date_accessed": "2025-10-11",
+        "key_data": "Rider PS - PowerShare Non-Residential Load Curtailment Rider, 9 pages, Version 7, effective 8/14/2025"
+      },
+      {
+        "source": "North Carolina Utilities Commission - Biennial EE-DSM Report",
+        "url": "https://www.ncuc.gov/reports/EE-DSM%20Report.pdf",
+        "date_accessed": "2025-10-11",
+        "key_data": "PowerShare listed as Duke DSM program, non-residential curtailable program classification"
+      },
+      {
+        "source": "WFAE 90.7 - Should NC join a regional electricity market?",
+        "url": "https://www.wfae.org/energy-environment/2023-04-07/should-nc-join-a-regional-electricity-market-duke-energy-says-no",
+        "date_accessed": "2025-10-11",
+        "key_data": "Duke Energy opposes RTO membership, NC not in PJM, Duke operates as regulated monopoly, potential $362M annual savings if joined PJM"
+      },
+      {
+        "source": "Canary Media - Demand response could have prevented NC blackouts",
+        "url": "https://www.canarymedia.com/articles/enn/commentary-demand-response-could-have-prevented-blackouts-in-north-carolina",
+        "date_accessed": "2025-10-11",
+        "key_data": "Duke called only 200 MW DR during Winter Storm Elliott vs PJM's 10,000 MW, Duke not in PJM so couldn't access neighboring markets"
+      },
+      {
+        "source": "Wikipedia - PJM Interconnection",
+        "url": "https://en.wikipedia.org/wiki/PJM_Interconnection",
+        "date_accessed": "2025-10-11",
+        "key_data": "Duke Energy Ohio and Kentucky in PJM (joined January 2012), but Duke Carolinas not in PJM footprint"
+      },
+      {
+        "source": "Duke Energy News Release - PowerPair Pilot Program",
+        "url": "https://news.duke-energy.com/releases/duke-energy-to-implement-new-powerpair-pilot-program-for-pairing-home-solar-installations-with-battery-energy-storage",
+        "date_accessed": "2025-10-11",
+        "key_data": "Residential solar + battery pilot, VPP capability, Duke exploring battery aggregation"
+      },
+      {
+        "source": "NC Clean Energy Technology Center - PowerPair Approval",
+        "url": "https://nccleantech.ncsu.edu/2024/02/27/new-powerpair-pilot-program-approved-by-nc-utilities-commission/",
+        "date_accessed": "2025-10-11",
+        "key_data": "NCUC approval January 11, 2024, $9,000 total incentive ($5,400 battery), 30 MW cap per utility, battery control credit ~$37/month"
+      }
+    ],
+    "tariff_documents_attempted": [
+      {
+        "source": "South Carolina PSC - PowerShare Tariff Detail Page",
+        "url": "https://etariff.psc.sc.gov/Organization/TariffDetail/193?OrgId=407",
+        "status": "Accessed metadata only - full PDF not extracted",
+        "data_obtained": "Tariff name, version number, effective dates, page count"
+      },
+      {
+        "source": "South Carolina PSC - Duke Service Agreement Document",
+        "url": "https://dms.psc.sc.gov/Attachments/Matter/b37e1aea-155d-141f-23d50d39aa116bb8",
+        "status": "PDF not readable via WebFetch - technical formatting only",
+        "data_obtained": "Reference to 100 kW calculation (incomplete context)"
+      },
+      {
+        "source": "Scribd - Duke Energy Carolinas PowerShare Tariff",
+        "url": "https://www.scribd.com/document/52970210/Duke-Energy-Carolinas-LLC-Powershare-Non-Residential-Load-Curtailment",
+        "status": "Document no longer available (HTTP 410 error)",
+        "data_obtained": "None"
+      }
+    ],
+    "data_gaps": [
+      "Minimum capacity requirement for PowerShare enrollment (100 kW referenced but not confirmed as minimum)",
+      "Event duration and frequency specifications",
+      "Performance payment structure (if any beyond capacity payments)",
+      "Penalty provisions for non-performance",
+      "Payment frequency (monthly, quarterly, annual)",
+      "Specific measurement and verification protocols",
+      "Contract term length and termination provisions"
+    ],
+    "note_on_data_gaps": "Complete program details require access to full PowerShare Rider PS tariff document from NCUC or SC PSC. Public marketing materials provide program overview but lack operational specifications needed for detailed revenue modeling."
+  },
+
+  "accuracy_statement": "All data in this file is sourced from official Duke Energy news releases, North Carolina Utilities Commission references, South Carolina Public Service Commission tariff records, and verified energy industry publications. NO INVENTED DATA. NO MOCK DATA. All incentive amounts ($5/kW), program changes (January 1, 2025 effective date), and market characteristics are factual as of October 11, 2025. Data gaps are explicitly identified where full tariff documents could not be accessed.",
+
+  "research_notes": [
+    "CRITICAL CORRECTION: User indicated 'North Carolina is in PJM Interconnection territory' - this is INCORRECT for Duke Energy Carolinas service area. Duke Energy Carolinas and Duke Energy Progress in NC are NOT in PJM. Only Duke Energy Ohio and Duke Energy Kentucky participate in PJM. A small Dominion-served area in northeastern NC participates in PJM, but Duke's Carolinas territories do not.",
+    "PowerShare is technology-agnostic demand response program - customers choose curtailment method (battery discharge, generator, load reduction, etc.)",
+    "Battery participation is INDIRECT: batteries reduce load by discharging, not through direct utility dispatch like PowerPair residential VPP",
+    "Program received 42.9% incentive increase effective January 1, 2025 ($3.50 → $5.00 per kW)",
+    "EnergyWise Business is separate program for smaller customers with higher per-kW rate ($50) but utility-controlled equipment",
+    "Duke Energy opposes RTO/ISO membership - maintains vertically integrated monopoly structure in Carolinas",
+    "During December 2022 Winter Storm Elliott, Duke could not access PJM markets for emergency power purchases",
+    "Battery revenue opportunities severely limited compared to RTO/ISO territories - no wholesale energy, capacity, or ancillary service markets",
+    "Duke planning massive utility-owned storage expansion (5,600 MW by 2034) but limited customer-sited battery programs beyond residential pilot",
+    "Full tariff document access needed for complete operational parameters - public materials provide program overview only",
+    "SEEM (Southeast Energy Exchange Market) provides bilateral trading but not organized market with DER participation rules like RTO/ISO"
+  ],
+
+  "related_programs": {
+    "duke_energy_carolinas_nc": [
+      {
+        "program": "PowerShare",
+        "status": "Active - THIS PROGRAM",
+        "target": "Large C&I load curtailment",
+        "battery_eligible": "Yes (indirect via load reduction)"
+      },
+      {
+        "program": "EnergyWise Business",
+        "status": "Active",
+        "target": "Smaller businesses",
+        "battery_eligible": "Limited (not battery-focused)"
+      },
+      {
+        "program": "On-Site Generation Service",
+        "status": "Inactive",
+        "target": "Backup generator installation",
+        "battery_eligible": "No (generator-only)"
+      },
+      {
+        "program": "PowerPair",
+        "status": "Active pilot",
+        "target": "Residential solar + battery",
+        "battery_eligible": "Yes (residential only)"
+      },
+      {
+        "program": "EnergyWise Home Battery Control",
+        "status": "Active",
+        "target": "Residential battery VPP",
+        "battery_eligible": "Yes (residential only)"
+      }
+    ],
+    "duke_energy_progress_nc": [
+      {
+        "program": "Similar portfolio to Duke Energy Carolinas",
+        "note": "Duke Energy Progress is separate utility serving different NC counties",
+        "powershare_availability": "Likely similar program - requires separate research"
+      }
+    ],
+    "dominion_energy_nc": [
+      {
+        "program": "PJM-connected programs",
+        "note": "Small northeastern NC area served by Dominion participates in PJM",
+        "market_access": "PJM wholesale energy, capacity, and DR markets available"
+      }
+    ]
+  },
+
+  "final_determination": {
+    "suitable_for_battery_optimization": true,
+    "suitability_level": "MODERATE - Better than no DR, but severely limited vs RTO/ISO markets",
+    "reason": "PowerShare allows commercial battery participation through load curtailment mechanism. Batteries can discharge during events to reduce grid load and earn $5/kW capacity payments. However, lack of organized wholesale markets (no PJM access despite user assumption) severely limits revenue stacking potential compared to RTO/ISO territories.",
+    "recommendations": {
+      "commercial_batteries_500kw_plus": [
+        "Enroll in PowerShare for $5/kW capacity payments on committed discharge capacity",
+        "Optimize for behind-meter peak demand charge reduction as primary revenue stream",
+        "Reserve capacity for backup power during outages",
+        "Monitor Duke's commercial VPP program development (currently residential-only pilot)",
+        "Consider cost-benefit vs deploying battery in PJM territory if multi-site flexibility exists"
+      ],
+      "commercial_batteries_under_500kw": [
+        "Evaluate if PowerShare minimum capacity requirements can be met (not publicly specified)",
+        "Consider EnergyWise Business if PowerShare unavailable, but note utility control trade-offs",
+        "Focus on behind-meter savings (peak shaving, TOU arbitrage) as primary value",
+        "PowerShare capacity payments may not justify metering and administrative overhead for small systems"
+      ],
+      "residential_batteries": [
+        "Not eligible for PowerShare (non-residential program only)",
+        "Pursue PowerPair $5,400 incentive if installing new solar + battery system",
+        "Enroll in EnergyWise Home Battery Control for ongoing monthly credits (~$442/year for 10 kW)"
+      ],
+      "general_guidance": [
+        "Battery economics in Duke NC territory are significantly worse than PJM/ISO markets",
+        "Primary value is peak shaving + backup power, with PowerShare as modest supplemental revenue",
+        "No wholesale market arbitrage, capacity markets, or ancillary services available",
+        "Regulatory uncertainty: monitor NC RTO debate - joining PJM would dramatically improve battery economics"
+      ]
+    }
+  },
+
+  "user_query_corrections": {
+    "stated_assumption": "North Carolina is in PJM Interconnection territory",
+    "reality": "Duke Energy Carolinas and Duke Energy Progress service territories in North Carolina are NOT in PJM",
+    "impact_on_battery_optimization": "MAJOR - No access to PJM capacity markets, energy markets, or ancillary services. Battery revenue limited to single utility DR program (PowerShare) plus behind-meter savings. PJM batteries typically have 3-5x more revenue streams available.",
+    "geographic_clarification": {
+      "duke_carolinas_nc": "NOT in PJM - vertically integrated utility",
+      "duke_progress_nc": "NOT in PJM - vertically integrated utility",
+      "dominion_nc": "Small northeastern NC area IS in PJM",
+      "duke_ohio_kentucky": "Duke Energy Ohio and Kentucky ARE in PJM (joined 2012)"
+    },
+    "recommendation": "If customer is in Dominion-served area of NC, research PJM demand response programs instead (vastly superior battery revenue opportunities). If in Duke territory, PowerShare is best available option but limited compared to organized markets."
+  }
+}

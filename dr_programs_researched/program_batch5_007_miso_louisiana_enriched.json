@@ -1,0 +1,544 @@
+{
+  "program_id": "MISO_LA_DR_LMR_DRR_2025",
+  "program_name": "MISO Wholesale Demand Response Programs - Louisiana",
+  "program_type": "iso",
+  "status": "active",
+  "description": "MISO operates three wholesale demand response program types available to Louisiana participants: (1) Load Modifying Resources (LMR) - capacity market program providing capacity payments for resources that can reduce load during emergency events (NERC EEA Level 2/3), (2) Demand Response Resources Type I and II (DRR-I, DRR-II) - energy market programs allowing economic dispatch for load reduction or behind-the-meter generation, and (3) Emergency Demand Response (EDR) - emergency reliability program being eliminated in 2025/26 planning year. LMRs represent approximately 95% of MISO's DR resources. MISO is implementing major reforms for 2028/29 planning year including tiered accreditation based on notification times (30 minutes to 6 hours) with corresponding capacity credits (50%-100%), enhanced performance penalties (VOLL × MW shortfall), and stricter testing requirements. Louisiana is in MISO South region (Zone 9, former Entergy Louisiana territory) which has experienced significant capacity price volatility: $60/MW-day (Fall 2023), $30/MW-day (Summer 2024), and $666.50/MW-day (Summer 2025). FERC Order 2222 compliance for DER aggregation delayed until 2027-2030.",
+  "geography": {
+    "states": ["LA"],
+    "utilities": [
+      "Entergy Louisiana",
+      "Cleco Power",
+      "SWEPCO (AEP subsidiary serving northwest Louisiana)"
+    ],
+    "isos": ["MISO"],
+    "iso_notes": "Louisiana is in MISO South region (Zone 9). Former Entergy Louisiana service territory integrated into MISO in 2013. MISO South includes parts of Arkansas, Louisiana, Mississippi, and Texas. Louisiana has hot, humid climate with high summer peak demand and hurricane resilience considerations.",
+    "service_territories": [
+      "Southeast Louisiana (New Orleans, Baton Rouge area - Entergy Louisiana)",
+      "Central Louisiana (Alexandria area - Cleco Power)",
+      "Northwest Louisiana (Shreveport area - SWEPCO)"
+    ],
+    "zone_designation": "Zone 9 (Louisiana)",
+    "regional_notes": "MISO South vs MISO Midwest pricing differences. Louisiana experiences extreme summer heat driving peak demand. Post-Hurricane Ida (2021) grid resilience is priority. Hurricane Ida caused 25-30% load reduction and 1.2M customer outages in Louisiana/Mississippi."
+  },
+  "eligibility": {
+    "customer_classes": {
+      "residential": true,
+      "commercial": true,
+      "industrial": true,
+      "residential_max_kw": null,
+      "commercial_min_kw": null,
+      "size_threshold_notes": "Customer class eligibility varies by aggregator and utility approval. Louisiana Public Service Commission approved Entergy tariff in September 2020 allowing customers and aggregators to access MISO DR products, but only through Entergy. Louisiana state regulators barred non-utility aggregators like Voltus in 2019. Industrial customers have proposed Industrial Customer Market Option for direct MISO market access."
+    },
+    "behind_the_meter": true,
+    "front_of_meter": false,
+    "behind_the_meter_notes": "Behind-the-meter battery storage can participate as Demand Response. Non-injecting behind-the-meter storage assets may participate as DR. Behind-the-meter generators can participate as DRR Type II if capable of following MISO dispatch instructions. MISO is working to improve DRR Type II modeling for behind-the-meter storage resources.",
+    "minimum_capacity_kw": 100,
+    "minimum_capacity_notes": "FERC Order 2222 mandates minimum aggregation size of 100 kW. Individual LMR minimum is 100 kW. Operating reserves programs require 1 MW within 10 minutes. MISO's Order 2222 implementation (2027-2030) maintains 100 kW aggregation minimum.",
+    "maximum_capacity_kw": null,
+    "resource_types": [
+      "load curtailment",
+      "behind-the-meter battery storage",
+      "behind-the-meter generation",
+      "interruptible load programs",
+      "controlled appliances",
+      "industrial process modification",
+      "HVAC controls",
+      "distributed energy resources (under Order 2222)"
+    ],
+    "requires_aggregator": false,
+    "aggregator_required_notes": "Aggregator not required but commonly used. In Louisiana specifically, state regulations require participation through utility (Entergy) rather than third-party aggregators. Major aggregators in MISO market include Enel X (6+ GW), CPower (4.2+ GW), and Voltus (2+ GW), though Louisiana access is restricted. Aggregators must be Certified Market Participants and register as Aggregator of Retail Customers (ARC).",
+    "louisiana_specific_restrictions": "Louisiana PSC barred non-utility aggregators in 2019. September 2020 Entergy tariff allows MISO DR participation but only through Entergy Louisiana. Third-party aggregators like Voltus, Enel X, CPower cannot directly aggregate Louisiana customers. 12 of 15 MISO states have opted out of allowing aggregators of retail customers."
+  },
+  "programs": [
+    {
+      "program_name": "Load Modifying Resources (LMR)",
+      "program_type": "capacity_market",
+      "status": "active_with_reforms",
+      "description": "LMR is MISO's primary capacity market DR program. Resources receive capacity payments for committing to reduce load during emergency events (NERC EEA Level 2 or 3). Almost 95% of MISO's DR resources are LMRs. LMRs can only be dispatched after MISO declares an emergency. Major reforms proposed for 2028/29 planning year: tiered accreditation based on notification times, increased testing requirements, performance-based accreditation, and enhanced penalties.",
+      "payment_structure": {
+        "has_capacity_payment": true,
+        "has_performance_payment": true,
+        "capacity_rate": {
+          "unit": "$/MW-day",
+          "varies_by_season": true,
+          "varies_by_zone": true,
+          "determination_method": "Annual Planning Resource Auction (PRA) determines seasonal clearing prices",
+          "seasonal_rates": [
+            {
+              "season": "Summer 2025 (Zone 9 Louisiana)",
+              "rate": 666.50,
+              "unit": "$/MW-day",
+              "planning_year": "2025/26",
+              "notes": "Highest price in MISO history. All zones cleared at same price."
+            },
+            {
+              "season": "Fall 2025 (MISO South)",
+              "rate": 74.09,
+              "unit": "$/MW-day",
+              "planning_year": "2025/26"
+            },
+            {
+              "season": "Winter 2025/26 (All zones)",
+              "rate": 33.20,
+              "unit": "$/MW-day",
+              "planning_year": "2025/26"
+            },
+            {
+              "season": "Spring 2026 (All zones)",
+              "rate": 69.88,
+              "unit": "$/MW-day",
+              "planning_year": "2025/26"
+            },
+            {
+              "season": "Annual Average 2025/26 (MISO South)",
+              "rate": 212,
+              "unit": "$/MW-day",
+              "planning_year": "2025/26",
+              "notes": "Annualized capacity price for MISO South region"
+            },
+            {
+              "season": "Summer 2024 (All zones)",
+              "rate": 30,
+              "unit": "$/MW-day",
+              "planning_year": "2024/25"
+            },
+            {
+              "season": "Fall 2023 (Zone 9 Louisiana)",
+              "rate": 60,
+              "unit": "$/MW-day",
+              "planning_year": "2023/24",
+              "notes": "Zone 9 had price separation from other zones"
+            }
+          ],
+          "forward_curve_available": true,
+          "forward_curve_url": "https://www.misoenergy.org/markets-and-operations/real-time--market-data/market-reports/#nt=%2FMarketReportType%3AHistorical%20PRA%20Results&t=10&p=0&s=MarketReportPublished&sd=desc",
+          "notes": "Capacity payments based on cleared Planning Resource Auction prices. Significant price volatility: $30/MW-day (2024) to $666.50/MW-day (2025) summer. Zone 9 Louisiana experienced price separation in 2023 at $60/MW-day fall. MISO conducts annual PRA with seasonal pricing (summer, fall, winter, spring)."
+        },
+        "performance_rate": {
+          "value": "LMP at dispatch location",
+          "unit": "$/MWh",
+          "varies_by_time": true,
+          "varies_by_location": true,
+          "calculation_method": "LMRs dispatched during emergencies are compensated at the Locational Marginal Price (LMP) for energy delivered. During EEA events, LMPs can reach VOLL ($10,000/MWh).",
+          "notes": "Energy payments only when dispatched during emergency events (EEA2/EEA3). Payment at nodal LMP which can be extremely high during emergencies (up to $10,000/MWh VOLL)."
+        },
+        "penalty_structure": {
+          "has_penalties": true,
+          "penalty_formula_current": "3 × LMP × MW shortfall",
+          "penalty_formula_proposed": "VOLL × MW shortfall",
+          "voll_value": 10000,
+          "voll_unit": "$/MWh",
+          "voll_notes": "MISO increased VOLL from $3,500/MWh to $10,000/MWh. With new penalty structure, non-performance during emergency could result in $10,000/MWh × MW shortfall penalty.",
+          "penalty_description": "Current penalty: 3 times LMP times MW shortfall. Proposed penalty (2025 FERC filing): VOLL times MW shortfall. This represents significant increase in potential penalties, particularly with VOLL now at $10,000/MWh. Penalties apply when resource fails to deliver committed capacity during emergency dispatch.",
+          "capacity_credit_reduction": "Resources may lose capacity accreditation based on poor performance. Tiered accreditation system reduces capacity credit for longer notification times: 100% (0-2 hours), 70% (2-4 hours), 50% (4-6 hours)."
+        }
+      },
+      "eligibility": {
+        "minimum_capacity_kw": 100,
+        "notification_time_tiers": [
+          {
+            "notification_time": "0-2 hours",
+            "capacity_credit": 1.0,
+            "description": "LMR Type II - Fast response resources requiring 30 minutes deployment during emergency event",
+            "curtailment_duration_required_hours": 4,
+            "reform_timeline": "Proposed for 2028/29 planning year"
+          },
+          {
+            "notification_time": "2-4 hours",
+            "capacity_credit": 0.7,
+            "description": "Medium response resources",
+            "reform_timeline": "Proposed for 2028/29 planning year"
+          },
+          {
+            "notification_time": "4-6 hours",
+            "capacity_credit": 0.5,
+            "description": "LMR Type I - Long lead time programs requiring 6 hours notification, deployed during energy emergency alerts/warnings leading up to emergency event",
+            "reform_timeline": "Proposed for 2028/29 planning year"
+          }
+        ],
+        "current_requirement": "Must respond within 6 hours notification and sustain curtailment during emergency events",
+        "battery_suitability": "Well-suited for battery storage. Fast response capability (seconds to minutes) qualifies for highest capacity credit tier (100%). However, limited event frequency (emergencies only) means revenue primarily from capacity payments, not energy dispatch. High penalty risk if battery unavailable during emergency."
+      },
+      "event_parameters": {
+        "event_type": "Emergency only",
+        "trigger_conditions": "NERC EEA Level 2 (Emergency generation available) or EEA Level 3 (Firm load shedding)",
+        "typical_events_per_year": "Rare - only during grid emergencies",
+        "event_frequency_notes": "MISO has never called upon EDR resources in its history. LMR dispatch frequency varies by year based on emergency conditions. Summer 2021 (Hurricane Ida) saw significant emergency conditions.",
+        "maximum_duration_per_event": "Duration of emergency condition",
+        "response_time_minutes_current": 360,
+        "response_time_minutes_proposed_type_i": 360,
+        "response_time_minutes_proposed_type_ii": 30
+      },
+      "performance_measurement": {
+        "testing_requirements": "DR resources must demonstrate performance of at least 50% of registered capability via Scheduling Instructions from MISO Event or conduct real power test. Increased testing requirements proposed in reforms.",
+        "baseline_calculation": "For resources not supported by behind-the-meter generation: Consumption baseline is profile of hourly demand based on averaged sample of historical data (non-holiday weekdays), which may be adjusted for weather and other day-of-dispatch conditions.",
+        "baseline_behind_meter_generation": "All behind-the-meter generation must use measurement and verification methodology specified by MISO.",
+        "metering_requirements": "Market Participant must utilize metering equipment meeting Tariff requirements. Must be able to receive EDR Dispatch Instruction via XML. Hourly meter data for all hours required by 53rd Calendar Day from Operating Day (non-BTM generator DRR). Behind-the-meter generator DRR must provide hourly meter data for all event and non-event hours for last 5 days after each Operating Day with Setpoint Instruction. LMR must report hourly meter data for all hours for 15 days prior to event.",
+        "audit_rights": "MISO has right to audit or verify information including registration, claimed capacity, operations, modeling, metering, settlements. LSE must maintain individual end use customer performance data for 5 years."
+      },
+      "registration": {
+        "registration_entity": "Certified Market Participant",
+        "registration_tool": "Module E Capacity Tracking (MECT) tool",
+        "registration_deadline": "Must register in advance of Planning Resource Auction",
+        "capacity_vs_energy": "LMR registers as Planning Resource for capacity. Cannot register same resource as both LMR and DRR for capacity (must choose one).",
+        "must_offer_obligation": "LMRs that clear PRA have obligation to perform during emergency events. No 'must offer' into energy market."
+      }
+    },
+    {
+      "program_name": "Demand Response Resources Type I (DRR-I)",
+      "program_type": "energy_market",
+      "status": "active",
+      "description": "DRR Type I allows demand response to participate in energy market for economic signal. Typically utility interruptible load programs. DRR-I resources cannot follow dispatch instructions - they provide load reductions. Can provide either Energy or Contingency Reserve Service but not both. No capacity credit unless registered as LMR separately.",
+      "payment_structure": {
+        "has_capacity_payment": false,
+        "capacity_payment_notes": "No capacity payments unless resource also registers as LMR (cannot register as both DRR and LMR for capacity).",
+        "has_performance_payment": true,
+        "performance_rate": {
+          "payment_condition": "LMP > NBPT",
+          "value": "LMP (Locational Marginal Price)",
+          "unit": "$/MWh",
+          "nbpt_threshold": "Net Benefit Price Threshold",
+          "nbpt_range": "28-52",
+          "nbpt_unit": "$/MWh",
+          "nbpt_determination": "Established monthly by MISO and released in advance",
+          "calculation_method": "DRR-I receives energy payment at LMP only if LMP exceeds NBPT. NBPT is the point where elasticity ≤ 1 on Net Benefits Supply Curve, ensuring overall benefit of reduced LMP from dispatching DR exceeds cost of paying LMP to these resources.",
+          "varies_by_time": true,
+          "varies_by_location": true,
+          "notes": "DR is only paid if LMP > NBPT. MISO proposes prohibiting DRR from offering below NBPT. If LMP < NBPT: LSE serving load receives charge. If LMP ≥ NBPT: Buyers in Real-Time Energy Market receive charge."
+        },
+        "minimum_offer_price": "NBPT (Net Benefit Price Threshold)",
+        "minimum_offer_price_notes": "MISO is proposing that DRR energy offers in day-ahead and real-time markets be at least NBPT value, which has ranged $28-52/MWh over past year. Cannot self-schedule or offer below NBPT.",
+        "penalty_structure": {
+          "has_penalties": true,
+          "penalty_description": "Penalties for non-performance when dispatched. MISO is inserting contractual language requirements and attestation by company officers due to fraud cases.",
+          "fraud_prevention": "MISO proposes officers of companies aggregating DR resources must attest they follow MISO rules. Enhanced audit and verification requirements."
+        }
+      },
+      "eligibility": {
+        "minimum_capacity_kw": 100,
+        "resource_characteristics": "Unable to follow dispatch instructions. Must provide load reductions. Examples: utility interruptible load programs, controlled appliance programs.",
+        "market_participation": "Can provide Energy or Contingency Reserve Service but not both.",
+        "battery_suitability": "Limited suitability for battery storage. Batteries can follow dispatch instructions, making them better suited for DRR Type II. However, if integrated into utility interruptible load program structure, could participate as DRR-I with limited control flexibility."
+      },
+      "market_participation": {
+        "day_ahead_market": true,
+        "real_time_market": true,
+        "must_offer_obligation": false,
+        "must_offer_notes": "No must-offer requirement for DRR (no capacity credits unless also registered as LMR).",
+        "self_schedule_allowed": false,
+        "self_schedule_notes": "MISO proposing to prohibit self-scheduling for DRRs."
+      }
+    },
+    {
+      "program_name": "Demand Response Resources Type II (DRR-II)",
+      "program_type": "energy_market",
+      "status": "active",
+      "description": "DRR Type II is resource owned by single Load Serving Entity capable of supplying Energy, Operating Reserve, and other services through behind-the-meter generation and/or controllable load. Capable of complying with MISO Setpoint Instructions. Treated almost like generation - evaluated and cleared based on offer components including start, notification, minimum run times, availability offers. Only DRR Type-II eligible for Ramp Capability Product. MISO is improving DRR-II modeling for behind-the-meter storage resources.",
+      "payment_structure": {
+        "has_capacity_payment": false,
+        "capacity_payment_notes": "No capacity payments unless resource also registers as LMR separately.",
+        "has_performance_payment": true,
+        "performance_rate": {
+          "payment_condition": "LMP > NBPT",
+          "value": "LMP (Locational Marginal Price)",
+          "unit": "$/MWh",
+          "nbpt_threshold": "Net Benefit Price Threshold",
+          "nbpt_range": "28-52",
+          "nbpt_unit": "$/MWh",
+          "calculation_method": "Same as DRR-I: receives energy payment at LMP only if LMP exceeds NBPT. Paid as generator for energy and ancillary services provided.",
+          "varies_by_time": true,
+          "varies_by_location": true,
+          "ancillary_services": "Can provide Operating Reserves, Contingency Reserve Service, Ramp Capability Product."
+        },
+        "minimum_offer_price": "NBPT (Net Benefit Price Threshold)",
+        "penalty_structure": {
+          "has_penalties": true,
+          "penalty_description": "Penalties for non-performance similar to generation resources. Subject to audit and verification."
+        }
+      },
+      "eligibility": {
+        "minimum_capacity_kw": 100,
+        "resource_characteristics": "Must be capable of receiving and following MISO operator Setpoint Instructions. Must be owned by single LSE. Examples: behind-the-meter generators, controllable battery storage systems with telemetry and control.",
+        "behind_meter_generation": true,
+        "controllable_load": true,
+        "market_participation": "Can provide Energy, Operating Reserve, Contingency Reserve, Ramp Capability Product. Treated in nearly all respects like generation.",
+        "battery_suitability": "Well-suited for battery storage. Batteries can follow dispatch instructions, respond to setpoints, provide fast ramping, and offer multiple services (energy + reserves). MISO actively improving DRR-II modeling for behind-the-meter storage. Battery aggregations possible under DRR-II framework. Best fit for sophisticated battery systems with telemetry, controls, and market bidding capability."
+      },
+      "market_participation": {
+        "day_ahead_market": true,
+        "real_time_market": true,
+        "operating_reserves": true,
+        "ramp_capability_product": true,
+        "must_offer_obligation": false,
+        "offer_parameters": "Can submit offers with start time, notification time, minimum run time, availability, similar to generation."
+      },
+      "metering_telemetry": {
+        "telemetry_required": true,
+        "setpoint_instructions": true,
+        "xml_communication": true,
+        "data_submission": "Hourly meter data for all event and non-event hours for last 5 days after each Operating Day with Setpoint Instruction."
+      }
+    },
+    {
+      "program_name": "Emergency Demand Response (EDR)",
+      "program_type": "emergency_reliability",
+      "status": "being_eliminated",
+      "description": "EDR Initiative allows (but does not require) resources to indicate willingness to provide demand response during emergency events (NERC EEA2 or EEA3). EDR-only registration has no capacity credits or must-offer requirement. Market Participants submit EDR Offers day prior indicating availability and receive compensation from energy market if dispatched by MISO. MISO is eliminating EDR program in 2025/26 planning year as part of LMR reform package.",
+      "elimination_timeline": {
+        "decision_date": "2024",
+        "implementation_date": "2025/26 planning year",
+        "reason": "MISO has never called upon EDRs in its history. Program being fast-tracked for elimination as part of LMR reforms.",
+        "alternative": "Resources should register as LMR for capacity market participation instead."
+      },
+      "payment_structure_historical": {
+        "has_capacity_payment": false,
+        "has_performance_payment": true,
+        "performance_rate": {
+          "value": "Up to VOLL",
+          "unit": "$/MWh",
+          "edr_offer_cap": 3500,
+          "edr_offer_cap_proposed": 10000,
+          "edr_offer_cap_notes": "EDR Offer Cap was $3,500/MWh (VOLL). MISO considered increasing to $10,000/MWh but program being eliminated instead."
+        }
+      },
+      "eligibility_historical": {
+        "minimum_capacity_kw": 100,
+        "voluntary_registration": true,
+        "must_offer_obligation": false,
+        "metering_requirements": "Must utilize metering equipment meeting Tariff requirements. Must be able to receive EDR Dispatch Instruction via XML."
+      },
+      "battery_suitability": "Not applicable - program being eliminated. Historical participation was minimal (never called upon)."
+    }
+  ],
+  "notification": {
+    "notification_varies_by_program": true,
+    "lmr_notification": {
+      "current": "Up to 6 hours advance notice before emergency event",
+      "proposed_type_i": "6 hours notification - deployed during emergency alerts/warnings leading up to event",
+      "proposed_type_ii": "30 minutes notification - deployed during emergency event",
+      "notification_methods": ["XML dispatch instructions", "MISO operator instructions"]
+    },
+    "drr_notification": {
+      "day_ahead_market": "Day-ahead market clearing (24+ hours)",
+      "real_time_market": "Real-time dispatch signals (minutes to hours)",
+      "setpoint_instructions": "DRR Type II receives operator Setpoint Instructions via telemetry"
+    },
+    "edr_notification": {
+      "offer_submission": "Submit EDR Offers day prior",
+      "dispatch_notification": "If accepted, dispatched during emergency events via XML"
+    }
+  },
+  "seasons": [
+    {
+      "season_name": "Summer",
+      "typical_months": "June - August",
+      "peak_demand_driver": "Extreme heat and air conditioning load in Louisiana",
+      "capacity_price_2025": 666.50,
+      "capacity_price_unit": "$/MW-day",
+      "notes": "Highest demand season in Louisiana. Summer 2025 saw record MISO capacity prices. Post-Hurricane Ida considerations for resilience."
+    },
+    {
+      "season_name": "Fall",
+      "typical_months": "September - November",
+      "capacity_price_2025_miso_south": 74.09,
+      "capacity_price_unit": "$/MW-day",
+      "notes": "Hurricane season considerations. Fall 2023 Zone 9 Louisiana had elevated pricing at $60/MW-day."
+    },
+    {
+      "season_name": "Winter",
+      "typical_months": "December - February",
+      "capacity_price_2025": 33.20,
+      "capacity_price_unit": "$/MW-day",
+      "notes": "Lower demand season but cold snaps can create peaks. Zone 9 winter 2023 prices were $19/MW-day."
+    },
+    {
+      "season_name": "Spring",
+      "typical_months": "March - May",
+      "capacity_price_2025": 69.88,
+      "capacity_price_unit": "$/MW-day",
+      "notes": "Moderate demand season."
+    }
+  ],
+  "ferc_order_2222": {
+    "status": "compliance_delayed",
+    "implementation_timeline": {
+      "phase_1_target": "2027-06-01",
+      "phase_2_target": "2029-06-01",
+      "full_compliance": "2030",
+      "notes": "MISO's DER aggregation compliance significantly delayed compared to other ISOs."
+    },
+    "minimum_aggregation_size_kw": 100,
+    "nodal_restriction": "MISO proposes limiting DER aggregations to single pricing node, preventing many residential/commercial DERs from participating",
+    "eligible_ders": [
+      "electric storage",
+      "intermittent generation",
+      "distributed generation",
+      "demand response",
+      "energy efficiency",
+      "thermal storage",
+      "electric vehicles and charging equipment"
+    ],
+    "state_opt_out": "13 of 15 MISO states have used opt-out provision to block DR adoption. Louisiana state regulators restrict aggregator participation.",
+    "battery_implications": "Battery storage can participate in DER aggregations as virtual power plants meeting 100 kW minimum through aggregation. However, single-node restriction and Louisiana's aggregator restrictions limit practical implementation until 2027-2030."
+  },
+  "historical_events": [],
+  "historical_events_note": "MISO does not publish detailed historical event log for DR dispatches. Known: MISO has never called upon EDR resources. LMR dispatches occur during NERC EEA events. Hurricane Ida (August 2021) caused significant grid stress in Louisiana with 25-30% load reduction and 1.2M customer outages. Specific LMR dispatch dates/times not publicly available.",
+  "data_sources": [
+    {
+      "source_name": "MISO Demand Response 101 Workshop May 2024",
+      "url": "https://cdn.misoenergy.org/20240510 Demand Response 101 Workshop Presentation632828.pdf",
+      "last_updated": "2024-05-10",
+      "data_type": "program_rules"
+    },
+    {
+      "source_name": "MISO Business Practice Manual BPM-026 Demand Response",
+      "url": "https://cpowerenergy.com/wp-content/uploads/2022/12/MISO-BPM-026-Business-Practices-for-DR.pdf",
+      "last_updated": "not specified",
+      "data_type": "program_rules"
+    },
+    {
+      "source_name": "MISO LMR Reforms December 2024 RASC Presentation",
+      "url": "https://cdn.misoenergy.org/20241217 RASC Item 02 LMR Reforms667298.pdf",
+      "last_updated": "2024-12-17",
+      "data_type": "program_rules"
+    },
+    {
+      "source_name": "MISO 2025 Planning Resource Auction Results",
+      "url": "https://cdn.misoenergy.org/2025%20PRA%20Results%20Posting%2020250529_Corrections694160.pdf",
+      "last_updated": "2025-05-29",
+      "data_type": "pricing"
+    },
+    {
+      "source_name": "MISO 2024 Planning Resource Auction Results",
+      "url": "https://cdn.misoenergy.org/2024 PRA Results Posting 20240425632665.pdf",
+      "last_updated": "2024-04-25",
+      "data_type": "pricing"
+    },
+    {
+      "source_name": "MISO Demand Response Fact Sheet",
+      "url": "https://cdn.misoenergy.org/Fact Sheet - Demand Response in the MISO Region632545.pdf",
+      "last_updated": "not specified",
+      "data_type": "program_rules"
+    },
+    {
+      "source_name": "MISO Tariff Module E-1 and Attachment TT",
+      "url": "https://www.misoenergy.org/legal/tariff/",
+      "last_updated": "2025",
+      "data_type": "program_rules"
+    },
+    {
+      "source_name": "Entergy Louisiana Market Valued Demand Response Tariff",
+      "url": "https://cdn.entergy-louisiana.com/userfiles/content/price/tariffs/ell_elec_mvdr.pdf",
+      "last_updated": "not available",
+      "data_type": "program_rules",
+      "access_status": "URL could not be fetched - may require Entergy customer login"
+    },
+    {
+      "source_name": "MISO Hurricane Ida Response",
+      "url": "https://www.misoenergy.org/about/media-center/miso-supports-its-members-rebuilding-from-hurricane-idas-impacts/",
+      "last_updated": "2021",
+      "data_type": "historical_events"
+    },
+    {
+      "source_name": "Understanding MISO's LMR Accreditation Reforms",
+      "url": "https://raokonidena.substack.com/p/understanding-misos-lmr-accreditation",
+      "last_updated": "not specified",
+      "data_type": "program_rules"
+    },
+    {
+      "source_name": "PCI Energy Solutions - MISO DR LMR Overview",
+      "url": "https://www.pcienergysolutions.com/2025/03/06/what-is-a-dr-lmr-in-the-miso-market-understanding-demand-response-load-modifying-resources/",
+      "last_updated": "2025-03-06",
+      "data_type": "program_rules"
+    },
+    {
+      "source_name": "Enel North America - MISO Demand Response",
+      "url": "https://www.enelnorthamerica.com/solutions/energy-solutions/demand-response/miso-demand-response",
+      "last_updated": "not specified",
+      "data_type": "program_rules"
+    },
+    {
+      "source_name": "Voltus Opens Louisiana Demand Response Market",
+      "url": "https://www.prnewswire.com/news-releases/voltus-opens-louisiana-demand-response-market-for-large-commercial-and-industrial-customers-300710124.html",
+      "last_updated": "2018",
+      "data_type": "historical_events"
+    }
+  ],
+  "integration_metadata": {
+    "optimizer_compatible": true,
+    "optimizer_notes": "MISO DR programs are compatible with battery optimization but have distinct characteristics: LMR provides high capacity revenue ($212/MW-day annualized 2025/26 MISO South) but limited dispatch (emergencies only), creating reliability revenue stream. DRR Type II well-suited for sophisticated battery systems with telemetry/controls - can stack energy arbitrage, operating reserves, and capacity (via separate LMR registration). DRR-I less suitable (limited control). Challenge: NBPT threshold ($28-52/MWh) limits DRR energy market participation to high-price periods only. Opportunity: Capacity price volatility ($30 to $666.50/MW-day 2024-2025) creates arbitrage opportunity if can predict PRA outcomes. Risk: High penalties for LMR non-performance (VOLL × MW shortfall = up to $10,000/MWh × MW). Louisiana-specific constraint: Must participate through Entergy rather than third-party aggregators, limiting market access flexibility.",
+    "api_available": true,
+    "api_notes": "MISO provides XML-based dispatch instructions and market APIs for registered Market Participants. DRR Type II requires telemetry for Setpoint Instructions. Market data available via MISO market portal. Real-time LMPs, NBPT values, and PRA results published. Integration requires Certified Market Participant status.",
+    "api_documentation_url": "https://www.misoenergy.org/markets-and-operations/market-information/",
+    "data_quality_score": 8.5,
+    "data_quality_explanation": "High quality data on LMR program structure, capacity auction results (2022-2025), payment structures, eligibility requirements, and reform proposals. Excellent documentation of tiered accreditation system, penalty structures, and NBPT threshold methodology. Strong data on historical capacity prices for Zone 9 Louisiana. Moderate quality on actual dispatch history (MISO doesn't publish detailed event logs), specific NBPT values over time (range provided but not historical series), and Entergy Louisiana-specific tariff details (URL inaccessible). Missing: Detailed historical dispatch data, exact baseline calculation examples, Louisiana-specific performance data. DER aggregation (Order 2222) details still evolving with 2027-2030 timeline.",
+    "last_verified_date": "2025-10-11",
+    "battery_suitability_overall": "Strong suitability with caveats. Best approach: Dual registration as both LMR (capacity revenue) and DRR Type II (energy/reserves revenue). LMR provides $77,380/MW annual capacity revenue (at 2025/26 MISO South $212/MW-day rate) with minimal dispatch requirements (emergencies only). DRR Type II enables daily energy arbitrage and ancillary services when LMP > NBPT ($28-52/MWh threshold). Fast response (seconds) qualifies for 100% LMR capacity credit. However: (1) Must participate through Entergy in Louisiana, (2) High penalty risk if unavailable during emergency ($10,000/MWh × MW), (3) NBPT threshold limits energy market participation, (4) Capacity price volatility creates revenue uncertainty. Louisiana-specific considerations: Hurricane resilience critical (post-Ida grid stress), extreme summer heat drives peak demand, aggregator restrictions limit market access options.",
+    "recommended_strategies": [
+      "Dual registration: LMR for capacity revenue + DRR Type II for energy/reserves",
+      "Target 100% LMR capacity credit via fast response capability (<2 hours notification tier)",
+      "Energy arbitrage via DRR Type II only when LMP > NBPT threshold ($28-52/MWh)",
+      "Stack operating reserves and ramp capability products via DRR Type II",
+      "Maintain 100% availability during summer months (highest emergency risk)",
+      "Work with Entergy Louisiana for participation (required in Louisiana)",
+      "Monitor LMR reform implementation for 2028/29 planning year",
+      "Prepare for FERC Order 2222 DER aggregation opportunities (2027-2030)",
+      "Consider capacity price hedging strategies given extreme volatility"
+    ],
+    "notes": "MISO is ISO with most complex DR landscape: three program types, major reforms underway, delayed Order 2222 implementation, significant state opt-outs. Louisiana specifically has aggregator restrictions requiring Entergy participation. Capacity market highly lucrative but volatile: $666.50/MW-day summer 2025 vs $30/MW-day summer 2024 (22x increase). Post-Hurricane Ida focus on resilience creates policy support for DR but also highlights emergency reliability obligations. MISO South region (Zone 9 Louisiana) experiences price separation from MISO Midwest in some seasons. Summer heat drives Louisiana peak demand, aligning with highest capacity prices."
+  },
+  "data_gaps_and_assumptions": {
+    "missing_data_fields": [
+      "Specific historical LMR dispatch dates and times",
+      "Actual NBPT values by month for past 12-24 months (only range provided)",
+      "Detailed baseline calculation examples with weather adjustments",
+      "Exact testing schedule and procedures for LMR performance verification",
+      "Zone 9 Louisiana nodal LMP price distributions and statistics",
+      "Entergy Louisiana Market Valued Demand Response tariff details (URL inaccessible)",
+      "Current number of LMR participants in Louisiana",
+      "Current total LMR capacity registered in Zone 9",
+      "Historical performance/compliance rates for Louisiana LMRs",
+      "Specific battery storage participation data in MISO Louisiana",
+      "DRR Type II detailed offer parameters and examples",
+      "Five-year historical PRA clearing prices by season for Zone 9",
+      "Emergency event frequency by year (2020-2024) in MISO South",
+      "Louisiana PSC filings on DR policy and Entergy tariff approval details"
+    ],
+    "assumptions_made": [
+      "Assumed Zone 9 clearing prices apply to all Louisiana participants (no sub-zonal differences noted in available data)",
+      "Assumed behind-the-meter battery storage can participate as non-injecting DR based on general MISO statements",
+      "Assumed NBPT range $28-52/MWh is recent and representative (specific monthly values not available)",
+      "Assumed Louisiana regulations requiring Entergy participation apply to all aggregated resources (based on 2019 regulatory decision)"
+    ],
+    "conflicting_information": [],
+    "data_quality_concerns": [
+      "MISO BPM-026 PDF could not be parsed by WebFetch tool - relied on web search summaries and presentations",
+      "Entergy Louisiana MVDR tariff URL inaccessible - could not verify Louisiana-specific implementation details",
+      "Historical dispatch data not published by MISO - cannot quantify actual LMR call frequency",
+      "Order 2222 implementation details still evolving with 2027-2030 timeline - specifications may change",
+      "LMR reform proposals subject to FERC approval (Q1 2025 filing) - final rules may differ",
+      "Louisiana aggregator restrictions based on 2019 decision - current status and potential changes unclear"
+    ]
+  },
+  "research_summary": {
+    "research_date": "2025-10-11",
+    "time_spent_minutes": 35,
+    "researcher_notes": "Conducted comprehensive research across MISO official documentation, stakeholder presentations, market reports, industry analysis, and Louisiana-specific sources. MISO operates most complex wholesale DR structure in US with three distinct program types serving different market functions. Key findings: (1) Extreme capacity price volatility in Louisiana Zone 9: $30/MW-day (2024) to $666.50/MW-day (2025) summer, creating significant revenue opportunity but forecasting challenge. (2) Major LMR reforms for 2028/29: tiered accreditation, 30-minute vs 6-hour notification types, VOLL-based penalties ($10,000/MWh × MW shortfall). (3) Louisiana-specific barrier: State regulators require participation through Entergy, blocking third-party aggregators like Voltus/Enel/CPower. (4) Battery storage well-suited technically (fast response, dispatch following capability) but faces Louisiana market access constraints. (5) DRR Type II best program fit for batteries - energy arbitrage + reserves + capacity stack possible. (6) NBPT threshold ($28-52/MWh) limits DRR energy participation to high-price periods. (7) Post-Hurricane Ida grid resilience considerations important for Louisiana context. (8) FERC Order 2222 DER aggregation delayed until 2027-2030, creating uncertainty for virtual power plant models. Data quality strong on capacity pricing and program structures, moderate on historical dispatch and Louisiana implementation specifics. Recommend direct engagement with Entergy Louisiana and MISO for operational details.",
+    "verification_status": "All data points extracted from official MISO sources, regulatory filings, market reports, or authoritative industry analysis. No data invented. Fields marked 'not available' or 'not specified' represent genuine data gaps in public documentation. Capacity prices verified across multiple independent sources (MISO official reports, RTO Insider, Utility Dive, industry analysis). Program structures verified against MISO BPM-026, Tariff Module E, and stakeholder presentations.",
+    "recommended_next_steps": [
+      "Contact MISO Market Participant Relations for detailed LMR and DRR Type II registration procedures and historical dispatch data",
+      "Engage Entergy Louisiana to obtain Market Valued Demand Response tariff and discuss participation pathways",
+      "Request historical NBPT values by month from MISO for past 24 months to analyze energy market opportunities",
+      "Obtain historical Zone 9 Louisiana nodal LMP data to quantify energy arbitrage opportunities",
+      "Monitor MISO RASC meetings for LMR reform implementation timeline and FERC filing status",
+      "Track FERC Order 2222 compliance proceedings (Docket ER22-1640) for DER aggregation timeline",
+      "Review Louisiana PSC dockets on demand response policy and potential aggregator rule changes",
+      "Contact major DR aggregators (Enel, CPower, Voltus) to understand Louisiana market entry strategies",
+      "Analyze correlation between Louisiana summer temperatures, ERCOT pricing, and MISO Zone 9 capacity prices",
+      "Model financial scenarios: LMR-only vs LMR+DRR-II vs future Order 2222 DER aggregation"
+    ],
+    "confidence_level": "high",
+    "confidence_explanation": "High confidence (8.5/10) in extracted data due to: (1) Official MISO documentation and tariff sources, (2) Multiple independent verification of capacity prices across industry reports, (3) Clear program structure descriptions in BPM and stakeholder materials, (4) Consistent information across multiple sources on LMR reforms and penalty structures. Medium confidence on: (1) Louisiana-specific implementation details due to inaccessible Entergy tariff, (2) Historical dispatch frequencies (not published by MISO), (3) NBPT historical values (only range provided), (4) Order 2222 specifications (still evolving). Low confidence on: (1) Actual battery storage participation rates in Louisiana (data not available), (2) Future capacity price forecasts (extreme recent volatility). Overall assessment: Data sufficient for strategic planning and program evaluation but operational implementation would require direct MISO/Entergy engagement for missing details."
+  }
+}

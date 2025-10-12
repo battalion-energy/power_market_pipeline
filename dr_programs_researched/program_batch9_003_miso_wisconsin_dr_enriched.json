@@ -1,0 +1,198 @@
+{
+  "program_id": "MISO-WISCONSIN-DEMAND-RESPONSE",
+  "program_name": "MISO Demand Response Programs (Wisconsin - LRZ 2)",
+  "utility": "MISO",
+  "state": "Wisconsin",
+  "iso_rto_territory": "MISO",
+  "local_resource_zone": "LRZ 2",
+  "program_type": "iso_rto_wholesale",
+  "status": "active",
+  "programs_offered": [
+    "LMR Type I (Load Modifying Resource)",
+    "LMR Type II (Load Modifying Resource)",
+    "DRR Type I (Demand Response Resource)",
+    "DRR Type II (Demand Response Resource)",
+    "EDR (Emergency Demand Response) - being eliminated 2026/27"
+  ],
+  "payment_structure": {
+    "capacity_payments": {
+      "planning_year_2024_2025": {
+        "summer": "30.00 $/MW-day",
+        "fall": "15.00 $/MW-day",
+        "winter": "0.75 $/MW-day",
+        "spring": "34.10 $/MW-day",
+        "note": "Wisconsin is in LRZ 2, not Zone 5 (Missouri)"
+      },
+      "planning_year_2025_2026": {
+        "summer": "666.50 $/MW-day",
+        "fall": "91.60 $/MW-day (North region)",
+        "winter": "33.20 $/MW-day",
+        "spring": "69.88 $/MW-day",
+        "note": "2100% increase driven by RBDC implementation and 3.3 GW capacity retirements"
+      }
+    },
+    "energy_payments": {
+      "drr_type_i_ii": {
+        "payment_method": "Energy market participation for economic signal",
+        "must_offer_requirement": "Must offer into Day-Ahead Energy Market if cleared PRA",
+        "net_benefit_price_test": "28-52 $/MWh range over past year"
+      },
+      "lmr": {
+        "payment_method": "Capacity payments only, dispatched during emergencies",
+        "deployment_obligation": "Minimum 5 times summer/winter, 3 times spring/fall"
+      },
+      "edr": {
+        "payment_method": "No capacity credits, no must-offer requirement",
+        "status": "Never called upon in MISO history, being eliminated 2026/27"
+      }
+    },
+    "capacity_credit_factors": {
+      "notification_time_less_than_2_hours": "100% capacity credit (4+ hour duration)",
+      "notification_time_2_to_4_hours": "70% capacity credit",
+      "notification_time_4_to_6_hours": "50% capacity credit"
+    }
+  },
+  "event_parameters": {
+    "lmr_type_i": {
+      "notification_time": "6 hours",
+      "deployment_trigger": "Energy emergency alerts and warnings leading to emergency events",
+      "minimum_duration": "not available",
+      "annual_event_limit": "Minimum 5 events summer/winter, 3 events spring/fall"
+    },
+    "lmr_type_ii": {
+      "notification_time": "30 minutes",
+      "deployment_trigger": "Emergency events",
+      "minimum_duration": "not available",
+      "annual_event_limit": "Minimum 5 events summer/winter, 3 events spring/fall"
+    },
+    "drr_type_i_ii": {
+      "notification_time": "Economic dispatch based on market signals",
+      "deployment_trigger": "Day-Ahead Market clearing",
+      "minimum_duration": "not available",
+      "annual_event_limit": "Market-based, no specific limit"
+    },
+    "edr": {
+      "notification_time": "Emergency dispatch",
+      "deployment_trigger": "Emergency conditions (never activated in MISO history)",
+      "status": "Program elimination effective 2026/27 Planning Year"
+    }
+  },
+  "eligibility": {
+    "minimum_capacity": "100 kW",
+    "resource_types": [
+      "Load reduction (traditional demand response)",
+      "Behind-the-meter generation (non-injecting)",
+      "Behind-the-meter battery storage (non-injecting)",
+      "Load aggregations"
+    ],
+    "registration_requirements": {
+      "lmr": "Must respond within 6 hours or less notification time",
+      "drr": "Must participate in Day-Ahead Energy Market if cleared PRA",
+      "metering": "Interval meter data required for baseline calculation"
+    },
+    "dual_registration_changes": {
+      "current_status": "LMR and EDR dual registration allowed through 2025/26",
+      "future_status": "Dual registration eliminated starting 2026/27 Planning Year",
+      "reason": "EDR resources never called upon, nearly 50% of LMRs cross-registered"
+    }
+  },
+  "baseline_methodology": "Baseline Type-I is a performance evaluation methodology based on a Demand Resource's historical interval meter data which may also include other variables such as weather and calendar data",
+  "battery_suitability": {
+    "overall_rating": 8,
+    "detailed_assessment": {
+      "capacity_market_opportunity": {
+        "rating": 9,
+        "notes": "Exceptional capacity prices for 2025/26 (666.50 $/MW-day summer) make this highly attractive. 2100% increase from prior year driven by tight reserves."
+      },
+      "energy_market_opportunity": {
+        "rating": 7,
+        "notes": "DRR programs allow energy market participation with must-offer requirement. NBPT range of 28-52 $/MWh provides economic dispatch opportunities."
+      },
+      "technical_compatibility": {
+        "rating": 8,
+        "notes": "Behind-the-meter battery storage explicitly allowed as non-injecting resource. Can participate as DRR or LMR depending on business model. 100 kW minimum is very accessible."
+      },
+      "operational_flexibility": {
+        "rating": 7,
+        "notes": "LMR Type II (30-min notification) highly compatible with battery response times. LMR Type I (6-hour) allows planning ahead. DRR provides market-driven flexibility."
+      },
+      "program_stability": {
+        "rating": 6,
+        "notes": "Significant reforms underway: EDR elimination 2026/27, LMR accreditation changes by 2028/29, enforcement actions against non-performing resources. However, core programs (LMR, DRR) remain strong."
+      },
+      "deployment_requirements": {
+        "rating": 7,
+        "notes": "5 deployments summer/winter, 3 deployments spring/fall for LMR is manageable for batteries. DRR has market-based dispatch with no specific event limits."
+      }
+    },
+    "key_advantages": [
+      "Record-high capacity prices (666.50 $/MW-day summer 2025/26)",
+      "Multiple participation pathways (LMR Type I/II, DRR Type I/II)",
+      "Behind-the-meter battery storage explicitly eligible",
+      "Low minimum capacity requirement (100 kW)",
+      "30-minute notification option (LMR Type II) matches battery capabilities",
+      "Energy market participation available through DRR",
+      "100% capacity credit for <2 hour response time"
+    ],
+    "key_challenges": [
+      "Program reforms and rule changes ongoing through 2028",
+      "Must-offer requirement for DRR resources clearing PRA",
+      "Enforcement actions indicate MISO scrutinizing performance",
+      "EDR program being eliminated (but EDR had no value)",
+      "Net benefit price test may limit energy market revenues",
+      "Baseline methodology may be complex for BTM batteries"
+    ],
+    "recommended_participation_strategy": "LMR Type II for capacity market access (30-min response, 100% credit if <2hr notification) combined with DRR Type I for energy market participation. This maximizes revenue from exceptional capacity prices while maintaining operational flexibility for energy arbitrage."
+  },
+  "data_sources": [
+    {
+      "source": "MISO Planning Resource Auction Results 2024/25",
+      "url": "https://cdn.misoenergy.org/2024 PRA Results Posting 20240425632665.pdf",
+      "date_accessed": "2025-10-12"
+    },
+    {
+      "source": "MISO Planning Resource Auction Results 2025/26",
+      "url": "https://cdn.misoenergy.org/2025%20PRA%20Results%20Posting%2020250529_Corrections694160.pdf",
+      "date_accessed": "2025-10-12"
+    },
+    {
+      "source": "MISO Business Practices Manual BPM-026-r9 Demand Response",
+      "url": "https://cpowerenergy.com/wp-content/uploads/2022/12/MISO-BPM-026-Business-Practices-for-DR.pdf",
+      "date_accessed": "2025-10-12"
+    },
+    {
+      "source": "MISO LMR Reforms RASC-2019-9",
+      "url": "https://cdn.misoenergy.org/20241217 RASC Item 02 LMR Reforms667298.pdf",
+      "date_accessed": "2025-10-12"
+    },
+    {
+      "source": "MISO Demand Response 101 Workshop",
+      "url": "https://cdn.misoenergy.org/20240510 Demand Response 101 Workshop Presentation632828.pdf",
+      "date_accessed": "2025-10-12"
+    },
+    {
+      "source": "FERC Filing - Elimination of Dual LMR/EDR Registration",
+      "url": "https://cdn.misoenergy.org/2025-03-21%20Docket%20No.%20ER25-1729-000686867.pdf",
+      "date_accessed": "2025-10-12"
+    },
+    {
+      "source": "RTO Insider - MISO 2025/26 Capacity Auction",
+      "url": "https://www.rtoinsider.com/104023-miso-summer-capacity-prices-2025-26-auction/",
+      "date_accessed": "2025-10-12"
+    },
+    {
+      "source": "MISO Electric Storage Resources FAQ",
+      "url": "https://help.misoenergy.org/knowledgebase/article/KA-01334/en-us",
+      "date_accessed": "2025-10-12"
+    },
+    {
+      "source": "MISO Local Resource Zones Help Center",
+      "url": "https://help.misoenergy.org/knowledgebase/article/KA-01073/en-us",
+      "date_accessed": "2025-10-12"
+    }
+  ],
+  "research_notes": "IMPORTANT CLARIFICATION: Wisconsin is in Local Resource Zone 2 (LRZ 2), NOT Zone 5. Zone 5 is Missouri. LRZ 2 comprises most of Wisconsin and a small portion of Michigan. Wisconsin experienced the same capacity price increases as other MISO zones in 2025/26: summer prices jumped from 30 to 666.50 $/MW-day (2100% increase) due to MISO's new Reliability-Based Demand Curve (RBDC) and 3.3 GW of capacity retirements. MISO is undergoing significant DR program reforms: EDR elimination by 2026/27 (never used), LMR accreditation changes by 2028/29 (two-tier notification system), and enforcement actions against non-performing resources. Battery storage can participate as behind-the-meter non-injecting resources through LMR (capacity-focused) or DRR (energy market participation). The combination of record-high capacity prices, multiple participation pathways, and battery-compatible technical requirements makes this an exceptionally attractive program for BESS, despite ongoing regulatory changes. Key strategic insight: LMR Type II (30-min notification) aligns perfectly with battery response capabilities while earning 100% capacity credit if response time is under 2 hours. DRR provides additional energy market revenue opportunities with must-offer obligations.",
+  "research_date": "2025-10-12",
+  "research_quality_score": 9,
+  "research_quality_notes": "High-quality research with verified data from official MISO auction results, business practices manuals, FERC filings, and stakeholder presentations. Capacity prices confirmed from primary sources (MISO PRA results). Program requirements documented from BPM-026 manual. Regulatory changes tracked through RASC proceedings and FERC filings. Only minor gaps: specific event duration requirements not documented, and some DRR technical details require direct access to password-protected MISO portals. Zone clarification critical: Wisconsin is LRZ 2, not Zone 5."
+}

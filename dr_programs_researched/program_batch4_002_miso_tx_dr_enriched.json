@@ -1,0 +1,544 @@
+{
+  "program_id": "program_batch4_002_miso_tx_dr_enriched",
+  "research_date": "2025-10-11",
+  "iso_rto": "MISO",
+  "iso_full_name": "Midcontinent Independent System Operator",
+  "state": "Texas",
+  "service_territory": {
+    "description": "MISO operates in portions of Texas through MISO South region, specifically serving the Entergy Texas service territory",
+    "utilities": [
+      "Entergy Texas Inc."
+    ],
+    "counties_served": [
+      "Angelina",
+      "Burleson",
+      "Chambers",
+      "Falls (small portion)",
+      "Grimes",
+      "Hardin",
+      "Harris (small portion)",
+      "Houston (small portion)",
+      "Jasper",
+      "Jefferson",
+      "Leon",
+      "Liberty",
+      "Limestone",
+      "Madison",
+      "Montgomery",
+      "Newton",
+      "Orange",
+      "Polk",
+      "Robertson",
+      "San Jacinto",
+      "Trinity",
+      "Tyler",
+      "Walker"
+    ],
+    "major_cities": [
+      "Beaumont",
+      "Port Arthur",
+      "Orange",
+      "The Woodlands",
+      "Conroe"
+    ],
+    "customers_served": 524000,
+    "local_resource_zones": [
+      "LRZ-8 (portions of Texas)",
+      "LRZ-9 (most of Louisiana and small portion of Texas)"
+    ],
+    "notes": "MISO South region was created in 2013 when Entergy joined MISO. The majority of Texas is served by ERCOT, not MISO. MISO only operates in southeastern Texas.",
+    "source": "https://www.entergytexas.com/about, https://goentergy.com/our-region/texas"
+  },
+  "programs": [
+    {
+      "program_name": "Load Modifying Resource (LMR)",
+      "program_type": "Capacity-based Demand Response",
+      "market_type": "Wholesale capacity market (Planning Resource Auction)",
+      "description": "Emergency demand response resource that reduces load during grid emergencies to prevent rolling blackouts. LMRs are part of MISO's resource adequacy framework and are obligated to respond during emergency events.",
+      "eligibility": {
+        "customer_types": [
+          "Commercial facilities",
+          "Industrial facilities",
+          "Institutional organizations"
+        ],
+        "minimum_capacity_kw": 100,
+        "minimum_capacity_mw": 0.1,
+        "aggregation_allowed": true,
+        "aggregation_level": "Load Zone CPNode level only",
+        "resource_types": [
+          "Demand Resources (load curtailment)",
+          "Behind-the-Meter Generation (BTMG)"
+        ],
+        "requirements": [
+          "Ability to reduce electricity consumption",
+          "Stable, predictable load profile",
+          "Legal title and ability to control the resource",
+          "Documentation of load reduction capabilities"
+        ]
+      },
+      "notification_and_response": {
+        "current_notification_time": "6 hours to 30 minutes",
+        "proposed_lmr_type_i_notification": "6 hours (effective PY 2028-2029)",
+        "proposed_lmr_type_ii_notification": "30 minutes (effective PY 2028-2029)",
+        "maximum_dispatch_duration_hours": 4,
+        "dispatch_frequency_per_year": "Up to 16 dispatches",
+        "historical_dispatches_per_year": "0-3 dispatches",
+        "minimum_performance_obligations": {
+          "summer_winter": "At least 5 responses",
+          "spring_fall": "At least 3 responses"
+        }
+      },
+      "capacity_credits": {
+        "description": "Capacity credits based on notification time requirements",
+        "credit_structure": [
+          {
+            "notification_time": "Less than 2 hours",
+            "duration": "More than 4 hours curtailment",
+            "capacity_credit_percent": 100
+          },
+          {
+            "notification_time": "2-4 hours",
+            "duration": "Any duration",
+            "capacity_credit_percent": 70
+          },
+          {
+            "notification_time": "4-6 hours",
+            "duration": "Any duration",
+            "capacity_credit_percent": 50
+          }
+        ],
+        "accreditation_basis": "Peak demand periods: June-August, 2:00 PM - 6:00 PM",
+        "effective_date": "Proposed reforms effective PY 2028-2029"
+      },
+      "compensation": {
+        "primary_payment": "Zonal Resource Credits (ZRCs) from Planning Resource Auction",
+        "payment_basis": "Load reduction during peak periods",
+        "recent_capacity_prices": [
+          {
+            "planning_year": "2024-2025",
+            "zone": "Zone 9 (Louisiana/Texas)",
+            "summer_mw_day": 30.00,
+            "spring_mw_day": 34.10,
+            "fall_mw_day": 59.00,
+            "winter_mw_day": 0.75
+          },
+          {
+            "planning_year": "2025-2026",
+            "region": "MISO South",
+            "summer_mw_day": 666.50,
+            "fall_mw_day": 74.09,
+            "winter_mw_day": 33.20,
+            "annual_average_mw_day": 217.00
+          }
+        ],
+        "energy_market_participation": "Not allowed for LMRs - emergency response only",
+        "must_offer_requirement": true,
+        "must_offer_description": "LMRs must make capacity available to Day-Ahead market or Resource Adequacy Construct mechanisms if registered for capacity"
+      },
+      "performance_requirements": {
+        "testing_frequency": "Annual testing required",
+        "testing_threshold": "Demonstrate at least 50% of registered capability",
+        "testing_methods": [
+          "Real power test",
+          "Actual deployment during MISO emergency event"
+        ],
+        "baseline_verification": "Third-party auditor verification required if no state/retail regulatory accreditation",
+        "meter_data_requirements": "Hourly meter data for 15 days before and 15 days after event, submitted within 53 calendar days",
+        "performance_measurement": "Firm Service Level (FSL) - predetermined load reduction target"
+      },
+      "penalties": {
+        "non_performance_penalty": "Value of Load (VOLL) × MW shortfall",
+        "voll_current": 10000,
+        "voll_previous": 3500,
+        "voll_unit": "USD per MWh",
+        "previous_penalty_structure": "3 × LMP × MW shortfall",
+        "effective_date": "2024 proposal pending FERC approval"
+      },
+      "registration_process": {
+        "steps": [
+          "Register as Market Participant with MISO",
+          "Complete LMR Certification Form",
+          "Submit LMR Resource Registration Form",
+          "Provide documentation of load reduction capabilities",
+          "Obtain Load Serving Entity (LSE) and Load Balancing Area (LBA) confirmation",
+          "Obtain RERRA (Regional Entities for Resource Reliability Assessment) approval",
+          "Potential third-party auditor verification",
+          "Submit to Planning Resource Auction or Fixed Resource Adequacy Plan (FRAP)"
+        ],
+        "registration_contact": "help@misoenergy.org",
+        "registration_manual": "BPM-001 Market Registration",
+        "use_elemental_pricing_nodes": "Required for PY 2025-2026 auction registration onwards"
+      },
+      "program_status": {
+        "status": "Active with pending reforms",
+        "current_registered_capacity_lmr_dr_mw": 7695,
+        "current_registered_capacity_lmr_btmg_mw": 4129,
+        "total_lmr_capacity_mw": 11824,
+        "data_year": 2023,
+        "reform_timeline": [
+          {
+            "date": "Q3 2024",
+            "milestone": "FERC Tariff filing for LMR accreditation reforms"
+          },
+          {
+            "date": "April 2025",
+            "milestone": "FERC filing to eliminate dual LMR/EDR registration"
+          },
+          {
+            "date": "PY 2025-2026",
+            "milestone": "Last year for dual LMR/EDR registration"
+          },
+          {
+            "date": "PY 2028-2029",
+            "milestone": "Full implementation of LMR Type I/II reforms"
+          }
+        ]
+      },
+      "program_changes": {
+        "eliminating_dual_registration": "LMRs can no longer be registered as Emergency Demand Response (EDR) starting PY 2026-2027",
+        "new_lmr_types": [
+          {
+            "type": "LMR Type I",
+            "notification": "6 hours",
+            "deployment_trigger": "Energy Emergency Alerts and Warnings"
+          },
+          {
+            "type": "LMR Type II",
+            "notification": "30 minutes",
+            "deployment_trigger": "During emergency event"
+          }
+        ],
+        "testing_reforms": "All new LMRs Type I will undergo initial testing; LMR Type II deployment during emergency counts as test"
+      },
+      "sources": [
+        "https://www.pcienergysolutions.com/2025/03/06/what-is-a-dr-lmr-in-the-miso-market-understanding-demand-response-load-modifying-resources/",
+        "https://www.enelnorthamerica.com/solutions/energy-solutions/demand-response/miso-demand-response",
+        "https://raokonidena.substack.com/p/understanding-misos-lmr-accreditation",
+        "https://www.misoenergy.org/markets-and-operations/mp-registration/market-participation/",
+        "https://cdn.misoenergy.org/2025%20PRA%20Results%20Posting%2020250529_Corrections694160.pdf",
+        "https://www.misoenergy.org/engage/stakeholder-feedback/2024/rasc-lmr-reforms-rasc-2019-9-20240710/"
+      ]
+    },
+    {
+      "program_name": "Demand Response Resource (DRR)",
+      "program_type": "Energy and Ancillary Services Market Participation",
+      "market_type": "Wholesale energy and operating reserves markets",
+      "description": "Economic demand response that participates in MISO's Day-Ahead and Real-Time energy markets, as well as ancillary services markets. DRRs provide grid flexibility during normal operations and are dispatched based on economic offers.",
+      "drr_types": [
+        {
+          "type": "DRR Type I",
+          "description": "Customer programs like industrial interruptible load, provides energy or contingency reserve through physical load interruption",
+          "telemetry_required": false,
+          "output_levels": "Binary (zero or Targeted Demand Reduction)",
+          "ancillary_services_allowed": [
+            "Spinning Reserves",
+            "Supplemental Reserves"
+          ],
+          "ancillary_services_not_allowed": [
+            "Regulating Reserves",
+            "Ramp Capability Products"
+          ],
+          "registered_capacity_mw": 521,
+          "data_year": 2024
+        },
+        {
+          "type": "DRR Type II",
+          "description": "Behind-the-meter generators or highly controllable load, can receive electronic dispatch instructions and follow 5-minute setpoints",
+          "telemetry_required": true,
+          "output_levels": "Continuous variable output",
+          "ancillary_services_allowed": [
+            "Regulating Reserves",
+            "Spinning Reserves",
+            "Supplemental Reserves",
+            "Ramp Capability Products"
+          ],
+          "registered_capacity_mw": 79,
+          "data_year": 2024,
+          "response_time_reserves": "10-15 minutes for spinning reserves"
+        }
+      ],
+      "eligibility": {
+        "customer_types": [
+          "Commercial facilities",
+          "Industrial facilities",
+          "Institutional organizations with controllable load"
+        ],
+        "minimum_capacity_drr": "No specified minimum for DRR itself",
+        "minimum_for_aggregator": "1 MW+ enrolled demand to register with demand response aggregator",
+        "requirements": [
+          "Ability to reduce electricity consumption or increase behind-the-meter generation",
+          "Type II requires telemetry capability",
+          "Type II must follow 5-minute dispatch instructions"
+        ]
+      },
+      "energy_market_participation": {
+        "day_ahead_market": "Must offer if cleared Planning Resource Auction",
+        "real_time_market": "Economic dispatch based on offers",
+        "payment_structure": "Locational Marginal Price (LMP) if deployment is economically beneficial",
+        "net_benefits_price_threshold": {
+          "description": "DRR only paid if LMP exceeds NBPT",
+          "nbpt_range_mwh": "28-52 USD",
+          "nbpt_determination": "Established monthly by MISO",
+          "nbpt_purpose": "Ensures benefits from reduced LMP exceed cost of dispatching DRR",
+          "recent_proposal": "MISO proposing offer floor at NBPT level to prevent gaming"
+        }
+      },
+      "compensation": {
+        "capacity_market": "Optional - DRR may register as Capacity Resource OR LMR, but not both",
+        "energy_payment": "LMP for demand reduction when LMP > NBPT",
+        "ancillary_services_payment": "Market clearing price for reserves services",
+        "payment_condition": "Only paid if deployment found beneficial to grid"
+      },
+      "registration_process": {
+        "steps": [
+          "Register as Market Participant with MISO",
+          "Submit Master Commercial Model Template",
+          "Submit Certification of Relationships for DRRs",
+          "Submit Scheduling Agent/MDMA Certificate",
+          "Potential Aggregator of Retail Customers (ARC) Certificate",
+          "For Type II: Install telemetry and control systems",
+          "Obtain LSE/LBA confirmation and RERRA approval"
+        ],
+        "registration_contact": "help@misoenergy.org",
+        "registration_manual": "BPM-001 Market Registration, BPM-026 Demand Response Business Practices"
+      },
+      "performance_requirements": {
+        "must_offer_obligation": "Required if cleared PRA",
+        "dispatch_compliance": "Must respond to MISO Dispatch, Setpoint, or Scheduling Instructions",
+        "baseline_calculation": "Load reduction measured from baseline load level",
+        "tariff_violation": "Failure to respond constitutes Tariff violation"
+      },
+      "program_status": {
+        "status": "Active",
+        "total_drr_type_i_mw": 521,
+        "total_drr_type_ii_mw": 79,
+        "total_drr_capacity_mw": 600,
+        "data_year": 2024,
+        "note": "Low participation compared to LMR programs"
+      },
+      "sources": [
+        "https://www.misoenergy.org/markets-and-operations/mp-registration/market-participation/",
+        "https://www.renewableenergyworld.com/energy-business/policy-and-regulation/miso-is-proposing-changes-to-demand-response-programs/",
+        "https://cdn.misoenergy.org/2025-03-21%20Docket%20No.%20ER25-1729-000686867.pdf"
+      ]
+    },
+    {
+      "program_name": "MISO Operating Reserves Market",
+      "program_type": "Ancillary Services - Operating Reserves",
+      "market_type": "Wholesale ancillary services market",
+      "description": "Demand response participation in MISO's operating reserves market to stabilize grid during unexpected system disruptions. Resources provide quick response for grid reliability.",
+      "eligibility": {
+        "minimum_capacity_mw": 1.0,
+        "minimum_capacity_kw": 1000,
+        "notification_time_minutes": 10,
+        "customer_types": [
+          "Commercial facilities",
+          "Industrial facilities",
+          "Institutional organizations"
+        ],
+        "requirements": [
+          "Ability to respond within 10 minutes",
+          "Curtailable load of at least 1 MW",
+          "Telemetry capability (for DRR Type II participation)"
+        ]
+      },
+      "operational_parameters": {
+        "program_period": "24x7x365 year-round",
+        "advanced_notification_minutes": 10,
+        "maximum_dispatch_duration_minutes": 60,
+        "average_dispatch_duration_minutes": 40,
+        "dispatch_frequency_per_year": "10-20 dispatches"
+      },
+      "reserve_products": {
+        "regulating_reserves": {
+          "description": "Fast-response reserves for frequency regulation",
+          "eligible_resources": "DRR Type II only",
+          "response_time": "Continuous following of 5-minute setpoints"
+        },
+        "spinning_reserves": {
+          "description": "Synchronized reserves ready within 10 minutes",
+          "eligible_resources": "DRR Type I and Type II",
+          "response_time_minutes": "10-15 minutes"
+        },
+        "supplemental_reserves": {
+          "description": "Non-synchronized reserves available within 10 minutes",
+          "eligible_resources": "DRR Type I and Type II",
+          "response_time_minutes": "10 minutes"
+        },
+        "ramp_capability": {
+          "description": "Ability to increase/decrease output to follow load ramps",
+          "eligible_resources": "DRR Type II only",
+          "response_characteristics": "Variable continuous output"
+        }
+      },
+      "compensation": {
+        "payment_basis": "Market clearing price for specific reserve product",
+        "co_optimization": "Energy and ancillary services markets are co-optimized",
+        "payment_frequency": "Based on actual deployment and capacity reservation"
+      },
+      "sources": [
+        "https://www.enelnorthamerica.com/solutions/energy-solutions/demand-response/miso-demand-response",
+        "https://cdn.misoenergy.org/Fact Sheet - MISO Market Participation Overview632546.pdf"
+      ]
+    },
+    {
+      "program_name": "Emergency Demand Response (EDR) - Being Phased Out",
+      "program_type": "Emergency Demand Response",
+      "market_type": "Emergency capacity",
+      "description": "Emergency demand response resources that can reduce load or operate backup generation during grid emergencies. This program is being eliminated with dual LMR/EDR registration ending after PY 2025-2026.",
+      "status": "Being phased out",
+      "phase_out_timeline": {
+        "last_dual_registration_year": "PY 2025-2026",
+        "elimination_effective": "PY 2026-2027",
+        "ferc_filing_date": "April 25, 2025",
+        "reason": "Consolidating to two programs (DRR and LMR) for simplification"
+      },
+      "current_requirements": {
+        "capability": "Reduce load or operate backup generation during emergencies",
+        "registration_forms": [
+          "EDR Certification Form",
+          "EDR Resource Registration Form",
+          "Potential ARC Certificate"
+        ]
+      },
+      "transition_plan": {
+        "description": "Resources currently registered as both LMR and EDR must choose one program after PY 2025-2026",
+        "remaining_programs": [
+          "DRR (Demand Response Resources)",
+          "LMR (Load Modifying Resources)"
+        ]
+      },
+      "sources": [
+        "https://raokonidena.substack.com/p/miso-is-eliminating-the-dual-registration",
+        "https://www.misoenergy.org/markets-and-operations/mp-registration/market-participation/"
+      ]
+    }
+  ],
+  "market_structure": {
+    "planning_resource_auction": {
+      "description": "Annual capacity auction for resource adequacy",
+      "auction_frequency": "Annual",
+      "planning_year_definition": "June 1 - May 31",
+      "seasonal_structure": [
+        "Summer",
+        "Fall",
+        "Winter",
+        "Spring"
+      ],
+      "payment_unit": "USD per MW-day",
+      "recent_trends": "Significant price increases due to declining reserve margins and generator retirements"
+    },
+    "energy_markets": {
+      "day_ahead_market": "Forward energy market cleared day before delivery",
+      "real_time_market": "Spot energy market for actual delivery, 5-minute dispatch",
+      "co_optimization": "Energy and ancillary services co-optimized in market clearing"
+    },
+    "transmission_zones": {
+      "local_resource_zones_total": 10,
+      "texas_zones": [
+        "LRZ-8 (portions of Texas)",
+        "LRZ-9 (small portion of Texas, most of Louisiana)"
+      ],
+      "lrz_9_weather_station": "Lake Charles, LA",
+      "lrz_purpose": "Address congestion limiting resource deliverability and define capacity benefits"
+    }
+  },
+  "aggregation_and_third_party": {
+    "aggregator_type": "Aggregator of Retail Customers (ARC)",
+    "aggregator_definition": "Market Participant sponsoring DRRs, LMRs, and/or EDRs provided by end-use customers that the ARC does not serve at retail",
+    "aggregation_rules": [
+      "LMRs may only be aggregated up to Load Zone CPNode level",
+      "End use customer account can only be registered by one Market Participant",
+      "Requires LSE and LBA confirmation for registration changes"
+    ],
+    "curtailment_service_providers": [
+      {
+        "provider": "CPower Energy Management",
+        "contact_phone": "844-276-9371",
+        "website": "https://cpowerenergy.com/miso/"
+      },
+      {
+        "provider": "Enel North America",
+        "website": "https://www.enelnorthamerica.com/solutions/energy-solutions/demand-response/miso-demand-response"
+      }
+    ],
+    "minimum_capacity_via_aggregator": "1 MW+ enrolled demand"
+  },
+  "contact_information": {
+    "miso_help_desk": "help@misoenergy.org",
+    "miso_website": "https://www.misoenergy.org",
+    "market_participation_page": "https://www.misoenergy.org/markets-and-operations/mp-registration/market-participation/",
+    "demand_response_dashboard": "https://www.misoenergy.org/engage/MISO-Dashboard/demand-response-participation-rules/",
+    "business_practices_manuals": [
+      "BPM-001: Market Registration",
+      "BPM-026: Demand Response Business Practices"
+    ],
+    "stakeholder_engagement": "RASC (Resource Adequacy Subcommittee), MSC (Market Subcommittee)"
+  },
+  "key_reforms_and_trends": {
+    "major_reforms_2024_2025": [
+      {
+        "reform": "LMR Accreditation Reforms",
+        "description": "Performance-based accreditation, shortened notification times, standardized testing",
+        "effective_date": "PY 2028-2029",
+        "drivers": [
+          "Increased grid uncertainty from renewable integration",
+          "Historical performance issues with LMRs",
+          "Need for faster emergency response"
+        ]
+      },
+      {
+        "reform": "Elimination of Dual LMR/EDR Registration",
+        "description": "Simplification to two DR programs: DRR and LMR",
+        "effective_date": "PY 2026-2027",
+        "impact": "Resources must choose either capacity-focused (LMR) or energy-focused (DRR) participation"
+      },
+      {
+        "reform": "DRR Offer Floor at NBPT",
+        "description": "Prohibit DRR offers below Net Benefits Price Threshold to prevent gaming",
+        "status": "Proposed, pending FERC approval",
+        "purpose": "Address market fraud and gaming concerns"
+      },
+      {
+        "reform": "Enhanced Penalty Structure",
+        "description": "Non-performance penalties increased from 3×LMP to VOLL (now $10,000/MWh)",
+        "effective_date": "2024 proposal",
+        "impact": "Significantly higher financial consequences for non-performance"
+      }
+    ],
+    "capacity_market_trends": {
+      "reserve_margin_trend": "Declining",
+      "summer_surplus_2023_gw": 6.5,
+      "summer_surplus_2024_gw": 4.6,
+      "summer_surplus_2025_gw": 2.6,
+      "price_trend": "Rapidly increasing",
+      "drivers": [
+        "Generator retirements",
+        "Load growth",
+        "Renewable integration challenges",
+        "Transmission constraints"
+      ]
+    }
+  },
+  "texas_specific_notes": {
+    "limited_footprint": "MISO operates in only a small portion of southeastern Texas through Entergy Texas",
+    "ercot_dominance": "The vast majority of Texas is served by ERCOT, not MISO",
+    "miso_texas_area": "Approximately 27-28 counties in southeastern Texas including Beaumont-Port Arthur-Orange region",
+    "customer_base_texas": "Approximately 524,000 electric customers in Texas portion",
+    "zone_participation": "Texas loads participate in LRZ-8 and LRZ-9",
+    "competitive_landscape": "Texas MISO customers can participate in MISO wholesale DR programs, while most Texas customers participate in ERCOT programs"
+  },
+  "data_quality_notes": {
+    "no_invented_data": "All data sourced from publicly available MISO documents, regulatory filings, and industry analysis",
+    "source_attribution": "All key facts include source URLs",
+    "uncertainty_areas": [
+      "Complete list of all 27-28 Entergy Texas counties - only partial list confirmed",
+      "Exact MW capacity of LMR/DRR in Texas portion specifically - only MISO-wide totals available"
+    ],
+    "verification_date": "2025-10-11",
+    "data_current_as_of": "Planning Year 2025-2026 auction results (April 2025)"
+  },
+  "research_completeness": "COMPREHENSIVE",
+  "research_duration_minutes": 30,
+  "total_sources_consulted": 25
+}

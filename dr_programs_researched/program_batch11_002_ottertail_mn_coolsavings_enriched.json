@@ -1,0 +1,180 @@
+{
+  "program_id": "program_batch11_002_ottertail_mn_coolsavings",
+  "program_name": "CoolSavings Program",
+  "program_type": "direct_load_control",
+  "status": "active",
+  "description": "CoolSavings is an air conditioning direct load control program where Otter Tail Power Company installs a free receiver device that cycles participants' central air conditioners on and off every 15 minutes during periods of high system demand. Program is active June through September and provides bill credits to residential and business customers. NOT suitable for battery energy storage systems as it specifically controls air conditioning equipment only.",
+  "geography": {
+    "states": ["MN", "ND", "SD"],
+    "utilities": ["Otter Tail Power Company"],
+    "iso_rto_territory": "MISO",
+    "iso_territory_clarification": "Otter Tail Power Company operates in MISO North zone covering portions of Minnesota, North Dakota, and South Dakota.",
+    "service_territories": ["Western Minnesota", "Eastern North Dakota", "Northeastern South Dakota"],
+    "major_cities": ["Fergus Falls", "Wahpeton", "Valley City", "Jamestown", "Milbank"],
+    "headquarters": "Fergus Falls, MN"
+  },
+  "eligibility": {
+    "customer_classes": {
+      "residential": true,
+      "commercial": true,
+      "industrial": false,
+      "minimum_capacity_kw": null,
+      "notes": "Residential and business customers eligible. Business eligibility is limited to smaller commercial customers based on equipment sizing (tons of cooling)."
+    },
+    "rate_class_restrictions": {
+      "residential_eligible_rates": ["Residential", "Farm", "Residential Demand Control Rate"],
+      "business_eligible_rates": ["General Service", "Small General Service"],
+      "notes": "Must be on specific rate schedules to participate"
+    },
+    "equipment_requirements": {
+      "required_equipment": "Central air conditioning system or air-source/geothermal heat pump",
+      "excluded_equipment": ["Window air conditioners", "Ductless mini-split units"],
+      "installation_requirement": "Must have outside disconnect box adjacent to AC unit for receiver installation",
+      "special_notes_heat_pumps": "Air-source and geothermal heat pumps eligible with restrictions"
+    },
+    "behind_the_meter": true,
+    "front_of_meter": false,
+    "resource_types": ["air conditioning equipment only"],
+    "requires_aggregator": false,
+    "participation_commitment": "Must participate for full year"
+  },
+  "notification": {
+    "day_ahead_notice": false,
+    "minimum_notice_hours": 0,
+    "notification_methods": ["no customer notification required"],
+    "cycling_methodology": "Utility remotely cycles air conditioner on and off every 15 minutes during high demand periods",
+    "notes": "Direct load control via installed receiver device. No advance customer notification required before cycling events."
+  },
+  "payment_structure": {
+    "has_capacity_payment": true,
+    "has_performance_payment": false,
+    "capacity_rate": {
+      "residential": {
+        "value": 8.25,
+        "unit": "$/month",
+        "period": "June through September",
+        "annual_total": 33.00,
+        "notes": "Fixed monthly credit during summer season regardless of cycling events"
+      },
+      "business": {
+        "value": 6.00,
+        "unit": "$/ton of connected cooling/month",
+        "period": "June through September",
+        "annual_total_example": "24.00 per ton (for 4-month summer season)",
+        "notes": "Payment based on size of air conditioning equipment in tons of cooling capacity"
+      }
+    },
+    "performance_rate": {
+      "value": null,
+      "unit": null,
+      "notes": "No performance-based payments. All payments are fixed capacity-style credits."
+    },
+    "penalty_structure": {
+      "has_penalties": false,
+      "notes": "No penalties for non-performance. Program uses direct equipment control so customer cannot fail to respond."
+    }
+  },
+  "event_parameters": {
+    "typical_duration_hours": null,
+    "minimum_duration_hours": null,
+    "maximum_duration_hours": null,
+    "max_events_per_year": null,
+    "cycling_pattern": "15 minutes on, 15 minutes off during events",
+    "season": "June through September",
+    "commercial_two_stage_units": "One stage off, other stage permitted to operate",
+    "notes": "Event parameters not explicitly disclosed. Utility has discretion to cycle equipment during high demand periods within summer season."
+  },
+  "nomination_bidding": {
+    "requires_nomination": false,
+    "allows_price_bidding": false,
+    "enrollment_period": {
+      "start_date": null,
+      "end_date": null,
+      "notes": "Year-round enrollment accepted. Must commit to full year participation once enrolled."
+    }
+  },
+  "special_programs": {
+    "is_rec_based": false,
+    "scheduled_dispatch": false,
+    "equipment_control_type": "direct_load_control",
+    "special_attributes": [
+      "Free receiver installation",
+      "No cost to customer for equipment",
+      "Automatic remote control of AC equipment",
+      "Transparent to customer operations except during cycling events"
+    ]
+  },
+  "program_history": {
+    "launch_year": null,
+    "program_evolution": [],
+    "status_notes": "Long-standing active program. Confirmed operational as of 2025-10-12."
+  },
+  "battery_suitability": {
+    "overall_rating": 0,
+    "rating_rationale": "NOT APPLICABLE - This is an air conditioning direct load control program that is fundamentally incompatible with battery energy storage systems. Rating of 0 indicates program is not suitable for batteries, NOT that program is bad. The program specifically requires central air conditioning equipment with a receiver device that cycles the AC compressor. Battery energy storage systems cannot participate in this program type.",
+    "incompatibility_reasons": [
+      "Program requires specific AC equipment (central air conditioning or heat pump)",
+      "Utility installs physical receiver device on air conditioning disconnect box",
+      "Control mechanism is designed for cycling AC compressors, not battery dispatch",
+      "No pathway for batteries to provide equivalent load reduction",
+      "Payment structure ($/month for residential, $/ton for business) assumes AC equipment sizing"
+    ],
+    "technology_mismatch": "Direct load control of air conditioning equipment cannot be replicated by battery discharge. Batteries would need a completely different program structure (e.g., demand response bidding, capacity market participation, or wholesale market participation).",
+    "alternative_programs_for_batteries": {
+      "miso_wholesale_dr": {
+        "recommendation": "Battery systems in Otter Tail territory should consider MISO wholesale demand response programs (LMR Type I/II, DRR, EDR) which offer capacity payments and are designed for dispatchable resources including batteries",
+        "estimated_value": "MISO wholesale DR typically offers hundreds of dollars per MW-day for capacity, which is orders of magnitude higher than residential AC cycling payments"
+      },
+      "note": "No battery-specific programs identified on Otter Tail Power Company website as of 2025-10-12. Utility's 2024 Integrated Resource Plan includes 20-75 MW of utility-scale battery storage by 2029, but no customer-sited battery programs announced."
+    }
+  },
+  "data_sources": [
+    {
+      "url": "https://www.otpco.com/ways-to-save/programs/coolsavings/",
+      "description": "Official CoolSavings program page",
+      "status": "accessible",
+      "access_date": "2025-10-12",
+      "data_quality": "high - primary authoritative source"
+    },
+    {
+      "url": "https://www.otpco.com/ways-to-save/programs/",
+      "description": "Otter Tail Power programs overview page",
+      "status": "accessible",
+      "access_date": "2025-10-12"
+    },
+    {
+      "url": "https://www.otpco.com/ways-to-save/business/programs/",
+      "description": "Business programs page",
+      "status": "accessible",
+      "access_date": "2025-10-12",
+      "notes": "Confirms CoolSavings is available for business customers"
+    },
+    {
+      "url": "https://www.businesswire.com/news/home/20240531639620/en/Otter-Tail-Power-Company-receives-Minnesota-Public-Utilities-Commission-approval-on-Integrated-Resource-Plan",
+      "description": "2024 IRP approval announcement",
+      "status": "accessible",
+      "access_date": "2025-10-12",
+      "notes": "Confirms 20-75 MW battery storage planned by utility (not customer programs)"
+    }
+  ],
+  "research_notes": "CRITICAL FINDINGS:\n\n1. PROGRAM TYPE: CoolSavings is a traditional air conditioning direct load control program. This is one of the oldest and most common utility demand response program types in the United States, dating back to the 1980s.\n\n2. NOT BATTERY-SUITABLE: This program is fundamentally incompatible with battery energy storage systems:\n   - Requires physical AC equipment that the utility can remotely cycle\n   - Uses receiver device installed on air conditioning disconnect box\n   - Payment structure assumes AC equipment ($/month residential, $/ton business)\n   - No mechanism for batteries to participate or provide equivalent service\n\n3. PROGRAM ECONOMICS: Very modest payments compared to wholesale market opportunities:\n   - Residential: $33/year total (4 months × $8.25/month)\n   - Small business example: 5-ton AC unit = $120/year (4 months × 6 × 5 tons)\n   - These payments are appropriate for passive AC load control but orders of magnitude too low for active battery dispatch\n\n4. TARGET AUDIENCE: Program serves residential and small commercial customers who want modest bill savings in exchange for allowing brief AC interruptions during peak demand. Customers experience minimal inconvenience due to thermal mass of buildings.\n\n5. ALTERNATIVE FOR BATTERIES: Battery systems in Otter Tail territory should pursue:\n   - MISO wholesale demand response programs (LMR, DRR, EDR)\n   - MISO capacity market participation\n   - Energy arbitrage in MISO day-ahead and real-time markets\n   - These alternatives offer dramatically higher revenue potential\n\n6. OTTER TAIL BATTERY PLANS: Utility's 2024 Integrated Resource Plan includes 20-75 MW of battery storage by 2029, but these are utility-owned utility-scale projects, not customer-sited battery incentive programs.\n\n7. DATA QUALITY: Excellent data quality for the program that exists. Program details are clearly documented on utility website with specific payment rates, eligibility requirements, and operational parameters. However, program is simply not relevant to battery energy storage systems.\n\n8. RECOMMENDATION: This program should be marked as 'not applicable to batteries' rather than 'low rated'. It is a perfectly good AC load control program serving its intended purpose, but that purpose does not include battery energy storage participation.",
+  "research_date": "2025-10-12",
+  "research_quality_score": 9,
+  "quality_score_rationale": "High score (9/10) for data quality and completeness. Program details are well-documented on official utility website with clear eligibility requirements, payment rates, equipment specifications, and operational parameters. Score is not 10 because: (1) exact event frequency/duration parameters not disclosed, (2) program launch year not documented. However, all essential program characteristics are confirmed from authoritative primary sources. The program is simply not applicable to battery energy storage systems due to fundamental technology incompatibility.",
+  "verification_status": "VERIFIED - Program confirmed active with documented payment rates and requirements",
+  "data_integrity_warning": "THIS PROGRAM IS NOT APPLICABLE TO BATTERY ENERGY STORAGE SYSTEMS. Data is accurate and verified, but program type (air conditioning direct load control) is fundamentally incompatible with battery participation. DO NOT include this program in battery optimization models. Batteries in Otter Tail territory should pursue MISO wholesale market opportunities instead.",
+  "recommended_next_steps": [
+    "Mark this program as 'not applicable' for battery DR catalog",
+    "Research MISO wholesale demand response programs for Otter Tail territory batteries",
+    "Contact Otter Tail Power at 1-800-257-4044 to inquire about any battery-specific programs or pilots",
+    "Monitor Otter Tail IRP developments for potential customer-sited battery incentive programs",
+    "Focus battery DR research on wholesale market participation opportunities in MISO North",
+    "Do not waste time researching other 'CoolSavings' or similar AC cycling programs for battery applications"
+  ],
+  "program_contact": {
+    "utility": "Otter Tail Power Company",
+    "phone": "1-800-257-4044",
+    "website": "https://www.otpco.com",
+    "customer_service_hours": "Monday-Friday 7:30am-6:00pm CT"
+  }
+}

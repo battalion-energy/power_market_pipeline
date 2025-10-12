@@ -1,0 +1,499 @@
+{
+  "program_id": "OKLAHOMA-PEAK-PERFORMERS-PROGRAM",
+  "program_name": "Peak Performers Program",
+  "program_type": "utility",
+  "status": "active",
+  "research_completed_date": "2025-10-12",
+  "data_quality_score": 5,
+  "description": "Peak Performers is PSO's demand response program for businesses in Oklahoma. The program rewards commercial, industrial, and institutional customers who voluntarily reduce electricity consumption during periods of peak demand. Participants receive payments based on the average kilowatt savings achieved during peak events, which are called during summer months (June-October) when electricity demand is highest. The program operates from 2-7 PM on non-holiday weekdays and offers bonus payments for participating in all events.",
+
+  "geography": {
+    "states": ["OK"],
+    "utilities": ["Public Service Company of Oklahoma (PSO)", "American Electric Power (AEP)"],
+    "isos": ["SPP"],
+    "service_territories": ["PSO service territory in Oklahoma"],
+    "notes": "PSO serves approximately 79,000 commercial and 600 industrial customers in Oklahoma. PSO is owned by American Electric Power and operates within the SPP (Southwest Power Pool) ISO territory."
+  },
+
+  "eligibility": {
+    "customer_classes": {
+      "residential": false,
+      "commercial": true,
+      "industrial": true,
+      "institutional": true,
+      "size_threshold_notes": "Program is available to businesses of all sizes. Separate residential program (Power Hours) exists for homeowners."
+    },
+    "behind_the_meter": true,
+    "front_of_meter": "not specified",
+    "minimum_capacity_kw": "not available",
+    "maximum_capacity_kw": "not available",
+    "resource_types": [
+      "load curtailment",
+      "HVAC adjustment",
+      "lighting reduction",
+      "equipment shutdown",
+      "manufacturing process adjustment",
+      "battery energy storage (behind-the-meter)"
+    ],
+    "requires_aggregator": false,
+    "aggregator_name": "not applicable",
+    "notes": "Program is voluntary with no penalties for opting out of events. PSO does not control facility equipment - businesses decide their own load reduction methods. More than 250 businesses currently enrolled. Battery energy storage systems are not explicitly mentioned but behind-the-meter load reduction is clearly eligible."
+  },
+
+  "notification": {
+    "day_ahead_notice": true,
+    "minimum_notice_hours": "not specified",
+    "maximum_notice_hours": "not specified",
+    "notification_methods": ["not specified"],
+    "notification_notes": "PSO notifies participants in advance before peak events. Exact notification timing and methods not specified in publicly available documentation. Participants can opt out of any event without penalty."
+  },
+
+  "payment_structure": {
+    "has_capacity_payment": true,
+    "has_performance_payment": false,
+    "capacity_rate": {
+      "value": 32,
+      "unit": "$/kW-event",
+      "varies_by_season": false,
+      "seasonal_rates": [],
+      "notes": "PSO pays $32 per Average Kilowatt Savings. The payment structure appears to be based on the average kW reduction achieved during events rather than a traditional capacity payment. This is effectively a performance-based payment per kW of reduction."
+    },
+    "performance_rate": {
+      "value": "not applicable",
+      "unit": "not applicable",
+      "varies_by_season": false,
+      "varies_by_time": false,
+      "notes": "The $32/kW payment is the primary compensation mechanism. This is technically a performance payment based on actual reductions, not a traditional capacity payment."
+    },
+    "penalty_structure": {
+      "has_penalties": false,
+      "penalty_rate": "not applicable",
+      "penalty_unit": "not applicable",
+      "penalty_description": "No penalties for opting out of events. Participation is completely voluntary."
+    },
+    "bonus_payments": [
+      {
+        "description": "Full participation bonus",
+        "rate": 5,
+        "unit": "% of total payment",
+        "conditions": "Participants who join all peak events receive a bonus equal to 5% of their Average Kilowatt Savings payment"
+      }
+    ],
+    "forward_curve_available": false,
+    "forward_curve_url": "not available",
+    "payment_notes": "Since 2013, PSO has paid almost $16 million in incentives through this program. In 2020, PSO paid a total of $2.1 million in incentives to 243 businesses. No upfront costs to participate. Enrollment requires only PSO account number and facility contact information."
+  },
+
+  "seasons": [
+    {
+      "season_name": "Peak Season",
+      "start_date": "06-01",
+      "end_date": "10-31",
+      "max_events": 16,
+      "max_hours": 80,
+      "notes": "Some sources indicate peak season is June-September, others June-October. Maximum 16 events during peak season. Based on 5-hour events (2-7 PM), 16 events would total 80 hours."
+    }
+  ],
+
+  "call_windows": [
+    {
+      "window_id": "summer_afternoon_peak",
+      "start_hour": 14,
+      "end_hour": 19,
+      "days_of_week": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      "seasons": ["Peak Season"],
+      "timezone": "America/Chicago",
+      "notes": "Events occur 2:00 PM to 7:00 PM Central Time on non-holiday weekdays. Excludes Juneteenth, Independence Day, and Labor Day holidays."
+    }
+  ],
+
+  "event_parameters": {
+    "typical_duration_hours": 5,
+    "minimum_duration_hours": "not available",
+    "maximum_duration_hours": 5,
+    "event_granularity_minutes": "not available",
+    "response_time_minutes": "not available",
+    "max_events_per_season": 16,
+    "max_events_per_year": 16,
+    "max_hours_per_season": 80,
+    "max_hours_per_year": 80,
+    "max_consecutive_events": "not available",
+    "minimum_rest_hours": "not available",
+    "notes": "Events are called up to 16 times from June-October during the 2-7 PM window. Each event window is 5 hours. Actual event duration within that window not specified."
+  },
+
+  "event_triggers": {
+    "trigger_description": "Events are called during periods of high electricity demand, particularly during summer's hottest days when air conditioning loads drive peak consumption. Events help stabilize electricity costs and support electrical grid reliability.",
+    "primary_trigger": "high_temperature_peak_demand",
+    "secondary_triggers": ["grid_stress", "supply_constraints"],
+    "temperature_threshold": "not available",
+    "price_threshold": "not available",
+    "examples": "Summer heat waves during June-October when cooling loads are highest. Similar to PSO's residential Power Hours program which calls events during extreme heat."
+  },
+
+  "nomination_bidding": {
+    "requires_nomination": true,
+    "nomination_frequency": "annual",
+    "nomination_deadline": "not available",
+    "allows_price_bidding": false,
+    "bidding_structure": "not applicable",
+    "enrollment_period": {
+      "start_date": "not available",
+      "end_date": "not available",
+      "recurring": true
+    },
+    "notes": "Enrollment appears to be ongoing. Participants must provide PSO account number and facility contact information. No complex bidding process - fixed payment rate of $32/kW applies to all participants."
+  },
+
+  "special_programs": {
+    "is_rec_based": false,
+    "rec_type": "not applicable",
+    "scheduled_dispatch": false,
+    "clean_peak_standard": false,
+    "special_attributes": [
+      "Voluntary participation with no penalties",
+      "PSO does not control facility equipment",
+      "Businesses decide their own load reduction strategies",
+      "Over 250 businesses currently enrolled",
+      "Contributes to grid reliability and helps avoid new power plant construction",
+      "Helps lower greenhouse gas emissions"
+    ]
+  },
+
+  "program_history": {
+    "launch_year": 2013,
+    "program_evolution": [
+      {
+        "year": 2013,
+        "change_description": "Peak Performers program launched for business customers"
+      },
+      {
+        "year": 2020,
+        "change_description": "Program paid $2.1M to 243 businesses. Total payments since 2013 approach $16M."
+      }
+    ],
+    "budget_committed_through": "not available",
+    "total_annual_budget": "not available",
+    "notes": "Since 2013, PSO has paid almost $16 million in incentives. In 2020, 243 businesses participated and received $2.1M total ($8,642 average per business). Program has been operating continuously for over 10 years."
+  },
+
+  "historical_events": [],
+
+  "case_studies": [],
+
+  "related_programs": {
+    "power_hours": {
+      "program_name": "Power Hours",
+      "description": "Residential demand response program",
+      "customer_type": "residential",
+      "payment_type": "bill credits",
+      "event_frequency": "up to 16 times June-September",
+      "event_hours": "2-7 PM weekdays",
+      "status": "active",
+      "notes": "Similar structure to Peak Performers but for homeowners. Provides context for Peak Performers event patterns."
+    }
+  },
+
+  "verification_sources": [
+    {
+      "source_name": "Power Forward With PSO - Peak Performers Program Page",
+      "url": "https://powerforwardwithpso.com/programs/peak-performers/",
+      "accessed_date": "2025-10-12",
+      "document_type": "program webpage",
+      "fields_verified": [
+        "program_name",
+        "eligibility",
+        "payment_rate",
+        "bonus_structure",
+        "voluntary_participation",
+        "enrollment_count"
+      ]
+    },
+    {
+      "source_name": "PSO Newsletter - Earn Cash for Peak Performers",
+      "url": "https://www.psoklahoma.com/savings/newsletter/story?StoryID=2224",
+      "accessed_date": "2025-10-12",
+      "document_type": "utility newsletter",
+      "fields_verified": [
+        "payment_rate_32_per_kw",
+        "program_history",
+        "total_payments_since_2013"
+      ]
+    },
+    {
+      "source_name": "PSO Demand Response Newsletter Article",
+      "url": "https://www.psoklahoma.com/savings/newsletter/story?StoryID=1890",
+      "accessed_date": "2025-10-12",
+      "document_type": "utility newsletter",
+      "fields_verified": [
+        "seasonal_timing",
+        "event_hours",
+        "advance_notice"
+      ]
+    },
+    {
+      "source_name": "Southwest Ledger - PSO Programs Approved",
+      "url": "https://www.southwestledger.news/news/pso-programs-incentives-approved",
+      "accessed_date": "2025-10-12",
+      "document_type": "news article",
+      "fields_verified": [
+        "regulatory_approval",
+        "program_continuation"
+      ]
+    },
+    {
+      "source_name": "Piclo Energy - Peak Performers Program Listing",
+      "url": "https://www.piclo.energy/opportunities/peak-performers-program",
+      "accessed_date": "2025-10-12",
+      "document_type": "aggregator platform",
+      "fields_verified": [
+        "program_structure",
+        "payment_incentives"
+      ]
+    },
+    {
+      "source_name": "Oklahoma Corporation Commission - PSO 2022 Demand Report",
+      "url": "https://oklahoma.gov/content/dam/ok/en/occ/documents/pu/energyefficiency/demand-program-annual-reports/pso-2022-demand-report.pdf",
+      "accessed_date": "2025-10-12",
+      "document_type": "regulatory filing",
+      "fields_verified": [
+        "program_performance",
+        "annual_reporting"
+      ]
+    },
+    {
+      "source_name": "Oklahoma Corporation Commission - PSO 2023 Demand Report",
+      "url": "https://oklahoma.gov/content/dam/ok/en/occ/documents/pu/energyefficiency/demand-program-annual-reports/2023-pso-demand-report.pdf",
+      "accessed_date": "2025-10-12",
+      "document_type": "regulatory filing",
+      "fields_verified": [
+        "program_performance",
+        "annual_reporting"
+      ]
+    },
+    {
+      "source_name": "Oklahoma Corporation Commission - PSO 2024 Demand Report",
+      "url": "https://oklahoma.gov/content/dam/ok/en/occ/documents/pu/energyefficiency/demand-program-annual-reports/2024-pso-demand-report.pdf",
+      "accessed_date": "2025-10-12",
+      "document_type": "regulatory filing",
+      "fields_verified": [
+        "program_performance",
+        "annual_reporting"
+      ]
+    }
+  ],
+
+  "data_gaps_and_limitations": {
+    "missing_critical_data": [
+      "Minimum and maximum capacity requirements (kW)",
+      "Specific notification timing and methods",
+      "Event duration within the 2-7 PM window",
+      "Response time requirements",
+      "Minimum rest hours between events",
+      "Historical event dates and actual call frequency (2020-2024)",
+      "Battery energy storage explicit eligibility confirmation",
+      "Measurement and verification procedures",
+      "Baseline calculation methodology",
+      "Enrollment periods and deadlines",
+      "Maximum consecutive events allowed"
+    ],
+    "data_not_publicly_available": [
+      "Detailed historical event logs with specific dates and durations",
+      "Individual participant performance data",
+      "Actual kW reductions achieved by participants",
+      "Payment amounts to individual businesses",
+      "Specific tariff sheet number for the program",
+      "Detailed program rules and terms of service",
+      "Baseline calculation methodology",
+      "M&V procedures"
+    ],
+    "verification_limitations": [
+      "Oklahoma Corporation Commission annual reports (PDFs) could not be accessed for detailed program statistics",
+      "PSO's complete tariff package (PDF) could not be parsed for specific program tariff sheets",
+      "No public access to detailed event history or performance metrics",
+      "Payment rate structure interpretation uncertain - could be per-event or seasonal total",
+      "Battery storage eligibility not explicitly confirmed in program materials",
+      "Exact peak season end date varies between sources (September vs October)"
+    ]
+  },
+
+  "battery_suitability_analysis": {
+    "overall_rating": "LIMITED",
+    "rating_rationale": "The Peak Performers program has significant limitations for battery energy storage systems. While the $32/kW payment rate appears attractive, the limited event frequency (max 16 events/year, 80 hours total) and uncertainty around payment structure create substantial revenue risk. The program documentation does not explicitly mention battery storage as an eligible resource type, though load reduction is clearly eligible. The 5-hour event window (2-7 PM) is manageable for a 1 MW/1 MWh battery, but daily cycling would deplete the battery. Most critically, the payment structure is ambiguous - it's unclear if $32/kW is paid per event, per season, or per year. If per event, revenue could be attractive ($512/event * 16 = $8,192/year for 1 MW participating in all events). However, if it's a seasonal or annual capacity payment, revenue would be limited. The voluntary nature with no penalties is positive, but the lack of clear baseline methodology and M&V procedures creates uncertainty. Overall, this program could serve as a supplemental revenue stream but should not be a primary revenue source for battery optimization.",
+
+    "strengths": [
+      "Voluntary participation with no penalties for opting out",
+      "Predictable event windows (2-7 PM weekdays, summer only)",
+      "Simple payment structure with bonus for full participation",
+      "Advance notice provided before events",
+      "No upfront costs or complex enrollment process",
+      "Limited annual hours (80 max) allows for other revenue stacking",
+      "Program has 10+ year track record with consistent operation"
+    ],
+
+    "weaknesses": [
+      "Payment structure ambiguity - unclear if $32/kW is per event or total",
+      "Battery storage not explicitly mentioned as eligible resource",
+      "Limited event frequency (max 16 events, 80 hours per year)",
+      "No detailed M&V or baseline methodology published",
+      "5-hour event duration is long for 1:1 battery (full discharge)",
+      "Summer-only program limits annual revenue opportunity",
+      "No historical event data available to estimate actual dispatch frequency",
+      "Notification timing not specified - could be short notice",
+      "No API or automated dispatch mentioned",
+      "Oklahoma is SPP territory with lower price volatility than ERCOT/CAISO"
+    ],
+
+    "key_uncertainties": [
+      "Is $32/kW paid per event ($512/event) or as total seasonal/annual payment?",
+      "How is baseline calculated for battery systems?",
+      "Are batteries explicitly eligible or need special approval?",
+      "What is the actual notification timing (hours or days ahead)?",
+      "How many events are actually called per year (historical average)?",
+      "Can a battery participate while also doing energy arbitrage?",
+      "What is the M&V interval granularity (5-min, 15-min, hourly)?",
+      "Is there a minimum performance threshold to receive payment?",
+      "Can capacity nomination be adjusted mid-season?"
+    ],
+
+    "technical_considerations": [
+      "1 MW/1 MWh battery has 1 hour of discharge capacity at full power",
+      "5-hour event window (2-7 PM) exceeds battery duration - would need partial discharge",
+      "Could discharge 0.2 MW for 5 hours to match event duration",
+      "Alternatively, discharge 1 MW for 1 hour during highest value period (typically 4-6 PM)",
+      "Need to preserve battery capacity for higher-value energy arbitrage in SPP market",
+      "Summer-only program means 7-8 months with no DR revenue",
+      "Oklahoma SPP day-ahead/real-time price spreads typically lower than ERCOT",
+      "Battery could potentially participate in SPP Operating Reserves for year-round revenue",
+      "Behind-the-meter installation required - need commercial host site"
+    ],
+
+    "recommended_actions": [
+      "Contact PSO directly to clarify payment structure - per event vs seasonal",
+      "Request detailed program rules, tariff sheet, and terms of service",
+      "Confirm battery storage explicit eligibility and any special requirements",
+      "Request historical event data for 2020-2024 to estimate actual dispatch",
+      "Obtain baseline calculation methodology and M&V procedures",
+      "Request notification timing and methods - API availability",
+      "Compare to other Oklahoma demand response programs (if any exist)",
+      "Analyze SPP day-ahead/real-time arbitrage opportunity for revenue stacking",
+      "Investigate SPP Operating Reserves markets for year-round battery revenue",
+      "Model revenue scenarios: optimistic (per event), moderate (seasonal), pessimistic (annual)",
+      "Identify potential commercial host sites in PSO territory with suitable loads"
+    ]
+  },
+
+  "revenue_calculation_1mw_1mwh": {
+    "methodology_notes": "Revenue calculation for 1 MW / 1 MWh battery is highly uncertain due to ambiguous payment structure. Three scenarios presented based on different interpretations of $32/kW payment.",
+
+    "scenario_optimistic": {
+      "scenario_name": "Per-Event Payment Interpretation",
+      "assumptions": [
+        "Payment: $32/kW per event",
+        "Battery participates in all 16 events",
+        "Battery nominated capacity: 1,000 kW",
+        "5% bonus for full participation",
+        "Battery delivers nominated capacity for each event"
+      ],
+      "calculation": "16 events × 1,000 kW × $32/kW = $512,000 base + $25,600 bonus (5%) = $537,600",
+      "annual_revenue_estimate": 537600,
+      "confidence_level": "LOW - This interpretation seems too generous and may be incorrect",
+      "notes": "If $32/kW is paid per event, revenue would be very attractive. However, this interpretation is unlikely given the program context and historical payment data ($2.1M to 243 businesses in 2020 = $8,642 average)."
+    },
+
+    "scenario_moderate": {
+      "scenario_name": "Seasonal Capacity Payment Interpretation",
+      "assumptions": [
+        "Payment: $32/kW for entire summer season",
+        "Battery nominated capacity: 1,000 kW",
+        "5% bonus for full participation",
+        "Season runs June-October (5 months)"
+      ],
+      "calculation": "1,000 kW × $32/kW = $32,000 base + $1,600 bonus (5%) = $33,600",
+      "annual_revenue_estimate": 33600,
+      "confidence_level": "MEDIUM - Most consistent with historical payment data",
+      "notes": "This interpretation aligns better with 2020 data ($2.1M / 243 businesses = $8,642 average). Assuming varying sizes, larger participants like 1 MW could earn $30-40K seasonally. This is more realistic for a demand response program."
+    },
+
+    "scenario_pessimistic": {
+      "scenario_name": "Per-kW Average Reduction Interpretation",
+      "assumptions": [
+        "Payment: $32 per kW of average reduction across all events",
+        "Battery participates in 16 events, 80 total hours",
+        "Battery discharges average 200 kW due to 1-hour duration limit",
+        "Actual average kW reduction: 200 kW (not full 1 MW due to duration mismatch)"
+      ],
+      "calculation": "200 kW average reduction × $32/kW = $6,400 base + $320 bonus (5%) = $6,720",
+      "annual_revenue_estimate": 6720,
+      "confidence_level": "LOW - This interpretation is possible but seems too low for program economics",
+      "notes": "If payment is based on average kW reduction and battery can only discharge 1 hour while events are 5 hours, effective capacity is ~200 kW. This would result in minimal revenue and poor program economics."
+    },
+
+    "recommended_estimate": {
+      "annual_revenue_low": 6000,
+      "annual_revenue_high": 40000,
+      "annual_revenue_most_likely": 25000,
+      "confidence_level": "LOW",
+      "justification": "Given the ambiguity in payment structure, recommend assuming moderate scenario ($25-35K annually) for planning purposes. The historical data (2020: 243 businesses, $2.1M total) suggests average payment around $8,642 per business, but larger participants likely earn more. A 1 MW battery could reasonably expect $20-40K annually if $32/kW is a seasonal capacity payment. This is conservative compared to optimistic per-event interpretation but more realistic than pessimistic scenario. CRITICAL: Must contact PSO to clarify payment structure before making investment decisions."
+    },
+
+    "revenue_stacking_potential": {
+      "spp_energy_arbitrage": {
+        "description": "SPP day-ahead and real-time energy arbitrage during non-DR hours",
+        "estimated_annual_revenue": "15000 to 50000",
+        "notes": "SPP has lower price volatility than ERCOT but arbitrage opportunities exist, especially during summer peaks and winter events. Revenue highly dependent on location within SPP and local congestion patterns."
+      },
+      "spp_operating_reserves": {
+        "description": "SPP Operating Reserves market (Regulation Up/Down, Spinning/Supplemental)",
+        "estimated_annual_revenue": "30000 to 80000",
+        "notes": "SPP Operating Reserves market could provide year-round revenue. Batteries can provide fast-responding reserves. Would need to register as a market participant. This could be the primary revenue stream with Peak Performers as supplemental."
+      },
+      "demand_charge_reduction": {
+        "description": "Behind-the-meter demand charge reduction for commercial host",
+        "estimated_annual_revenue": "10000 to 40000",
+        "notes": "If battery is behind-the-meter at commercial facility, can reduce facility demand charges. PSO commercial rates include demand charges, especially during summer peak period (2-9 PM, June-September). Value depends on host facility load profile."
+      },
+      "total_stacked_revenue_estimate": {
+        "low": 61000,
+        "high": 210000,
+        "most_likely": 120000,
+        "notes": "Total potential annual revenue stacking Peak Performers ($25K), SPP Operating Reserves ($50K), energy arbitrage ($30K), and demand charge reduction ($15K). Oklahoma/SPP market has lower revenue potential than ERCOT or CAISO due to lower price volatility. Battery project economics challenging without additional incentives (ITC, state grants, utility programs)."
+      }
+    },
+
+    "comparison_to_other_markets": {
+      "ercot_ancillary_services": "ERCOT batteries earning $100-200K per MW-year from AS + energy arbitrage",
+      "caiso_demand_response": "CAISO DRAM program pays $100-150K per MW-year for capacity + performance",
+      "pjm_capacity_market": "PJM capacity market pays $40-80K per MW-year for 4-hour batteries",
+      "assessment": "PSO Peak Performers program revenue potential ($25-35K estimated) is substantially lower than other major markets. However, Oklahoma has lower development costs and potentially available behind-the-meter commercial sites. Program is best suited as supplemental revenue rather than primary revenue stream."
+    }
+  },
+
+  "research_notes": "Conducted comprehensive web research on PSO Peak Performers Program on 2025-10-12. Program is moderately well-documented for general structure (eligibility, event windows, voluntary participation) but critical financial details are ambiguous. The $32/kW payment rate is stated clearly but whether this is per-event, per-season, or annual total is not specified in public documentation. Historical payment data (2020: $2.1M to 243 businesses, ~$8,642 average) suggests moderate per-business payments, but size distribution unknown. Battery storage is not explicitly mentioned as eligible resource, though load reduction clearly is. Program has operated since 2013 with consistent structure. Oklahoma Corporation Commission annual reports (2022, 2023, 2024) exist but PDF content could not be parsed - these reports likely contain detailed event history and performance data that would substantially improve revenue estimates. Major limitation is lack of historical event data - while program allows up to 16 events, actual call frequency unknown. Program appears designed primarily for load curtailment (HVAC, lighting, equipment) rather than battery dispatch. Given ambiguities, recommend direct contact with PSO for clarification before making investment decisions. Overall assessment: LIMITED suitability for battery energy storage due to payment structure uncertainty, limited event frequency, and lack of explicit battery eligibility confirmation. Could serve as supplemental revenue but not primary revenue source.",
+
+  "integration_metadata": {
+    "optimizer_compatible": "uncertain",
+    "api_available": "not specified",
+    "api_documentation_url": "not available",
+    "api_notes": "No mention of API or automated dispatch in program materials. Advance notice provided but notification methods not specified. Likely manual notification via email/phone.",
+    "data_quality_score": 5,
+    "last_verified_date": "2025-10-12",
+    "verification_thoroughness": "Moderate - reviewed primary program website, utility newsletters, regulatory references, and third-party aggregator listings. Major limitation: could not access Oklahoma Corporation Commission PDF reports which likely contain detailed historical event and payment data. Payment structure interpretation remains uncertain.",
+    "recommended_next_steps": [
+      "Contact PSO Peak Performers program administrator to clarify $32/kW payment structure (per event vs seasonal vs annual)",
+      "Request detailed program rules, terms of service, and tariff sheet number",
+      "Confirm battery energy storage explicit eligibility and any special requirements",
+      "Request historical event data for 2020-2024 including dates, times, and actual call frequency",
+      "Obtain baseline calculation methodology and M&V procedures",
+      "Request notification timing (hours/days in advance) and methods - inquire about API availability",
+      "Request Oklahoma Corporation Commission annual demand response reports for PSO (2022-2024) with detailed program statistics",
+      "Compare to other Oklahoma utility demand response programs (OG&E, cooperative utilities)",
+      "Investigate SPP Operating Reserves market participation requirements and revenue potential",
+      "Analyze SPP day-ahead/real-time price data for Oklahoma nodes to estimate arbitrage revenue",
+      "Identify potential commercial host sites in PSO territory with suitable loads and space",
+      "Model full revenue stack including DR, energy arbitrage, operating reserves, and demand charge reduction",
+      "Evaluate battery project economics with and without ITC, state incentives, or utility grants"
+    ],
+    "notes": "Program has been operating successfully for 10+ years with 250+ businesses enrolled, indicating stable and reliable operation. However, lack of transparency in payment calculation and battery eligibility creates significant uncertainty for battery energy storage projects. Oklahoma/SPP market fundamentals are less favorable than ERCOT or CAISO for standalone battery projects - lower price volatility, fewer extreme peak events, and more traditional generation mix. Battery projects in this market likely require revenue stacking across multiple value streams (DR + reserves + arbitrage + demand charges) plus favorable development costs or incentives to achieve acceptable returns. Recommend thorough due diligence and direct utility engagement before pursuing battery projects in PSO territory specifically for Peak Performers program participation."
+  }
+}

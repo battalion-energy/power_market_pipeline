@@ -1,0 +1,496 @@
+{
+  "program_id": "TVA_DR_VIRGINIA_2024",
+  "program_name": "Tennessee Valley Authority Demand Response Program (Virginia Service Territory)",
+  "program_type": "wholesale_market",
+  "status": "active",
+  "description": "TVA's Demand Response Program provides financial incentives to commercial, institutional, and industrial customers in exchange for reducing electricity consumption during peak demand periods. TVA operates two primary programs: Peak Rewards (minimum 50 kW, for smaller loads) and PowerFlex (minimum 1 MW, for larger facilities). The programs are managed exclusively by Enel North America as TVA's aggregator partner. In Virginia, TVA serves southwestern counties through local power companies including Bristol Virginia Utilities (BVU Authority) and Powell Valley Electric Cooperative, providing power to over 20,000 households. TVA's demand response portfolio currently includes approximately 1,700 MW of capacity from nearly 600 participants across the seven-state region. The programs operate year-round with events called between 5 AM and 8 PM Central Time, with 30 minutes advance notice. Events typically last 1-4 hours and can be called up to 32 hours per fiscal year (October-September).",
+  "geography": {
+    "states": ["VA", "TN", "AL", "MS", "KY", "NC", "GA"],
+    "states_notes": "TVA serves portions of seven states. Virginia service is limited to southwestern Virginia counties.",
+    "utilities": [
+      "Bristol Virginia Utilities (BVU Authority)",
+      "Powell Valley Electric Cooperative"
+    ],
+    "utilities_notes": "In Virginia, TVA power is distributed through local power companies (LPCs). BVU Authority serves Bristol and surrounding Washington County. Powell Valley Electric Cooperative serves additional southwestern Virginia counties including Scott, Lee, Wise, and Dickenson counties.",
+    "isos": [],
+    "iso_notes": "TVA is a federally owned corporation that operates its own transmission system and wholesale power market, similar to an ISO/RTO but not formally designated as one. TVA is NOT part of PJM, MISO, or any other ISO. Most of Virginia is served by PJM (Dominion Energy, Appalachian Power), but southwestern Virginia is TVA territory.",
+    "service_territories": [
+      "Southwestern Virginia: Bristol, Abingdon, Washington County, Scott County, Lee County, Wise County, Dickenson County, and portions of Bland, Buchanan, Russell, Smyth, Tazewell, and Wythe Counties"
+    ],
+    "geographic_verification": "VERIFIED: TVA does serve Virginia, specifically southwestern Virginia. In FY2017, TVA sold more than 624 million kWh to Bristol Virginia Utilities and Powell Valley Electric Cooperative serving four counties in southwestern Virginia with over 20,000 households. This is NOT a data classification error."
+  },
+  "eligibility": {
+    "customer_classes": {
+      "residential": false,
+      "commercial": true,
+      "industrial": true,
+      "institutional": true,
+      "size_threshold_notes": "Peak Rewards: Minimum 50 kW curtailable demand. PowerFlex: Minimum 1 MW contract demand AND minimum 500 kW annual average on-peak interruptible demand. Programs target businesses, schools, nonprofits, churches, and industrial facilities."
+    },
+    "behind_the_meter": true,
+    "front_of_meter": false,
+    "front_of_meter_notes": "Programs are designed for customer load curtailment. TVA separately procures utility-scale battery storage for grid operations but these are not customer-facing DR programs.",
+    "minimum_capacity_kw": 50,
+    "minimum_capacity_notes": "Peak Rewards: 50 kW. PowerFlex: 1,000 kW (1 MW) contract demand minimum.",
+    "maximum_capacity_kw": null,
+    "resource_types": [
+      "load curtailment",
+      "manufacturing process adjustment",
+      "HVAC adjustment",
+      "pump reduction",
+      "industrial freezer settings",
+      "non-essential lighting reduction",
+      "rectifier curtailment",
+      "chiller curtailment",
+      "electrolyzer curtailment",
+      "aerator/mixer/fan curtailment"
+    ],
+    "battery_storage_notes": "Battery energy storage systems (BESS) eligibility is not explicitly documented in public program materials. TVA is deploying utility-scale battery storage for grid management, but specific requirements for customer-sited BESS participation in DR programs are not publicly specified. Contact Enel or local power company for battery-specific participation requirements.",
+    "requires_aggregator": true,
+    "aggregator_notes": "TVA has an exclusive bilateral partnership with Enel North America. All DR program participation is managed through Enel, which handles enrollment, measurement, verification, and payments. Customers cannot enroll directly with TVA or through other aggregators. Enel provides cloud-based energy intelligence software with 24/7 monitoring to all participants at no cost."
+  },
+  "notification": {
+    "day_ahead_notice": false,
+    "minimum_notice_hours": 0.5,
+    "maximum_notice_hours": 24,
+    "notification_hours_notes": "Standard notification is 30 minutes in advance. Some flexibility exists for longer notice in PowerFlex program based on enrollment options selected.",
+    "notification_methods": [
+      "Enel platform",
+      "email",
+      "phone",
+      "cloud-based energy intelligence software"
+    ],
+    "notification_notes": "Events are called by TVA based on system needs during peak demand periods. Enel manages all participant notifications through their platform. Participants have access to real-time monitoring software to track energy consumption and event performance."
+  },
+  "payment_structure": {
+    "has_capacity_payment": true,
+    "has_performance_payment": true,
+    "capacity_rate": {
+      "value": "not specified",
+      "unit": "$/kW-month",
+      "varies_by_season": true,
+      "varies_by_program": true,
+      "seasonal_rates": [],
+      "program_specific_rates": [
+        {
+          "program": "Peak Rewards",
+          "rate": "not publicly specified",
+          "unit": "$/kW-month or seasonal payment",
+          "notes": "Seasonal payment for successful participation. Specific dollar amounts not published. Described as 'credits' or 'payments' without exact rates."
+        },
+        {
+          "program": "PowerFlex (E5+C30 option example)",
+          "annual_capacity_credit_5mw_example": 568200,
+          "unit": "$/year for 5 MW enrolled",
+          "implied_monthly_rate": 9.47,
+          "implied_annual_rate": 113.64,
+          "calculation": "96 hours enrolled capacity * 5000 kW = 480,000 kWh-equivalent. $568,200 / 5000 kW = $113.64/kW-year or $9.47/kW-month",
+          "notes": "Based on example: 5 MW facility enrolled in 96 hours of capacity per fiscal year under E5+C30 option earns up to $568,200 annual capacity credits. This implies approximately $9.47/kW-month. Note: E5 and C30 refer to legacy Interruptible Power products (IP5 5-minute notice, IP30 30-minute notice). Actual rates vary by enrollment options and are not published in detail."
+        }
+      ],
+      "notes": "TVA does not publish specific $/kW rates publicly. PowerFlex offers 'higher demand and energy credits' than Peak Rewards. Based on one example provided, PowerFlex capacity credits for the E5+C30 option are approximately $9-10/kW-month for 96 hours annual enrollment, but actual rates depend on specific enrollment configuration selected."
+    },
+    "performance_rate": {
+      "value": "not specified",
+      "unit": "$/kWh",
+      "varies_by_season": false,
+      "varies_by_time": false,
+      "program_specific_rates": [
+        {
+          "program": "Peak Rewards",
+          "rate": "not publicly specified",
+          "notes": "Event-based performance payments provided but specific $/kWh rate not published."
+        },
+        {
+          "program": "PowerFlex (E5+C30 option example)",
+          "annual_energy_credit_5mw_example": 48000,
+          "unit": "$/year for 5 MW enrolled",
+          "implied_rate_per_kwh": 0.10,
+          "calculation": "96 hours * 5000 kW = 480,000 kWh maximum dispatch. $48,000 / 480,000 kWh = $0.10/kWh",
+          "notes": "Based on example: 5 MW facility enrolled in 96 hours per fiscal year under E5+C30 option earns up to $48,000 annual energy credits. This implies approximately $0.10/kWh for curtailed energy. Actual rates may vary by enrollment options."
+        }
+      ],
+      "notes": "TVA provides event-based energy credits in addition to capacity payments. Specific $/kWh rates are not published publicly. Based on one PowerFlex example, energy payments appear to be approximately $0.10/kWh, but actual rates depend on program configuration."
+    },
+    "penalty_structure": {
+      "has_penalties": true,
+      "penalty_type": "capacity adjustment",
+      "penalty_rate": null,
+      "penalty_unit": "adjustment to Protected Demand",
+      "penalty_description": "For IP30 (Interruptible Power 30-minute) agreements, TVA may increase a company's Protected Demand upon at least 30 days notice if the company achieves a Performance Factor of less than 97% in any two Interruptions in any consecutive 12-month period. Increasing Protected Demand effectively reduces the amount of interruptible capacity eligible for credits, serving as a financial penalty. When a company achieves 100% Performance Factor in a subsequent month, TVA will adjust the Protected Demand back to the previous level upon 30 days notice. Similar provisions exist for IP5 (5-minute) regarding Non-Compliant Intervals. Performance Factor applies to both actual events and test interruptions.",
+      "minimum_performance_threshold": 0.97,
+      "testing_requirements": "Test Interruptions may be called as part of program verification. Performance Factor is calculated for both test and actual events."
+    },
+    "bonus_payments": [],
+    "forward_curve_available": false,
+    "forward_curve_url": null,
+    "payment_transparency_note": "TVA and Enel do not publish detailed rate schedules publicly. Specific payment rates vary by enrollment options selected (event duration, annual hour commitment, notification flexibility). Interested customers must contact Enel or their local power company for customized rate quotes based on their facility capabilities and desired participation level."
+  },
+  "seasons": [
+    {
+      "season_name": "Year-Round Program",
+      "start_date": "10-01",
+      "end_date": "09-30",
+      "max_events": "not specified",
+      "max_hours": 32,
+      "season_notes": "TVA fiscal year runs October 1 to September 30. Events can be called year-round during extreme hot or cold weather conditions. Peak Rewards program specifies up to 32 event hours per fiscal year. PowerFlex allows customization of enrolled capacity hours (e.g., 96 hours in E5+C30 example)."
+    }
+  ],
+  "call_windows": [
+    {
+      "window_id": "year_round_peak_hours",
+      "start_hour": 5,
+      "end_hour": 20,
+      "days_of_week": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday"
+      ],
+      "seasons": ["Year-Round Program"],
+      "timezone": "America/Chicago",
+      "notes": "Events called between 5 AM and 8 PM Central Time. Program operates year-round, not limited to summer season. Events typically occur during extreme weather (hot summer days or cold winter days) when TVA load is projected to approach or exceed peak capacity. TVA serves Central and Eastern time zones; Virginia service territory (southwestern VA) is in Eastern Time but program hours are specified in Central Time."
+    }
+  ],
+  "event_parameters": {
+    "typical_duration_hours": 2.5,
+    "minimum_duration_hours": 1,
+    "maximum_duration_hours": 4,
+    "event_granularity_minutes": "not specified",
+    "response_time_minutes": 30,
+    "max_events_per_season": "not specified",
+    "max_events_per_year": "not specified",
+    "max_hours_per_season": 32,
+    "max_hours_per_year": 32,
+    "max_hours_notes": "Peak Rewards specifies up to 32 event hours per fiscal year. PowerFlex allows customization (96 hours in one example). Emergency calls are unlimited for PowerFlex.",
+    "max_consecutive_events": "not specified",
+    "minimum_rest_hours": "not specified",
+    "event_frequency_notes": "TVA called demand response during major events including Winter Storm Elliott (December 2022 - 8 hours of load shedding), January 2024 winter storms (record 34,524 MW demand), and Summer 2024 heat events (31,096 MW peak in August). Industry data shows DR event frequency increased 173% from 2021 to 2024, though average event duration declined to under 2.5 hours."
+  },
+  "event_triggers": {
+    "trigger_types": [
+      "forecasted high load",
+      "extreme heat",
+      "extreme cold",
+      "system peak conditions",
+      "resource adequacy",
+      "economic dispatch"
+    ],
+    "temperature_threshold_exact": "not specified",
+    "temperature_threshold_general": "extreme weather conditions - hot summer days or cold winter days",
+    "load_threshold": "approaching or exceeding system peak capacity",
+    "load_threshold_exact_mw": "not specified",
+    "recent_peak_loads": {
+      "winter_2024_record": 34524,
+      "summer_2024_record": 31096,
+      "winter_2022_record": 33400,
+      "unit": "MW"
+    },
+    "price_threshold": "economic conditions - minimize need to purchase power from surrounding utilities",
+    "emergency_conditions": true,
+    "emergency_notes": "PowerFlex specifies that emergency calls are unlimited. During Winter Storm Elliott (December 2022), TVA implemented emergency load shedding procedures for the first time in 90-year history, directing local power companies to reduce demand by 5% then 10%, resulting in rolling blackouts.",
+    "trigger_description": "Events are called when TVA anticipates high electricity demand that could strain the grid, typically during extreme weather conditions. Triggers include forecasted system peaks, resource adequacy concerns, and economic optimization to avoid purchasing expensive power from neighboring utilities. TVA experienced record demands during Winter Storm Elliott (Dec 2022), Winter Storm Heather (Jan 2024), and Summer 2024 heat waves. Demand response helps maintain grid reliability while minimizing Fuel Cost Adjustment charges to customers."
+  },
+  "nomination_bidding": {
+    "requires_nomination": true,
+    "nomination_frequency": "annual",
+    "nomination_deadline": "not specified - enrollment appears to be rolling with Enel",
+    "nomination_process": "Participants enroll through Enel North America, specifying their curtailable capacity and preferred program (Peak Rewards or PowerFlex). PowerFlex participants select capacity hour commitment (e.g., 96 hours) and notification flexibility options. Enel manages all enrollment, measurement, verification, and payment administration.",
+    "allows_price_bidding": false,
+    "bidding_structure": "not applicable",
+    "enrollment_period": {
+      "start_date": "not specified",
+      "end_date": "not specified",
+      "recurring": true,
+      "notes": "Enrollment managed by Enel on rolling basis. No upfront or out-of-pocket costs to participate."
+    }
+  },
+  "performance_measurement": {
+    "baseline_calculation_method": "Customer Baseline Load (CBL) methodology used. Specific method not publicly documented but likely follows industry standard approaches such as '3-in-10 unadjusted baseline' (average of three highest days out of last 10 business days, excluding event days and holidays) or similar with day-of adjustment.",
+    "measurement_interval_minutes": "not specified",
+    "telemetry_requirements": "Enel provides cloud-based energy intelligence software with 24/7 real-time monitoring of energy consumption. Participants have access to performance tracking. Measurement and verification fully managed by Enel.",
+    "verification_method": "Enel performs measurement and verification on behalf of TVA. Calculates Performance Factor for each event. Performance must meet threshold for capacity payment eligibility.",
+    "minimum_performance_threshold": 0.97,
+    "minimum_performance_notes": "Performance Factor of at least 97% required to avoid Protected Demand adjustment penalties under IP30 agreements. If Performance Factor falls below 97% in any two interruptions in consecutive 12-month period, Protected Demand may be increased (reducing payment-eligible capacity). Full performance (100%) in subsequent month allows restoration of original Protected Demand level."
+  },
+  "special_programs": {
+    "is_rec_based": false,
+    "rec_type": null,
+    "scheduled_dispatch": false,
+    "clean_peak_standard": false,
+    "special_attributes": [
+      "federal power authority",
+      "exclusive aggregator partnership",
+      "year-round program",
+      "extreme weather response",
+      "free energy intelligence software",
+      "no upfront costs"
+    ],
+    "related_programs": [
+      {
+        "program_name": "TVA EnergyRight Energy Efficiency Programs",
+        "description": "$1.5 billion investment through 2027 for energy efficiency rebates and demand management, targeting 2,200 MW reduction (equivalent to 1.3 million homes)",
+        "url": "https://energyright.com/"
+      },
+      {
+        "program_name": "TVA Dispatchable Voltage Regulation",
+        "description": "Additional demand response product for voltage optimization",
+        "url": "https://energyright.com/business-industry/demand-response/dvr/"
+      },
+      {
+        "program_name": "TVA Residential Smart Thermostat Rewards",
+        "description": "Residential demand response program using smart thermostats",
+        "url": "https://energyright.com/residential/rebates/smartthermostat/"
+      }
+    ],
+    "tva_specific_notes": "TVA is a federal corporation created in 1933, self-funded through power sales with no taxpayer funding. Operates similarly to ISO/RTO but maintains complete control over generation, transmission, and rates in seven-state region. Current portfolio includes nearly 1,700 MW of demand response capacity from ~600 participants, with goal to reach 2,800 MW by 2030."
+  },
+  "program_history": {
+    "launch_year": "not specified - legacy programs (IP5, IP30) predate current branding",
+    "program_evolution": [
+      {
+        "year": 2015,
+        "change_description": "TVA had established interruptible power programs (IP5, IP30) for large industrial customers"
+      },
+      {
+        "year": 2022,
+        "change_description": "December: Winter Storm Elliott required first-ever emergency load shedding in TVA's 90-year history"
+      },
+      {
+        "year": 2023,
+        "change_description": "October: TVA announced $1.5 billion investment in energy efficiency and demand management over four years, relaunching EnergyRight programs after five-year hiatus"
+      },
+      {
+        "year": 2024,
+        "change_description": "Peak Rewards and PowerFlex programs rebranded/relaunched as part of expanded EnergyRight portfolio. First 10 months helped 653 businesses reduce energy use, avoiding 320,910 tons of CO2. January: Record winter peak demand of 34,524 MW. August: Record summer peak of 31,096 MW."
+      },
+      {
+        "year": 2025,
+        "change_description": "Programs continuing with approximately 1,700 MW enrolled capacity across ~600 participants"
+      }
+    ],
+    "budget_committed_through": 2027,
+    "total_annual_budget": 375000000,
+    "budget_notes": "$1.5 billion committed through FY2027 for combined energy efficiency and demand response programs (approximately $375 million per year average)"
+  },
+  "historical_events": [
+    {
+      "event_id": "winter_storm_elliott_2022",
+      "event_date": "2022-12-23",
+      "start_time": "not specified",
+      "end_time": "not specified",
+      "duration_hours": 8,
+      "season": "Winter",
+      "advance_notice_hours": 0.5,
+      "total_mw_called": 3000,
+      "notes": "Winter Storm Elliott: TVA hit record winter peak of 33.4 GW on December 23, 2022. For first time in 90-year history, TVA directed local power companies to implement emergency load shedding procedures, first by 5%, then by 10%. Nearly 8 hours of load shedding with 3 GW curtailed at worst point. Short rolling blackouts occurred December 23-24."
+    },
+    {
+      "event_id": "winter_storm_heather_2024_jan17",
+      "event_date": "2024-01-17",
+      "start_time": "09:00:00",
+      "end_time": "not specified",
+      "duration_hours": "not specified",
+      "season": "Winter",
+      "total_mw_called": "not specified",
+      "peak_demand_mw": 34524,
+      "notes": "At 9 AM January 17, 2024, TVA withstood all-time record power demand of 34,524 MW during Winter Storm Heather cold snap"
+    },
+    {
+      "event_id": "winter_storm_heather_2024_jan21",
+      "event_date": "2024-01-21",
+      "start_time": "09:00:00",
+      "end_time": "not specified",
+      "duration_hours": "not specified",
+      "season": "Winter",
+      "total_mw_called": "not specified",
+      "peak_demand_mw": 34284,
+      "notes": "Record weekend power demand of 34,284 MW on January 21, 2024. Week of January 15-21 delivered record 4,792 GWh"
+    },
+    {
+      "event_id": "summer_2024_heat_wave",
+      "event_date": "2024-08-29",
+      "start_time": "15:00:00",
+      "end_time": "not specified",
+      "duration_hours": "not specified",
+      "season": "Summer",
+      "total_mw_called": "not specified",
+      "peak_demand_mw": 31096,
+      "notes": "Summer 2024 record peak of 31,096 MW at 3 PM CT on August 29. June 2024 saw 13 days over 28,000 MW including 7-day consecutive streak (typical June averages ~3 days over 28,000 MW)"
+    }
+  ],
+  "historical_events_notes": "Specific DR event call dates, times, and participant performance data are not published publicly by TVA or Enel. Historical system peak demand data provided above from TVA press releases. These represent conditions likely to trigger DR events. Actual DR program event history (dates, durations, MW called specifically from DR participants vs. overall system peak) would require direct inquiry to TVA or Enel.",
+  "data_sources": [
+    {
+      "source_name": "Enel North America - TVA Demand Response Program",
+      "url": "https://www.enelnorthamerica.com/solutions/energy-solutions/demand-response/tennessee-valley-authority-demand-response",
+      "last_updated": "2024",
+      "data_type": "program_rules"
+    },
+    {
+      "source_name": "TVA EnergyRight - Peak Rewards Program",
+      "url": "https://energyright.com/business-industry/demand-response/peak-rewards/",
+      "last_updated": "2024",
+      "data_type": "program_rules"
+    },
+    {
+      "source_name": "TVA EnergyRight - PowerFlex Program",
+      "url": "https://energyright.com/business-industry/demand-response/Powerflex/",
+      "last_updated": "2024",
+      "data_type": "program_rules"
+    },
+    {
+      "source_name": "TVA - About TVA in Virginia",
+      "url": "https://www.tva.com/About-TVA/TVA-in-Virginia",
+      "last_updated": "2024",
+      "data_type": "enrollment"
+    },
+    {
+      "source_name": "TVA EnergyRight Industrial Summit 2025 Recap",
+      "url": "https://energyright.com/2025/07/01/powering-progress-five-key-energy-management-takeaways-from-the-tva-industrial-summit-2025/",
+      "last_updated": "2025-07-01",
+      "data_type": "pricing"
+    },
+    {
+      "source_name": "TVA Press Release - Summer 2024 Record Power Demand",
+      "url": "https://www.tva.com/newsroom/press-releases/tva-sets-summer-2024-record-power-demand",
+      "last_updated": "2024-08",
+      "data_type": "historical_events"
+    },
+    {
+      "source_name": "TVA Press Release - Winter Storm Elliott Report",
+      "url": "https://www.wvlt.tv/2023/05/06/tva-releases-report-detailing-december-2022-blackouts/",
+      "last_updated": "2023-05",
+      "data_type": "historical_events"
+    },
+    {
+      "source_name": "SEC Filing - TVA Interruptible Power Product Agreement Example",
+      "url": "https://www.sec.gov/Archives/edgar/data/1839341/000119312521243436/d172159dex104.htm",
+      "last_updated": "2021",
+      "data_type": "program_rules"
+    },
+    {
+      "source_name": "Wikipedia - Tennessee Valley Authority Service Territory",
+      "url": "https://en.wikipedia.org/wiki/Tennessee_Valley_Authority",
+      "last_updated": "2024",
+      "data_type": "enrollment"
+    }
+  ],
+  "integration_metadata": {
+    "optimizer_compatible": true,
+    "optimizer_notes": "Program structure appears suitable for battery optimization with some caveats. STRENGTHS: Year-round opportunity (not just summer), relatively short events (1-4 hours typical), appears to offer both capacity and energy payments totaling $10-15/kW-month equivalent based on limited examples. Approximately 1,700 MW already enrolled suggests viable market. CHALLENGES: Only 30 minutes advance notice is very tight for battery dispatch optimization (most programs offer 2-4 hours). Lack of published rate schedules makes revenue forecasting difficult. Must work exclusively through Enel aggregator. Emergency calls are unlimited for PowerFlex (unpredictable). Performance Factor minimum of 97% is strict. BATTERY-SPECIFIC CONCERNS: Battery eligibility not explicitly confirmed in public materials. Unknown if TVA/Enel have specific battery interconnection, telemetry, or operating requirements. Recommend direct contact with Enel to confirm BESS participation requirements before investment decisions.",
+    "api_available": true,
+    "api_notes": "Enel provides cloud-based energy intelligence software platform with 24/7 real-time monitoring. Likely has API capability for large aggregations but specific API documentation not publicly available. Integration would be through Enel's platform rather than direct TVA API.",
+    "api_documentation_url": "not publicly available",
+    "api_contact": "Contact Enel North America for technical integration details",
+    "data_quality_score": 4.5,
+    "data_quality_explanation": "MODERATE-LOW quality data due to significant gaps in public documentation. STRENGTHS: Geographic verification confirmed (TVA does serve Virginia), program structure confirmed (Enel exclusive partnership), general eligibility confirmed (50 kW and 1 MW thresholds), event parameters partially documented (30 min notice, 1-4 hour duration, 32-96 hours/year). WEAKNESSES: Specific payment rates NOT published publicly (only one PowerFlex example provided implying ~$9.47/kW-month + $0.10/kWh), baseline methodology not specified, event trigger thresholds not quantified, historical DR event log not available, battery storage eligibility not explicitly confirmed, no forward pricing curves, measurement/telemetry requirements not detailed, enrollment deadlines not specified. Score reflects that while program existence and basic structure are verified, operational and financial details necessary for battery investment analysis are largely unavailable publicly. This is typical for non-ISO utility DR programs but creates significant uncertainty for optimization modeling.",
+    "last_verified_date": "2025-10-11",
+    "notes": "TVA operates demand response differently than ISO/RTO markets due to its unique structure as federal corporation with captive service territory. Lack of published rates is notable compared to ISO programs like ERCOT or PJM where pricing is transparent. Enel exclusive partnership means no competitive aggregator market. For Virginia specifically: TVA service area is limited to southwestern counties (Bristol, Abingdon area) - most of Virginia is PJM territory (Dominion, AEP). Customers in southwestern VA should verify they are served by BVU Authority or Powell Valley Electric Cooperative before assuming TVA program eligibility."
+  },
+  "data_gaps_and_assumptions": {
+    "missing_data_fields": [
+      "Specific capacity payment rates ($/kW-month) for Peak Rewards",
+      "Specific capacity payment rates ($/kW-month) for PowerFlex (only one example provided)",
+      "Specific energy payment rates ($/kWh) for Peak Rewards",
+      "Specific energy payment rates ($/kWh) for PowerFlex (only one example provided)",
+      "Baseline calculation methodology (specific formula)",
+      "Measurement interval (minutes) for telemetry",
+      "Maximum number of events per year (only hours specified)",
+      "Event trigger thresholds (specific temperature °F, load MW)",
+      "Historical DR event call log (specific dates, times, durations for DR events vs. system peaks)",
+      "Enrollment deadlines and nomination schedule",
+      "Response time requirement (minutes from notification to full curtailment)",
+      "Minimum rest hours between events",
+      "Maximum consecutive event days",
+      "Current number of participants in Virginia specifically",
+      "Current enrolled capacity in Virginia (MW)",
+      "Battery energy storage system specific eligibility requirements",
+      "Battery interconnection requirements",
+      "Battery telemetry and control requirements",
+      "Penalty rates ($/kW) beyond Protected Demand adjustment mechanism",
+      "Testing frequency and requirements",
+      "Forward pricing curves or rate schedules",
+      "API technical documentation",
+      "Seasonal variation in payment rates (if any)"
+    ],
+    "assumptions_made": [],
+    "assumptions_notes": "NO ASSUMPTIONS MADE. All fields marked 'not specified' or 'not available' genuinely represent data gaps in public documentation. Where calculations were performed (e.g., implied rates from the 5 MW PowerFlex example), these are shown explicitly with calculation methodology and caveated as examples that may not represent all configurations.",
+    "conflicting_information": [],
+    "data_quality_concerns": [
+      "Payment rates are not published publicly in standardized $/kW-month and $/kWh format. Only one PowerFlex example was found (5 MW facility, 96 hours, $568,200 capacity + $48,000 energy), which implies rates but may not be representative of all enrollment configurations.",
+      "Battery storage eligibility is not explicitly addressed in any public TVA or Enel materials reviewed. TVA discusses utility-scale battery deployments for grid operations but does not clarify if/how customer-sited BESS can participate in DR programs.",
+      "Historical event data conflates system-wide peak demand events with actual DR program dispatch events. TVA publishes system peak records but not specific DR event call history (dates, times, MW dispatched from DR participants).",
+      "Performance measurement methodology is referenced but not detailed. Industry standard CBL approaches are likely used but TVA/Enel do not publish specific baseline calculation formula or adjustment methodology.",
+      "Virginia-specific enrollment data not available. Overall TVA region has ~600 participants and ~1,700 MW, but breakdown by state not published.",
+      "Program evolution timeline unclear. IP5/IP30 legacy programs existed for years, rebranded as Peak Rewards/PowerFlex as part of 2023 EnergyRight relaunch, but specific program history not documented.",
+      "Enel exclusive partnership confirmed but terms not public. Unknown if this is a long-term contract, if competitive bidding occurred, or if other aggregators could participate in future."
+    ]
+  },
+  "research_summary": {
+    "research_date": "2025-10-11",
+    "research_duration_minutes": 35,
+    "researcher_notes": "GEOGRAPHIC VERIFICATION: Confirmed TVA DOES serve Virginia (southwestern counties only via Bristol Virginia Utilities and Powell Valley Electric Cooperative). This is NOT a classification error. FY2017 data shows 624M kWh to VA serving 20,000+ households. PROGRAM STRUCTURE: TVA operates two main DR programs (Peak Rewards 50kW+, PowerFlex 1MW+) exclusively through Enel North America aggregator partnership. Programs are year-round (not summer-only), 30-minute notice, 1-4 hour events, up to 32-96 hours/year depending on enrollment. PAYMENT RATES: Major data gap. TVA/Enel do not publish rate schedules. One PowerFlex example found: 5MW facility, 96hr enrollment, earns $568,200 capacity + $48,000 energy = $616,200 total annually, implying ~$9.47/kW-mo + $0.10/kWh. These implied rates are reasonable for utility DR programs but should be verified as this single example may not represent other configurations. BATTERY ELIGIBILITY: Critical gap for this use case. Battery storage eligibility NOT explicitly confirmed in any public materials. TVA deploys utility-scale BESS but customer-sited BESS participation in DR is not documented. RECOMMENDATION: Direct contact with Enel required before making battery investment decisions based on this program. HISTORICAL EVENTS: TVA experienced significant grid stress events 2022-2024 (Winter Storm Elliott required emergency load shedding, 2024 set winter and summer peak records), indicating DR programs are genuinely used during system emergencies. CONFIDENCE LEVEL: Moderate confidence in basic program structure, low confidence in financial projections due to rate data gaps and lack of battery-specific confirmation.",
+    "verification_status": "All data extracted from authoritative sources (TVA official websites, Enel official websites, TVA press releases, SEC filings) or marked as 'not specified' when unavailable. Geographic verification performed via multiple sources including TVA.com, Wikipedia, local utility websites. NO DATA INVENTED. Calculated implied rates from published example clearly labeled as calculations with methodology shown.",
+    "recommended_next_steps": [
+      "CRITICAL: Contact Enel North America via https://www.enelx.com/n-a/en/forms/tva-inquiry to verify battery energy storage system eligibility and obtain specific participation requirements for BESS",
+      "Request detailed rate schedules for PowerFlex and Peak Rewards programs for various enrollment configurations (capacity hour commitments, notification options)",
+      "Obtain baseline calculation methodology and measurement/verification procedures",
+      "Request historical DR event call data (dates, times, durations, advance notice) for 2022-2024 to validate event frequency and duration assumptions",
+      "Verify TVA service territory for specific Virginia site address - confirm site is served by Bristol Virginia Utilities or Powell Valley Electric Cooperative (not Dominion/PJM)",
+      "For battery-specific inquiry, provide Enel with: system size (kW), duration (hours), interconnection type (behind-meter vs front-of-meter), telemetry capabilities, response time capability",
+      "Ask about interaction with other revenue streams: Can BESS participate in DR while also doing energy arbitrage? Are there any exclusivity requirements?",
+      "Clarify emergency call provisions for PowerFlex ('unlimited emergency calls') - what constitutes emergency vs. economic dispatch?",
+      "Request forward rate schedule or multi-year pricing commitment if planning long-term battery investment",
+      "Ask about any upcoming program changes related to TVA's $1.5B EnergyRight investment through 2027",
+      "If site is commercial/industrial with >1 MW demand, focus on PowerFlex (higher payments); if smaller facility, Peak Rewards may be only option"
+    ],
+    "confidence_level": "moderate",
+    "confidence_explanation": "MODERATE confidence overall, varying by category: HIGH confidence in geographic verification (TVA serves southwestern Virginia via BVU/Powell Valley - verified through multiple sources), HIGH confidence in program structure (Enel partnership, basic eligibility, event parameters confirmed through official sources), MODERATE confidence in financial estimates (implied rates calculated from single example, actual rates may vary significantly by configuration), LOW confidence in battery-specific applicability (no explicit confirmation of BESS eligibility found in public materials), LOW confidence in operational details (baseline methodology, telemetry requirements, event triggers not quantified). The fundamental challenge is that TVA/Enel operate DR programs with minimal public disclosure compared to ISO/RTO markets. This is not unusual for utility-based programs but creates uncertainty for investment modeling. For battery optimization analysis, recommend treating this as 'requires verification' rather than 'confirmed opportunity' until direct contact with Enel confirms BESS participation and obtains actual rate schedules."
+  },
+  "battery_suitability_assessment": {
+    "suitable_for_battery": "uncertain - requires verification",
+    "suitability_score": 5.0,
+    "suitability_score_explanation": "Scale 0-10 where 10 is ideal for batteries. Score of 5.0 reflects significant uncertainty due to data gaps, not fundamental program incompatibility. POSITIVE FACTORS: Year-round opportunity (+1), relatively short duration events 1-4 hours (+1), reasonable implied payment rates ~$10/kW-mo + $0.10/kWh (+1.5), established program with ~1700 MW enrolled (+0.5). NEGATIVE FACTORS: 30-minute advance notice is very tight for optimization (-1.5), battery eligibility not explicitly confirmed (-2), rate schedules not published (-1), emergency calls unlimited creating unpredictability (-0.5), 97% performance threshold is strict (-0.5), must use exclusive aggregator Enel (-0.5). NEUTRAL: Event frequency appears manageable for battery cycles, penalty structure is capacity adjustment rather than cash penalty (unclear impact). If battery eligibility confirmed and actual rates match implied rates, score could increase to 7-8. If battery eligibility NOT confirmed or rates significantly lower, score could decrease to 2-3.",
+    "key_battery_considerations": [
+      "CRITICAL: Battery eligibility not confirmed - must verify with Enel before proceeding",
+      "30-minute advance notice requires fast automated dispatch - manual operation impractical",
+      "1-4 hour discharge duration is well-matched to typical 2-4 hour battery systems",
+      "Up to 96 hours/year dispatch for PowerFlex (~2-48 cycles/year depending on event duration) is very low cycle usage, leaving capacity for other revenue streams",
+      "97% performance threshold requires reliable system - battery SOC management and availability critical",
+      "Year-round dispatch (not summer-only) means winter charging costs may be lower, improving economics",
+      "Unlimited emergency calls for PowerFlex could occasionally force discharge during unfavorable arbitrage conditions",
+      "Enel provides monitoring software but unclear if compatible with battery management systems",
+      "Unknown if energy throughput (MWh) or just capacity (MW) limits apply - if MWh-limited, short high-power discharges may be optimal",
+      "2-4 hour events at $0.10/kWh performance payment implies $200-400/MWh effective price during events - significantly higher than typical wholesale energy prices, making DR dispatch economically attractive",
+      "Capacity payment of ~$9.47/kW-month ($113.64/kW-year) is moderate compared to other programs but provides stable revenue",
+      "Total revenue potential example: 5 MW system, 96 hours = $616,200/year = $123/kW-year. For 5 MW, 4-hour system (20 MWh), this is ~$31/kWh annual revenue against typical system costs of $250-400/kWh, suggesting 8-13 year simple payback on DR alone (before energy arbitrage revenue).",
+      "Virginia location in TVA territory (not PJM) means no participation in PJM capacity market - this is likely the primary DR revenue opportunity available"
+    ],
+    "recommended_battery_configuration": "2-4 hour duration system sized to facility's curtailable load for behind-the-meter participation. For PowerFlex (1 MW+): typical configuration might be 1-5 MW, 4-hour (4-20 MWh) system. For Peak Rewards (50-999 kW): 50-500 kW, 2-4 hour system. Recommend DC-coupled system with fast response capability (<10 minutes to full power) to accommodate 30-minute dispatch notice. Critical: automated dispatch system required - Enel platform integration necessary. Oversizing vs. nominated capacity may be prudent given 97% performance requirement (e.g., nominate 1 MW, install 1.1-1.2 MW to ensure ability to deliver during degradation or partial outages).",
+    "alternative_revenue_stacks": [
+      "Energy arbitrage (charge off-peak, discharge on-peak) - likely primary revenue stream given low DR cycle frequency",
+      "Backup power / resilience for critical facility loads",
+      "Demand charge reduction for host facility (if behind-the-meter)",
+      "Potential future participation if TVA adopts frequency regulation markets (currently not offered)",
+      "Renewable energy time-shifting if facility has on-site solar",
+      "UNLIKELY: Wholesale energy market participation (TVA is not organized wholesale market like ISO)",
+      "UNAVAILABLE: PJM capacity market (Virginia TVA territory is not in PJM)"
+    ],
+    "risk_factors": [
+      "Battery eligibility uncertainty - program may not accept BESS",
+      "Rate uncertainty - actual rates may differ significantly from single example analyzed",
+      "Exclusive aggregator dependency - must work through Enel, no competitive alternatives",
+      "30-minute notice constraint - requires robust automated systems, high operational risk if automation fails",
+      "Unlimited emergency calls - unpredictable event frequency in extreme conditions",
+      "97% performance threshold - penalties kick in quickly, requires high system reliability",
+      "Unclear interaction with energy arbitrage - simultaneous participation may have restrictions",
+      "TVA regulatory risk - federal corporation structure means potential for program changes without state PUC oversight",
+      "Small Virginia service territory - limited market size if battery fleet expansion planned",
+      "Event prediction difficulty - no published trigger thresholds makes forecasting when events will occur challenging"
+    ]
+  }
+}

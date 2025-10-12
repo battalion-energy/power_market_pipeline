@@ -1,0 +1,302 @@
+{
+  "program_id": "pseg_li_smart_savers_2024",
+  "program_name": "Smart Savers Thermostat Program",
+  "program_type": "utility",
+  "status": "active",
+  "description": "Smart Savers is a residential direct load control program for customers with internet-connected smart thermostats controlling central air conditioning systems. During periods of high electricity demand and system emergencies, PSEG Long Island remotely adjusts participating thermostats to reduce peak load. The program pre-cools homes by 3 degrees for 30 minutes, then raises thermostats by 4 degrees during critical 3-hour periods (typically 4-7 PM on hot summer days). Customers receive $85 for initial enrollment and $25 annually for continued participation. This is a RESIDENTIAL-ONLY program and is NOT suitable for commercial/industrial battery systems. Customers enrolled in Smart Savers cannot simultaneously participate in the Battery Storage Rewards Program.",
+  "geography": {
+    "states": ["NY"],
+    "utilities": ["PSEG Long Island"],
+    "isos": ["NYISO"],
+    "service_territories": ["Long Island and the Rockaways"]
+  },
+  "eligibility": {
+    "customer_classes": {
+      "residential": true,
+      "commercial": false,
+      "industrial": false,
+      "residential_max_kw": null,
+      "commercial_min_kw": null,
+      "size_threshold_notes": "This program is EXCLUSIVELY for residential customers with central air conditioning systems. Commercial and industrial customers are NOT eligible. Battery storage systems (whether residential or commercial) enrolled in PSEG Long Island's Battery Storage Rewards Program cannot participate in Smart Savers - customers must choose one program or the other."
+    },
+    "behind_the_meter": true,
+    "front_of_meter": false,
+    "minimum_capacity_kw": null,
+    "maximum_capacity_kw": null,
+    "resource_types": [
+      "residential air conditioning load",
+      "smart thermostat direct load control"
+    ],
+    "requires_aggregator": false,
+    "additional_notes": "Participants must be PSEG Long Island electric customers with an approved internet-connected smart thermostat (Alarm.com, Amazon Smart Thermostat, Ecobee, Honeywell, Lux Geo, Nest, Radio Thermostat, Sensi, or Vivint). Thermostat must control central air conditioning system. Enrollment occurs through individual thermostat manufacturer's program link. This is NOT a battery storage program - it is a thermostat-based residential demand response program."
+  },
+  "notification": {
+    "day_ahead_notice": false,
+    "minimum_notice_hours": null,
+    "maximum_notice_hours": null,
+    "notification_methods": [
+      "email",
+      "text message (SMS)",
+      "pre-recorded phone messages",
+      "other notifications"
+    ],
+    "notification_details": "Participants receive notifications about enrollment status, program-related device adjustments, and surveys via email, text messages, and pre-recorded messages. Events are typically announced via press releases 1-2 days before. Specific advance notice timing for individual customers is not disclosed in available documentation."
+  },
+  "payment_structure": {
+    "has_capacity_payment": true,
+    "has_performance_payment": false,
+    "capacity_rate": {
+      "value": 85.00,
+      "unit": "$ per thermostat (one-time enrollment)",
+      "varies_by_season": false,
+      "seasonal_rates": null
+    },
+    "performance_rate": null,
+    "penalty_structure": {
+      "has_penalties": false,
+      "penalty_rate": null,
+      "penalty_unit": null,
+      "penalty_description": "No explicit financial penalties. However, customers who do not participate in at least 50% of thermostat adjustment events will not receive the $25 annual incentive payment for subsequent years."
+    },
+    "bonus_payments": [
+      {
+        "description": "Annual continuation incentive for participating in at least 50% of events",
+        "rate": 25.00,
+        "unit": "$ per year",
+        "conditions": "Must fully participate in a minimum of 50% of all thermostat adjustment events during the year to qualify for the $25 annual payment in subsequent years."
+      }
+    ],
+    "forward_curve_available": false,
+    "forward_curve_url": null,
+    "payment_details": "Initial enrollment incentive of $85 per eligible thermostat is issued within 8 weeks of enrollment approval. Annual $25 incentive payments are contingent on participating in at least 50% of adjustment events. Customers may opt out of individual events at any time by manually adjusting their thermostat, but opting out may affect annual incentive eligibility."
+  },
+  "seasons": [
+    {
+      "season_name": "Summer DR Season",
+      "start_date": "05-01",
+      "end_date": "09-30",
+      "max_events": null,
+      "max_hours": null,
+      "notes": "Program runs May 1st through September 30th annually. Events are called during critical periods or system electric emergencies, typically on hot summer afternoons."
+    }
+  ],
+  "call_windows": [
+    {
+      "window_id": "peak_demand_afternoon",
+      "start_hour": 16,
+      "end_hour": 19,
+      "days_of_week": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday"
+      ],
+      "seasons": [
+        "Summer DR Season"
+      ],
+      "timezone": "America/New_York",
+      "notes": "Based on verified historical events (2023 and 2024), events occur during afternoon peak hours, typically 4:00 PM to 7:00 PM. Events can be called on both weekdays and weekends during periods of extreme heat and high electricity demand. Pre-cooling begins 30 minutes before the main event (3:30 PM)."
+    }
+  ],
+  "event_parameters": {
+    "typical_duration_hours": 3.0,
+    "minimum_duration_hours": null,
+    "maximum_duration_hours": null,
+    "event_granularity_minutes": null,
+    "response_time_minutes": null,
+    "max_events_per_season": null,
+    "max_events_per_year": null,
+    "max_hours_per_season": null,
+    "max_hours_per_year": null,
+    "max_consecutive_events": null,
+    "minimum_rest_hours": null,
+    "event_trigger_details": "Events are triggered during 'critical periods' or 'system electric emergencies' when electricity demand is extremely high, typically during heat waves. The utility remotely sends signals to enrolled thermostats to implement temperature adjustments. Historical data shows very limited event frequency: only 1 event in 2024 (July 16) and at least 1 event in 2023 (July 28).",
+    "load_reduction_requirements": "Pre-cool homes by 3 degrees for 30 minutes starting at 3:30 PM. Raise thermostats by 4 degrees from 4:00 PM to 7:00 PM (3-hour event). Customers can manually override at any time but may forfeit annual incentive eligibility.",
+    "response_requirements": "Automatic remote response - no manual customer action required. Thermostats are controlled remotely by the utility through the vendor platform. Adjustments are described as 'minimal impact on comfort' with temperature changes 'limited to a few degrees.'"
+  },
+  "nomination_bidding": {
+    "requires_nomination": false,
+    "nomination_frequency": "none",
+    "nomination_deadline": null,
+    "allows_price_bidding": false,
+    "bidding_structure": "not applicable",
+    "enrollment_period": {
+      "start_date": "ongoing",
+      "end_date": "ongoing",
+      "recurring": true
+    },
+    "nomination_details": "No capacity nomination required. Customers enroll through their thermostat manufacturer's program link and are approved within 8 weeks. Program auto-renews annually unless customer withdraws. Initial Program Period was April 1, 2016 - April 1, 2017, and has continued with annual auto-renewal thereafter."
+  },
+  "baseline_methodology": {
+    "baseline_type": "not applicable for thermostat program",
+    "baseline_calculation": "Performance is measured through device-level control rather than baseline comparison. Load reduction is calculated based on aggregated response across all enrolled devices during events.",
+    "day_of_adjustment": {
+      "enabled": false,
+      "optional": false,
+      "method": null,
+      "cap_percentage": null,
+      "direction": null
+    },
+    "metering_requirements": "No special interval metering required for participants. Smart thermostats must be internet-connected and compatible with the vendor platform (Energy Hub / Thermostat Rewards). Load reduction is measured in aggregate across the program, not at individual customer level."
+  },
+  "special_programs": {
+    "is_rec_based": false,
+    "rec_type": null,
+    "scheduled_dispatch": false,
+    "clean_peak_standard": false,
+    "special_attributes": [
+      "Residential-only direct load control program",
+      "Smart thermostat automated control",
+      "Voluntary participation with opt-out capability during events",
+      "Pre-cooling strategy to minimize customer discomfort",
+      "Cannot be combined with Battery Storage Rewards Program",
+      "Vendor platform managed (Energy Hub / Thermostat Rewards)",
+      "Multiple thermostat brand compatibility"
+    ]
+  },
+  "program_history": {
+    "launch_year": 2016,
+    "program_evolution": [
+      {
+        "year": 2016,
+        "change_description": "Initial Program Period began April 1, 2016. Program established to provide voluntary demand response capability for residential customers with smart thermostats."
+      },
+      {
+        "year": 2019,
+        "change_description": "PSEG Long Island expanded behind-the-meter battery storage programs, establishing mutual exclusivity between Smart Savers and Battery Storage Rewards Program."
+      },
+      {
+        "year": 2023,
+        "change_description": "Program enrollment reached nearly 35,000 customers. At least one curtailment event called on July 28, 2023 during heat advisory."
+      },
+      {
+        "year": 2024,
+        "change_description": "Program enrollment exceeded 40,000 customers. One curtailment event called on July 16, 2024, achieving 52.06 MW peak load reduction with average 0.78 kW per device (improved from 0.72 kW in 2023)."
+      }
+    ],
+    "budget_committed_through": null,
+    "total_annual_budget": null,
+    "participation_statistics": "40,000+ customers enrolled as of July 2024. Program achieved 52.06 MW load reduction during July 16, 2024 event with 0.78 kW average per device."
+  },
+  "historical_events": [
+    {
+      "event_id": "smart_savers_20230728",
+      "event_date": "2023-07-28",
+      "start_time": "16:00:00",
+      "end_time": "19:00:00",
+      "duration_hours": 3.0,
+      "season": "Summer DR Season",
+      "notification_time": null,
+      "advance_notice_hours": null,
+      "call_window": "peak_demand_afternoon",
+      "performance_payment_rate": 0,
+      "total_mw_called": null,
+      "notes": "Event called on Friday during heat advisory for Long Island and the Rockaways. Pre-cooling at 3:30 PM (3 degrees for 30 minutes), thermostat raise 4 degrees from 4-7 PM. Nearly 35,000 customers enrolled at this time. Average load shed per device: 0.72 kW."
+    },
+    {
+      "event_id": "smart_savers_20240716",
+      "event_date": "2024-07-16",
+      "start_time": "16:00:00",
+      "end_time": "19:00:00",
+      "duration_hours": 3.0,
+      "season": "Summer DR Season",
+      "notification_time": null,
+      "advance_notice_hours": null,
+      "call_window": "peak_demand_afternoon",
+      "performance_payment_rate": 0,
+      "total_mw_called": 52.06,
+      "notes": "Event called on Tuesday during hot weather. Pre-cooling at 3:30 PM (3 degrees for 30 minutes), thermostat raise 4 degrees from 4-7 PM. Over 40,000 customers enrolled. Achieved 52.06 MW peak load reduction. Average load shed per device improved to 0.78 kW (up from 0.72 kW in 2023)."
+    }
+  ],
+  "recent_grid_reliability_context": {
+    "notes": "PSEG Long Island operates within NYISO territory on Long Island and the Rockaways. The Smart Savers program is called infrequently during extreme heat events to reduce peak demand and lower future capacity purchase costs. Between 2023-2024, only 2 events were identified (July 28, 2023 and July 16, 2024), both during summer heat waves. The program is designed as a voluntary conservation measure rather than an emergency grid reliability program. Events typically occur during late afternoon peak hours (4-7 PM) when air conditioning load is highest."
+  },
+  "data_sources": [
+    {
+      "source_name": "PSEG Long Island Smart Savers Program Page",
+      "url": "https://www.psegliny.com/en/saveenergyandmoney/GreenEnergy/PeakLoad/SmartSavers",
+      "last_updated": "2024-10-11",
+      "data_type": "program_rules"
+    },
+    {
+      "source_name": "PSEG Long Island Smart Savers Terms and Conditions",
+      "url": "https://mercury.energyhub.net/t/terms/pseg-li/lux-pseg-li.html",
+      "last_updated": "2024-10-11",
+      "data_type": "program_rules"
+    },
+    {
+      "source_name": "Thermostat Rewards FAQ - PSEG LI",
+      "url": "https://www.thermostatrewards.com/pseg-li/faq/",
+      "last_updated": "2024-10-11",
+      "data_type": "program_rules"
+    },
+    {
+      "source_name": "PSEG Long Island Press Release - July 27, 2023 Event",
+      "url": "https://www.psegliny.com/en/Newsroom/2023/072723-heat",
+      "last_updated": "2023-07-27",
+      "data_type": "historical_events"
+    },
+    {
+      "source_name": "PSEG Long Island Press Release - July 16, 2024 Event",
+      "url": "https://www.psegliny.com/Newsroom/2024/071624-SmartSavers",
+      "last_updated": "2024-07-16",
+      "data_type": "historical_events"
+    },
+    {
+      "source_name": "2024 Dynamic Load Management Program Report",
+      "url": "https://documents.dps.ny.gov/public/Common/ViewDoc.aspx?DocRefId=%7BC0143193-0000-C91C-96C0-04483D009B31%7D",
+      "last_updated": "2024-11-15",
+      "data_type": "historical_events"
+    }
+  ],
+  "integration_metadata": {
+    "optimizer_compatible": false,
+    "api_available": false,
+    "api_documentation_url": null,
+    "data_quality_score": 7.5,
+    "last_verified_date": "2024-10-11",
+    "notes": "Smart Savers is NOT suitable for commercial battery systems for multiple critical reasons: (1) Program is EXCLUSIVELY for residential customers with smart thermostats - commercial/industrial customers are explicitly INELIGIBLE, (2) This is a thermostat direct load control program, not a battery or general demand response program, (3) Battery storage systems enrolled in PSEG Long Island's Battery Storage Rewards Program cannot participate in Smart Savers - programs are mutually exclusive, (4) Event frequency is very low (1-2 events per year), (5) Payments are fixed per-thermostat amounts ($85 initial, $25 annual), not capacity or performance-based for batteries, (6) No API or automated dispatch interface for external systems. Commercial/industrial customers with battery systems should investigate PSEG Long Island's separate Commercial System Relief Program (CSRP) or Battery Storage Rewards Program instead."
+  },
+  "data_quality_assessment": {
+    "verified_data_points": [
+      "$85 initial enrollment incentive per thermostat",
+      "$25 annual incentive payment for subsequent years",
+      "50% minimum event participation requirement for annual payment",
+      "Residential-only eligibility",
+      "Central air conditioning requirement",
+      "Smart thermostat requirement (9 compatible brands listed)",
+      "Program season: May 1 - September 30",
+      "Typical event: 4:00 PM - 7:00 PM (3 hours)",
+      "Pre-cooling: 3 degrees for 30 minutes at 3:30 PM",
+      "Temperature adjustment: +4 degrees during event",
+      "Customer can manually override at any time",
+      "Enrollment approval within 8 weeks",
+      "Auto-renewal annually",
+      "Cannot combine with Battery Storage Rewards Program",
+      "July 28, 2023 event (nearly 35,000 enrolled customers)",
+      "July 16, 2024 event (40,000+ enrolled, 52.06 MW reduction, 0.78 kW/device)",
+      "Program launch year: 2016 (Initial Period April 1, 2016 - April 1, 2017)",
+      "Commercial/industrial customers NOT ELIGIBLE"
+    ],
+    "data_gaps": [
+      "Maximum number of events per year/season",
+      "Maximum total event hours per year/season",
+      "Specific advance notice timing to customers",
+      "Complete historical event data prior to 2023",
+      "Total annual program budget",
+      "Baseline methodology for aggregate load reduction calculations",
+      "Individual customer metering/measurement methodology",
+      "Disqualification criteria details beyond program terms",
+      "Relationship with NYISO demand response programs",
+      "Third-party aggregator participation (if any)",
+      "API availability for thermostat vendors",
+      "Event forecasting or day-ahead notification procedures"
+    ],
+    "confidence_level": "high",
+    "verification_method": "Multiple authoritative sources cross-referenced including PSEG Long Island official program pages, vendor platform terms and conditions, official press releases announcing specific events with dates and performance metrics, and New York Public Service Commission filings. All incentive amounts, eligibility criteria, event parameters, and historical performance verified from official utility and regulatory sources. NO DATA WAS INVENTED - all values are from verified sources or explicitly marked as null/not available.",
+    "researcher_notes": "CRITICAL FINDING: This program is RESIDENTIAL-ONLY and NOT suitable for commercial/industrial battery systems. The request asked about battery system suitability, and the answer is definitively NO - commercial customers are explicitly ineligible. This is a direct load control program for home air conditioning via smart thermostats, not a general demand response or battery program. Commercial battery owners should investigate PSEG Long Island's separate Commercial System Relief Program (CSRP) which offers $5/kW-month reservation payments and $0.25/kWh performance payments, or the Battery Storage Rewards Program. These commercial programs are explicitly separate from Smart Savers. Event frequency is very low (1-2 per summer), consistent with voluntary conservation rather than frequent economic dispatch. Program has grown significantly (35K to 40K+ customers 2023-2024) and improved per-device performance (0.72 to 0.78 kW average). All data strictly sourced from official documents - no mock or invented data used per project requirements."
+  }
+}

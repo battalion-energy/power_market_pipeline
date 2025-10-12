@@ -1,0 +1,373 @@
+{
+  "program_id": "SCE-SDP-SUMMER-DISCOUNT-PLAN",
+  "program_name": "Summer Discount Plan",
+  "program_type": "utility",
+  "status": "active",
+  "research_completed_date": "2025-10-11",
+  "data_quality_score": 8,
+  "description": "The Summer Discount Plan is a direct load control program operated by Southern California Edison (SCE) for business customers with central air conditioning units. SCE installs a free remote-controlled device on participants' AC units and temporarily cycles the compressor during high-demand events. The program offers three participation levels (Maximum Savings with 100% cycling, Good Value with 50% cycling, Maximum Comfort with 30% cycling) with corresponding annual bill credits. Events are triggered by CAISO system alerts, grid control center needs, high wholesale energy prices, or system testing. This is an AC cycling program only - NOT designed for battery energy storage systems or general load curtailment.",
+
+  "geography": {
+    "states": ["CA"],
+    "utilities": ["Southern California Edison (SCE)"],
+    "isos": ["CAISO"],
+    "service_territories": ["SCE business customers in Southern California"],
+    "notes": "Program operates within SCE's Southern California service territory. Events can be triggered by CAISO wholesale market conditions."
+  },
+
+  "eligibility": {
+    "customer_classes": {
+      "residential": false,
+      "commercial": true,
+      "industrial": true,
+      "agricultural": true,
+      "size_threshold_notes": "Program is specifically for business customers (commercial, industrial, agricultural) with qualifying Commercial & Industrial rate plans and central air conditioning units. This is NOT a residential program."
+    },
+    "behind_the_meter": true,
+    "front_of_meter": false,
+    "minimum_capacity_kw": "not specified",
+    "maximum_capacity_kw": "not specified",
+    "resource_types": [
+      "central air conditioning only"
+    ],
+    "requires_aggregator": false,
+    "aggregator_name": "not applicable",
+    "meter_requirements": "Must have Edison SmartConnect or interval data recorder meter",
+    "ineligible_customers": [
+      "Customers already enrolled in Critical Peak Pricing",
+      "Customers already enrolled in Capacity Bidding Program",
+      "Customers already enrolled in TOU Base Interruptible Program",
+      "Customers without qualifying Commercial & Industrial rate plan",
+      "Customers with AC units not in good working order",
+      "Tenants without property owner approval"
+    ],
+    "eligible_customer_types": [
+      "Business customers with qualifying Commercial & Industrial rate plans",
+      "Property owners with central AC units",
+      "Tenants with property owner approval"
+    ],
+    "notes": "CRITICAL CLARIFICATION: This program is ONLY for air conditioning cycling through direct load control devices installed by SCE. This is NOT a battery energy storage program. Battery systems are NOT eligible for the Summer Discount Plan. This is a traditional AC cycling demand response program focused solely on compressor control during peak events."
+  },
+
+  "notification": {
+    "day_ahead_notice": false,
+    "minimum_notice_hours": "not specified",
+    "maximum_notice_hours": "not specified",
+    "notification_methods": [
+      "optional email alerts",
+      "optional text message alerts",
+      "optional phone alerts",
+      "SCE DR Alerts smartphone app"
+    ],
+    "notification_notes": "Notification is optional and provided as a courtesy. Customers can receive event alerts via email, text message, phone call, or through the SCE DR Alerts smartphone app. Event status can also be viewed at sce.com/drp/events. However, participation does not require notification - SCE can cycle AC units remotely regardless of whether customer receives or checks notifications."
+  },
+
+  "payment_structure": {
+    "has_capacity_payment": true,
+    "has_performance_payment": false,
+    "capacity_rate": {
+      "value": "varies by cycling option",
+      "unit": "$/year per AC unit",
+      "varies_by_season": false,
+      "varies_by_product": true,
+      "product_rates": [
+        {
+          "product": "Maximum Savings (100% cycling)",
+          "rate": 145,
+          "unit": "$/year per unit",
+          "description": "AC compressor shut off 100% during events"
+        },
+        {
+          "product": "Good Value (50% cycling)",
+          "rate": 50,
+          "unit": "$/year per unit",
+          "description": "AC compressor shut off 15 minutes per 30 minutes during events"
+        },
+        {
+          "product": "Maximum Comfort (30% cycling)",
+          "rate": 10,
+          "unit": "$/year per unit",
+          "description": "AC compressor shut off 9 minutes per 30 minutes during events"
+        }
+      ],
+      "notes": "Bill credits are fixed annual amounts per AC unit based on chosen cycling option. Credits are applied June 1 to October 1. Payment is capacity-based (enrollment credit) not performance-based. Up to means customers receive the stated amount IF they meet participation requirements."
+    },
+    "performance_rate": {
+      "value": "not applicable",
+      "unit": "not applicable",
+      "varies_by_season": false,
+      "varies_by_time": false,
+      "energy_payment_basis": "not applicable",
+      "notes": "This program does not have performance-based payments. Credits are fixed annual amounts based on enrollment and cycling option selected. There are no per-event or per-kWh energy payments."
+    },
+    "penalty_structure": {
+      "has_penalties": false,
+      "penalty_rate": "not applicable",
+      "penalty_unit": "not applicable",
+      "penalty_description": "No penalties specified for non-performance. Program uses direct load control so SCE controls the equipment directly.",
+      "performance_thresholds": [],
+      "notes": "Since SCE directly controls the AC equipment through installed devices, there are no customer performance requirements or penalties for non-compliance. The device automatically cycles the compressor during events."
+    },
+    "bonus_payments": [],
+    "forward_curve_available": false,
+    "forward_curve_url": "not available",
+    "payment_notes": "Credits are simple fixed annual amounts per AC unit. Maximum Savings option ($145/year) offers highest payment but most aggressive cycling. Customers can enroll multiple AC units and receive credits for each. Device installation is free. 1-year minimum commitment required."
+  },
+
+  "seasons": [
+    {
+      "season_name": "Bill Credit Period",
+      "start_date": "06-01",
+      "end_date": "10-01",
+      "max_events": "not specified",
+      "max_hours": 180,
+      "notes": "Bill credits are applied June 1 to October 1. However, events can occur year-round, 24 hours per day, seven days per week. Maximum 180 total cycling hours per year. Maximum 6 hours of cycling per day."
+    }
+  ],
+
+  "call_windows": [
+    {
+      "window_id": "year_round_any_time",
+      "start_hour": 0,
+      "end_hour": 24,
+      "days_of_week": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+      "seasons": ["all year"],
+      "timezone": "America/Los_Angeles",
+      "notes": "Events can be called at any time, 24 hours per day, seven days per week, year-round. No specific restricted call windows. Events most likely during summer peak hours but not limited to those times."
+    }
+  ],
+
+  "event_parameters": {
+    "typical_duration_hours": "not specified",
+    "minimum_duration_hours": "not specified",
+    "maximum_duration_hours": 6,
+    "event_granularity_minutes": "not specified",
+    "response_time_minutes": "immediate (SCE controlled)",
+    "max_events_per_season": "not specified",
+    "max_events_per_year": "not specified (limited by max 180 hours/year)",
+    "max_events_per_day": "not specified (limited by max 6 hours/day)",
+    "max_events_per_month": "not specified",
+    "max_hours_per_season": "not specified",
+    "max_hours_per_year": 180,
+    "max_hours_per_month": "not specified",
+    "max_consecutive_events": "not specified",
+    "minimum_rest_hours": "not specified",
+    "notes": "Maximum 6 hours of cycling per day. Maximum 180 total cycling hours per year. Events can occur any time, any day. Cycling refers to compressor shut-off periods as defined by chosen participation level (100%, 50%, or 30%). Response is immediate as SCE controls the device directly."
+  },
+
+  "event_triggers": {
+    "trigger_description": "Events can be triggered when: (1) CAISO notifies SCE of the need to reduce electricity use due to system emergencies, (2) SCE's grid control center determines load reductions are needed, (3) High wholesale energy prices in CAISO markets, or (4) SCE discretion when CAISO has issued an Alert or Warning Notice, or (5) System testing purposes.",
+    "primary_trigger": "CAISO system alerts",
+    "secondary_triggers": [
+      "grid control center load reduction needs",
+      "high wholesale energy prices",
+      "CAISO Alert or Warning Notice",
+      "system testing"
+    ],
+    "market_integration": "CAISO wholesale market responsive",
+    "bidding_mechanism": "As of 2011 CPUC decision, SCE agreed to transition program to price-responsive operation and bid into CAISO MRTU system for dispatching. Program capacity approximately 1,118 MW total.",
+    "temperature_threshold": "not specified",
+    "price_threshold": "not specified (economic trigger introduced as part of CAISO integration)",
+    "examples": "Events occur during heat waves, grid emergencies, high wholesale electricity prices, or when CAISO issues system warnings",
+    "notes": "Historical CPUC Decision D1111002 authorized modifications to transition Summer Discount Plan from emergency-only to price-responsive program integrated with CAISO markets. Program moved from purely reliability-based to economic dispatch beginning 2011-2014 timeframe."
+  },
+
+  "nomination_bidding": {
+    "requires_nomination": false,
+    "nomination_frequency": "not applicable",
+    "nomination_deadline": "not applicable",
+    "allows_price_bidding": false,
+    "bidding_structure": "Customers do not bid. SCE aggregates and bids the AC cycling resource into CAISO markets. Customers simply enroll and choose cycling option.",
+    "enrollment_period": {
+      "start_date": "not specified",
+      "end_date": "not specified",
+      "recurring": true
+    },
+    "caiso_registration": "SCE handles CAISO registration for aggregated AC cycling resources. Customers do not directly register with CAISO.",
+    "notes": "Customers enroll by downloading application from sce.com/bizsdp. Tenants must obtain property owner approval. 1-year minimum commitment required. Free device installation by SCE. SCE manages all CAISO market interactions and bids the aggregated AC cycling load as a demand response resource."
+  },
+
+  "special_programs": {
+    "is_rec_based": false,
+    "rec_type": "not applicable",
+    "scheduled_dispatch": false,
+    "clean_peak_standard": false,
+    "caiso_integration": true,
+    "pdr_program": false,
+    "special_attributes": [
+      "Direct load control of AC equipment",
+      "Free device installation by SCE",
+      "Remote-controlled cycling during events",
+      "CAISO market-responsive dispatch",
+      "Price-responsive program (economic trigger)",
+      "Three participation levels with different cycling intensities",
+      "Optional courtesy notifications",
+      "Event status tracking via web portal and app",
+      "Year-round event capability",
+      "1-year minimum commitment"
+    ]
+  },
+
+  "program_history": {
+    "launch_year": "not available",
+    "program_evolution": [
+      {
+        "year": 2011,
+        "change_description": "CPUC Decision D1111002 authorized modifications to transition from emergency-only to price-responsive program. SCE agreed to propose voluntary price-responsive option and bid SDP into CAISO MRTU system. Implementation timeline 2011-2014. Program brought 1,118 MW into CAISO market."
+      },
+      {
+        "year": 2025,
+        "change_description": "Program continues as active business AC cycling program with three participation tiers. Credits range from $10 to $145/year per unit depending on cycling option selected."
+      }
+    ],
+    "budget_committed_through": "not available",
+    "total_annual_budget": "not available",
+    "notes": "Program transitioned from purely reliability-based emergency program to price-responsive CAISO market-integrated program. Historical decision mentions program targeted 330,000 existing residential customers and reduction of emergency-triggered DR from 3.5% to 2% of system peak, though current research indicates this is a business program not residential."
+  },
+
+  "historical_events": [],
+
+  "case_studies": [],
+
+  "related_programs": {
+    "sce_capacity_bidding_program": {
+      "program_name": "Capacity Bidding Program",
+      "description": "Aggregator-managed demand response program for commercial customers",
+      "status": "active",
+      "notes": "Summer Discount Plan participants cannot simultaneously enroll in Capacity Bidding Program"
+    },
+    "sce_critical_peak_pricing": {
+      "program_name": "Critical Peak Pricing",
+      "description": "Dynamic pricing rate for commercial customers",
+      "status": "active",
+      "notes": "Summer Discount Plan participants cannot simultaneously enroll in Critical Peak Pricing"
+    },
+    "sce_tou_base_interruptible": {
+      "program_name": "TOU Base Interruptible Program",
+      "description": "Interruptible rate for large commercial/industrial customers",
+      "status": "active",
+      "notes": "Summer Discount Plan participants cannot simultaneously enroll in TOU Base Interruptible Program"
+    },
+    "sce_residential_summer_discount": {
+      "program_name": "Summer Discount Plan (Residential)",
+      "description": "Residential version of AC cycling program",
+      "status": "active",
+      "notes": "Separate residential program with similar structure but different eligibility and potentially different credit amounts"
+    }
+  },
+
+  "verification_sources": [
+    {
+      "source_name": "SCE Business Summer Discount Plan Official Page",
+      "url": "http://www.sce.com/business/save-costs-energy/enroll-in-cost-savings-programs/summer-discount-plan",
+      "accessed_date": "2025-10-11",
+      "document_type": "program webpage",
+      "fields_verified": [
+        "program_description",
+        "bill_credits_by_cycling_option",
+        "cycling_options",
+        "maximum_cycling_hours",
+        "event_triggers",
+        "eligibility_requirements",
+        "meter_requirements",
+        "notification_methods",
+        "enrollment_process",
+        "ineligibility_restrictions",
+        "bill_credit_period",
+        "contact_information"
+      ]
+    },
+    {
+      "source_name": "CPUC Decision D1111002",
+      "url": "https://docs.cpuc.ca.gov/published/Final_decision/153346-01.htm",
+      "accessed_date": "2025-10-11",
+      "document_type": "regulatory decision",
+      "fields_verified": [
+        "caiso_market_integration",
+        "price_responsive_modifications",
+        "program_capacity_1118mw",
+        "transition_timeline",
+        "economic_trigger_introduction"
+      ]
+    },
+    {
+      "source_name": "Web Search - SCE CAISO Integration",
+      "url": "various",
+      "accessed_date": "2025-10-11",
+      "document_type": "aggregated search results",
+      "fields_verified": [
+        "caiso_mrtu_bidding",
+        "price_responsive_operation",
+        "wholesale_market_integration"
+      ]
+    }
+  ],
+
+  "data_gaps_and_limitations": {
+    "missing_critical_data": [
+      "Original program launch year",
+      "Typical event duration",
+      "Minimum event duration",
+      "Event granularity (timing precision)",
+      "Maximum events per year/season/month",
+      "Minimum rest hours between events",
+      "Specific temperature thresholds",
+      "Specific wholesale price thresholds for economic triggers",
+      "Historical event frequency data",
+      "Current enrolled capacity",
+      "Current participant count",
+      "Total annual program budget",
+      "Nomination deadlines",
+      "Specific enrollment period dates"
+    ],
+    "data_not_publicly_available": [
+      "Historical event log with dates, times, and durations",
+      "Actual wholesale price levels that trigger events",
+      "CAISO bidding strategies and prices for SDP resource",
+      "Individual customer performance data",
+      "Program budget and cost-effectiveness metrics",
+      "Detailed device specifications and installation procedures",
+      "Event forecasting or planning data",
+      "Aggregated load reduction achieved per event"
+    ],
+    "verification_limitations": [
+      "Program webpage provides good overview but lacks detailed operational parameters",
+      "CPUC decision from 2011 provides historical context but not current operational details",
+      "No access to current tariff documents with complete program rules",
+      "Limited publicly available data on event frequency and performance",
+      "No forward event schedule or predictability data",
+      "Unclear how current program operations differ from 2011 transition plan"
+    ],
+    "conflicting_information": [
+      {
+        "field": "customer_type",
+        "source_1": "SCE webpage: Business customers (Commercial & Industrial rate plans)",
+        "source_2": "CPUC D1111002: Mentions 330,000 existing residential customers",
+        "resolution": "SCE operates separate residential and business Summer Discount Plans. This research focused on business program. CPUC decision may have referenced residential program or combined statistics."
+      }
+    ]
+  },
+
+  "research_notes": "Conducted comprehensive research on SCE Summer Discount Plan on 2025-10-11. CRITICAL FINDING: This is an AC cycling program ONLY - not suitable for battery energy storage systems. The program uses direct load control devices installed by SCE on central air conditioning compressors. Three participation tiers offer different cycling intensities (100%, 50%, 30%) with corresponding annual credits ($145, $50, $10 per unit). Events can occur year-round any time but credits apply June 1 - October 1. Maximum 6 hours cycling per day, 180 hours per year. Program integrated with CAISO wholesale markets per 2011 CPUC decision - transitioned from emergency-only to price-responsive economic dispatch. Events triggered by CAISO alerts, grid needs, high wholesale prices, or system testing. Customers cannot simultaneously participate in Capacity Bidding Program, Critical Peak Pricing, or TOU Base Interruptible Program. Free device installation, 1-year minimum commitment. Optional notifications via email/text/phone/app. This is fundamentally different from programs like Capacity Bidding Program which allow battery participation - SDP is hardware-specific to AC compressor control only.",
+
+  "integration_metadata": {
+    "optimizer_compatible": false,
+    "api_available": false,
+    "api_documentation_url": "not applicable",
+    "api_notes": "This program is NOT suitable for battery optimization. It requires physical installation of SCE's direct load control device on AC equipment. Battery systems cannot participate. SCE DR Alerts app provides event notifications but no API for automated control. SCE manages all equipment control remotely.",
+    "data_quality_score": 8,
+    "last_verified_date": "2025-10-11",
+    "verification_thoroughness": "Comprehensive research conducted including official SCE program webpage, CPUC regulatory decision D1111002, and web searches on CAISO integration. Successfully clarified that this is AC cycling only, not battery-eligible. Good understanding of program structure, payment levels, and CAISO market integration. Primary limitation is lack of detailed operational parameters (event frequency, exact call windows, specific price triggers). Program webpage provides clear eligibility and payment information. CPUC decision provides valuable historical context on market integration.",
+    "recommended_next_steps": [
+      "Contact SCE business customer service at 1-800-439-8765 for detailed program parameters",
+      "Request historical event frequency data from SCE",
+      "Research SCE's battery-eligible programs separately (SGIP, CBP, ELRP instead)",
+      "Investigate residential Summer Discount Plan as separate program",
+      "Review current tariff documents for complete program rules",
+      "Contact existing participants for real-world experience data",
+      "Research CAISO dispatch data to understand actual event patterns",
+      "Evaluate stacking potential with other SCE programs (may be limited by ineligibility restrictions)"
+    ],
+    "notes": "NOT SUITABLE FOR BATTERY SYSTEMS. This program is exclusively for direct load control of air conditioning equipment. For battery energy storage revenue opportunities in SCE territory, research these alternatives instead: (1) Capacity Bidding Program - aggregator-managed PDR into CAISO markets, (2) ELRP (Emergency Load Reduction Program), (3) SGIP (Self-Generation Incentive Program) for battery installation incentives, (4) Wholesale market participation through CAISO directly. The Summer Discount Plan offers modest annual credits ($10-$145/AC unit) in exchange for allowing SCE to cycle AC compressors during events. Payment structure is simple fixed annual credits, not performance-based. CAISO integration means events are economically dispatched based on wholesale prices rather than purely reliability-based. Program has year-round event capability but focuses on summer peak period (June-October credit period). Cannot stack with other major SCE DR programs (CBP, CPP, TOU Interruptible). For customers seeking DR revenue from battery systems, this is the wrong program to pursue."
+  }
+}

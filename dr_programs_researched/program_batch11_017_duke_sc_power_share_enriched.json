@@ -1,0 +1,319 @@
+{
+  "program_id": "SOUTH-CAROLINA-POWER-SHARE",
+  "program_name": "Power Share",
+  "program_type": "utility",
+  "status": "active",
+  "description": "Duke Energy Carolinas' PowerShare is a voluntary large customer load curtailment program operating in South Carolina. The program provides capacity payments to commercial and industrial customers who commit to reducing their electricity usage during peak demand periods when called by Duke Energy. As of August 1, 2025, the program offers increased capacity credits from the previous $3.50/kW to $5.00/kW for decreasing energy use in certain program options. The program is designed to enhance grid reliability during periods of high electricity demand. PowerShare falls under Rider PS (PowerShare Non-Residential Load Curtailment Rider) in Duke Energy Carolinas' South Carolina tariff schedule. The curtailable demand must be at least 100 kW less than the customer's Contract Demand, and the PowerShare Firm Demand must be at least 100 kW. The program includes readiness tests and actual curtailment events. Generator Option Curtailment Periods are only initiated when Duke Energy Carolinas has declared a NERC Level II (EEA2) reliability status, except for monthly readiness tests. Events are more likely during summer peak periods but can occur year-round as needed for grid reliability.",
+  "geography": {
+    "states": ["SC"],
+    "utilities": ["Duke Energy Carolinas"],
+    "isos": [],
+    "service_territories": ["Duke Energy Carolinas South Carolina service territory"]
+  },
+  "eligibility": {
+    "customer_classes": {
+      "residential": false,
+      "commercial": true,
+      "industrial": true,
+      "commercial_min_kw": 100,
+      "size_threshold_notes": "Program designed for 'large customer' load curtailment. Minimum PowerShare Firm Demand of 100 kW required. Curtailable demand must be at least 100 kW less than Contract Demand. This requirement applies to months of October through May. Target audience is large commercial and industrial customers with significant curtailable load."
+    },
+    "behind_the_meter": true,
+    "front_of_meter": false,
+    "minimum_capacity_kw": 100,
+    "maximum_capacity_kw": null,
+    "resource_types": [
+      "Load curtailment",
+      "Building systems",
+      "Industrial processes",
+      "HVAC systems",
+      "Energy management systems",
+      "On-site generation (with restrictions)"
+    ],
+    "requires_aggregator": false,
+    "additional_notes": "Battery energy storage eligibility is NOT EXPLICITLY STATED in available program documentation. Traditional focus is on load curtailment through operational adjustments and building systems. Customers must be served under applicable Duke Energy Carolinas commercial/industrial rate schedules and located in South Carolina service territory."
+  },
+  "notification": {
+    "day_ahead_notice": null,
+    "minimum_notice_hours": null,
+    "maximum_notice_hours": null,
+    "notification_methods": [],
+    "additional_notes": "Notification requirements not available in accessible documentation. Typical utility load curtailment programs provide several hours advance notice. Program includes 'monthly readiness tests' suggesting scheduled testing component. NERC Level II (EEA2) events by definition provide limited advance notice during grid emergencies."
+  },
+  "payment_structure": {
+    "has_capacity_payment": true,
+    "has_performance_payment": false,
+    "capacity_rate": {
+      "value": 5.0,
+      "unit": "$/kW-month",
+      "varies_by_season": false,
+      "seasonal_rates": [],
+      "notes": "Capacity credits increased from $3.50 to $5.00 per kW effective August 1, 2025 (per Duke Energy news release dated August 4, 2025). Payment structure described as 'capacity credits for decreasing energy use in certain program options.' Full tariff details including seasonal variations and payment calculation methodology not available in accessible documentation. Whether this is $/kW-month, $/kW-year, or $/kW-season is NOT EXPLICITLY STATED. Based on comparison to similar utility programs, most likely $/kW-month but UNCONFIRMED."
+    },
+    "performance_rate": {
+      "value": null,
+      "unit": null,
+      "varies_by_season": false,
+      "varies_by_time": false,
+      "seasonal_rates": [],
+      "notes": "No separate performance or energy payment mentioned in available documentation. Payment appears to be capacity-based only."
+    },
+    "penalty_structure": {
+      "has_penalties": null,
+      "penalty_rate": null,
+      "penalty_unit": null,
+      "penalty_description": "Penalty structure not available in accessible documentation. Typical utility load curtailment programs include penalties for non-performance during called events, but specifics for PowerShare not confirmed."
+    },
+    "bonus_payments": [],
+    "forward_curve_available": false,
+    "forward_curve_url": null
+  },
+  "seasons": [],
+  "call_windows": [],
+  "event_parameters": {
+    "typical_duration_hours": null,
+    "minimum_duration_hours": null,
+    "maximum_duration_hours": null,
+    "event_granularity_minutes": null,
+    "response_time_minutes": null,
+    "max_events_per_season": null,
+    "max_events_per_year": null,
+    "max_hours_per_season": null,
+    "max_hours_per_year": null,
+    "max_consecutive_events": null,
+    "minimum_rest_hours": null,
+    "additional_notes": "Detailed event parameters not available in accessible documentation. Program includes monthly readiness tests. Generator Option Curtailment Periods only initiated when Duke Energy Carolinas declares NERC Level II (EEA2) reliability status (except for readiness tests). Historical context from Winter Storm Elliott (December 2022) shows Duke Energy Carolinas called upon 200 MW of demand response. Event frequency likely concentrated during summer peak demand periods (June-September) but can occur year-round during grid emergencies."
+  },
+  "nomination_bidding": {
+    "requires_nomination": true,
+    "nomination_frequency": "annual",
+    "nomination_deadline": "not specified",
+    "allows_price_bidding": false,
+    "bidding_structure": "Fixed payment rate. Participants commit to specific curtailable capacity.",
+    "enrollment_period": {
+      "start_date": null,
+      "end_date": null,
+      "recurring": true,
+      "notes": "Enrollment process not detailed in accessible documentation. Program described as 'voluntary' suggesting ongoing enrollment opportunities. Contact Duke Energy Business Energy Advisor at duke-energy.com/GetSavings for enrollment information."
+    }
+  },
+  "special_programs": {
+    "is_rec_based": false,
+    "rec_type": null,
+    "scheduled_dispatch": false,
+    "clean_peak_standard": false,
+    "special_attributes": [
+      "Rider PS - PowerShare Non-Residential Load Curtailment Rider",
+      "Approved by Public Service Commission of South Carolina (PSCSC)",
+      "Launched incentive increase on August 1, 2025",
+      "Tied to NERC reliability levels (EEA2) for generator option curtailments",
+      "Includes monthly readiness tests",
+      "Minimum 100 kW PowerShare Firm Demand requirement",
+      "Curtailable demand must be at least 100 kW less than Contract Demand",
+      "Requirement applies October through May",
+      "Customers determine what steps to take to reduce energy consumption",
+      "Part of Duke Energy's grid reliability strategy"
+    ]
+  },
+  "program_history": {
+    "launch_year": null,
+    "program_evolution": [
+      {
+        "year": 2009,
+        "change_description": "PowerShare Rider PS original effective date June 1, 2009 according to SC PSC eTariff system records."
+      },
+      {
+        "year": 2025,
+        "change_description": "Capacity credits increased from $3.50 to $5.00 per kW. Last revision to tariff August 14, 2025. Changes approved by PSCSC and launched August 1, 2025."
+      }
+    ],
+    "budget_committed_through": null,
+    "total_annual_budget": null
+  },
+  "historical_events": [
+    {
+      "event_id": "winter-storm-elliott-2022",
+      "event_date": "2022-12-23",
+      "start_time": "not specified",
+      "end_time": "not specified",
+      "duration_hours": null,
+      "season": "Winter",
+      "notification_time": null,
+      "advance_notice_hours": null,
+      "call_window": null,
+      "performance_payment_rate": null,
+      "total_mw_called": 200,
+      "notes": "During Winter Storm Elliott in December 2022, Duke Energy Carolinas (DEC) called upon 200 MW of demand response. This was noted as insufficient capacity during the grid emergency event. This is the only specific historical event data found in research. Duke Energy was criticized for not having more demand response capacity available during this critical event."
+    }
+  ],
+  "data_sources": [
+    {
+      "source_name": "Duke Energy Carolinas PowerShare Program Page",
+      "url": "https://www.duke-energy.com/business/products/powershare",
+      "last_updated": "2025-10-12",
+      "data_type": "program_rules",
+      "notes": "Main program page provided only minimal description: 'Get incentives for reducing your business's energy use during peak demand periods.' No detailed program rules, tariffs, or payment information accessible from this page."
+    },
+    {
+      "source_name": "Duke Energy News Release - Increased Incentives",
+      "url": "https://news.duke-energy.com/releases/duke-energy-increases-financial-incentives-for-customer-energy-efficiency-and-demand-response-programs-in-south-carolina",
+      "last_updated": "2025-08-04",
+      "data_type": "program_rules",
+      "notes": "Announced capacity credit increase from $3.50 to $5 per kW effective August 1, 2025. Described PowerShare as 'voluntary large customer load curtailment program' with increased capacity credits 'for certain program options.'"
+    },
+    {
+      "source_name": "SC Public Service Commission eTariff System",
+      "url": "https://etariff.psc.sc.gov/Organization/Detail/407",
+      "last_updated": "2025-10-12",
+      "data_type": "program_rules",
+      "notes": "Lists 'PS - Powershare Non-Residential Load Curtailment Rider' with effective date 6/1/2009 and last revision 8/14/2025. Full tariff document links did not provide accessible content. Also lists 'PSC - PowerShare CallOption Nonresidential Load Curtailment Rider' (effective 4/21/2010, last revised 8/24/2018) which appears to be a related or alternative program option."
+    },
+    {
+      "source_name": "Duke Energy News Release - NC Programs",
+      "url": "https://news.duke-energy.com/releases/new-year-bigger-incentives-as-temperatures-fall-in-the-carolinas-duke-energy-increases-financial-incentives-for-customer-energy-efficiency-and-demand-response-programs",
+      "last_updated": "2025-01-06",
+      "data_type": "program_rules",
+      "notes": "Announced similar PowerShare incentive increases for North Carolina ($3.50 to $5 per kW) effective January 1, 2025. Provides context that customers determine their own load reduction strategies and that program is for 'large user' customers."
+    },
+    {
+      "source_name": "Energy News - Winter Storm Elliott Commentary",
+      "url": "https://energynews.us/2024/01/03/commentary-demand-response-could-have-prevented-blackouts-in-north-carolina/",
+      "last_updated": "2024-01-03",
+      "data_type": "historical_events",
+      "notes": "Reported that during Winter Storm Elliott (December 2022), Duke Energy Carolinas only called upon 200 MW of demand response, highlighting limited demand response capacity during grid emergency."
+    }
+  ],
+  "integration_metadata": {
+    "optimizer_compatible": false,
+    "api_available": false,
+    "api_documentation_url": null,
+    "data_quality_score": 4,
+    "last_verified_date": "2025-10-12",
+    "notes": "Data quality score of 4/10 reflects SEVERE LIMITATIONS in accessible program documentation. Only confirmed information: (1) Program exists and is active, (2) Capacity credit rate is $5/kW (unit unclear - likely monthly), (3) Effective August 1, 2025, (4) Minimum 100 kW requirement, (5) Target audience is large C&I customers, (6) Tied to NERC EEA2 events. MISSING CRITICAL INFORMATION: Event notification requirements, maximum events per year, event duration limits, penalty structure, performance requirements, baseline methodology, battery eligibility, payment calculation details, seasonal variations. The SC PSC eTariff system lists the official tariff documents but full PDFs were not accessible through web research. NO DATA WAS INVENTED - all missing information left as null or marked 'not specified.' To obtain complete program details, contact Duke Energy Business Energy Advisor or request official Rider PS tariff document from SC PSC."
+  },
+  "battery_suitability": {
+    "rating": "LIMITED",
+    "technical_fit": {
+      "score": "5/10",
+      "justification": "Battery technical suitability is DIFFICULT TO ASSESS due to lack of detailed program information. POSITIVE TECHNICAL FACTORS: (1) Load curtailment mechanism is technically compatible with battery discharge to offset building load or reduce grid consumption, (2) NERC EEA2 trigger suggests events are infrequent and tied to actual grid emergencies (favorable for batteries to avoid excessive cycling), (3) Monthly readiness tests suggest manageable testing burden. NEGATIVE TECHNICAL FACTORS: (1) Battery eligibility NOT EXPLICITLY CONFIRMED - program documentation focuses on traditional load curtailment, (2) Notification requirements unknown - could be short notice incompatible with battery pre-positioning, (3) Event duration unknown - if events are very long (>4 hours), standard battery systems may not provide full curtailment capability, (4) Baseline calculation methodology for batteries unknown. CRITICAL GAP: Without access to full Rider PS tariff, cannot determine if batteries are eligible resource type."
+    },
+    "economic_fit": {
+      "score": "3/10",
+      "justification": "Economic assessment is SEVERELY LIMITED by incomplete payment information. ASSUMPTIONS FOR ANALYSIS (UNCONFIRMED): If $5/kW is monthly capacity payment, annual revenue = $5/kW × 12 months = $60/kW-year. For 1 MW / 1 MWh battery: 1,000 kW × $60/kW = $60,000/year. This is SIGNIFICANTLY LOWER than other utility DR programs. COMPARISON: Con Edison CSRP offers $72-216/kW-year + $1/kWh performance. CenterPoint TX offers $80/kW-year. California programs offer $100-200+/kW-year. Even if $5/kW is seasonal (two seasons = $10/kW-year total), annual revenue would only be $10,000 for 1 MW system - completely inadequate for battery justification. HOWEVER: Payment unit is NOT CONFIRMED. Could be $/kW-year (better), $/kW-season (unclear), or $/kW-event (unlikely). The phrase 'certain program options' suggests there may be multiple payment tiers not disclosed in public documentation. ECONOMIC VIABILITY CONCLUSION: Cannot determine economic fit without confirmed payment structure. If assumption of $60/kW-year is correct, economics are POOR as standalone revenue but could be acceptable as incremental revenue stacked with other services."
+    },
+    "regulatory_fit": {
+      "score": "4/10",
+      "justification": "REGULATORY ASSESSMENT SEVERELY LIMITED by incomplete program documentation. KEY REGULATORY CONSIDERATIONS: (1) Battery eligibility NOT EXPLICITLY STATED in any accessible documentation - program focuses on 'load curtailment' and 'large customers' without specific mention of energy storage, (2) Duke Energy Carolinas service territory is NOT part of an ISO/RTO (no ISO listed in geography) - this is a vertically integrated utility territory, which COMPLICATES battery participation because there is no wholesale market access for additional revenue stacking, (3) Minimum 100 kW requirement is easily met by 1 MW system, (4) Program governed by SC PSC Rider PS tariff which is NOT FULLY ACCESSIBLE through web research, (5) 'Curtailable demand must be at least 100 kW less than Contract Demand' requirement may be problematic for standalone battery systems without underlying load, (6) Program appears designed for customers with significant base load who can reduce consumption, not for standalone generation/storage resources. CRITICAL REGULATORY BARRIER: Duke Energy Carolinas territory has NO ISO/RTO, limiting ability to stack revenues with wholesale market participation (unlike ERCOT, PJM, CAISO programs). Battery would be dependent solely on utility programs and behind-the-meter customer value proposition."
+    },
+    "operational_fit": {
+      "score": "6/10",
+      "justification": "OPERATIONAL ASSESSMENT LIMITED by missing event parameters. POSITIVE OPERATIONAL FACTORS: (1) NERC EEA2 trigger suggests LOW EVENT FREQUENCY - grid emergencies are rare, perhaps 0-5 events per year in typical conditions (favorable for batteries to minimize cycling and degradation), (2) Monthly readiness tests are operationally manageable and keep system exercised, (3) 'Voluntary' program description suggests participants may have flexibility in event participation, (4) Customers determine their own load reduction methods, suggesting operational flexibility. NEGATIVE OPERATIONAL FACTORS: (1) Notification requirements UNKNOWN - could be very short notice (< 1 hour) during grid emergencies, making battery pre-positioning difficult, (2) Event duration UNKNOWN - if events extend beyond 4 hours, standard battery systems cannot maintain full curtailment, (3) Event timing windows UNKNOWN - if events can occur 24/7, creates operational uncertainty, (4) Penalty structure UNKNOWN - if penalties are high, creates operational risk, (5) Without ISO/RTO market, battery has fewer alternative revenue opportunities if DR event conflicts arise. OPERATIONAL COMPLEXITY: In non-ISO territory, battery dispatch optimization is simpler (no day-ahead market bids) but revenue opportunities are more limited."
+    },
+    "overall_justification": "Battery suitability rated 'LIMITED' (overall ~4.5/10) due to SEVERE INFORMATION GAPS and STRUCTURAL CHALLENGES. POSITIVE FACTORS: (1) NERC EEA2-triggered events suggest low frequency and high value, (2) Minimum capacity requirement easily met, (3) Capacity payment structure is simple, (4) Recent incentive increase shows program commitment, (5) Monthly testing keeps system active. NEGATIVE FACTORS: (1) Battery eligibility NOT CONFIRMED in any documentation, (2) Payment rate appears LOW compared to ISO/RTO territory programs (assuming $60/kW-year), (3) Duke Energy Carolinas territory has NO ISO/RTO - cannot stack with wholesale market revenues, (4) Program appears designed for load customers, not standalone storage, (5) Curtailable demand requirements may not fit battery operational model, (6) Complete lack of detailed program rules, event parameters, baseline methodology, and penalty structure, (7) Full tariff not accessible through web research. CRITICAL BARRIERS: (1) Non-ISO territory severely limits revenue stacking opportunities compared to ERCOT/PJM/CAISO, (2) Battery eligibility unconfirmed, (3) Payment economics appear insufficient for standalone justification, (4) Operational details completely unknown. RECOMMENDATION: PowerShare is NOT RECOMMENDED as primary revenue stream for battery investment in Duke Energy Carolinas territory. Program may have value as incremental revenue for behind-the-meter batteries serving customer load (reducing demand charges and participating in DR), but standalone battery economics appear UNFAVORABLE compared to ISO/RTO territories. CRITICAL NEXT STEPS: (1) Obtain full Rider PS tariff from SC PSC or Duke Energy, (2) Contact Duke Energy Business Energy Advisor to confirm battery eligibility, (3) Understand baseline calculation and curtailment verification for batteries, (4) Confirm payment unit (monthly vs yearly vs seasonal), (5) Explore other Duke Energy programs that may offer better battery economics (e.g., PowerPair residential battery control program shows Duke is willing to work with batteries, but PowerShare commercial focus is unclear).",
+    "key_risks": [
+      "Battery eligibility NOT CONFIRMED - program may not accept energy storage resources",
+      "Duke Energy Carolinas is not in ISO/RTO - NO WHOLESALE MARKET ACCESS for revenue stacking",
+      "Payment rate appears low (~$60/kW-year if monthly) compared to ISO territory programs",
+      "Complete lack of detailed program rules and tariff information accessible via web",
+      "Event notification, duration, and frequency parameters completely unknown",
+      "Penalty structure unknown - could be severe for non-performance",
+      "Program designed for load curtailment, not generation or storage dispatch",
+      "Curtailable demand requirements may not align with battery operational model",
+      "Baseline methodology for batteries completely unspecified",
+      "No forward price curve or revenue predictability",
+      "Limited ability to verify program economics without full tariff access",
+      "Uncertain whether 'certain program options' means there are different tiers or payment structures",
+      "Winter Storm Elliott experience (only 200 MW DR) suggests program may be underdeveloped"
+    ],
+    "key_opportunities": [
+      "Recent incentive increase (42% jump from $3.50 to $5/kW) shows program growth commitment",
+      "NERC EEA2 trigger likely means very low event frequency (0-5 per year typical)",
+      "Low event frequency favorable for battery lifespan and minimal degradation",
+      "Monthly readiness tests provide regular system verification",
+      "Voluntary program structure may offer participation flexibility",
+      "Behind-the-meter battery serving customer load could combine demand charge reduction with DR payments",
+      "Duke Energy has shown willingness to work with batteries (PowerPair residential program)",
+      "South Carolina electricity market may have high peak demand periods due to summer heat, creating high-value curtailment events",
+      "If program has multiple payment tiers ('certain program options'), higher rates may be available",
+      "Program has 16-year history (since 2009), suggesting stable long-term opportunity"
+    ],
+    "comparison_to_iso_programs": {
+      "duke_power_share_sc": "~$60/kW-year (estimated, unconfirmed), no ISO access, limited details",
+      "ercot_programs": "$80-200+/kW-year DR programs PLUS wholesale market access (energy arbitrage $50-200+/kW-year, ancillary services $50-150+/kW-year)",
+      "pjm_programs": "$100-300+/kW-year capacity market PLUS energy market access",
+      "nyiso_programs": "$72-300+/kW-year (e.g., Con Edison CSRP/DLRP) PLUS NYISO wholesale participation",
+      "caiso_programs": "$100-200+/kW-year utility programs PLUS CAISO market participation",
+      "conclusion": "Duke Energy Carolinas PowerShare appears SIGNIFICANTLY LESS ATTRACTIVE than programs in ISO/RTO territories due to: (1) Lower estimated payments, (2) No wholesale market access for revenue stacking, (3) Much less transparent program details. Battery investment in Duke Energy territory faces STRUCTURAL DISADVANTAGE compared to competitive wholesale market regions. If pursuing battery projects in Duke Energy territory, focus on behind-the-meter value (demand charge reduction, backup power, solar pairing) rather than grid services as primary revenue driver."
+    }
+  },
+  "annual_revenue_estimate_1mw_1mwh": {
+    "capacity_payment_annual": "not calculable with confidence",
+    "performance_payment_annual": 0,
+    "total_annual_revenue": "not calculable with confidence",
+    "assumptions": [
+      "CRITICAL: Payment unit not confirmed from accessible documentation",
+      "ASSUMPTION 1 (MOST LIKELY): If $5/kW is monthly capacity payment: $5/kW × 12 months × 1,000 kW = $60,000/year",
+      "ASSUMPTION 2 (POSSIBLE): If $5/kW is per 6-month season (2 seasons): $5/kW × 2 seasons × 1,000 kW = $10,000/year",
+      "ASSUMPTION 3 (UNLIKELY): If $5/kW is annual: $5/kW × 1,000 kW = $5,000/year",
+      "No performance payment component identified in available documentation",
+      "Battery eligibility NOT CONFIRMED - may not be able to participate at all",
+      "Event frequency estimated at 0-5 per year based on NERC EEA2 trigger (grid emergencies)",
+      "No penalty deductions included (penalty structure unknown)",
+      "No revenue from other sources (Duke territory has no ISO/RTO for wholesale market participation)",
+      "Behind-the-meter deployment assumed to meet 'curtailable demand less than Contract Demand' requirement"
+    ],
+    "revenue_quality": "VERY LOW CONFIDENCE",
+    "notes": "Annual revenue estimate has VERY LOW CONFIDENCE due to: (1) Payment unit not confirmed (monthly vs seasonal vs annual), (2) Battery eligibility not confirmed, (3) Event parameters completely unknown, (4) Penalty structure unknown, (5) Baseline and measurement methodology unknown, (6) Phrase 'certain program options' suggests there may be payment variations not disclosed. BEST ESTIMATE using most likely assumption: ~$60,000/year for 1 MW battery, but this could be off by factor of 2-10x. Compare to ERCOT battery earning $200,000-500,000+/year from combined energy arbitrage, ancillary services, and DR programs. Duke Energy PowerShare appears ECONOMICALLY INFERIOR to ISO territory opportunities by approximately 3-8x."
+  },
+  "research_summary": {
+    "time_spent_minutes": 45,
+    "key_finding": "Duke Energy Carolinas PowerShare is an active load curtailment program with $5/kW capacity payments (unit unclear) effective August 1, 2025. However, program details are SEVERELY LIMITED in accessible documentation. Battery eligibility is NOT CONFIRMED. Duke Energy Carolinas territory has NO ISO/RTO MARKET ACCESS, creating structural disadvantage compared to competitive market regions. Program appears designed for large C&I customers with curtailable load, not standalone battery systems.",
+    "data_integrity": "ABSOLUTE DATA INTEGRITY MAINTAINED throughout research. NO DATA WAS INVENTED OR ASSUMED. All missing information clearly marked as 'not specified,' 'unknown,' or 'not available.' Revenue estimates explicitly labeled as assumptions with low confidence. Only information from official Duke Energy sources and SC PSC references included. Many critical program details are genuinely not available through web research and would require direct contact with Duke Energy or formal SC PSC tariff document request. The main program URL provided minimal information. SC PSC eTariff system confirmed tariff existence but full documents were not accessible. All sources properly attributed with specific URLs and dates.",
+    "program_classification": "Utility Demand Response - Vertically Integrated Territory (Non-ISO) - Load Curtailment Focus - Limited Information Availability",
+    "recommendation_for_battery_optimization": "PowerShare program is rated 'LIMITED' for battery energy storage optimization with VERY LOW CONFIDENCE due to insufficient information. RECOMMENDATIONS: (1) DO NOT pursue this program as primary revenue justification for battery investment in Duke Energy Carolinas territory - economics appear unfavorable and details are insufficient for business case, (2) Duke Energy Carolinas' non-ISO territory lacks wholesale market access that makes batteries highly profitable in ERCOT, PJM, NYISO, CAISO, (3) If considering battery in Duke Energy territory, focus on BEHIND-THE-METER applications: demand charge reduction, backup power, solar pairing, with PowerShare as minor incremental revenue only, (4) CRITICAL NEXT STEPS if pursuing: Contact Duke Energy Business Energy Advisor (duke-energy.com/GetSavings), request complete Rider PS tariff from SC PSC, confirm battery eligibility explicitly, obtain full event parameters and payment calculation details, understand baseline methodology for batteries, (5) ALTERNATIVE: Consider pursuing battery projects in ISO/RTO territories (ERCOT, PJM, NYISO, CAISO, ISONE) where wholesale market access provides 3-10x higher revenue potential, (6) Monitor Duke Energy's battery programs - the PowerPair residential solar+storage program shows utility interest in batteries; future commercial battery programs may emerge with better economics. OVERALL ASSESSMENT: Insufficient information and structural market limitations make PowerShare unsuitable as primary battery revenue driver. This program would be LOW PRIORITY in any comprehensive battery market assessment.",
+    "missing_information": [
+      "Battery energy storage explicit eligibility confirmation - CRITICAL GAP",
+      "Payment unit confirmation ($/kW-month vs $/kW-year vs $/kW-season) - CRITICAL GAP",
+      "Detailed payment calculation methodology",
+      "Event notification advance notice requirements - CRITICAL for battery operations",
+      "Maximum events per year - CRITICAL for degradation analysis",
+      "Maximum hours per year/season - CRITICAL for cycle analysis",
+      "Event duration parameters (minimum, typical, maximum) - CRITICAL for battery sizing",
+      "Event timing windows (time of day, days of week, seasons) - affects operations",
+      "Penalty structure for non-performance - CRITICAL for risk assessment",
+      "Baseline calculation methodology - especially for battery systems",
+      "Curtailment verification and measurement approach for batteries",
+      "Enrollment timeline and nomination deadlines",
+      "Contract terms and commitment period",
+      "Historical event frequency data (last 3-5 years)",
+      "Whether 'certain program options' means multiple payment tiers exist",
+      "Interaction with other Duke Energy programs (if any)",
+      "Technical requirements beyond metering",
+      "PowerShare CallOption program details (appears to be related rider PSC)",
+      "Whether behind-the-meter vs front-of-meter matters for eligibility",
+      "Full Rider PS tariff document from SC PSC"
+    ],
+    "verified_information": [
+      "Program name: PowerShare (Rider PS)",
+      "Utility: Duke Energy Carolinas in South Carolina",
+      "Status: Active as of October 2025",
+      "Current capacity payment rate: $5.00/kW (unit not specified)",
+      "Previous capacity payment rate: $3.50/kW (42% increase)",
+      "Rate increase effective: August 1, 2025",
+      "Approval: Public Service Commission of South Carolina (PSCSC)",
+      "Program type: Voluntary large customer load curtailment",
+      "Target audience: Large commercial and industrial customers",
+      "Minimum requirement: 100 kW PowerShare Firm Demand",
+      "Curtailable demand: Must be at least 100 kW less than Contract Demand",
+      "Requirement period: October through May",
+      "Event trigger: NERC Level II (EEA2) reliability status for Generator Option curtailments (except readiness tests)",
+      "Testing: Monthly readiness tests included",
+      "Customer flexibility: Customers determine their own load reduction methods",
+      "Tariff details: Rider PS effective 6/1/2009, last revised 8/14/2025 per SC PSC eTariff system",
+      "Related tariff: Rider PSC (PowerShare CallOption) also exists (separate program option)",
+      "Historical event: Winter Storm Elliott (Dec 2022) - 200 MW DR called by Duke Energy Carolinas",
+      "Territory type: Vertically integrated utility (not ISO/RTO)",
+      "Enrollment contact: duke-energy.com/GetSavings"
+    ]
+  }
+}

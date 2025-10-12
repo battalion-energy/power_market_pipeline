@@ -1,0 +1,458 @@
+{
+  "program_id": "PGE-CBP-CAPACITY-BIDDING-PROGRAM",
+  "program_name": "Capacity Bidding Program (CBP)",
+  "program_type": "utility",
+  "status": "active",
+  "research_completed_date": "2025-10-11",
+  "data_quality_score": 7,
+  "description": "The Capacity Bidding Program (CBP) is an aggregator-managed demand response program operated by Pacific Gas and Electric Company (PG&E). The program is integrated with the California Independent System Operator (CAISO) wholesale market through Proxy Demand Resources (PDR). Aggregators receive monthly capacity payments for enrolled load reduction commitments and energy payments when events are called. PG&E triggers CBP events when it receives market awards from CAISO for PDR resources based on day-ahead market bids. The program operates during California's peak demand season from May through October.",
+
+  "geography": {
+    "states": ["CA"],
+    "utilities": ["Pacific Gas and Electric Company (PG&E)"],
+    "isos": ["CAISO"],
+    "service_territories": ["PG&E service territory in Northern and Central California"],
+    "notes": "PG&E serves approximately 16 million customers across a 70,000 square-mile service area in Northern and Central California"
+  },
+
+  "eligibility": {
+    "customer_classes": {
+      "residential": true,
+      "commercial": true,
+      "industrial": true,
+      "agricultural": true,
+      "size_threshold_notes": "Program is available to all residential, commercial, industrial, and agricultural customers with qualifying interval meters. No minimum demand load requirement specified."
+    },
+    "behind_the_meter": true,
+    "front_of_meter": false,
+    "minimum_capacity_kw": "not specified",
+    "maximum_capacity_kw": "not specified",
+    "resource_types": [
+      "load curtailment",
+      "battery energy storage (BESS)",
+      "demand response",
+      "behind-the-meter resources"
+    ],
+    "requires_aggregator": true,
+    "aggregator_name": "Third-party aggregators manage customer enrollment and operations",
+    "meter_requirements": "Each service account must have an interval meter capable of recording usage in 15-minute intervals that can be read remotely by PG&E. Approved interval meter and/or approved meter communications equipment must be installed and operating prior to participation.",
+    "ineligible_customers": [
+      "Customers receiving electric power from WAPA or other 3rd parties that are not Direct Access or Community Choice Aggregation",
+      "Full standby customers",
+      "Customers on NEMCCSF rate schedule"
+    ],
+    "eligible_customer_types": [
+      "Bundled service customers",
+      "Direct Access (DA) customers",
+      "Community Choice Aggregation (CCA) customers",
+      "Partial standby customers",
+      "Net metered customers",
+      "AutoDR customers"
+    ],
+    "notes": "CAISO PDR resources must meet a 100 kW minimum size requirement for wholesale market participation. CBP non-residential customers may also participate in PG&E's E-OBMC program or ELRP-B2 program. Battery storage systems are explicitly eligible for the program."
+  },
+
+  "notification": {
+    "day_ahead_notice": true,
+    "minimum_notice_hours": "not specified",
+    "maximum_notice_hours": "not specified",
+    "notification_methods": ["aggregator notification"],
+    "notification_notes": "PG&E will notify the affected aggregators by 5 p.m. on a day-ahead basis of a CBP event for the following calendar day. Aggregators then notify their enrolled customers."
+  },
+
+  "payment_structure": {
+    "has_capacity_payment": true,
+    "has_performance_payment": true,
+    "capacity_rate": {
+      "value": "varies",
+      "unit": "$/kW-month",
+      "varies_by_season": true,
+      "varies_by_product": true,
+      "seasonal_rates": [
+        {
+          "season": "May",
+          "rate": "not available",
+          "unit": "$/kW-month",
+          "source": "Historical data from CPUC E-4020 shows May rates were lowest in the season"
+        },
+        {
+          "season": "June",
+          "rate": "not available",
+          "unit": "$/kW-month"
+        },
+        {
+          "season": "July",
+          "rate": "not available",
+          "unit": "$/kW-month"
+        },
+        {
+          "season": "August",
+          "rate": 21.57,
+          "unit": "$/kW-month",
+          "product": "1-4, 2-6, and 4-8 hour products",
+          "source": "CPUC Resolution E-4020",
+          "notes": "Historical rate from CPUC E-4020. August typically has highest capacity payments. Current rates authorized through 2027 but specific values not publicly available."
+        },
+        {
+          "season": "September",
+          "rate": "not available",
+          "unit": "$/kW-month"
+        },
+        {
+          "season": "October",
+          "rate": "not available",
+          "unit": "$/kW-month"
+        }
+      ],
+      "product_options": [
+        "1-4 hour availability product",
+        "2-6 hour availability product",
+        "4-8 hour availability product"
+      ],
+      "notes": "Aggregators receive a monthly capacity payment based on the number of MWs nominated and the number of hours that those MWs will be reduced, even if a DRP event is not called. The capacity payment is a CPUC-approved price listed in the Capacity Bidding Program tariff (Schedule E-CBP). Current incentive rates are authorized by the CPUC through 2027. Historical data from CPUC E-4020 showed August 2006 rates at $21.57/kW-month for certain products, with capacity payments ranging from approximately $4 to $12 per kW per month depending on season and availability level (per web search results). Specific current rates require accessing the official E-CBP tariff document."
+    },
+    "performance_rate": {
+      "value": "varies",
+      "unit": "$/kWh",
+      "varies_by_season": false,
+      "varies_by_time": true,
+      "energy_payment_basis": "natural gas price indexed",
+      "notes": "Energy payment is what PG&E pays the aggregators for an event curtailment. If no CBP Events were called during the operation month, then the monthly energy payment is zero. Historical data from CPUC E-4020 indicates energy payments are based on city gate natural gas price with a trigger heat rate of 15,000 BTU/kWh. Paid for up to 150% of nominated demand reduction. The $6.00/kWh figure mentioned in previous research is actually a PENALTY rate for energy usage over the Firm Service Level (FSL) during a curtailment event, not a performance payment."
+    },
+    "penalty_structure": {
+      "has_penalties": true,
+      "penalty_rate": 6.00,
+      "penalty_unit": "$/kWh",
+      "penalty_description": "Participants are penalized at $6.00/kWh for energy usage over their Firm Service Level (FSL) during a curtailment event. Penalties vary based on load reduction shortfall, with larger penalties for larger shortfalls.",
+      "performance_thresholds": [
+        {
+          "threshold": "100% of nominated load delivered",
+          "payment": "100% of capacity payment"
+        },
+        {
+          "threshold": "95-100% of nominated load delivered",
+          "payment": "100% of capacity payment (full payment)"
+        },
+        {
+          "threshold": "90-100% of nominated load delivered (alternate source)",
+          "payment": "Proportional payment"
+        },
+        {
+          "threshold": "75-89.99% of nominated load delivered",
+          "payment": "50% of capacity payment"
+        },
+        {
+          "threshold": "50-74.99% of nominated load delivered",
+          "payment": "0% of capacity payment"
+        },
+        {
+          "threshold": "Less than 50% of nominated load delivered",
+          "payment": "Penalty applied"
+        },
+        {
+          "threshold": "Less than 95% of nominated load delivered",
+          "payment": "Penalty based on kWh shortfall"
+        }
+      ],
+      "notes": "During months when one or more events are called, an aggregator receives its full capacity payment if at least 95% of the nominated load is provided. Aggregators receive a penalty, based on their kWh shortfall, if less than 95% of the nominated load is provided. Aggregators are penalized if they fail to deliver their committed load reductions, with penalties varying based on the shortfall."
+    },
+    "bonus_payments": [],
+    "forward_curve_available": false,
+    "forward_curve_url": "not available",
+    "payment_notes": "Capacity payments fluctuate monthly, with the most valuable months being July-September. Average Capacity Bidding Program payment among current retail ADR participants mentioned as $4,400 per year (source unclear on participant size). Aggregators determine customer compensation within their portfolios. PG&E pays aggregators, who then pay participating customers."
+  },
+
+  "seasons": [
+    {
+      "season_name": "CBP Program Season",
+      "start_date": "05-01",
+      "end_date": "10-31",
+      "max_events": "not specified",
+      "max_hours": 24,
+      "notes": "Program runs May 1 through October 31 but is promoted year-round for enrollment. Maximum 24 hours of events per month (from CPUC E-4020 historical data, current limits may vary)."
+    }
+  ],
+
+  "call_windows": [
+    {
+      "window_id": "may_window",
+      "start_hour": 17,
+      "end_hour": 22,
+      "days_of_week": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      "seasons": ["May"],
+      "timezone": "America/Los_Angeles",
+      "notes": "May: 5:00 PM – 10:00 PM PT on non-holiday weekdays (from 2024 season data)"
+    },
+    {
+      "window_id": "june_october_window",
+      "start_hour": 16,
+      "end_hour": 21,
+      "days_of_week": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      "seasons": ["June", "July", "August", "September", "October"],
+      "timezone": "America/Los_Angeles",
+      "notes": "June through October: 4:00 PM – 9:00 PM PT on non-holiday weekdays (from 2024 season data)"
+    }
+  ],
+
+  "event_parameters": {
+    "typical_duration_hours": 4,
+    "minimum_duration_hours": "not specified",
+    "maximum_duration_hours": 4,
+    "event_granularity_minutes": 15,
+    "response_time_minutes": "not specified",
+    "max_events_per_season": "not specified",
+    "max_events_per_year": "not specified",
+    "max_events_per_day": 1,
+    "max_events_per_month": "varies",
+    "max_hours_per_season": "not specified",
+    "max_hours_per_year": "not specified",
+    "max_hours_per_month": 24,
+    "max_consecutive_events": "not specified",
+    "minimum_rest_hours": "not specified",
+    "notes": "CBP-Elect option: Maximum of one event per day. Participant may choose more than 6 events per month. Maximum event duration: 4 hours. Interval meters record usage in 15-minute intervals. Historical data from CPUC E-4020 indicates weekdays from 11 a.m. to 7 p.m. operating hours, though more recent sources indicate 4-9 PM or 5-10 PM windows depending on month."
+  },
+
+  "event_triggers": {
+    "trigger_description": "PG&E may trigger a CBP Event for one or more Sub-LAP (Sub-Load Aggregation Point) when PG&E receives a market award from the CAISO for a PDR (Proxy Demand Resource) that's part of CBP as a result of the offer price specified by the aggregator for a nominated portfolio. Events are economically dispatched through CAISO's day-ahead energy market.",
+    "primary_trigger": "CAISO market award for PDR",
+    "secondary_triggers": ["peak demand", "grid stress", "emergency conditions", "economic dispatch"],
+    "market_integration": "CAISO Day-Ahead Market",
+    "bidding_mechanism": "Aggregators bid PDR resources into CAISO day-ahead market at specified offer prices",
+    "temperature_threshold": "not specified",
+    "price_threshold": "Net benefits test threshold (varies monthly, published by CAISO)",
+    "examples": "Events are called when CAISO accepts aggregator bids in the day-ahead market during high-demand periods, typically during heat waves and peak summer demand",
+    "notes": "CBP is integrated with CAISO's wholesale market through Proxy Demand Resources. All proxy demand resources must participate in the net benefits test that the ISO uses to set the monthly price threshold for cost effective demand response resource bids."
+  },
+
+  "nomination_bidding": {
+    "requires_nomination": true,
+    "nomination_frequency": "not specified",
+    "nomination_deadline": "not specified",
+    "allows_price_bidding": true,
+    "bidding_structure": "Aggregators specify offer prices for their nominated PDR portfolios in the CAISO day-ahead market. For PDR-LSR (load shift resources), load curtailment can bid from the net benefits test threshold price up to the bid cap, and load consumption can bid from less than $0 to the bid floor.",
+    "enrollment_period": {
+      "start_date": "not specified",
+      "end_date": "not specified",
+      "recurring": true
+    },
+    "caiso_registration": "Sellers create customer locations using the CAISO's Demand Response Registration System (DRRS), which is needed for participating in the CAISO markets with PDR.",
+    "notes": "Program is promoted year-round for enrollment. Aggregators manage the bidding process into CAISO markets and are responsible for portfolio nominations and bid price determination. Participants enroll through third-party aggregators rather than directly with PG&E."
+  },
+
+  "special_programs": {
+    "is_rec_based": false,
+    "rec_type": "not applicable",
+    "scheduled_dispatch": false,
+    "clean_peak_standard": false,
+    "caiso_integration": true,
+    "pdr_program": true,
+    "special_attributes": [
+      "Integrated with CAISO wholesale market through Proxy Demand Resources (PDR)",
+      "Day-ahead market participation",
+      "Economic dispatch based on market awards",
+      "Aggregator-managed program structure",
+      "Compatible with other PG&E DR programs (E-OBMC, ELRP-B2)",
+      "Battery energy storage explicitly eligible",
+      "Behind-the-meter resource participation",
+      "Net metering compatibility",
+      "AutoDR compatible"
+    ]
+  },
+
+  "program_history": {
+    "launch_year": 2006,
+    "program_evolution": [
+      {
+        "year": 2006,
+        "change_description": "CPUC Resolution E-4020 (October 19, 2006) authorized PG&E, SCE, and SDG&E to implement the Capacity Bidding Program (CBP) to replace the California Power Authority Demand Reserves Partnership program."
+      },
+      {
+        "year": 2024,
+        "change_description": "Program continues with active participation. Current incentive rates authorized through 2027. Program operates May 1 - October 31 with day-ahead notification structure."
+      }
+    ],
+    "budget_committed_through": 2027,
+    "total_annual_budget": "not available",
+    "notes": "Program has been operating continuously since 2006 authorization. Current incentive rates are authorized by the CPUC through 2027. PG&E has significant behind-the-meter battery deployment with BTM battery storage systems among PG&E customers totaling more than 1,100 megawatts through December 2024 — 35% of the nation's behind-the-meter storage capacity."
+  },
+
+  "historical_events": [],
+
+  "case_studies": [],
+
+  "related_programs": {
+    "e_obmc_program": {
+      "program_name": "E-OBMC (On-Bill Matched Capability)",
+      "description": "On-bill matched capability program compatible with CBP participation",
+      "penalty_rate": 6.00,
+      "penalty_unit": "$/kWh",
+      "penalty_description": "$6 penalty for each kWh above power reduction commitment for customers who fail to meet load reduction requirements",
+      "status": "active",
+      "notes": "CBP non-residential customers may also participate in PG&E's E-OBMC program"
+    },
+    "elrp_b2_program": {
+      "program_name": "ELRP-B2 (Emergency Load Reduction Program - Business)",
+      "description": "Emergency load reduction program compatible with CBP participation",
+      "status": "active",
+      "notes": "CBP non-residential customers may also participate in ELRP-B2 program"
+    },
+    "sgip_program": {
+      "program_name": "SGIP (Self-Generation Incentive Program)",
+      "description": "Provides incentives for battery storage installations. All eligible non-residential customers must participate in one of these Demand Response programs: Capacity Bidding Program and Peak Day Pricing",
+      "status": "active",
+      "notes": "SGIP participants required to enroll in CBP or Peak Day Pricing for demand response participation"
+    },
+    "dram_program": {
+      "program_name": "DRAM (Demand Response Auction Mechanism)",
+      "description": "Program where sellers bid aggregated demand response directly into the CAISO day-ahead energy market, with PG&E acquiring the capacity but having no claim on energy market revenues",
+      "status": "active",
+      "caiso_integration": true,
+      "notes": "DRAM is designed to be comparable and in alignment with the Capacity Bidding Program (CBP)"
+    }
+  },
+
+  "verification_sources": [
+    {
+      "source_name": "PG&E Business Programs - Capacity Bidding Program",
+      "url": "https://www.pge.com/en/save-energy-and-money/energy-saving-programs/demand-response-programs/business-programs.html#cbp",
+      "accessed_date": "2025-10-11",
+      "document_type": "program webpage",
+      "fields_verified": [
+        "program_period",
+        "eligibility_criteria",
+        "meter_requirements",
+        "event_triggers",
+        "notification_timing",
+        "event_options",
+        "ineligible_customers"
+      ]
+    },
+    {
+      "source_name": "CPUC Resolution E-4020",
+      "url": "https://docs.cpuc.ca.gov/published/Final_resolution/61087.htm",
+      "accessed_date": "2025-10-11",
+      "document_type": "regulatory resolution",
+      "fields_verified": [
+        "program_authorization",
+        "historical_capacity_rates",
+        "payment_structure",
+        "performance_thresholds",
+        "energy_payment_mechanism",
+        "program_parameters"
+      ]
+    },
+    {
+      "source_name": "PG&E Schedule E-CBP Tariff",
+      "url": "https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_E-CBP.pdf",
+      "accessed_date": "2025-10-11",
+      "document_type": "tariff document",
+      "fields_verified": [
+        "official_tariff_reference"
+      ],
+      "notes": "PDF document could not be fully read due to encoding issues. This is the official tariff containing current capacity payment rates."
+    },
+    {
+      "source_name": "CAISO Proxy Demand Resource Documentation",
+      "url": "https://www.caiso.com/Documents/PDR_RDRRParticipationOverviewPresentation.pdf",
+      "accessed_date": "2025-10-11",
+      "document_type": "technical documentation",
+      "fields_verified": [
+        "pdr_integration",
+        "caiso_market_participation",
+        "registration_requirements"
+      ]
+    },
+    {
+      "source_name": "Web Search Results - Multiple Sources",
+      "url": "various",
+      "accessed_date": "2025-10-11",
+      "document_type": "aggregated search results",
+      "fields_verified": [
+        "call_windows",
+        "program_hours_2024",
+        "95_percent_performance_threshold",
+        "penalty_structure",
+        "battery_storage_eligibility",
+        "btm_deployment_statistics"
+      ]
+    }
+  ],
+
+  "data_gaps_and_limitations": {
+    "missing_critical_data": [
+      "Current specific capacity payment rates by month ($/kW-month) for 2024-2025",
+      "Current specific energy payment rates",
+      "Minimum and maximum event duration specifications",
+      "Response time requirements in minutes",
+      "Maximum number of events per year/season/month",
+      "Minimum rest hours between events",
+      "Maximum consecutive events allowed",
+      "Specific nomination deadlines and procedures",
+      "Enrollment period dates",
+      "Historical event log with dates and times",
+      "Current participant count and enrolled capacity",
+      "Complete current call window specifications"
+    ],
+    "data_not_publicly_available": [
+      "Current capacity payment rates - contained in Schedule E-CBP tariff PDF which could not be fully accessed",
+      "Detailed aggregator bid strategies and pricing",
+      "Individual participant earnings data",
+      "Complete historical event records",
+      "Detailed CAISO market integration procedures",
+      "Aggregator-specific program terms",
+      "Customer compensation structures (determined by aggregators)",
+      "Forward capacity payment curves"
+    ],
+    "verification_limitations": [
+      "Schedule E-CBP tariff PDF could not be fully read due to encoding issues - this is the primary source for current capacity payment rates",
+      "Much program detail is managed at aggregator level rather than published by PG&E",
+      "CAISO market integration adds complexity - some parameters determined by ISO rather than utility",
+      "Limited historical event data publicly available",
+      "Some information is from 2006 CPUC resolution - current parameters may have evolved",
+      "Call window hours varied between sources (2024 data shows 4-9 PM vs historical 11 AM-7 PM)"
+    ],
+    "conflicting_information": [
+      {
+        "field": "call_windows",
+        "source_1": "Historical CPUC E-4020: 11 a.m. to 7 p.m. weekdays",
+        "source_2": "2024 web search: May 5-10 PM, June-October 4-9 PM",
+        "resolution": "Used 2024 data as more current, noted historical data in event parameters"
+      },
+      {
+        "field": "performance_thresholds",
+        "source_1": "CPUC E-4020: 100%, 90-100%, 75-89.99%, 50-74.99%, <50%",
+        "source_2": "Other sources: 95% threshold for full payment",
+        "resolution": "Documented both structures as they may represent different aspects or time periods"
+      },
+      {
+        "field": "$6.00/kWh rate",
+        "source_1": "Previous research: $6.00/kWh performance payment",
+        "source_2": "Current research: $6.00/kWh penalty for exceeding FSL",
+        "resolution": "Clarified this is a PENALTY rate, not a performance payment"
+      }
+    ]
+  },
+
+  "research_notes": "Conducted comprehensive web research on PG&E Capacity Bidding Program on 2025-10-11. Program is well-established (operating since 2006 CPUC authorization) and integrated with CAISO wholesale markets through Proxy Demand Resource mechanism. Key finding: the $6.00/kWh figure mentioned in initial research is actually a PENALTY rate for exceeding Firm Service Level during curtailment, NOT a performance payment rate. Program has good documentation for structure and eligibility but specific current payment rates are contained in Schedule E-CBP tariff PDF which could not be fully accessed. Historical rate data from CPUC E-4020 shows August 2006 capacity payments at $21.57/kW-month for certain products. Web search results indicated capacity payments ranging from $4-$12/kW-month varying by season and availability level, with current rates authorized through 2027. Program is explicitly battery-storage friendly with significant BESS deployment in PG&E territory (1,100 MW BTM storage, 35% of national total). Aggregator-managed structure means many operational details determined at aggregator level. Day-ahead notification at 5 PM for next-day events. Program compatible with stacking (E-OBMC, ELRP-B2, SGIP). For complete current financial details, direct access to Schedule E-CBP tariff required. Overall data quality good for program structure and parameters but limited for specific current financial rates.",
+
+  "integration_metadata": {
+    "optimizer_compatible": true,
+    "api_available": true,
+    "api_documentation_url": "not publicly available",
+    "api_notes": "CAISO provides Demand Response Registration System (DRRS) for PDR registration. Aggregators likely have API access for dispatch notifications and telemetry, but documentation not publicly available. Program is AutoDR compatible indicating API/automated dispatch capability.",
+    "data_quality_score": 7,
+    "last_verified_date": "2025-10-11",
+    "verification_thoroughness": "Comprehensive web research conducted including program webpage, CPUC regulatory documents, CAISO technical documentation, and multiple web searches. Primary limitation is inability to access current Schedule E-CBP tariff rates (PDF encoding issues). Successfully clarified $6/kWh as penalty not payment. Good understanding of program structure, eligibility, and integration mechanisms.",
+    "recommended_next_steps": [
+      "Access Schedule E-CBP tariff document directly from PG&E (contact customer service or download via alternative method) for current capacity payment rates",
+      "Contact PG&E demand response team for detailed program parameters and current enrollment information",
+      "Research specific aggregators operating in PG&E territory (e.g., Enel, OhmConnect, others) for customer-facing program details",
+      "Access CAISO DRRS documentation for PDR registration and bidding procedures",
+      "Request historical event data from PG&E or aggregators",
+      "Investigate DRAM program as comparable alternative with similar CAISO integration",
+      "Review SGIP requirements for DR program participation to understand battery storage integration",
+      "Contact existing program participants for real-world experience data"
+    ],
+    "notes": "Program is well-suited for battery optimization given: (1) Day-ahead notification allows for planning, (2) Defined call windows (4-10 PM peak hours), (3) CAISO market integration provides price signals, (4) Battery storage explicitly eligible, (5) Stacking allowed with other programs, (6) Aggregator structure provides operational flexibility. Key considerations: (1) Performance threshold is 95% minimum for full payment with penalties for shortfalls, (2) Events limited to peak hours but can occur frequently during summer, (3) Payment economics depend on specific capacity rates which require tariff access, (4) CAISO PDR requires 100 kW minimum which may limit small systems. Program appears compatible with behind-the-meter battery revenue stacking strategies. May-October season leaves Nov-April available for other revenue opportunities."
+  }
+}

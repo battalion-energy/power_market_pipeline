@@ -1,0 +1,399 @@
+{
+  "program_id": "NYSEG-CSRP",
+  "program_name": "Commercial System Relief Program (CSRP)",
+  "program_type": "utility",
+  "status": "active",
+  "research_completed_date": "2025-10-11",
+  "data_quality_score": 5,
+  "description": "NYSEG's Commercial System Relief Program (CSRP) is a utility demand response program that compensates commercial and industrial customers for reducing electricity usage during peak demand periods. The program operates year-round with two distinct enrollment options: a Reservation Payment option with monthly capacity payments and performance payments, and a Voluntary Participation option with no capacity payments but performance-only compensation. Participants receive advance notice (minimum 21 hours for planned events) to reduce load during peak periods, typically on weekdays from 2:00 PM to 6:00 PM when day-ahead peak forecast meets system thresholds. The program uses Customer Baseline Load (CBL) methodology to calculate actual load reductions, with a minimum 25% performance factor required to qualify for reservation payments. Customers must be able to reduce at least 50 kW of electrical demand.",
+
+  "geography": {
+    "states": ["NY"],
+    "utilities": ["New York State Electric and Gas Corporation (NYSEG)"],
+    "isos": ["NYISO"],
+    "service_territories": ["NYSEG service territory covering central and western New York"],
+    "notes": "NYSEG serves approximately 900,000 electric customers and 260,000 natural gas customers across more than 40% of upstate New York, spanning from the Pennsylvania border to the Capital Region. NYSEG is part of the Avangrid family of companies and participates in the NYISO demand response ecosystem."
+  },
+
+  "eligibility": {
+    "customer_classes": {
+      "residential": false,
+      "commercial": true,
+      "industrial": true,
+      "institutional": true,
+      "size_threshold_notes": "Program is available to commercial and industrial customers who have an interval meter installed. Customers must be able to reduce their electricity use by 50 kW or more to participate."
+    },
+    "behind_the_meter": true,
+    "front_of_meter": "not specified",
+    "minimum_capacity_kw": 50,
+    "maximum_capacity_kw": "not available",
+    "resource_types": [
+      "load curtailment",
+      "HVAC adjustment",
+      "lighting reduction",
+      "industrial process modification",
+      "non-essential equipment shutdown",
+      "battery storage (eligibility not explicitly excluded but not explicitly confirmed)"
+    ],
+    "requires_aggregator": false,
+    "aggregator_name": "Direct participation or aggregator participation both allowed",
+    "notes": "Customers who can reduce their electricity use by 50 kW or more can be a direct participant by applying directly with NYSEG. Aggregators can also enroll multiple smaller customers. An interval meter is required for program participation - if not already installed, customers must coordinate installation which may delay participation start date."
+  },
+
+  "notification": {
+    "day_ahead_notice": true,
+    "minimum_notice_hours": 21,
+    "maximum_notice_hours": "not available",
+    "notification_methods": ["not specified - likely email, phone, SMS based on industry standards"],
+    "notification_notes": "Program provides notification of no less than 21 hours to enrolled customers to reduce their electricity use. The program distinguishes between 'planned' events (21+ hours advance notice) and 'unplanned' or 'test' events. The 21-hour minimum notice period is explicitly stated on NYSEG's program webpage and aligns with NY utility demand response standards."
+  },
+
+  "payment_structure": {
+    "has_capacity_payment": true,
+    "has_performance_payment": true,
+    "capacity_rate": {
+      "notes_on_payment_options": "NYSEG CSRP offers two distinct enrollment options with different payment structures. Rates current as of 2024-2025 enrollment period.",
+      "reservation_payment_option": {
+        "base_monthly_reservation_payment": {
+          "value": 4.35,
+          "unit": "$/kW-month",
+          "description": "Current reservation payment rate for five or more planned events"
+        },
+        "payment_notes": "The reservation payment rate is $4.35 per kW per month. This rate applies when the program plans for five or more events. Direct participants or aggregators receive monthly reservation payments based on enrolled capacity."
+      },
+      "voluntary_participation_option": {
+        "monthly_reservation_payment": {
+          "value": 0,
+          "unit": "$/kW-month",
+          "description": "No monthly reservation payments under Voluntary Participation option"
+        }
+      },
+      "varies_by_season": false,
+      "seasonal_rates": []
+    },
+    "performance_rate": {
+      "value": 0.50,
+      "unit": "$/kWh",
+      "varies_by_season": false,
+      "varies_by_time": false,
+      "reservation_payment_option_rates": {
+        "planned_event": {
+          "value": 0.50,
+          "unit": "$/kWh",
+          "description": "Performance payment for load relief during planned events (21+ hours notice) under Reservation Payment option"
+        },
+        "test_event": {
+          "value": 0.50,
+          "unit": "$/kWh",
+          "description": "Performance payment for load relief during test events under Reservation Payment option"
+        }
+      },
+      "voluntary_participation_option_rates": {
+        "event": {
+          "value": 0.50,
+          "unit": "$/kWh",
+          "description": "Performance payment for load relief during events under Voluntary Participation option"
+        }
+      },
+      "calculation_methodology": "The performance amount paid per event equals the applicable performance payment rate per kilowatt-hour (kWh) multiplied by the average kilowatt (kW) of load relief provided during the event multiplied by the number of event hours. Performance is measured using customer baseline load procedures. A performance factor of more than 25 percent is required to qualify for reservation payments.",
+      "seasonal_rates": [],
+      "notes": "Current performance payment rate is $0.50 per kWh. Performance payment is based on electricity use reduction during test and all events, measured against Customer Baseline Load (CBL). The 25% performance factor requirement means customers must demonstrate consistent ability to reduce at least 25% of their nominated capacity to continue receiving reservation payments."
+    },
+    "penalty_structure": {
+      "has_penalties": "not specified",
+      "penalty_rate": "not available",
+      "penalty_unit": "not available",
+      "penalty_description": "Penalty structure not explicitly documented in publicly available sources. The 25% performance factor requirement suggests that customers who consistently fail to meet this threshold may become ineligible for reservation payments, but specific financial penalties are not disclosed."
+    },
+    "bonus_payments": [],
+    "forward_curve_available": false,
+    "forward_curve_url": "not available",
+    "payment_comparison_notes": "The two enrollment options create different value propositions: (1) Reservation Payment option provides stable monthly capacity revenue ($4.35/kW/month) plus $0.50/kWh performance payments, with commitment to respond to events and maintain >25% performance factor; (2) Voluntary Participation option has no guaranteed capacity income but offers the same $0.50/kWh performance rate with no performance factor requirement and greater participation flexibility. The Reservation option is advantageous for customers with reliable curtailment capability seeking predictable cash flow; the Voluntary option suits customers who want flexibility without committed performance obligations."
+  },
+
+  "seasons": [
+    {
+      "season_name": "Year-round",
+      "start_date": "01-01",
+      "end_date": "12-31",
+      "max_events": "not specified - program references 'five or more planned events' but no explicit maximum stated",
+      "max_hours": "not specified",
+      "notes": "Unlike many utility DR programs that operate only during summer peak season, NYSEG CSRP appears to operate year-round with events called during peak demand periods. The enrollment deadlines (April 1 for May 1 start, May 1 for June 1 start, September 30 for Voluntary option) suggest primary focus on summer season but year-round applicability."
+    }
+  ],
+
+  "call_windows": [
+    {
+      "window_id": "peak_period_window",
+      "start_hour": 14,
+      "end_hour": 18,
+      "days_of_week": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      "seasons": ["Year-round"],
+      "timezone": "America/New_York",
+      "notes": "Planned events occur on weekdays from 2pm to 6pm when the day-ahead peak forecast is at least a certain level. This is the typical peak demand window for NYSEG's service territory and aligns with NYISO peak pricing periods. The 'day-ahead peak forecast' trigger suggests events are called based on predicted system stress."
+    }
+  ],
+
+  "event_parameters": {
+    "typical_duration_hours": "not available",
+    "minimum_duration_hours": "not available",
+    "maximum_duration_hours": "not available",
+    "event_granularity_minutes": "not available",
+    "response_time_minutes": "not available",
+    "max_events_per_season": "not specified",
+    "max_events_per_year": "not specified",
+    "max_hours_per_season": "not available",
+    "max_hours_per_year": "not available",
+    "max_consecutive_events": "not available",
+    "minimum_rest_hours": "not available",
+    "notes": "Program documentation references 'five or more planned events' in the context of the reservation payment rate structure, indicating the program anticipates at least 5 events when setting capacity payments. However, no explicit maximum number of events or hours per season/year is stated in publicly available sources. Event duration limits and operational parameters are not disclosed in web-accessible documentation."
+  },
+
+  "event_triggers": {
+    "trigger_description": "Events are called when day-ahead peak forecast reaches system reliability thresholds. The program is designed to help maintain system reliability during peak demand periods by reducing electricity use and helping to maintain system reliability. Events typically occur on hot summer weekdays when cooling load drives system peaks, but the year-round program structure suggests events can be called during winter peaks or other high-demand periods.",
+    "primary_trigger": "day_ahead_peak_forecast_threshold",
+    "secondary_triggers": ["system_reliability", "grid_stress", "high_temperature"],
+    "temperature_threshold": "not available",
+    "price_threshold": "not available",
+    "forecast_threshold": "not specified - program states events occur 'when the day-ahead peak forecast is at least a certain level' but does not disclose the specific MW or % threshold",
+    "examples": "not available"
+  },
+
+  "nomination_bidding": {
+    "requires_nomination": true,
+    "nomination_frequency": "annual",
+    "nomination_deadline": "April 1 for May 1 start date, or May 1 for June 1 start date for Reservation Payment option; September 30 for Voluntary Participation option",
+    "allows_price_bidding": false,
+    "bidding_structure": "not applicable - program has fixed payment rates",
+    "enrollment_period": {
+      "start_date": "not specified",
+      "end_date_reservation": "April 1 (for May 1 start) or May 1 (for June 1 start)",
+      "end_date_voluntary": "September 30",
+      "recurring": true
+    },
+    "notes": "The enrollment deadline for the Reservation Payment Option is April 1, 2025 for a May 1 start, or May 1, 2025 for a June 1 start. The Voluntary Participation Option enrollment deadline is September 30, 2025. The staggered deadlines suggest the Reservation option requires more advance planning for system operator capacity planning, while the Voluntary option allows later enrollment. Customers must nominate their load reduction capacity at time of enrollment."
+  },
+
+  "special_programs": {
+    "is_rec_based": false,
+    "rec_type": "not applicable",
+    "scheduled_dispatch": false,
+    "clean_peak_standard": false,
+    "special_attributes": [
+      "Two distinct enrollment options (Reservation vs Voluntary) with different value propositions",
+      "Uses Customer Baseline Load (CBL) methodology for performance measurement",
+      "25% performance factor requirement for Reservation Payment qualification",
+      "Year-round program operation (not limited to summer season)",
+      "21-hour minimum advance notice for planned events",
+      "Weekday-only event calls during 2-6 PM peak period",
+      "Day-ahead peak forecast based event triggering",
+      "Part of NYISO demand response ecosystem",
+      "Operated by Avangrid utility company",
+      "Allows both direct participation and aggregator participation"
+    ]
+  },
+
+  "program_history": {
+    "launch_year": "not available",
+    "program_evolution": [],
+    "budget_committed_through": "not available",
+    "total_annual_budget": "not available",
+    "notes": "NYSEG files annual reports detailing demand response programs with the New York State Public Service Commission, including the 2024 Dynamic Load Management Program Report filed November 15, 2024. The program appears to be well-established and has been operating for multiple years as part of New York's demand response infrastructure. Specific launch date and program evolution history not found in research."
+  },
+
+  "historical_events": [],
+
+  "related_programs": {
+    "rge_csrp": {
+      "program_name": "RG&E Commercial System Relief Program",
+      "description": "Sister utility Rochester Gas & Electric operates similar CSRP program with comparable structure",
+      "utility": "Rochester Gas & Electric (RG&E)",
+      "customer_type": "commercial_industrial",
+      "capacity_rate": 4.35,
+      "capacity_unit": "$/kW-month",
+      "performance_rate": 0.50,
+      "performance_unit": "$/kWh",
+      "status": "active",
+      "notes": "RG&E is also part of Avangrid and operates a coordinated CSRP program with NYSEG. Both utilities have aligned payment rates and program structures. They file joint demand response reports with NY PSC."
+    },
+    "nyseg_dlrp": {
+      "program_name": "Distribution Load Relief Program (DLRP)",
+      "description": "NYISO-administered demand response program for distribution-level load relief",
+      "status": "active",
+      "notes": "NYSEG customers may also be eligible for NYISO's DLRP program which provides demand response opportunities in constrained distribution areas with potentially higher compensation."
+    }
+  },
+
+  "verification_sources": [
+    {
+      "source_name": "NYSEG Commercial System Relief Program - Main Program Page",
+      "url": "https://www.nyseg.com/smartenergy/businesssolutions/cidemandresponse/commercial-system-relief-program",
+      "accessed_date": "2025-10-11",
+      "document_type": "program webpage",
+      "fields_verified": [
+        "program_description",
+        "two_payment_options",
+        "21_hour_minimum_notice",
+        "50kW_minimum_capacity",
+        "weekday_2pm_to_6pm_window",
+        "day_ahead_peak_forecast_trigger",
+        "CBL_methodology",
+        "25_percent_performance_factor",
+        "enrollment_deadlines",
+        "interval_meter_requirement",
+        "commercial_industrial_eligibility"
+      ]
+    },
+    {
+      "source_name": "NYSEG Commercial System Relief Program - Alternate URL",
+      "url": "https://www.nyseg.com/w/commercial-system-relief-program",
+      "accessed_date": "2025-10-11",
+      "document_type": "program webpage",
+      "fields_verified": [
+        "4.35_dollar_per_kW_month_reservation_rate",
+        "0.50_dollar_per_kWh_performance_rate",
+        "five_or_more_planned_events_language",
+        "reservation_vs_voluntary_options",
+        "May_1_June_1_September_30_deadlines"
+      ]
+    },
+    {
+      "source_name": "NYSEG Commercial Industrial Demand Response Portal",
+      "url": "https://www.nyseg.com/smartenergy/businesssolutions/cidemandresponse",
+      "accessed_date": "2025-10-11",
+      "document_type": "program webpage",
+      "fields_verified": [
+        "program_overview",
+        "eligibility_overview"
+      ]
+    },
+    {
+      "source_name": "NYSEG 2024 Dynamic Load Management Program Report",
+      "url": "https://documents.dps.ny.gov/public/Common/ViewDoc.aspx?DocRefId=%7BC0143193-0000-C91C-96C0-04483D009B31%7D",
+      "accessed_date": "2025-10-11",
+      "document_type": "regulatory filing",
+      "fields_verified": [
+        "program_existence",
+        "annual_reporting_requirement"
+      ],
+      "notes": "Document filed November 15, 2024 with NY PSC. Full content not accessible through web search but confirms ongoing program operation and regulatory oversight."
+    },
+    {
+      "source_name": "NY PSC Case 15-E-0188 - NYSEG Dynamic Load Management Tariff Filing",
+      "url": "https://dps.ny.gov/event/nysegrge-comments-due-nyseg-and-rges-annual-report-detailing-demand-response-programs-and",
+      "accessed_date": "2025-10-11",
+      "document_type": "regulatory proceeding",
+      "fields_verified": [
+        "tariff_framework",
+        "PSC_oversight"
+      ],
+      "notes": "Case involves tariff filings by NYSEG and RG&E to effectuate Dynamic Load Management Programs including CSRP."
+    },
+    {
+      "source_name": "RG&E Commercial System Relief Program (comparison utility)",
+      "url": "https://www.rge.com/smartenergy/businesssolutions/cidr/commercial-system-relief-program",
+      "accessed_date": "2025-10-11",
+      "document_type": "program webpage",
+      "fields_verified": [
+        "aligned_program_structure",
+        "same_4.35_rate",
+        "same_0.50_rate",
+        "coordinated_Avangrid_programs"
+      ],
+      "notes": "RG&E is NYSEG's sister utility under Avangrid. Both programs have identical rate structures and aligned program design, suggesting coordinated administration."
+    }
+  ],
+
+  "data_gaps_and_limitations": {
+    "missing_critical_data": [
+      "Maximum number of events per season/year",
+      "Maximum total hours per season/year",
+      "Typical event duration",
+      "Minimum event duration",
+      "Maximum event duration",
+      "Event granularity and dispatch intervals",
+      "Specific response time requirements from notification",
+      "Minimum rest hours between events",
+      "Maximum consecutive events allowed",
+      "Penalty structure for non-performance under Reservation Payment option",
+      "Specific notification methods (email, SMS, phone, API, portal)",
+      "Behind-the-meter battery storage explicit eligibility confirmation",
+      "Specific day-ahead forecast threshold that triggers events (MW or % level)",
+      "Temperature thresholds associated with event calls",
+      "Historical event frequency data (how many events actually called per year)",
+      "Historical event duration data (actual length of past events)",
+      "Program launch year and historical evolution",
+      "Total program budget and participation statistics",
+      "Detailed CBL calculation methodology and formulas"
+    ],
+    "data_not_publicly_available": [
+      "Complete CSRP tariff document with full operational details",
+      "Customer Baseline Load (CBL) calculation methodology and formulas",
+      "Event operational procedures and dispatch protocols",
+      "Measurement and verification procedures and requirements",
+      "Settlement and payment timelines and procedures",
+      "Historical event logs with specific dates, times, durations, and performance data",
+      "Program participation statistics (number of enrolled customers, total enrolled MW)",
+      "Aggregator participation details and requirements",
+      "API or automated dispatch system documentation",
+      "Performance factor calculation details",
+      "Disqualification procedures for customers failing to meet 25% performance threshold",
+      "Program budget allocation and cost-effectiveness metrics"
+    ],
+    "verification_limitations": [
+      "Payment rates verified from NYSEG program webpage but complete tariff not accessed",
+      "Event duration, frequency, and hour limits not stated in any accessible source",
+      "Notification methods assumed based on industry standards but not explicitly confirmed",
+      "Battery storage eligibility not explicitly confirmed or excluded",
+      "CBL methodology referenced but detailed calculation not documented",
+      "Penalty structure referenced indirectly through performance factor requirement but not detailed",
+      "Day-ahead forecast trigger mentioned but specific threshold not disclosed",
+      "No historical event data found for revenue modeling",
+      "Year-round operation inferred from enrollment structure but seasonal patterns not documented",
+      "Response time requirements not specified",
+      "Event duration limits not disclosed"
+    ]
+  },
+
+  "research_notes": "Conducted comprehensive web research on NYSEG's Commercial System Relief Program (CSRP) on 2025-10-11. Research included NYSEG official sources (multiple program webpages), NY PSC regulatory filings, comparison with sister utility RG&E, and NYISO demand response ecosystem context. Payment rates are well-documented: $4.35/kW/month reservation payment (current rate for five or more planned events) and $0.50/kWh performance payment. These rates are clearly stated on NYSEG's official program webpage. Program structure follows typical New York utility demand response design with dual payment options (Reservation vs Voluntary), Customer Baseline Load performance measurement, and 25% performance factor qualification threshold. Key operational details confirmed: 21-hour minimum advance notice, 50 kW minimum capacity, weekday 2-6 PM call window, day-ahead peak forecast triggering, interval meter requirement. Major data gaps center on event frequency and duration limits - the program references 'five or more planned events' in payment structure but does not disclose maximum events per season/year or maximum hours per event. No historical event data found for revenue forecasting. Battery storage eligibility not explicitly addressed. The year-round enrollment structure (with deadlines spanning April through September) suggests broader than summer-only operation, distinguishing it from purely seasonal programs. NYSEG and RG&E operate coordinated programs with identical rate structures under Avangrid corporate umbrella. Overall data quality is moderate - excellent payment rate documentation but significant gaps in operational parameters critical for optimization modeling. Connection failed when attempting to access program URL directly, but alternative NYSEG URLs provided complete payment information. NY PSC documents confirm ongoing program operation and regulatory oversight but detailed operational parameters not publicly disclosed.",
+
+  "integration_metadata": {
+    "optimizer_compatible": true,
+    "api_available": "not available",
+    "api_documentation_url": "not available",
+    "api_notes": "No information found about automated dispatch API, software platform, or real-time notification systems. Program likely uses traditional notification methods (email, phone, SMS). Absence of API documentation suggests manual processes for event notification and response reporting.",
+    "data_quality_score": 5,
+    "last_verified_date": "2025-10-11",
+    "verification_thoroughness": "Moderate to comprehensive web research conducted including NYSEG official program pages, NY PSC regulatory references, and comparison with sister utility RG&E. Payment rates clearly documented and verified from primary source. Program structure and basic parameters confirmed. Significant limitations due to lack of accessible complete tariff document, historical event data, and operational parameter details. Connection issues encountered with some URLs but alternative sources provided needed information.",
+    "recommended_next_steps": [
+      "Obtain complete NYSEG CSRP tariff document (likely PSC No. 120 Electricity) from NY PSC tariff database or NYSEG directly",
+      "Contact NYSEG demand response team for: (1) maximum events/hours per season/year, (2) typical and maximum event durations, (3) historical event frequency data 2022-2024, (4) CBL calculation methodology details, (5) battery storage specific eligibility and requirements",
+      "Request historical event logs with dates, times, durations, and system conditions for revenue modeling",
+      "Clarify penalty structure for Reservation Payment non-performance",
+      "Obtain documentation on performance factor calculation and disqualification procedures",
+      "Request information about notification methods, systems, and timing precision",
+      "Access NYSEG 2024 Dynamic Load Management Program Report (NY PSC filing) for program statistics",
+      "Clarify year-round vs seasonal operation and whether winter events are called",
+      "Understand relationship between CSRP and NYISO DLRP programs - can customer participate in both?",
+      "Request sample CBL calculation for battery energy storage resource",
+      "Clarify whether battery charging and discharging both qualify or discharge only",
+      "Obtain measurement and verification requirements specific to battery resources",
+      "Request information about day-ahead forecast threshold that triggers events",
+      "Clarify settlement and payment timelines",
+      "Understand if CSRP participation restricts participation in NYISO wholesale markets"
+    ],
+    "optimization_considerations": {
+      "payment_structure_analysis": "NYSEG CSRP offers two distinct optimization pathways for battery operators. Reservation Payment option provides $4.35/kW/month guaranteed capacity revenue ($52.20/kW/year if enrolled year-round) plus $0.50/kWh performance payments, but requires >25% performance factor maintenance and committed response obligation. Voluntary Payment option has no guaranteed baseline revenue but same $0.50/kWh performance rate with no performance threshold and greater operational flexibility. For a 1 MW / 4 MWh battery: Reservation option = $4,350/month guaranteed ($52,200/year) + event performance revenue; Voluntary option = $0 guaranteed but complete flexibility for energy arbitrage and other revenue stacking. The Reservation option is attractive for batteries with reliable availability during 2-6 PM weekdays; Voluntary suits batteries optimizing across multiple value streams.",
+      "call_window_optimization": "2-6 PM weekday call window aligns perfectly with NYISO on-peak pricing periods and typical summer/winter peak hours in upstate NY. Batteries can optimize by: (1) charging during overnight/morning off-peak hours (typically 11 PM - 7 AM when NYISO prices lowest), (2) holding charge and being available for CSRP events during 2-6 PM window, (3) capturing energy arbitrage opportunities outside event hours and on weekends. The 4-hour call window matches standard 4-hour battery configurations well. Day-ahead peak forecast triggering provides predictability for day-ahead charge scheduling.",
+      "seasonal_considerations": "Year-round program structure (inferred from enrollment deadlines) creates different dynamics than summer-only DR programs. If program genuinely operates year-round, batteries can earn CSRP payments across all seasons rather than just June-September. However, lack of explicit seasonal structure creates uncertainty about actual event frequency distribution. Upstate NY typically has summer cooling peaks (June-August) and winter heating peaks (January-February), suggesting bimodal event pattern. Need historical data to model seasonal revenue distribution.",
+      "event_frequency_uncertainty": "Major modeling challenge: program references 'five or more planned events' but does not disclose maximum events per year or season. If program calls 5-10 events/year, CSRP is minor revenue stream; if 20-50 events/year, it becomes significant. Without historical data, revenue forecasting has high uncertainty. The day-ahead forecast trigger suggests events are relatively infrequent (only on highest demand days) rather than regular scheduled events. Conservative modeling should assume low event frequency (5-15 events/year) until historical data obtained.",
+      "performance_factor_risk": "The 25% performance factor requirement for Reservation Payment qualification creates operational risk. If battery is frequently unavailable during 2-6 PM window (e.g., due to energy arbitrage cycling, degradation, or other commitments), it may fail the 25% threshold and lose Reservation Payment eligibility. This risk favors the Voluntary Payment option for batteries with complex multi-use optimization strategies. Need clarity on measurement period (monthly? seasonal? annual?) and consequences of falling below 25%.",
+      "notice_period_advantage": "21-hour minimum advance notice provides excellent planning window for battery operations. Day-ahead notification by ~5 PM previous day allows scheduling overnight charging to ensure full state-of-charge for next-day event. This notice period is much longer than NYISO real-time dispatch (5-minute intervals) and even day-ahead market (cleared night before), providing superior schedule predictability. Batteries with automated control systems can easily integrate 21-hour advance scheduling.",
+      "stacking_opportunities": "CSRP operates 2-6 PM weekdays year-round (or seasonally - unclear). Battery can potentially stack: (1) CSRP capacity/performance payments during 2-6 PM weekday events, (2) NYISO energy arbitrage (buy low overnight, sell high daytime) on non-event days and weekends, (3) NYISO ancillary services (regulation, reserves) during non-event hours, (4) host facility demand charge management, (5) NYISO DLRP in constrained areas if eligible. Critical question: Does CSRP enrollment restrict NYISO market participation? NY utilities typically allow stacking but need explicit confirmation. If mutually exclusive, must compare CSRP payments vs NYISO market revenue potential.",
+      "revenue_modeling_challenges": "Without historical event data, revenue forecasting is speculative. Key unknowns: (1) actual events/year, (2) actual hours/event, (3) seasonal distribution of events, (4) year-round vs summer-only operation, (5) event duration variability. Conservative modeling approach: Assume 10 events/year × 3 hours/event × 1 MW reduction × $0.50/kWh = $15,000/year performance payment + $52,200/year capacity payment (Reservation option) = $67,200 total. But actual could range $20K-$150K depending on event frequency. High uncertainty requires sensitivity analysis.",
+      "cbm_methodology_consideration": "Customer Baseline Load methodology is standard for commercial/industrial load curtailment but potentially problematic for batteries. Batteries don't have consistent 'baseline load' - they may charge (negative load), discharge (positive load), or be idle (zero load) at different times. Need clarification on how CBL is calculated for battery storage - likely based on nominated capacity rather than historical usage patterns. This could simplify performance measurement (reduction = discharge output) but needs explicit confirmation."
+    },
+    "battery_specific_notes": "Program does not explicitly exclude or confirm battery energy storage system (BESS) eligibility. Generic behind-the-meter language and commercial/industrial customer eligibility suggest batteries are eligible, but explicit confirmation needed. Key battery considerations: (1) 50 kW minimum capacity is easily met by commercial/industrial batteries (typically 100 kW to 5+ MW), (2) fast response time (batteries respond in milliseconds) exceeds any program requirement, (3) interval meter requirement is standard for batteries, (4) 21-hour advance notice provides excellent charge scheduling capability, (5) 2-6 PM call window aligns with peak price periods favorable for battery economics, (6) 25% performance factor requirement may need special interpretation for batteries (does state-of-charge limit compliance?), (7) CBL methodology needs battery-specific adaptation. Critical questions requiring clarification: (1) explicit battery eligibility confirmation, (2) CBL calculation for batteries (likely nominated capacity rather than historical baseline), (3) whether charging and discharging both qualify or discharge only, (4) any special telemetry or control requirements for batteries, (5) how state-of-charge limits affect performance factor calculation, (6) compatibility with simultaneous NYISO market participation, (7) whether battery counts as 'load reduction' (discharge) or 'generation' (discharge), (8) settlement and payment procedures for battery resources, (9) any duration requirements (can 1-hour battery participate or must be 4-hour?), (10) any cycling limits or degradation considerations in program rules. Recommend direct engagement with NYSEG demand response team to obtain battery-specific program guidance before enrollment.",
+    "notes": "NYSEG CSRP is a well-established utility demand response program with clear dual payment options that create distinct optimization strategies. The $4.35/kW/month capacity rate provides meaningful revenue for batteries with reliable availability ($52,200/year for 1 MW), and $0.50/kWh performance rate is competitive with energy arbitrage spread in many hours. The 2-6 PM weekday call window aligns well with NYISO peak pricing. Year-round operation (if confirmed) is advantageous vs summer-only programs. Major limitations for battery optimization modeling: (1) no data on maximum events/hours per year - critical for revenue forecasting, (2) no historical event frequency data - prevents accurate revenue modeling, (3) battery eligibility not explicitly confirmed - needs verification, (4) CBL methodology not explained for batteries - may require program rule adaptation, (5) relationship with NYISO markets unclear - stacking rules unknown, (6) performance factor requirement creates compliance risk without clear battery-specific interpretation. The 21-hour advance notice is excellent for battery scheduling. Payment rates are moderate but reliable. Data quality score of 5 reflects excellent payment documentation but major gaps in operational parameters. Priority actions: (1) contact NYSEG for historical event data 2022-2024, (2) confirm battery eligibility and CBL methodology, (3) clarify maximum events/hours limits, (4) understand NYISO market stacking rules. Program is worth considering for battery optimization if event frequency is reasonable (15+ events/year) and NYISO market stacking is allowed. If mutually exclusive with NYISO, need detailed comparison of CSRP guaranteed revenue vs NYISO market opportunity."
+  }
+}

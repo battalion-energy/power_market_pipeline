@@ -1,0 +1,303 @@
+{
+  "program_id": "DOMINION-VA-NON-RESIDENTIAL-DG-DR",
+  "program_name": "Non-Residential Distributed Generation Program",
+  "program_type": "utility",
+  "status": "active",
+  "research_completed_date": "2025-10-12",
+  "data_quality_score": 4,
+  "description": "Dominion Energy Virginia's Non-Residential Distributed Generation Program is a demand response program that partners with business customers to switch from the Dominion grid to backup generation for a limited number of hours each year. The program is operated by PowerSecure International and provides monthly incentive payments plus per-MWh performance payments to participating customers. This is a demand response program using distributed generation resources, not a net metering or interconnection program.",
+
+  "geography": {
+    "states": ["VA"],
+    "utilities": ["Dominion Energy Virginia"],
+    "isos": ["PJM"],
+    "service_territories": ["Dominion Energy Virginia service territory"],
+    "notes": "Dominion Energy Virginia operates in PJM territory. Participants cannot simultaneously enroll in PJM demand response programs."
+  },
+
+  "eligibility": {
+    "customer_classes": {
+      "residential": false,
+      "commercial": true,
+      "industrial": true,
+      "institutional": true,
+      "size_threshold_notes": "Non-residential customers purchasing electricity under specific rate schedules (excluding CS, SG, 10, DP-1, or DP-2)"
+    },
+    "behind_the_meter": true,
+    "front_of_meter": false,
+    "minimum_capacity_kw": 200,
+    "maximum_capacity_kw": "not available",
+    "resource_types": [
+      "backup generators (diesel, natural gas, etc.)"
+    ],
+    "requires_aggregator": true,
+    "aggregator_name": "PowerSecure International",
+    "notes": "Program specifically requires backup generation facilities of 200 kW or greater that are either owned by the customer or subject to a lease used as a financing instrument. Customers must agree to allow PowerSecure to dispatch backup generation for up to 120 hours per year. Load curtailment enrolled in this program cannot simultaneously be enrolled in a PJM Interconnection LLC demand response program. Participating customers may be required to install additional electrical metering at their own cost."
+  },
+
+  "notification": {
+    "day_ahead_notice": false,
+    "minimum_notice_hours": 0.5,
+    "maximum_notice_hours": "not available",
+    "notification_methods": ["not specified"],
+    "notification_notes": "Control events may be called at any time with at least 30 minutes advance notice to PowerSecure. PowerSecure manages all control events and serves as the primary interface with customers."
+  },
+
+  "payment_structure": {
+    "has_capacity_payment": true,
+    "has_performance_payment": true,
+    "capacity_rate": {
+      "value": "not available",
+      "unit": "not available",
+      "varies_by_season": false,
+      "seasonal_rates": [],
+      "notes": "Program provides monthly incentive payments based on enrolled capacity, but specific $/kW-month rates are not publicly disclosed. Incentives may be provided as direct payments or as discounted backup generation service/equipment from PowerSecure."
+    },
+    "performance_rate": {
+      "value": 3.0,
+      "unit": "$/MWh",
+      "varies_by_season": false,
+      "varies_by_time": false,
+      "notes": "Variable Operations and Maintenance Adder equals $3.00/MWh for each metered MWh of dispatched operation delivered during all control events occurring within the monthly payment period."
+    },
+    "penalty_structure": {
+      "has_penalties": "not available",
+      "penalty_rate": "not available",
+      "penalty_unit": "not available",
+      "penalty_description": "not available"
+    },
+    "bonus_payments": [],
+    "forward_curve_available": false,
+    "forward_curve_url": "not available",
+    "payment_notes": "Monthly incentive payments are provided based on enrolled backup generation capacity. Performance payments of $3.00/MWh are paid for actual dispatched energy during control events. Incentives may be provided as direct payments or as discounted backup generation service/equipment from PowerSecure. Specific capacity payment rates not publicly disclosed."
+  },
+
+  "seasons": [
+    {
+      "season_name": "Year-round",
+      "start_date": "not specified",
+      "end_date": "not specified",
+      "max_events": "not available",
+      "max_hours": 120,
+      "notes": "Program operates year-round with up to 120 total dispatch hours per calendar year"
+    }
+  ],
+
+  "call_windows": [
+    {
+      "window_id": "year_round_anytime",
+      "start_hour": 0,
+      "end_hour": 23,
+      "days_of_week": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+      "seasons": ["Year-round"],
+      "timezone": "America/New_York",
+      "notes": "Control events may be called at any time with 30-minute advance notice"
+    }
+  ],
+
+  "event_parameters": {
+    "typical_duration_hours": 5,
+    "minimum_duration_hours": "not available",
+    "maximum_duration_hours": "not available",
+    "event_granularity_minutes": "not available",
+    "response_time_minutes": 30,
+    "max_events_per_season": "not available",
+    "max_events_per_year": "not available",
+    "max_hours_per_season": "not available",
+    "max_hours_per_year": 120,
+    "max_consecutive_events": "not available",
+    "minimum_rest_hours": "not available",
+    "notes": "Control events typically last four to six hours, though may be called for longer periods. Maximum 120 total hours per calendar year across all events. Events called with at least 30 minutes advance notice."
+  },
+
+  "event_triggers": {
+    "trigger_description": "Control events are called during periods of grid stress when Dominion Energy Virginia needs to reduce load. Events are managed by PowerSecure International who determines when to dispatch backup generation resources.",
+    "primary_trigger": "grid_stress_peak_demand",
+    "secondary_triggers": ["extreme_weather", "high_temperature", "supply_shortage"],
+    "temperature_threshold": "not available",
+    "price_threshold": "not available",
+    "examples": "not available"
+  },
+
+  "nomination_bidding": {
+    "requires_nomination": true,
+    "nomination_frequency": "not available",
+    "nomination_deadline": "not available",
+    "allows_price_bidding": false,
+    "bidding_structure": "not available",
+    "enrollment_period": {
+      "start_date": "not available",
+      "end_date": "not available",
+      "recurring": "not available"
+    },
+    "notes": "All customer enrollments are subject to approval by Dominion Energy Virginia and PowerSecure International. Program has a five-year approval period from Virginia State Corporation Commission. Customers must have backup generation of 200 kW or greater to enroll."
+  },
+
+  "special_programs": {
+    "is_rec_based": false,
+    "rec_type": "not applicable",
+    "scheduled_dispatch": false,
+    "clean_peak_standard": false,
+    "special_attributes": [
+      "Operated by PowerSecure International",
+      "May receive incentives as direct payments or discounted equipment",
+      "Cannot participate simultaneously in PJM demand response",
+      "May require additional metering installation at customer cost"
+    ]
+  },
+
+  "program_history": {
+    "launch_year": "not available",
+    "program_evolution": [
+      {
+        "year": 2019,
+        "change_description": "Program approved as part of $225.6 million suite of efficiency and demand response programs to run from July 1, 2019 through June 30, 2024"
+      },
+      {
+        "year": 2024,
+        "change_description": "Program continues to operate. Virginia continues to approve demand response programs through Dominion Energy Virginia."
+      }
+    ],
+    "budget_committed_through": "not available",
+    "total_annual_budget": "not available",
+    "notes": "Program has five-year approval period from Virginia State Corporation Commission. Terms and conditions document dates from November 2017 with updates through March 2019."
+  },
+
+  "historical_events": [],
+
+  "case_studies": [],
+
+  "related_programs": {
+    "pjm_programs": {
+      "program_name": "PJM Demand Response Programs",
+      "description": "Various PJM wholesale market demand response programs",
+      "notes": "Participants in Dominion's Non-Residential DG program cannot simultaneously participate in PJM demand response programs. This is a significant limitation for battery storage optimization.",
+      "status": "active"
+    }
+  },
+
+  "verification_sources": [
+    {
+      "source_name": "Dominion Energy Virginia - Targeted Sector Programs",
+      "url": "https://www.dominionenergy.com/virginia/save-energy/targeted-sector-programs",
+      "accessed_date": "2025-10-12",
+      "document_type": "program webpage",
+      "fields_verified": [
+        "program_description",
+        "eligibility_requirements",
+        "backup_generation_minimum_200kw",
+        "annual_hours_120",
+        "notification_30_minutes",
+        "aggregator_powersecure"
+      ]
+    },
+    {
+      "source_name": "Dominion Energy Virginia - Non-Residential DG Terms and Conditions (PDF metadata)",
+      "url": "https://cdn-dominionenergy-prd-001.azureedge.net/-/media/content/save-energy/x-pdfs/virginia/va-non-res-dist-gen-terms-conditions.pdf",
+      "accessed_date": "2025-10-12",
+      "document_type": "terms and conditions PDF",
+      "fields_verified": [
+        "document_exists",
+        "created_date_november_2017",
+        "modified_date_march_2019"
+      ]
+    },
+    {
+      "source_name": "Utility Dive - Virginia approves $226M suite of Dominion efficiency, DR programs",
+      "url": "https://www.utilitydive.com/news/virginia-approves-226m-suite-of-dominion-efficiency-dr-programs-through-j/553999/",
+      "accessed_date": "2025-10-12",
+      "document_type": "news article",
+      "fields_verified": [
+        "program_approval_dates",
+        "five_year_period"
+      ]
+    },
+    {
+      "source_name": "Web search results - Dominion Energy Virginia DR programs",
+      "url": "not available",
+      "accessed_date": "2025-10-12",
+      "document_type": "search results",
+      "fields_verified": [
+        "performance_payment_3_dollar_per_mwh",
+        "eligibility_200kw_minimum",
+        "pjm_exclusion",
+        "metering_requirements",
+        "rate_schedule_exclusions",
+        "contact_information_757_284_9187"
+      ]
+    }
+  ],
+
+  "data_gaps_and_limitations": {
+    "missing_critical_data": [
+      "Specific monthly capacity payment rates ($/kW-month)",
+      "Battery storage eligibility - program only explicitly mentions backup generators",
+      "Penalty structure for non-performance",
+      "Maximum event count per year",
+      "Minimum/maximum event duration",
+      "Event granularity and dispatch intervals",
+      "Minimum rest hours between events",
+      "Historical event data (dates, durations, performance)",
+      "Total enrolled capacity",
+      "Enrollment periods and deadlines"
+    ],
+    "data_not_publicly_available": [
+      "Monthly capacity incentive rates - not disclosed publicly",
+      "Specific terms and conditions document content (PDF not readable)",
+      "Performance penalties if any",
+      "Detailed event history",
+      "Participant count and total capacity enrolled",
+      "Individual participant earnings",
+      "Detailed metering and verification procedures"
+    ],
+    "verification_limitations": [
+      "Original program URL returns 404 error",
+      "Terms and conditions PDF could not be fully extracted",
+      "Most detailed program information comes from web search aggregation",
+      "Cannot confirm current program status beyond 2024",
+      "No explicit mention of battery storage eligibility - only backup generators",
+      "Limited documentation available online"
+    ]
+  },
+
+  "research_notes": "Conducted comprehensive web research on Dominion Energy Virginia's Non-Residential Distributed Generation Program on 2025-10-12. IMPORTANT FINDING: This is a backup generator demand response program, NOT a distributed generation interconnection or net metering program. The program pays commercial/industrial customers to run their backup generators during grid stress events. Original URL returns 404 error, but program information found through Dominion's targeted sector programs page and web searches. Program is managed by PowerSecure International. Key limitation: Program explicitly excludes simultaneous participation in PJM demand response programs, which is a major constraint for battery optimization strategies. Performance payment of $3.00/MWh is quite low compared to PJM market prices. Monthly capacity payments not publicly disclosed. CRITICAL BATTERY CONCERN: Program only explicitly mentions 'backup generation facilities' and does not specifically mention battery energy storage systems. It is unclear whether batteries qualify as 'backup generation' under this program's rules. Would require direct contact with Dominion/PowerSecure to confirm battery eligibility. Terms and conditions PDF exists but content could not be fully extracted. Program has 5-year approval cycle and was approved through June 2024, but appears to still be active in 2024-2025 based on web presence.",
+
+  "battery_storage_assessment": {
+    "battery_explicitly_eligible": false,
+    "battery_eligibility_notes": "Program only explicitly mentions 'backup generation facilities' of 200 kW or greater. No specific mention of battery energy storage systems, energy storage, or batteries in available documentation. Traditional backup generators (diesel, natural gas) are clearly eligible. Battery eligibility is UNCERTAIN and would require direct confirmation from Dominion Energy Virginia or PowerSecure International.",
+    "battery_suitability_rating": 2,
+    "battery_suitability_reasoning": "LOW SUITABILITY for battery storage optimization: (1) Battery eligibility is uncertain - only generators explicitly mentioned, (2) Cannot simultaneously participate in PJM wholesale markets which are typically much more lucrative for batteries, (3) Very low performance payment of $3.00/MWh compared to PJM energy and ancillary service prices, (4) Unknown capacity payment rates, (5) 120 hours per year is limited dispatch opportunity, (6) Program designed for backup generators which have different operational characteristics than batteries (e.g., startup time, emissions, fuel costs). Even if batteries are technically eligible, the PJM exclusion and low performance payments make this program economically unattractive compared to direct PJM participation.",
+    "pjm_market_access": "PROHIBITED - Customers enrolled in this program cannot simultaneously participate in PJM Interconnection LLC demand response programs. This is a critical limitation.",
+    "revenue_stacking_potential": "Limited - Cannot stack with PJM DR programs. Could potentially stack with PJM energy/ancillary service markets if not classified as 'demand response', but this is unclear and would require legal/regulatory clarification. Could stack with retail rate arbitrage.",
+    "operational_constraints": "30-minute notification with typical 4-6 hour events. Maximum 120 hours per year. Events can be called anytime (24/7/365). For batteries, this would limit depth of discharge planning and prevent participation in day-ahead PJM markets during potential event periods.",
+    "recommended_next_steps": [
+      "Contact PowerSecure International (757-284-9187) to explicitly confirm whether battery energy storage systems qualify as 'backup generation facilities' under program rules",
+      "Request full terms and conditions document in readable format",
+      "Clarify whether PJM exclusion applies only to PJM DR programs or also to PJM energy/ancillary service markets",
+      "Request capacity payment rate schedule",
+      "Compare economics to direct PJM market participation",
+      "Determine if batteries need to be separately metered vs. using existing interconnection metering"
+    ]
+  },
+
+  "integration_metadata": {
+    "optimizer_compatible": false,
+    "optimizer_compatibility_notes": "Not suitable for battery optimization primarily due to: (1) PJM market exclusion, (2) Uncertain battery eligibility, (3) Very low payment rates, (4) Limited to backup generation use case",
+    "api_available": "not available",
+    "api_documentation_url": "not available",
+    "api_notes": "PowerSecure manages dispatch. API availability unknown. Would need to contact PowerSecure for integration details.",
+    "data_quality_score": 4,
+    "data_quality_reasoning": "Score of 4/10 due to: Original URL 404 error, terms/conditions PDF not fully accessible, many critical data points missing (capacity payments, battery eligibility, penalties, event history), PJM interaction unclear, limited public documentation. Basic program structure and eligibility confirmed but insufficient detail for battery optimization modeling.",
+    "last_verified_date": "2025-10-12",
+    "verification_thoroughness": "Moderate - Web research conducted across multiple sources including Dominion website, utility trade publications, and web searches. Primary limitation is lack of accessible detailed program documentation. Original program URL no longer works. Terms and conditions PDF exists but could not be fully extracted. No way to verify current program status beyond 2024 or confirm battery eligibility without direct contact.",
+    "recommended_next_steps": [
+      "Contact Dominion Energy Virginia or PowerSecure International to confirm program is still active",
+      "Request readable copy of terms and conditions",
+      "Explicitly confirm whether batteries qualify as 'backup generation'",
+      "Request capacity payment rate schedule",
+      "Clarify PJM market participation restrictions",
+      "Determine if program is worth pursuing given PJM exclusion"
+    ],
+    "notes": "Program appears to be specifically designed for traditional backup generators at commercial/industrial facilities, not for battery storage systems. The PJM market exclusion is a dealbreaker for most battery optimization strategies. Even if batteries are technically eligible, the economics are likely unfavorable compared to direct PJM participation. Recommend LOW PRIORITY for battery storage catalog unless direct PJM participation is not feasible for a specific project."
+  }
+}

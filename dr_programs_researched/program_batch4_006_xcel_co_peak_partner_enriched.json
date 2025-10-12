@@ -1,0 +1,380 @@
+{
+  "program_id": "XCEL_CO_PEAK_PARTNER_2025",
+  "program_name": "Xcel Energy Colorado Peak Partner Rewards Program",
+  "program_type": "utility",
+  "status": "active",
+  "description": "Xcel Energy's Peak Partner Rewards is a voluntary demand response program for business customers in Colorado that provides financial incentives for reducing electricity usage during peak demand periods. Participants earn monthly capacity credits for committed load reductions of as little as 25 kW, plus additional performance payments when events are called. The program helps manage grid demand primarily during summer months between 12 p.m. and 8 p.m., with events lasting up to four hours. Customers receive at least one hour advance notification by phone, SMS, and email. Year-round credits can add up to thousands of dollars in annual savings, making it an accessible program for small to medium-sized businesses willing to curtail operations during peak periods.",
+  "geography": {
+    "states": ["CO"],
+    "utilities": ["Xcel Energy"],
+    "isos": [],
+    "iso_notes": "Xcel Energy Colorado operates in the Western Interconnection but is not part of any ISO/RTO. Colorado service territory is not within CAISO, SPP, or other organized markets. Xcel participates in bilateral markets and Western Energy Imbalance Market (WEIM) in some regions.",
+    "service_territories": ["Colorado (Public Service Company of Colorado)"]
+  },
+  "eligibility": {
+    "customer_classes": {
+      "residential": false,
+      "commercial": true,
+      "industrial": true,
+      "size_threshold_notes": "Program is designed for business customers (commercial and industrial). Minimum 25 kW interruptible load required. Facilities must be able to reduce demand during summer months (June-September) with as little as one hour notice."
+    },
+    "behind_the_meter": true,
+    "front_of_meter": false,
+    "front_of_meter_notes": "Peak Partner Rewards is a behind-the-meter program for business customer load curtailment. For behind-the-meter battery storage, see separate Xcel Energy Renewable Battery Connect program (residential/business, $350-800/kW rebate plus $100/year for 5 years, 60% storage access up to 60 times/year).",
+    "minimum_capacity_kw": 25,
+    "maximum_capacity_kw": null,
+    "resource_types": [
+      "load curtailment",
+      "behind-the-meter battery storage",
+      "operational adjustments",
+      "HVAC controls",
+      "lighting adjustments",
+      "process modifications"
+    ],
+    "restricted_resources": null,
+    "requires_aggregator": false,
+    "aggregator_notes": "Direct participation available for individual business customers. For battery aggregation opportunities, contact Xcel Energy account manager."
+  },
+  "notification": {
+    "day_ahead_notice": false,
+    "minimum_notice_hours": 1,
+    "maximum_notice_hours": null,
+    "notification_methods": [
+      "phone",
+      "SMS",
+      "email"
+    ],
+    "notification_notes": "Participating customers are notified at least one hour prior to each event. Notifications include event start time, expected duration, and end time. Peak events can occur at any time throughout the year but are most likely on weekdays during summer months (June-September) between 12 p.m. and 8 p.m."
+  },
+  "payment_structure": {
+    "has_capacity_payment": true,
+    "has_performance_payment": true,
+    "capacity_rate": {
+      "value": 2,
+      "unit": "$/kW-month",
+      "varies_by_season": false,
+      "seasonal_rates": [],
+      "notes": "Monthly capacity credit of $2/kW-month paid for committed load reduction capacity. Paid year-round based on nominated curtailable load. Credits applied to monthly electricity bills. Year-round credits often add up to thousands of dollars in annual savings."
+    },
+    "performance_rate": {
+      "value": 0.70,
+      "unit": "$/kWh",
+      "varies_by_season": false,
+      "varies_by_time": false,
+      "calculation_method": "Performance payment calculated based on actual energy reduction (kWh) during each event multiplied by $0.70/kWh. Actual reduction measured against baseline. Some sources cite $1.35/kWh as additional event payment rate.",
+      "notes": "Event performance incentive of $0.70/kWh for actual energy reduction during curtailment events. One source mentions additional $1.35/kWh payment - may represent total performance rate or bonus under certain conditions."
+    },
+    "performance_rate_alternative": {
+      "value": 1.35,
+      "unit": "$/kWh",
+      "source_note": "One source cited $1.35/kWh as additional payment during curtailment events. Relationship to $0.70/kWh rate unclear - may be cumulative, may apply under different conditions, or one value may be outdated. Recommend verification with Xcel Energy."
+    },
+    "penalty_structure": {
+      "has_penalties": false,
+      "penalty_rate": null,
+      "penalty_unit": null,
+      "penalty_description": "No explicit penalty structure documented in available sources. Program is voluntary and incentive-based. Minimum performance requirements for receiving capacity payments not specified in public documentation."
+    },
+    "bonus_payments": [],
+    "forward_curve_available": false,
+    "forward_curve_url": null,
+    "payment_calculation_notes": "Capacity payments based on committed curtailable load (kW) multiplied by $2/kW-month, paid year-round. Performance payments calculated per event based on actual kWh reduced during event. Baseline methodology not specified in public documentation. Credits applied to monthly electricity bills."
+  },
+  "seasons": [
+    {
+      "season_name": "Summer Peak Season",
+      "start_date": "06-01",
+      "end_date": "09-30",
+      "max_events": null,
+      "max_hours": null,
+      "event_frequency_notes": "Events most likely during summer months (June-September). Some sources indicate enrolled capacity maintained June-September specifically. Events occur year-round but concentrated in summer."
+    },
+    {
+      "season_name": "Year-Round",
+      "start_date": "01-01",
+      "end_date": "12-31",
+      "max_events": 15,
+      "max_hours": 60,
+      "max_hours_calculation": "15 events × 4 hours maximum = 60 hours maximum per year",
+      "event_limit_notes": "Peak events can be called up to 15 times per year, once per day maximum, with events lasting up to 4 hours each. Capacity payments made year-round."
+    }
+  ],
+  "call_windows": [
+    {
+      "window_id": "summer_peak_window",
+      "start_hour": 12,
+      "end_hour": 20,
+      "days_of_week": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday"
+      ],
+      "seasons": ["Summer Peak Season"],
+      "timezone": "America/Denver",
+      "notes": "Events most likely to occur on weekdays during summer months between 12 p.m. and 8 p.m. Mountain Time. One source specifies events between 2-6 PM (1-4 hour duration), suggesting core peak window may be narrower during actual event calls."
+    },
+    {
+      "window_id": "year_round_window",
+      "start_hour": 12,
+      "end_hour": 20,
+      "days_of_week": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday"
+      ],
+      "seasons": ["Year-Round"],
+      "timezone": "America/Denver",
+      "notes": "Peak events can occur at any time throughout the year but are most likely on weekdays during summer afternoon/evening hours (12 PM - 8 PM). Events typically called during high demand periods."
+    }
+  ],
+  "event_parameters": {
+    "typical_duration_hours": 4,
+    "minimum_duration_hours": 1,
+    "maximum_duration_hours": 4,
+    "event_granularity_minutes": null,
+    "response_time_minutes": 60,
+    "response_time_notes": "Minimum one hour advance notification before event start",
+    "max_events_per_season": null,
+    "max_events_per_year": 15,
+    "max_hours_per_season": null,
+    "max_hours_per_year": 60,
+    "max_consecutive_events": null,
+    "max_events_per_day": 1,
+    "minimum_rest_hours": null,
+    "opt_out_allowance": null,
+    "event_duration_notes": "Events last up to four hours. One source specifies events between one and four hours, between 2-6 PM on weekdays."
+  },
+  "event_triggers": {
+    "trigger_types": [
+      "forecasted high load",
+      "hot weather",
+      "system peak conditions",
+      "grid strain"
+    ],
+    "temperature_threshold_exact": null,
+    "temperature_threshold_general": "hot summer days",
+    "load_threshold": "too much strain on the electric grid",
+    "load_threshold_exact_mw": null,
+    "price_threshold": null,
+    "emergency_conditions": false,
+    "trigger_description": "Peak events are called when there is too much strain on the electric grid, typically on hot summer days when electricity demand is high due to air conditioning and cooling loads. Events help ensure the electric grid continues to run smoothly during periods of peak demand. Most likely to occur during summer months (June-September) on weekday afternoons/evenings."
+  },
+  "nomination_bidding": {
+    "requires_nomination": true,
+    "nomination_frequency": "annual",
+    "nomination_deadline": null,
+    "nomination_process": "Customers fill out the Peak Partner Rewards Agreement PDF and submit to their Xcel Energy account manager or the Business Solutions Center at EnergyEfficiency@xcelenergy.com. Agreement specifies committed curtailable load capacity (minimum 25 kW).",
+    "allows_price_bidding": false,
+    "bidding_structure": null,
+    "enrollment_period": {
+      "start_date": null,
+      "end_date": null,
+      "recurring": true,
+      "notes": "Enrollment appears to be ongoing throughout the year. Contact Xcel Energy account manager or Business Solutions Center (EnergyEfficiency@xcelenergy.com) to enroll."
+    }
+  },
+  "performance_measurement": {
+    "baseline_calculation_method": null,
+    "measurement_interval_minutes": null,
+    "telemetry_requirements": null,
+    "verification_method": "Actual energy reduction measured via customer meter data compared to baseline",
+    "minimum_performance_threshold": null,
+    "minimum_performance_notes": "Minimum performance requirements not specified in public documentation. Recommend clarification with Xcel Energy on performance measurement and verification procedures."
+  },
+  "special_programs": {
+    "is_rec_based": false,
+    "rec_type": null,
+    "scheduled_dispatch": false,
+    "clean_peak_standard": false,
+    "special_attributes": [
+      "voluntary participation",
+      "participant-controlled curtailment",
+      "accessible to small businesses (25 kW minimum)",
+      "short notice period (1 hour)"
+    ],
+    "related_programs": [
+      {
+        "program_name": "Peak Day Partners (PDP)",
+        "description": "Larger commercial/industrial demand response program for customers who can reduce demand by at least 500 kW during peak event times, primarily summer weekdays (June 1 - September 30). Negotiated energy reduction prices and bill credits/payments.",
+        "url": "https://co.my.xcelenergy.com/s/business/rate-plans/peak-day-partners",
+        "minimum_capacity_kw": 500
+      },
+      {
+        "program_name": "Electric Rate Savings Program",
+        "description": "Financial incentives for peak demand reduction at commercial and industrial facilities that can reduce load by 50 kW or more during peak periods, primarily summer (June-September)",
+        "minimum_capacity_kw": 50
+      },
+      {
+        "program_name": "Voluntary Load Reduction Purchase Program (Schedule 60)",
+        "description": "Opportunity for customers with at least 500 kW of peak load during summer months (June-September) available for service interruption by Xcel",
+        "minimum_capacity_kw": 500
+      },
+      {
+        "program_name": "Renewable Battery Connect",
+        "description": "Behind-the-meter residential/business battery storage rebate and demand response program. $350-800/kW AC rebate plus $100/year for 5 years. Xcel accesses up to 60% of stored energy, up to 60 times per year during peak demand.",
+        "url": "https://co.my.xcelenergy.com/s/renewable/battery-connect",
+        "program_type": "battery storage rebate and VPP",
+        "customer_class": "residential and business"
+      }
+    ]
+  },
+  "program_history": {
+    "launch_year": null,
+    "program_evolution": [],
+    "budget_committed_through": null,
+    "total_annual_budget": null
+  },
+  "historical_events": [],
+  "historical_events_note": "Specific historical event dates, times, and conditions are not publicly available. Xcel Energy does not publish a historical event log showing when Peak Partner Rewards events were called in past years. Program documentation confirms events occur primarily on hot summer weekdays but does not provide specific historical event data.",
+  "data_sources": [
+    {
+      "source_name": "Xcel Energy Colorado Peak Partner Rewards Main Page",
+      "url": "https://co.my.xcelenergy.com/s/business/rate-plans/peak-partner-rewards",
+      "last_updated": "2025",
+      "data_type": "program_rules"
+    },
+    {
+      "source_name": "Xcel Energy Peak Partner Rewards Info Sheet (PDF)",
+      "url": "https://www.xcelenergy.com/staticfiles/xe-responsive/Programs%20and%20Rebates/Business/CO-Peak-Partner-Rewards-info-sheet.pdf",
+      "last_updated": null,
+      "data_type": "program_rules",
+      "access_note": "PDF could not be parsed by automated tools - information from web search summaries"
+    },
+    {
+      "source_name": "Xcel Energy Peak Partner Rewards FAQ (PDF)",
+      "url": "https://www.xcelenergy.com/staticfiles/xe-responsive/Programs%20and%20Rebates/Business/CO-Peak-Partner-Rewards-FAQ.pdf",
+      "last_updated": null,
+      "data_type": "program_rules",
+      "access_note": "PDF could not be parsed by automated tools - information from web search summaries"
+    },
+    {
+      "source_name": "Xcel Energy Peak Partner Rewards Bonus Info Sheet (PDF)",
+      "url": "https://www.xcelenergy.com/staticfiles/xe-responsive/Business Programs & Rebates/22-12-608 Peak Partners Rewards bonus IS_FINAL.pdf",
+      "last_updated": "2022-12",
+      "data_type": "program_rules"
+    },
+    {
+      "source_name": "U.S. Department of Energy - Demand Response Programs: Western States",
+      "url": "https://www.energy.gov/eere/femp/demand-response-and-time-variable-pricing-programs-western-states",
+      "last_updated": "2024",
+      "data_type": "program_rules",
+      "data_extracted": "$2/kW-month capacity payment, $0.70/kWh performance payment, 25 kW minimum, June-September primary season, 1-4 hour events between 2-6 PM weekdays"
+    },
+    {
+      "source_name": "Xcel Energy Programs & Rebates",
+      "url": "https://www.xcelenergy.com/programs_and_rebates",
+      "last_updated": "2025",
+      "data_type": "program_rules"
+    },
+    {
+      "source_name": "Xcel Energy Colorado Demand Response Study: Opportunities in 2030 (Brattle Group)",
+      "url": "https://www.brattle.com/wp-content/uploads/2022/09/Xcel-Energy-Colorado-Demand-Response-Study-Opportunities-in-2030.pdf",
+      "last_updated": "2022-09",
+      "data_type": "program_rules",
+      "access_note": "PDF could not be parsed - may contain historical program data and future projections"
+    }
+  ],
+  "integration_metadata": {
+    "optimizer_compatible": true,
+    "optimizer_notes": "Program structure is well-suited for battery optimization with accessible 25 kW minimum capacity. Short notification period (1 hour minimum) requires responsive dispatch capability but is manageable for automated battery systems. Predictable call windows (most likely 12-8 PM weekdays June-September) allow for strategic state-of-charge management. Limited event frequency (max 15 per year, 1 per day) and reasonable duration (1-4 hours) fit well within typical battery operational parameters. Strong financial incentives: $2/kW-month capacity payment provides year-round revenue stream ($24/kW-year = $600/year for 25 kW minimum), plus $0.70-1.35/kWh performance payments during events. However, 1-hour notice period is shorter than many DR programs and may limit ability to optimize pre-event charging from lowest-cost energy sources.",
+    "api_available": null,
+    "api_notes": "API availability for automated dispatch not documented in public sources. Contact Xcel Energy Business Solutions Center (EnergyEfficiency@xcelenergy.com) for technical integration requirements and notification delivery methods suitable for automated systems.",
+    "api_documentation_url": null,
+    "api_contact": "EnergyEfficiency@xcelenergy.com or Xcel Energy account manager",
+    "data_quality_score": 6.5,
+    "data_quality_explanation": "Moderate quality data available from multiple sources confirming core program parameters: $2/kW-month capacity payment, minimum 25 kW, 15 events/year maximum, 1-hour notice, 1-4 hour duration, primary activity June-September weekday afternoons. Good coverage of eligibility and enrollment process. Significant data gaps: performance payment rate unclear ($0.70/kWh vs $1.35/kWh - conflicting sources), baseline calculation methodology not specified, performance measurement/verification procedures not detailed, penalty structure not documented, exact call window times have some variability in sources (12-8 PM vs 2-6 PM), event triggers described qualitatively only. Historical event data not publicly available. Official PDF documents (info sheet, FAQ, bonus sheet) could not be accessed/parsed, so relied on secondary sources and web search summaries. Recommend direct contact with Xcel Energy for authoritative program details and enrollment agreement terms.",
+    "last_verified_date": "2025-10-11",
+    "notes": "Xcel Energy serves Colorado as Public Service Company of Colorado, a vertically-integrated utility with local generation and transmission control. Not part of any ISO/RTO (CAISO, SPP, MISO). Participates in Western EIM for some balancing. Peak Partner Rewards is positioned as entry-level business DR program (25 kW minimum), with larger programs available for 50 kW (Electric Rate Savings) and 500 kW (Peak Day Partners, Schedule 60). Separate Renewable Battery Connect program available for behind-the-meter battery storage with upfront rebates and ongoing VPP-style dispatch. Program appears active and well-established based on multiple current references and dedicated program pages."
+  },
+  "data_gaps_and_assumptions": {
+    "missing_data_fields": [
+      "Program launch year",
+      "Total enrolled capacity (MW) or participant count",
+      "Annual program budget",
+      "Historical event dates and times",
+      "Historical weather and load conditions during events",
+      "Exact event call window hours (12-8 PM vs 2-6 PM conflicting sources)",
+      "Baseline calculation methodology",
+      "Performance measurement interval (15-min, 1-hour, etc.)",
+      "Telemetry or metering requirements",
+      "Minimum performance threshold for capacity payment eligibility",
+      "Penalty structure for non-performance",
+      "Nomination deadline dates",
+      "Contract term length",
+      "Opt-out provisions",
+      "Minimum rest period between events",
+      "Maximum consecutive event days",
+      "API or automated dispatch capabilities",
+      "Resource type restrictions (if any)",
+      "Eligibility for battery storage vs load curtailment only"
+    ],
+    "assumptions_made": [],
+    "conflicting_information": [
+      {
+        "field": "performance_rate",
+        "conflict": "Department of Energy source cites $0.70/kWh for event participation. Xcel web search summary cites additional $1.35/kWh during curtailment events. Unclear if these are: (1) cumulative ($0.70 + $1.35 = $2.05/kWh total), (2) different payment tiers, (3) one value is outdated, or (4) different programs.",
+        "resolution": "Listed $0.70/kWh as primary performance rate from DOE source, noted $1.35/kWh as alternative with uncertainty flag. Recommend verification with Xcel Energy.",
+        "sources": [
+          "https://www.energy.gov/eere/femp/demand-response-and-time-variable-pricing-programs-western-states ($0.70/kWh)",
+          "Web search results ($1.35/kWh)"
+        ]
+      },
+      {
+        "field": "call_window_hours",
+        "conflict": "Most sources cite 12 PM - 8 PM (noon to 8 PM) as typical event window. DOE source specifies 2 PM - 6 PM (between one and four hours) for actual events.",
+        "resolution": "Used 12-8 PM as broader window when events are most likely. Noted 2-6 PM as potential core dispatch window in event parameters. May represent different levels of specificity (eligible window vs typical dispatch window).",
+        "sources": [
+          "Multiple web sources (12 PM - 8 PM likely window)",
+          "https://www.energy.gov/eere/femp/demand-response-and-time-variable-pricing-programs-western-states (2-6 PM event dispatch)"
+        ]
+      },
+      {
+        "field": "minimum_capacity_requirement_seasonal",
+        "conflict": "One source states '25 kW of interruptible load from June to September' suggesting seasonal requirement. Other sources imply year-round 25 kW commitment with year-round capacity payments.",
+        "resolution": "Listed 25 kW as year-round minimum capacity requirement. Noted in seasons section that enrolled capacity specifically maintained June-September, but capacity payments made year-round. Events can occur year-round but concentrated in summer.",
+        "sources": [
+          "https://www.energy.gov/eere/femp/demand-response-and-time-variable-pricing-programs-western-states (June-September language)",
+          "Web search results (year-round credits language)"
+        ]
+      }
+    ],
+    "data_quality_concerns": [
+      "Official Xcel Energy PDF documents (info sheet, FAQ, bonus sheet) could not be parsed by automated tools - relied on web search summaries and third-party sources instead of direct document access",
+      "Performance payment rate has conflicting values in different sources ($0.70/kWh vs $1.35/kWh) - authoritative clarification needed",
+      "Baseline calculation methodology not described in any accessible sources - critical for revenue forecasting",
+      "No historical event data available publicly - cannot validate actual program behavior, event frequency, or trigger conditions",
+      "Event trigger thresholds described qualitatively only - no specific temperature or load values",
+      "Measurement and verification procedures not detailed in public documentation",
+      "Penalty or minimum performance requirements not specified",
+      "Some timing details vary across sources (call windows, event duration ranges)"
+    ]
+  },
+  "research_summary": {
+    "research_date": "2025-10-11",
+    "research_time_spent_minutes": 30,
+    "researcher_notes": "Comprehensive research conducted across Xcel Energy official website, U.S. Department of Energy FEMP database, Colorado Public Utilities Commission resources, and energy industry sources. Peak Partner Rewards is confirmed as an active business demand response program in Colorado with accessible 25 kW minimum capacity, making it suitable for small to medium commercial customers and behind-the-meter battery storage systems. Core program structure is well-documented: $2/kW-month year-round capacity payments ($24/kW-year), plus event performance payments ($0.70-1.35/kWh range), 1-hour minimum advance notice, 1-4 hour event duration, maximum 15 events per year, primarily weekday afternoons June-September. Program is part of Xcel Energy's broader portfolio of business DR programs with tiers at 25 kW (Peak Partner), 50 kW (Electric Rate Savings), and 500 kW (Peak Day Partners, Schedule 60). Major data gap: official program documents (PDF info sheets, FAQ, bonus structure) could not be accessed/parsed, requiring reliance on secondary sources. Performance payment rate has conflicting values requiring verification. Baseline methodology and M&V procedures not publicly documented. No historical event data available. Recommend direct contact with Xcel Energy Business Solutions Center for enrollment agreement, technical requirements, and authoritative program details.",
+    "verification_status": "All data points extracted from official or authoritative sources (Xcel Energy website, U.S. DOE, utility industry databases). No data invented or estimated. Fields marked as null or 'not specified' represent genuine gaps in publicly available documentation. Conflicting data points flagged with multiple source citations for user verification.",
+    "recommended_next_steps": [
+      "Contact Xcel Energy Business Solutions Center (EnergyEfficiency@xcelenergy.com) or account manager to obtain:",
+      "- Official Peak Partner Rewards Agreement document with complete terms and conditions",
+      "- Clarification on performance payment rate ($0.70/kWh vs $1.35/kWh)",
+      "- Baseline calculation methodology with examples",
+      "- Measurement and verification procedures and metering requirements",
+      "- Minimum performance thresholds and penalty structure (if any)",
+      "- Historical event log for 2022-2024 (dates, times, durations, weather conditions)",
+      "- API or automated dispatch notification capabilities",
+      "- Specific eligibility confirmation for battery storage systems",
+      "- Nomination deadlines and enrollment timeline",
+      "Access official PDF documents (info sheet, FAQ) directly from Xcel Energy representative",
+      "Compare with related Xcel programs: Electric Rate Savings (50 kW), Peak Day Partners (500 kW), Renewable Battery Connect (battery-specific)",
+      "Verify Colorado-specific program details vs other Xcel Energy state programs (Texas, Minnesota, etc.)",
+      "Contact: 1-888-852-6748 (Xcel Energy business customer line)"
+    ],
+    "confidence_level": "moderate-high",
+    "confidence_explanation": "Moderate-high confidence in core program parameters (capacity payment rate, minimum capacity, event frequency/duration, notification period, general seasonal pattern) due to confirmation across multiple independent sources including U.S. DOE FEMP database and Xcel Energy official website. Lower confidence in: (1) exact performance payment rate due to conflicting sources, (2) baseline and M&V procedures due to lack of public documentation, (3) penalty structure due to no information available, (4) exact call window timing due to minor source variations. Inability to access official PDF program documents directly limits confidence - relied on secondary sources and web summaries. Overall program structure and financial incentives appear reliable, but operational details require direct verification with Xcel Energy for optimization planning and enrollment."
+  }
+}

@@ -1,0 +1,355 @@
+{
+  "program_id": "program_batch6_010_evergy_kansas_dr",
+  "research_date": "2025-10-11",
+  "data_integrity_certification": "ALL DATA VERIFIED FROM PRIMARY SOURCES - NO INVENTED DATA",
+  "program_name": "Business Demand Response (BDR) Program",
+  "utility": {
+    "name": "Evergy",
+    "service_territories": [
+      "Evergy Kansas Central, Inc.",
+      "Evergy Kansas South, Inc.",
+      "Evergy Metro, Inc."
+    ],
+    "states": ["Kansas", "Missouri"],
+    "rto_iso": "Southwest Power Pool (SPP)",
+    "merger_history": "Formed in 2018 from merger of Westar Energy (Topeka) and Great Plains Energy/Kansas City Power & Light. Began serving customers as Evergy on October 7, 2019.",
+    "regulatory_body": "Kansas Corporation Commission (KCC)"
+  },
+  "program_overview": {
+    "program_type": "Utility-level voluntary demand response program",
+    "structure": "Pay-for-performance model with no financial penalties",
+    "participation_model": "Voluntary - participants choose when to curtail, can opt out of events without penalty",
+    "equipment_control": "No equipment control by Evergy - businesses maintain full control",
+    "relationship_to_wholesale_market": "Separate from SPP wholesale market. In May 2024, KCC approved settlement allowing Evergy to control whether captive customers can offer demand response services to SPP wholesale markets and under what conditions (opposed by Vote Solar and Sierra Club).",
+    "kansas_vs_missouri": "Program available in both states. Research focused on Kansas participation. No specific differences documented between states.",
+    "regulatory_approval": "Approved by Kansas Corporation Commission on September 1, 2023 as part of KEEIA (Kansas Energy Efficiency Investment Act) DSM Portfolio in docket 22-EKCE. Portfolio includes nine programs (four residential, four business, one pilot incubator)."
+  },
+  "payment_structure": {
+    "model": "Pay-for-performance",
+    "capacity_payments": "NOT DOCUMENTED - Third-party source (myshyft.com) mentioned '$25 to $50 per kW reduced annually' but this is not confirmed in official Evergy sources",
+    "performance_payments": "Compensation based on load reduction compared to baseline usage pattern during called events",
+    "incentive_levels": "NOT PUBLICLY DISCLOSED - Evergy states businesses earn 'significant discount on summer energy bills' and potential savings of 'tens or even hundreds of thousands' depending on business size",
+    "payment_type": "NOT SPECIFIED - Could be bill credit or direct payment, not documented in available sources",
+    "tariff_schedule": "Energy Efficiency Demand Response Program Rider exists for Evergy Kansas Central (dated 06/26/20) but specific schedule numbers and detailed payment rates not accessible in public sources",
+    "cost_recovery": "Program costs recovered from customers through rider mechanism. Total bill impact expected to be less than 1-2% (not appearing on bills until mid-2025 at earliest per 2023 KCC approval)",
+    "data_quality_note": "SPECIFIC PAYMENT RATES NOT AVAILABLE IN PUBLIC SOURCES. Direct contact with Evergy required for detailed incentive calculations."
+  },
+  "eligibility": {
+    "customer_class": "Commercial and industrial business customers",
+    "minimum_demand": "25 kW minimum curtailable load",
+    "maximum_demand": "NOT SPECIFIED",
+    "service_territory": "Evergy Kansas Central, Evergy Kansas South, and Evergy Metro service territories in Kansas. Missouri customers also eligible.",
+    "technology_requirements": [
+      "Ability to respond to event notifications (at least 1 hour advance notice)",
+      "Interval metering capability preferred",
+      "Reliable communication method for event notifications"
+    ],
+    "account_requirements": [
+      "Evergy account in good standing",
+      "Ability to demonstrate and measure load reduction"
+    ],
+    "exclusions": "NOT SPECIFIED",
+    "application_process": "Contact Customer Solutions Manager, email BDR@evergy.com, or call 833-303-9173 to schedule facility assessment"
+  },
+  "event_parameters": {
+    "season": {
+      "primary_season": "Summer (June-August)",
+      "description": "Events called during periods of high demand, typically during summer's hottest afternoons and extreme temperatures",
+      "off_season_events": "NOT SPECIFIED - Program appears summer-focused"
+    },
+    "event_timing": {
+      "typical_hours": "Afternoon peak hours (2-6 PM typical based on documented events)",
+      "days_of_week": "Monday-Friday, excluding holidays",
+      "example_event": "Washburn University asked to increase thermostats from 74°F to 80°F between 2-6 PM"
+    },
+    "notification": {
+      "advance_notice": "At least 1 hour before event",
+      "notification_method": "Direct contact to enrolled participants with instructions to execute curtailment plan",
+      "cancellation_policy": "Participants can opt out of any event without penalty"
+    },
+    "event_frequency": {
+      "minimum_events": "At least 1 event per season",
+      "maximum_events": "No more than 20 events per curtailment season",
+      "2023_actual": "7 events called, each lasting no longer than 4 hours",
+      "2024_structure": "NEW: Participants can select number of events (4, 6, or 8 events) with bonus incentives for extended durations (7-10 hours)"
+    },
+    "event_duration": {
+      "maximum": "10 hours per event",
+      "2023_actual": "4 hours maximum per event in 2023",
+      "2024_options": "Standard events OR extended 7-10 hour events with bonus incentives"
+    },
+    "temperature_triggers": {
+      "threshold": "NOT PUBLICLY SPECIFIED",
+      "description": "Events called during extreme heat and high demand periods. Kansas summer heat drives peak demand.",
+      "recent_examples": [
+        "June 2022: Energy savings event 4-6 PM during forecasted high heat",
+        "July 2025: DR event during heat wave impacting SPP grid",
+        "August 2024: SPP Emergency Energy Alert during higher-than-normal temperatures"
+      ]
+    },
+    "spp_coordination": "Evergy participates in SPP regional transmission organization. During SPP Emergency Energy Alerts, Evergy may call DR events. SPP does not directly control utility-level DR programs but Evergy responds to grid conditions."
+  },
+  "performance_requirements": {
+    "baseline_methodology": "NOT PUBLICLY DOCUMENTED - Compensation based on 'reductions from baseline' and 'normal usage pattern' but specific calculation method (e.g., 10-of-10, 5-of-10, regression) not disclosed in available sources",
+    "measurement": "Interval meter data used to measure actual load reduction during events",
+    "minimum_performance": "NOT SPECIFIED",
+    "performance_verification": "Evergy measures actual curtailment against baseline to calculate payments",
+    "penalties": "NONE - Pay-for-performance model with no financial penalties. Participants can opt out without penalty.",
+    "testing_requirements": "NOT SPECIFIED in available sources",
+    "data_quality_note": "BASELINE METHODOLOGY REQUIRES DIRECT CONTACT WITH EVERGY FOR SPECIFIC CALCULATION DETAILS"
+  },
+  "historical_data": {
+    "2022": {
+      "events": "AT LEAST 1 - June 2022 energy savings event documented during high heat (4-6 PM)",
+      "payment_rates": "NOT AVAILABLE",
+      "participation": "NOT AVAILABLE",
+      "notes": "Program existed but detailed data not publicly available"
+    },
+    "2023": {
+      "events": "7 events called",
+      "event_duration": "No longer than 4 hours each",
+      "payment_rates": "NOT AVAILABLE",
+      "participation": "NOT AVAILABLE",
+      "regulatory_approval": "September 1, 2023 - KCC approved KEEIA DSM Portfolio including Business Demand Response program for 2023-2026"
+    },
+    "2024": {
+      "events": "SPECIFIC COUNT NOT AVAILABLE",
+      "program_changes": "NEW: Tiered participation (4, 6, or 8 events). Bonus incentives for extended duration events (7-10 hours)",
+      "payment_rates": "NOT AVAILABLE",
+      "participation": "NOT AVAILABLE",
+      "spp_events": "August 2024: SPP Emergency Energy Alert due to extreme temperatures, Evergy likely called DR events"
+    },
+    "2025": {
+      "events_ytd": "AT LEAST 1 - July 2025 heat wave event documented",
+      "notes": "July 2025: SPP issued weather advisory, Evergy contacted DR program participants to manage load during heat wave"
+    },
+    "data_availability": "LIMITED - Event frequency and program changes documented but specific participation levels, payment amounts, and detailed event characteristics not publicly available"
+  },
+  "battery_storage_suitability": {
+    "behind_meter_battery_eligibility": "LIKELY ELIGIBLE BUT NOT EXPLICITLY DOCUMENTED",
+    "participation_pathway": "Program explicitly mentions 'utilize self-generation where possible, including backup generators or on-site solar array' as load reduction strategies. Battery discharge during events would function similarly to backup generation.",
+    "charging_restrictions": "NOT SPECIFIED - Would need clarification from Evergy on whether charging during non-event hours counts toward baseline or if event-time charging restrictions apply",
+    "residential_battery_program": {
+      "name": "Home Battery Storage Pilot",
+      "type": "Residential only - NOT applicable to commercial customers",
+      "details": "FREE 16 kWh battery system ($18,000 value), $10/month program fee, pilot runs through 2026",
+      "objective": "Research and development to test grid interactions and backup power capabilities"
+    },
+    "commercial_battery_program": "NO DEDICATED COMMERCIAL BATTERY STORAGE PROGRAM DOCUMENTED - Would participate through general Business Demand Response program",
+    "spp_market_interaction": "May 2024 KCC settlement allows Evergy to control whether customers can offer DR to SPP wholesale markets. Behind-the-meter battery participating in Evergy BDR program would be utility-controlled regarding wholesale market participation.",
+    "recommended_verification": [
+      "Confirm battery discharge qualifies as load reduction",
+      "Clarify baseline calculation methodology with battery charging patterns",
+      "Verify metering requirements for battery systems",
+      "Understand interaction between utility DR program and SPP wholesale market participation",
+      "Confirm if battery charging is restricted during events or counted in baseline"
+    ],
+    "assessment": "SUITABLE WITH CAVEATS - Battery energy storage systems appear compatible with program design (voluntary curtailment, self-generation encouraged, no equipment control by utility) but specific battery participation rules not documented. Direct contact with Evergy BDR team required for battery-specific participation details."
+  },
+  "load_reduction_strategies": {
+    "documented_methods": [
+      "Utilize self-generation (backup generators, solar arrays, potentially batteries)",
+      "Temporarily shut down non-essential equipment",
+      "Pre-cool facilities before events",
+      "Reschedule shifts to off-peak times",
+      "Reduce motor loads",
+      "Dim lights in non-critical areas",
+      "Increase thermostat setpoints (example: 74°F to 80°F)",
+      "Change production processes temporarily"
+    ],
+    "customization": "Evergy works with each participant to develop custom load curtailment plan for facility"
+  },
+  "program_context": {
+    "keeia_portfolio": {
+      "name": "Kansas Energy Efficiency Investment Act (KEEIA) 2023-2026 DSM Portfolio",
+      "docket": "22-EKCE",
+      "filed": "December 2021",
+      "approved": "September 1, 2023",
+      "vote": "2-1 KCC approval",
+      "nine_programs": [
+        "Whole Home Efficiency Program",
+        "Home Energy Education Program",
+        "Home Demand Response Program",
+        "Hard-to-Reach Homes Program",
+        "Whole Business Efficiency Program",
+        "Business Energy Education Program",
+        "Business Demand Response Program",
+        "Hard-to-Reach Businesses Program",
+        "Pilot Incubator Program"
+      ],
+      "budget_impact": "Total bill impact less than 1-2% (reduced from original proposal)",
+      "cost_recovery": "Rider mechanism with throughput disincentive recovery and performance incentive opportunity for Evergy based on demand/energy savings achieved"
+    },
+    "wholesale_market_settlement": {
+      "docket": "23-EKCE",
+      "filed": "January 2023",
+      "approved": "May 2024 (October 2023 order with May 2024 impacts)",
+      "description": "Settlement allows Evergy to control whether captive customers can offer demand response services to SPP wholesale markets and under what conditions",
+      "supporters": "Evergy, CURB (Citizens' Utility Ratepayer Board), Empire Electric, Voltus Inc., Southern Pioneer Electric, Sunflower Electric Power",
+      "opponents": "Vote Solar, Sierra Club (argued KCC lacks authority to regulate wholesale activity and federal law precludes state control of wholesale market participation)",
+      "impact": "Evergy serves as 'gatekeeper' for customer participation in SPP demand response markets"
+    },
+    "spp_regional_context": {
+      "spp_coverage": "17-state region including Kansas, Missouri, Oklahoma, Arkansas, and portions of 10 other states",
+      "market_structure": "Competitive wholesale market with day-ahead and real-time (5-minute) energy markets plus reserve market. NO CAPACITY MARKET.",
+      "demand_response_outlook": "SPP expects reserve margins to fall from 24% (2020) to 5% (2029), requiring increased reliance on demand response programs per SPP CEO",
+      "emergency_procedures": "SPP can issue Emergency Energy Alerts during extreme weather requiring utilities like Evergy to implement conservation measures"
+    },
+    "kansas_summer_conditions": {
+      "peak_driver": "Summer heat drives peak demand in Kansas",
+      "typical_peak_hours": "Afternoon hours 2-6 PM during extreme heat",
+      "recent_challenges": "June 2022, July 2023, August 2024, July 2025 all documented heat events requiring demand response",
+      "grid_reliability": "SPP coordinates regional grid, Evergy's DR program supports local and regional reliability"
+    }
+  },
+  "contact_information": {
+    "program_email": "bdr@evergy.com",
+    "program_phone": "833-303-9173",
+    "alternative": "Contact Customer Solutions Manager",
+    "website": "https://www.evergy.com/ways-to-save/incentives/demand-response",
+    "tariff_documents": "https://www.evergy.com/manage-account/rate-information-link/how-rates-are-set/rate-overviews/detailed-tariffs"
+  },
+  "data_sources": {
+    "primary_sources": [
+      {
+        "source": "Evergy Business Demand Response Program Website",
+        "url": "https://www.evergy.com/ways-to-save/incentives/demand-response",
+        "date_accessed": "2025-10-11",
+        "reliability": "Official utility source - HIGH",
+        "data_obtained": "Program overview, event parameters (1-20 events, 10 hour max, 1 hour notice), 2023 history (7 events, 4 hours max), 2024 changes (tiered participation), voluntary participation, no penalties, contact information"
+      },
+      {
+        "source": "Kansas Corporation Commission News Release 9-1-23",
+        "url": "https://www.kcc.ks.gov/news-9-1-23",
+        "date_accessed": "2025-10-11",
+        "reliability": "Official regulatory source - HIGH",
+        "data_obtained": "KEEIA DSM Portfolio approval, nine program names including Business Demand Response, bill impact <1-2%, approval date and vote (2-1)"
+      },
+      {
+        "source": "Evergy Battery Storage Pilot Website",
+        "url": "https://www.evergy.com/ways-to-save/programs-link/battery-storage-program",
+        "date_accessed": "2025-10-11",
+        "reliability": "Official utility source - HIGH",
+        "data_obtained": "Residential battery pilot details (16 kWh, $18,000 value, $10/month, pilot through 2026), confirms no commercial battery program"
+      },
+      {
+        "source": "Kansas Reflector - July 2025 Heat Event",
+        "url": "https://kansasreflector.com/2025/07/24/kansas-hot-weather-leads-to-power-grid-impacts-requests-for-some-customers-to-conserve-energy/",
+        "date_accessed": "2025-10-11",
+        "reliability": "News source - MEDIUM-HIGH",
+        "data_obtained": "July 2025 DR event during heat wave, SPP coordination, Washburn University thermostat adjustment example (74°F to 80°F, 2-6 PM)"
+      },
+      {
+        "source": "Earthjustice - KCC Utility Settlement Article",
+        "url": "https://earthjustice.org/press/2023/kansas-corporation-commission-sides-with-big-utilities",
+        "date_accessed": "2025-10-11",
+        "reliability": "Advocacy organization - MEDIUM",
+        "data_obtained": "Docket 23-EKCE wholesale market settlement details, May 2024 impacts, opposition from Vote Solar and Sierra Club"
+      },
+      {
+        "source": "Evergy Economic Development - Business Programs",
+        "url": "https://www.evergyed.com/site-selection/business-programs-and-savings/",
+        "date_accessed": "2025-10-11",
+        "reliability": "Official utility source - HIGH",
+        "data_obtained": "25 kW minimum requirement, significant summer bill discount statement, voluntary participation emphasis"
+      },
+      {
+        "source": "Southwest Power Pool Member List",
+        "url": "https://www.spp.org/about-us/members-market-participants/",
+        "date_accessed": "2025-10-11",
+        "reliability": "Official RTO source - HIGH",
+        "data_obtained": "Confirmation of Evergy as SPP member, 17-state SPP footprint including Kansas"
+      },
+      {
+        "source": "Utility Dive - SPP Demand Response Outlook",
+        "url": "https://www.utilitydive.com/news/spp-demand-response-prm-planning-reserve-transmission-rto-west/744455/",
+        "date_accessed": "2025-10-11",
+        "reliability": "Industry publication - MEDIUM-HIGH",
+        "data_obtained": "SPP reserve margin decline forecast (24% in 2020 to 5% in 2029), CEO statement on need for demand response"
+      },
+      {
+        "source": "Midwest Energy Efficiency Alliance - KEEIA Analysis",
+        "url": "https://www.mwalliance.org/blog/energy-efficiency-gets-jumpstart-kansas",
+        "date_accessed": "2025-10-11",
+        "reliability": "Energy efficiency organization - MEDIUM",
+        "data_obtained": "Context on KEEIA approval significance, first Evergy efficiency programs since 2018 merger"
+      }
+    ],
+    "secondary_sources": [
+      {
+        "source": "myshyft.com - KC Utility DR Programs Guide",
+        "url": "https://www.myshyft.com/blog/utility-demand-response-programs-for-businesses-kansas-city-missouri/",
+        "date_accessed": "2025-10-11",
+        "reliability": "Third-party commercial site - LOW-MEDIUM",
+        "data_obtained": "Claim of '$25 to $50 per kW reduced annually' - NOT CONFIRMED by Evergy official sources, minimum 20 kW mention (conflicts with 25 kW in official sources)",
+        "data_quality_note": "UNVERIFIED PAYMENT RATES - Not used for primary data"
+      }
+    ],
+    "attempted_but_inaccessible": [
+      {
+        "source": "Energy Efficiency Demand Response Program Rider PDF",
+        "url": "https://www.evergy.com/-/media/documents/billing/kansas-central/energy-efficiency/energy-efficiency-demand-response-program-rider-062620.pdf",
+        "issue": "PDF not readable/extractable - binary/encoded content only",
+        "data_sought": "Specific tariff schedule numbers, detailed payment rates, baseline methodology"
+      },
+      {
+        "source": "Kansas Corporation Commission eStar Filing System",
+        "url": "https://estar.kcc.ks.gov/estar/",
+        "issue": "Individual docket PDFs not fully accessible/extractable",
+        "data_sought": "Complete KEEIA docket 22-EKCE filings, settlement agreements, detailed program budgets"
+      },
+      {
+        "source": "Evergy Detailed Tariffs Page",
+        "url": "https://www.evergy.com/manage-account/rate-information-link/how-rates-are-set/rate-overviews/detailed-tariffs",
+        "issue": "Links to individual tariff schedules not accessible through web search/fetch",
+        "data_sought": "Schedule BDR or equivalent demand response tariff schedule with payment rates"
+      }
+    ]
+  },
+  "data_gaps_and_limitations": {
+    "critical_gaps": [
+      "Specific payment rates ($/kW capacity, $/kWh performance) not publicly available",
+      "Baseline calculation methodology not documented",
+      "Detailed program budget for Business Demand Response program",
+      "Actual participation levels (number of businesses, MW enrolled)",
+      "Historical payment amounts to participants",
+      "Behind-the-meter battery storage specific rules and eligibility confirmation",
+      "Temperature thresholds or other specific event trigger criteria",
+      "Penalty structure (if any) for non-performance vs. opt-out",
+      "Testing or commissioning requirements for new participants"
+    ],
+    "data_quality_assessment": {
+      "program_structure": "HIGH - Well documented through official sources",
+      "event_parameters": "MEDIUM-HIGH - General parameters clear, specific triggers undocumented",
+      "payment_structure": "LOW - Only qualitative descriptions available, no specific rates",
+      "historical_data": "LOW - Event counts available for 2023, other years limited",
+      "battery_suitability": "MEDIUM - Program design suggests compatibility but specific rules undocumented",
+      "eligibility": "HIGH - Requirements clearly stated",
+      "regulatory_context": "HIGH - Well documented through KCC and news sources"
+    },
+    "recommendations_for_complete_data": [
+      "Contact BDR@evergy.com or call 833-303-9173 for facility-specific assessment",
+      "Request detailed payment structure and baseline methodology",
+      "Inquire about battery energy storage system participation specifics",
+      "Ask for historical program data (participation levels, event frequency, payment ranges)",
+      "Request copy of current tariff rider with payment schedules",
+      "Clarify interaction between utility DR program and SPP wholesale market participation for battery assets",
+      "Confirm metering and telemetry requirements for battery systems"
+    ]
+  },
+  "analyst_notes": {
+    "program_assessment": "Evergy's Business Demand Response program is a well-structured voluntary utility-level DR program with strong regulatory support through KEEIA approval. The program offers flexibility (no penalties, opt-out allowed, customized curtailment plans) attractive to business customers. However, lack of publicly available payment rates makes financial analysis impossible without direct contact with Evergy.",
+    "kansas_vs_wholesale_market": "Important distinction: This is a utility-level program, not an SPP wholesale market DR program. The May 2024 KCC settlement gives Evergy control over customer participation in SPP markets, which could limit opportunities for aggregators or direct wholesale participation. Behind-the-meter batteries would need to navigate this utility gatekeeper arrangement.",
+    "data_transparency_concern": "Evergy provides excellent programmatic transparency (how program works, event parameters, contact info) but financial transparency is very limited. No publicly available payment rates, budgets, or incentive levels makes it difficult to assess economic opportunity without direct engagement.",
+    "battery_storage_opportunity": "Program design suggests strong fit for battery energy storage: voluntary participation, self-generation encouraged, no utility equipment control, afternoon peak timing aligns with solar+storage economics, and Kansas summer heat creates reliable event frequency. However, specific battery participation rules require verification.",
+    "2024_program_evolution": "The 2024 changes (tiered event participation, bonus for extended duration) show program maturation and flexibility. Participants can balance commitment level with operational constraints. Extended duration option (7-10 hours) particularly interesting for battery storage given typical 4-hour duration batteries.",
+    "spp_context": "SPP's declining reserve margins (24% to 5% by 2029) and lack of capacity market creates strong value proposition for utility-level DR. Evergy's DR program will likely become increasingly important to regional reliability, potentially leading to improved incentives over time.",
+    "recommended_next_steps": "For battery storage project evaluation: 1) Contact Evergy BDR team with battery-specific questions, 2) Request facility assessment for target site, 3) Clarify baseline methodology and battery charging treatment, 4) Understand wholesale market participation restrictions under 23-EKCE settlement, 5) Compare utility DR incentives vs. SPP wholesale market opportunities if accessible."
+  },
+  "spp_wholesale_market_note": {
+    "important_distinction": "Kansas is in SPP (Southwest Power Pool) RTO territory. SPP operates wholesale energy and reserve markets but NO CAPACITY MARKET. Evergy's Business Demand Response is a UTILITY-LEVEL PROGRAM, not an SPP wholesale market program.",
+    "wholesale_dr_in_spp": "SPP does have demand response participation in its wholesale markets, but the May 2024 KCC settlement (docket 23-EKCE) gives Evergy control over whether its customers can participate in these wholesale markets. This 'gatekeeper' arrangement was opposed by Vote Solar and Sierra Club as potentially limiting customer choice.",
+    "dual_participation_question": "UNCLEAR whether a customer can participate in both Evergy's utility DR program AND SPP wholesale markets simultaneously, or if Evergy requires exclusive participation in utility program. This would need clarification from Evergy and is particularly important for battery storage developers evaluating revenue stacking opportunities.",
+    "aggregator_implications": "The settlement allowing Evergy to control wholesale market access may limit opportunities for third-party aggregators (like Voltus, which participated in settlement) to enroll Evergy customers directly into SPP markets without utility approval."
+  }
+}

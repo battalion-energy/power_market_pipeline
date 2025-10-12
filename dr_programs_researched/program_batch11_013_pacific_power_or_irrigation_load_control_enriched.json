@@ -1,0 +1,199 @@
+{
+  "program_id": "OREGON-IRRIGATION-LOAD-CONTROL",
+  "program_name": "Irrigation Load Control",
+  "program_type": "utility",
+  "status": "active",
+  "description": "Peak energy reduction program where agricultural irrigators earn incentives by temporarily shutting off irrigation pumps during peak demand periods. Program operates in partnership with Connected Energy and serves approximately 13,000 irrigation customers in Oregon and Washington. Participants must curtail irrigation load during mandatory events with 4-hour minimum notice, with optional participation in voluntary events. The program uses a pay-for-performance structure based on average available load (kW) that enrolled pumps can reliably shut off during program hours.",
+  "geography": {
+    "states": ["OR"],
+    "utilities": ["Pacific Power"],
+    "isos": [],
+    "service_territories": ["Pacific Power Oregon service territory"]
+  },
+  "eligibility": {
+    "customer_classes": {
+      "residential": false,
+      "commercial": false,
+      "industrial": true,
+      "size_threshold_notes": "Specifically for agricultural irrigation and soil drainage pumping customers on Schedule 41 or 48. Pumps must be at least 25 horsepower (HP). This program is NOT applicable to battery energy storage systems - it is exclusively for agricultural irrigation load curtailment."
+    },
+    "behind_the_meter": true,
+    "front_of_meter": false,
+    "minimum_capacity_kw": 18.65,
+    "maximum_capacity_kw": null,
+    "resource_types": ["irrigation_pumps", "agricultural_load_curtailment"],
+    "requires_aggregator": false
+  },
+  "notification": {
+    "day_ahead_notice": false,
+    "minimum_notice_hours": 4,
+    "maximum_notice_hours": null,
+    "notification_methods": ["phone", "email"]
+  },
+  "payment_structure": {
+    "has_capacity_payment": true,
+    "has_performance_payment": true,
+    "capacity_rate": {
+      "value": null,
+      "unit": "$/kW-season",
+      "varies_by_season": false,
+      "seasonal_rates": [],
+      "notes": "Program uses pay-for-performance structure based on average available load (kW) that enrolled pumps can reliably shut off during program hours. Specific $/kW rates are not publicly disclosed on the website. Historical rates from case study: $30/kW in 2020, $45/kW in 2022. Contact program at 1-855-664-3276 for current rates."
+    },
+    "performance_rate": {
+      "value": null,
+      "unit": "$/kW-event",
+      "varies_by_season": false,
+      "varies_by_time": false,
+      "seasonal_rates": [],
+      "notes": "Performance-based payments calculated as incentive rate × average available load × participation factor. Actual curtailment performance affects payment."
+    },
+    "penalty_structure": {
+      "has_penalties": true,
+      "penalty_rate": null,
+      "penalty_unit": "proportional_reduction",
+      "penalty_description": "Customers who opt out of mandatory events receive proportional payment reduction. Voluntary events allow opt-out without penalties."
+    },
+    "bonus_payments": [
+      {
+        "description": "Full participation bonus for participating in all mandatory events",
+        "rate": 50,
+        "unit": "% of base payment",
+        "conditions": "Participate in every mandatory event without opting out"
+      }
+    ],
+    "forward_curve_available": false,
+    "forward_curve_url": null
+  },
+  "seasons": [
+    {
+      "season_name": "Mandatory Season",
+      "start_date": "06-01",
+      "end_date": "08-15",
+      "max_events": null,
+      "max_hours": 52
+    },
+    {
+      "season_name": "Voluntary Season",
+      "start_date": "06-01",
+      "end_date": "09-30",
+      "max_events": null,
+      "max_hours": null
+    }
+  ],
+  "call_windows": [
+    {
+      "window_id": "summer_peak",
+      "start_hour": 14,
+      "end_hour": 21,
+      "days_of_week": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      "seasons": ["Mandatory Season", "Voluntary Season"],
+      "timezone": "America/Los_Angeles"
+    }
+  ],
+  "event_parameters": {
+    "typical_duration_hours": 2,
+    "minimum_duration_hours": 1,
+    "maximum_duration_hours": 4,
+    "event_granularity_minutes": null,
+    "response_time_minutes": null,
+    "max_events_per_season": null,
+    "max_events_per_year": null,
+    "max_hours_per_season": 52,
+    "max_hours_per_year": null,
+    "max_consecutive_events": 3,
+    "maximum_events_per_week": 3,
+    "maximum_hours_per_week": 12,
+    "minimum_rest_hours": null
+  },
+  "nomination_bidding": {
+    "requires_nomination": true,
+    "nomination_frequency": "annual",
+    "nomination_deadline": "Before season start",
+    "allows_price_bidding": false,
+    "bidding_structure": "Fixed program rates, no price bidding",
+    "enrollment_period": {
+      "start_date": "Contact program for enrollment details",
+      "end_date": "Contact program for enrollment details",
+      "recurring": true
+    }
+  },
+  "special_programs": {
+    "is_rec_based": false,
+    "rec_type": null,
+    "scheduled_dispatch": false,
+    "clean_peak_standard": false,
+    "special_attributes": ["agricultural_only", "irrigation_specific", "load_curtailment"]
+  },
+  "program_history": {
+    "launch_year": 2016,
+    "program_evolution": [
+      {
+        "year": 2016,
+        "change_description": "Program launched (based on case study showing participant enrolled since 2016)"
+      },
+      {
+        "year": 2020,
+        "change_description": "One-hour ahead notification program added with $30/kW incentive"
+      },
+      {
+        "year": 2022,
+        "change_description": "22.5-minute notice program added with $45/kW incentive (highest rate)"
+      },
+      {
+        "year": 2023,
+        "change_description": "Program continued operations with approximately 5 events during season, paying out over $100,000 in bill credits"
+      }
+    ],
+    "budget_committed_through": null,
+    "total_annual_budget": null
+  },
+  "historical_events": [
+    {
+      "event_id": "2023_season",
+      "event_date": "2023-06-01",
+      "start_time": "unknown",
+      "end_time": "unknown",
+      "duration_hours": null,
+      "season": "2023 Summer",
+      "notification_time": null,
+      "advance_notice_hours": null,
+      "call_window": "Weekdays 2-9 PM Pacific",
+      "performance_payment_rate": null,
+      "total_mw_called": null,
+      "notes": "Five load interruption events occurred during 2023 season. Program paid out over $100,000 in irrigation bill credits. Events never exceed 4 hours duration. Specific dates and times not publicly available."
+    }
+  ],
+  "data_sources": [
+    {
+      "source_name": "Pacific Power Oregon Irrigation Load Control Program Page",
+      "url": "https://www.pacificpower.net/savings-energy-choices/business/wattsmart-efficiency-incentives-oregon/oregon-agriculture/irrigation-load-control.html",
+      "last_updated": "2025-10-12",
+      "data_type": "program_rules"
+    },
+    {
+      "source_name": "Pacific Power Irrigation Load Control Case Study",
+      "url": "https://www.pacificpower.net/savings-energy-choices/business/wattsmart-efficiency-incentives-oregon/oregon-agriculture/oregon-case-study.html",
+      "last_updated": "2025-10-12",
+      "data_type": "historical_events"
+    },
+    {
+      "source_name": "Capital Press Article - How Irrigation Load Control Works",
+      "url": "https://capitalpress.com/2024/03/21/pacific-power-how-irrigation-load-control-works-for-irrigators/",
+      "last_updated": "2024-03-21",
+      "data_type": "program_rules"
+    }
+  ],
+  "integration_metadata": {
+    "optimizer_compatible": false,
+    "api_available": false,
+    "api_documentation_url": null,
+    "data_quality_score": 6,
+    "last_verified_date": "2025-10-12",
+    "battery_suitability_rating": "N/A",
+    "battery_suitability_explanation": "This program is NOT APPLICABLE to battery energy storage systems. It is exclusively designed for agricultural irrigation load curtailment and requires: (1) eligibility limited to agricultural customers on irrigation rate schedules 41 or 48, (2) enrollment of physical irrigation pumps minimum 25 HP, and (3) curtailment of actual irrigation pumping operations. Batteries cannot participate as they do not meet the agricultural irrigation customer class requirements and do not operate irrigation pumps. This is fundamentally a load reduction program for farming operations, not an energy arbitrage or demand response program compatible with battery storage.",
+    "estimated_annual_revenue_1mw_1mwh": null,
+    "revenue_calculation_notes": "Not applicable - batteries are ineligible for this agricultural irrigation program",
+    "notes": "HIGH CONFIDENCE IN INELIGIBILITY: This program explicitly requires agricultural irrigation and soil drainage pumping on specific agricultural rate schedules. The program name, eligibility requirements, and resource types all confirm this is exclusively for farm irrigation operations. No revenue potential exists for battery systems in this program. Data quality score of 6 reflects good information about program structure and historical performance (5 events in 2023, $100K+ paid out, historical rates of $30-45/kW), but lacks publicly available current 2024-2025 specific $/kW rates and detailed event history. Contact information provided for obtaining current rates: 1-855-664-3276 or pacificpowerilc@connectedenergy.com."
+  }
+}

@@ -1,0 +1,464 @@
+{
+  "program_id": "HECO_FAST_DR_2025",
+  "program_name": "Hawaiian Electric Fast Demand Response Program",
+  "program_type": "utility",
+  "status": "active",
+  "description": "Hawaiian Electric's Fast Demand Response (Fast DR) program proactively reduces electrical use during grid emergencies and high renewable energy variability, providing critical grid stability services for Hawaii's isolated island grids. The program rewards commercial and industrial customers with financial incentives for rapidly curtailing load with as little as 10 minutes notice. Fast DR serves as a bridge resource during periods of intermittent wind and solar generation ramp-downs, helping balance electricity supply and demand while additional generating units are brought online. The program is particularly valuable given Hawaii's unique isolated grid constraints with no interconnections to other states. Participants receive monthly capacity payments ($5/kW-month) plus performance payments ($0.50/kWh) for actual energy reductions during events. Hawaiian Electric covers enabling technology costs to automate curtailments, and customers retain full control with opt-out flexibility for any event. The program is available on Oahu and Maui with island-specific operating parameters reflecting different grid conditions.",
+  "geography": {
+    "states": ["HI"],
+    "utilities": ["Hawaiian Electric Company (Oahu)", "Maui Electric Company (Maui County)"],
+    "isos": [],
+    "iso_notes": "Hawaii operates isolated island grids with no interconnections to other ISOs. No wholesale electricity market. Hawaiian Electric Companies operate as vertically integrated utilities with full generation, transmission, and distribution responsibility.",
+    "service_territories": ["Oahu", "Maui Island"],
+    "island_grid_context": "Hawaii's isolated island grids face unique challenges with high renewable penetration (targeting 100% by 2045) and no mainland interconnections for backup power. Fast demand response provides critical flexibility to balance intermittent renewable generation, especially during rapid wind/solar ramp-downs. Island grids are particularly vulnerable to supply-demand imbalances, making sub-10-minute response capabilities essential for grid stability."
+  },
+  "eligibility": {
+    "customer_classes": {
+      "residential": false,
+      "commercial": true,
+      "industrial": true,
+      "size_threshold_notes": "Any commercial or industrial customer that can commit to reducing at least 50 kilowatts (kW) of demand is eligible for the Fast DR program. Participants must be able to curtail load with as little as 10 minutes notice."
+    },
+    "behind_the_meter": true,
+    "front_of_meter": false,
+    "front_of_meter_notes": "For front-of-meter resources, see Hawaiian Electric's separate Grid Service Purchase Agreement (GSPA) programs for third-party aggregators and larger-scale resources.",
+    "minimum_capacity_kw": 50,
+    "maximum_capacity_kw": null,
+    "resource_types": [
+      "load curtailment",
+      "HVAC reduction",
+      "non-essential equipment shutdown",
+      "thermostat adjustments",
+      "water heaters/fountains/pumps shutdown",
+      "elevator/escalator reduction",
+      "lighting adjustments",
+      "building management system automation"
+    ],
+    "restricted_resources_oahu": [
+      "backup generators",
+      "emergency generators"
+    ],
+    "restricted_resources_maui": [],
+    "island_specific_notes": "CRITICAL DIFFERENCE: Transferring load to emergency generators is PROHIBITED on Oahu but ALLOWED on Maui. Oahu participants may not rely on backup generation during load reductions. Maui participants may transfer load to emergency generators during DR events.",
+    "requires_aggregator": false,
+    "aggregator_notes": "Direct customer participation is standard, but Hawaiian Electric also accepts third-party aggregators through Grid Service Purchase Agreement (GSPA) contracts. GSPA participants were first executed in Q1 2019 and approved by the Hawaii Public Utilities Commission in Order 36467 (August 9, 2019). Hawaiian Electric deferred direct contracting initially (for at least one year) to allow third-party aggregator market to develop."
+  },
+  "notification": {
+    "day_ahead_notice": false,
+    "minimum_notice_hours": 0.167,
+    "minimum_notice_minutes": 10,
+    "maximum_notice_hours": null,
+    "notification_methods": [
+      "phone call",
+      "email",
+      "SMS text message",
+      "automated building management system signals"
+    ],
+    "notification_notes": "Fast DR participants must be able to curtail load with as little as TEN MINUTE notice. This extremely fast response requirement distinguishes Fast DR from traditional demand response programs. Notifications are sent to designated facility representatives via phone, email, or text when events are triggered. Hawaiian Electric covers the cost of enabling technology to automate curtailments, making the 10-minute response achievable through machine-to-machine automation rather than manual intervention."
+  },
+  "payment_structure": {
+    "has_capacity_payment": true,
+    "has_performance_payment": true,
+    "capacity_rate": {
+      "value": 5,
+      "unit": "$/kW-month",
+      "annual_equivalent": 60,
+      "annual_equivalent_unit": "$/kW-year",
+      "varies_by_season": false,
+      "varies_by_island": false,
+      "notes": "Customers earn $5 per kilowatt (kW) per month as Controlled Demand Incentive. For example, if you designate 50 kW of load to the program, you will receive a $250 credit to your electric bill every month ($3,000 per year) whether or not a demand response event is triggered. This provides guaranteed monthly revenue for committed capacity.",
+      "calculation_example": "50 kW commitment × $5/kW-month = $250/month = $3,000/year capacity payment"
+    },
+    "performance_rate": {
+      "value": 0.50,
+      "unit": "$/kWh",
+      "varies_by_season": false,
+      "varies_by_time": false,
+      "calculation_method": "For each hour that energy is not consumed during a demand response event, the customer will earn 50 cents per kW. Performance payment is calculated based on actual energy reduction measured against the 10-Day Average Baseline. Hawaiian Electric uses the '10-Day Average Baseline' methodology to calculate energy not consumed: each hour during the past 10 similar days prior to an event is averaged to establish an hourly average baseline. The past 10 similar days excludes Event Days, weekends, and holidays.",
+      "notes": "Energy Reduction Incentive of $0.50/kWh for actual demand curtailment during events. This is in addition to the monthly capacity payment."
+    },
+    "total_annual_payment_example": {
+      "capacity_kw": 50,
+      "capacity_payment_annual": 3000,
+      "assumed_events_per_year": 40,
+      "assumed_hours_per_event": 1.5,
+      "total_event_hours_per_year": 60,
+      "performance_payment_per_event_hour": 25,
+      "total_performance_payment_annual": 1500,
+      "total_annual_payment": 4500,
+      "currency": "USD",
+      "notes": "Example calculation for 50 kW commitment: $3,000/year capacity + $1,500/year performance (assuming 40 events × 1.5 hours avg × 50 kW × $0.50/kWh) = $4,500/year total. Actual performance payments vary based on event frequency, duration, and customer's actual curtailment."
+    },
+    "payment_reconciliation_sources": {
+      "note": "Two different annual payment figures were found in sources: (1) FAQ states $5/kW-month = $3,000/year for 50 kW, (2) Main program page states 'up to $6,000 annually' for 50 kW. The $6,000 figure likely includes both capacity payments ($3,000) and estimated performance payments ($3,000), while the FAQ separately itemizes these components. Using the detailed FAQ breakdown as authoritative: $5/kW-month capacity + $0.50/kWh performance."
+    },
+    "penalty_structure": {
+      "has_penalties": false,
+      "explicit_penalties": "not specified",
+      "penalty_rate": null,
+      "penalty_unit": "not applicable",
+      "penalty_description": "No explicit penalty structure found in available documentation. Program is voluntary and participants retain complete control with ability to opt out of any event at any time. Performance-based incentive structure means participants simply don't earn performance payments if they don't curtail, but no penalties or fees are assessed for non-performance."
+    },
+    "bonus_payments": [
+      {
+        "description": "Enabling Technology Funding",
+        "rate": null,
+        "unit": "one-time payment",
+        "conditions": "Hawaiian Electric covers enabling technology costs to help automate curtailments. Participants also receive a $3,000 meter allowance for interval meter installation if advanced metering is not already in place.",
+        "technology_examples": [
+          "automated load control systems",
+          "building management system integration",
+          "machine-to-machine communication equipment",
+          "interval meter installation"
+        ]
+      }
+    ],
+    "forward_curve_available": false,
+    "forward_curve_url": null,
+    "payment_calculation_notes": "Incentive calculations are based on the amount of energy a customer would have used (the baseline) if the event had not been triggered and the actual energy reduction amount. The program provides access to a secure website which provides energy usage data and demand response event history for participants to track performance and payments."
+  },
+  "seasons": [
+    {
+      "season_name": "Year-Round Program",
+      "start_date": "01-01",
+      "end_date": "12-31",
+      "max_events": 40,
+      "max_hours": 80,
+      "island": "Oahu",
+      "island_specific_notes": "Oahu: Events can be called 7 AM to 9 PM weekdays (excluding holidays). Maximum 40 events per year with total interruption not to exceed 80 hours annually. Events last maximum 2 hours each.",
+      "event_window_hours": "7 AM - 9 PM",
+      "event_window_days": "Weekdays (excluding holidays)"
+    },
+    {
+      "season_name": "Year-Round Program",
+      "start_date": "01-01",
+      "end_date": "12-31",
+      "max_events": null,
+      "max_hours": 40,
+      "island": "Maui",
+      "island_specific_notes": "Maui: Events can be called 24/7 (all hours, all days). Maximum 40 hours of total interruption per year. Event durations can be up to 1 or 4 hours depending on grid conditions.",
+      "event_window_hours": "24/7 (all hours)",
+      "event_window_days": "All days (24/7 availability)"
+    }
+  ],
+  "call_windows": [
+    {
+      "window_id": "oahu_weekday_daytime",
+      "island": "Oahu",
+      "start_hour": 7,
+      "end_hour": 21,
+      "days_of_week": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday"
+      ],
+      "seasons": ["Year-Round Program"],
+      "timezone": "Pacific/Honolulu",
+      "notes": "Oahu events occur 7 AM to 9 PM on weekdays only, excluding holidays. This window corresponds to typical peak demand periods when commercial/industrial load is highest and renewable generation may be ramping down."
+    },
+    {
+      "window_id": "maui_24_7",
+      "island": "Maui",
+      "start_hour": 0,
+      "end_hour": 23,
+      "days_of_week": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday"
+      ],
+      "seasons": ["Year-Round Program"],
+      "timezone": "Pacific/Honolulu",
+      "notes": "Maui events can be called 24/7 at any time, reflecting potentially more volatile grid conditions on Maui's smaller isolated island grid. This provides Hawaiian Electric maximum flexibility to respond to grid emergencies and renewable energy variability at any hour."
+    }
+  ],
+  "event_parameters": {
+    "typical_duration_hours": 1.5,
+    "minimum_duration_hours": null,
+    "maximum_duration_hours_oahu": 2,
+    "maximum_duration_hours_maui": 4,
+    "event_granularity_minutes": null,
+    "response_time_minutes": 10,
+    "response_time_notes": "CRITICAL FEATURE: Fast DR requires 10-MINUTE response time from notification to load curtailment. This is one of the fastest demand response programs in the United States. The 10-minute bridge resource is particularly valuable during sustained ramp-downs of intermittent wind generation, providing time for Hawaiian Electric to bring additional generating units online. Manual curtailment is extremely difficult at this speed, making automation essential.",
+    "max_events_per_year_oahu": 40,
+    "max_events_per_year_maui": null,
+    "max_hours_per_year_oahu": 80,
+    "max_hours_per_year_maui": 40,
+    "max_consecutive_events": null,
+    "minimum_rest_hours": null,
+    "opt_out_allowance": "unlimited",
+    "opt_out_notes": "Fast DR gives customers complete control and allows an opt-out for having their demand impacted at any time. Customers can opt out of any individual event without penalty, though this will affect performance payments for that event. This voluntary structure ensures customers maintain operational control while providing grid services."
+  },
+  "event_triggers": {
+    "trigger_types": [
+      "grid emergency",
+      "renewable energy ramp-down",
+      "intermittent wind generation variability",
+      "intermittent solar generation variability",
+      "supply-demand imbalance",
+      "preventing unplanned outages",
+      "generation capacity shortage"
+    ],
+    "temperature_threshold_exact": "not applicable",
+    "load_threshold": "when electricity demand exceeds available generation capacity",
+    "load_threshold_exact_mw": "not specified",
+    "price_threshold": "not applicable",
+    "emergency_conditions": true,
+    "trigger_description": "Fast Demand Response is designed to help stabilize the electric grid and prevent unplanned outages when electricity demand exceeds available generation capacity. A need for this 10-minute bridge resource is particularly valuable at times when the power grid experiences a sustained ramp down of intermittent wind generation. Fast DR provides critical flexibility during renewable energy transitions, helping Hawaiian Electric integrate more renewable resources while maintaining grid reliability. As Hawaiian Electric integrates more renewable energy resources, Fast DR provides a critical tool to balance electricity demand until additional generating units can be brought online.",
+    "data_quality_note": "Event triggers are described qualitatively in terms of grid emergencies and renewable variability. Specific numerical thresholds (MW capacity shortage, rate of renewable ramp-down, etc.) are not publicly documented. Given Hawaii's isolated grid and high renewable penetration goals (100% by 2045), Fast DR serves as essential frequency regulation and capacity bridge during renewable intermittency."
+  },
+  "nomination_bidding": {
+    "requires_nomination": true,
+    "nomination_frequency": "annual",
+    "nomination_deadline": "not specified",
+    "nomination_process": "Enrollment process: (1) Schedule Preliminary Assessment with Hawaiian Electric, (2) Participate in Technical Audit to assess curtailment capabilities, (3) Review audit findings, (4) Sign Fast DR customer contract specifying committed capacity, (5) Install and test load reduction technology (funded by Hawaiian Electric), (6) Begin earning incentives. Contact energyscout@hawaiianelectric.com for enrollment information.",
+    "allows_price_bidding": false,
+    "bidding_structure": "not applicable",
+    "enrollment_period": {
+      "start_date": "not specified",
+      "end_date": "not specified",
+      "recurring": true,
+      "notes": "Program is ongoing with rolling enrollment. Interested customers should contact energyscout@hawaiianelectric.com to begin the enrollment process."
+    }
+  },
+  "performance_measurement": {
+    "baseline_calculation_method": "10-Day Average Baseline: Each hour during the past 10 similar days prior to an event is averaged to establish an hourly average baseline. The past 10 similar days excludes Event Days, weekends, and holidays.",
+    "measurement_interval_minutes": null,
+    "measurement_interval_notes": "Specific measurement interval not documented but implied to be sub-hourly given hourly baseline calculations and performance tracking requirements.",
+    "telemetry_requirements": "Interval metering required to measure load curtailment. Hawaiian Electric provides $3,000 meter allowance for interval meter installation if advanced metering infrastructure is not already in place. Performance data must be sufficient to calculate hourly energy reductions against baseline.",
+    "verification_method": "Incentive calculations are based on the amount of energy a customer would have used (the baseline) if the event had not been triggered and the actual energy reduction amount. The program provides access to a secure website which provides energy usage data, demand response event history for participants to verify performance and payments.",
+    "minimum_performance_threshold": null,
+    "minimum_performance_notes": "No explicit minimum performance threshold specified. Program is performance-based, meaning participants earn performance payments proportional to actual curtailment. No penalties for low performance, but also no performance payment if curtailment doesn't occur."
+  },
+  "automation_dispatch": {
+    "semi_auto_dr_available": true,
+    "semi_auto_dr_description": "Semi-Automated Demand Response: Facility personnel respond manually to event notifications or trigger automated responses via existing Building Management System. Requires human decision-making but can leverage automated controls once initiated.",
+    "auto_dr_available": true,
+    "auto_dr_description": "Fully Automated Demand Response: Automated machine-to-machine process with no human intervention required. Hawaiian Electric signal automatically triggers load reduction equipment/controls. This is the preferred method for achieving 10-minute response time.",
+    "enabling_technology_funding": true,
+    "enabling_technology_notes": "Hawaiian Electric covers enabling technology costs to help automate curtailments, making energy savings easier and more efficient. This funding helps participants install the automation equipment necessary to achieve 10-minute response times, which are nearly impossible to achieve through manual processes alone."
+  },
+  "special_programs": {
+    "is_rec_based": false,
+    "rec_type": null,
+    "scheduled_dispatch": false,
+    "clean_peak_standard": false,
+    "special_attributes": [
+      "extremely fast response time (10 minutes)",
+      "isolated island grid application",
+      "high renewable energy integration support",
+      "emergency grid stabilization",
+      "voluntary participation with unlimited opt-outs",
+      "participant-controlled curtailment",
+      "utility-funded enabling technology",
+      "24/7 availability on Maui",
+      "island-specific operating parameters"
+    ],
+    "related_programs": [
+      {
+        "program_name": "Grid Service Purchase Agreement (GSPA) Programs",
+        "description": "Third-party aggregator contracts for providing grid services including demand response, approved by Hawaii PUC in Docket 2015-0412. First GSPA contracts executed Q1 2019 (GSPA 1).",
+        "url": "https://www.hawaiianelectric.com/products-and-services/customer-incentive-programs/power-partnership-programs"
+      },
+      {
+        "program_name": "Residential Direct Load Control (RDLC)",
+        "description": "Residential demand response program with utility control of specific appliances",
+        "url": null
+      },
+      {
+        "program_name": "Commercial and Industrial Direct Load Control (CIDLC)",
+        "description": "Commercial/Industrial demand response with utility control of equipment",
+        "url": null
+      }
+    ],
+    "regulatory_context": {
+      "puc_docket": "2015-0412",
+      "puc_decision_order": "Decision and Order No. 35238",
+      "approval_date": "February 2018",
+      "regulatory_notes": "Hawaiian Electric's demand response portfolio was approved by the Hawaii Public Utilities Commission after two years of technical and financial analysis. The PUC approved the revised demand response portfolio tariff structure framework, including four grid service rules and the attendant rate schedules and riders (Rule No. 31: Emergency Demand Response Program and Scheduled Dispatch Program Rider). This approval allows Hawaiian Electric to use a 'broader, more high-tech approach' to grid management by controlling customer equipment through wireless networks and advanced metering."
+    }
+  },
+  "program_history": {
+    "launch_year": 2018,
+    "program_evolution": [
+      {
+        "year": 2015,
+        "change_description": "Docket No. 2015-0412 opened: Hawaiian Electric filed application for approval of demand response program portfolio tariff"
+      },
+      {
+        "year": 2017,
+        "change_description": "February 2017: Hawaiian Electric filed application with PUC to seek approval of underlying proposed tariff structure for grid services"
+      },
+      {
+        "year": 2018,
+        "change_description": "February 2018: PUC approved demand response portfolio (Decision and Order No. 35238) after two years of analysis. Fast DR program launched."
+      },
+      {
+        "year": 2019,
+        "change_description": "Q1 2019: First Grid Service Purchase Agreement (GSPA) contracts executed with third-party aggregators. August 2019: PUC approved GSPA 1 contracts (Order 36467)."
+      },
+      {
+        "year": 2025,
+        "change_description": "Program continues operation on Oahu and Maui with established payment structure and operational parameters"
+      }
+    ],
+    "budget_committed_through": null,
+    "total_annual_budget": null,
+    "total_program_capacity_mw": 6,
+    "total_program_capacity_notes": "When fully subscribed, Fast DR program provides more than 6 megawatts of semi-automated load control. This represents significant grid flexibility resource for Hawaii's isolated island grids."
+  },
+  "historical_events": [],
+  "historical_events_note": "Specific historical event dates, times, and conditions are not publicly available. Hawaiian Electric does not publish a historical event log with dates when Fast DR events were called. Given the program's purpose (grid emergencies and renewable variability), events are likely called during periods of rapid renewable generation ramp-downs or unexpected generation outages, but specific event history data is not disclosed.",
+  "data_sources": [
+    {
+      "source_name": "Hawaiian Electric Fast Demand Response Program Main Page",
+      "url": "https://www.hawaiianelectric.com/products-and-services/customer-incentive-programs/fast-demand-response",
+      "last_updated": "2025",
+      "data_type": "program_rules"
+    },
+    {
+      "source_name": "Hawaiian Electric Demand Response FAQ",
+      "url": "https://www.hawaiianelectric.com/customer-service/frequently-asked-questions?FAQFilter1=845&page=1",
+      "last_updated": "2025",
+      "data_type": "program_rules"
+    },
+    {
+      "source_name": "Hawaiian Electric Demand Response Benefits",
+      "url": "https://www.hawaiianelectric.com/products-and-services/customer-incentive-programs/benefits",
+      "last_updated": "2025",
+      "data_type": "program_rules"
+    },
+    {
+      "source_name": "Hawaiian Electric Innovation - Demand Response",
+      "url": "https://www.hawaiianelectric.com/about-us/innovation/demand-response",
+      "last_updated": "2025",
+      "data_type": "program_rules"
+    },
+    {
+      "source_name": "Hawaiian Electric Rule No. 31 - Emergency Demand Response Program and Scheduled Dispatch Program Rider",
+      "url": "https://www.hawaiianelectric.com/documents/billing_and_payment/rates/hawaiian_electric_rules/31.pdf",
+      "last_updated": "not specified",
+      "data_type": "program_rules",
+      "access_note": "PDF could not be parsed by automated tools but is referenced as authoritative tariff document"
+    },
+    {
+      "source_name": "Hawaii Division of Consumer Advocacy - PUC Approves HECO's Demand Response Portfolio",
+      "url": "https://cca.hawaii.gov/dca/puc-approves-hecos-demand-response-portfolio-docket-no-2015-0412/",
+      "last_updated": "2018-02",
+      "data_type": "program_rules"
+    },
+    {
+      "source_name": "Utility Dive - Hawaii regulators approve HECO's suite of demand response, solar programs",
+      "url": "https://www.utilitydive.com/news/hawaii-regulators-approve-hecos-suite-of-demand-response-solar-programs/516674/",
+      "last_updated": "2018-02",
+      "data_type": "program_rules"
+    },
+    {
+      "source_name": "Sandia National Labs - Hawaiian Electric Companies Demand Response Tool",
+      "url": "https://www.sandia.gov/ess-ssl/wp-content/uploads/2019/08/PNNL-mjp_HECO-demand-response-tool_8_4.pdf",
+      "last_updated": "2019-08",
+      "data_type": "program_rules"
+    }
+  ],
+  "integration_metadata": {
+    "optimizer_compatible": true,
+    "optimizer_notes": "Fast DR program presents unique challenges and opportunities for battery optimization. CRITICAL CHALLENGE: 10-minute response time is extremely fast and requires fully automated dispatch systems with pre-positioned battery state-of-charge management. This is not suitable for manual dispatch or day-ahead optimization alone. OPPORTUNITY: Monthly capacity payments ($5/kW-month = $60/kW-year) provide guaranteed revenue stream regardless of event calls. Performance payments ($0.50/kWh) are attractive for battery discharge. Unlimited opt-out flexibility allows strategic participation. Island-specific parameters create different optimization strategies: Oahu (predictable weekday 7AM-9PM windows, max 40 events, 2-hour max duration) vs Maui (unpredictable 24/7 windows, 40 total hours/year, up to 4-hour duration). Battery systems are well-suited to 10-minute response if properly automated. Given Hawaii's isolated grid and high renewable variability, event calls may be more frequent than traditional DR programs, increasing performance payment potential.",
+    "api_available": true,
+    "api_notes": "Hawaiian Electric is developing automated dispatch capabilities through machine-to-machine protocols for Auto DR activation. Third-party aggregators participate through Grid Service Purchase Agreement (GSPA) framework, which likely includes API/telemetry requirements. Participants receive web access to secure portal showing energy usage data and DR event history. For automated battery dispatch integration, contact energyscout@hawaiianelectric.com for technical requirements.",
+    "api_documentation_url": "not publicly available",
+    "api_contact": "energyscout@hawaiianelectric.com",
+    "data_quality_score": 7.0,
+    "data_quality_explanation": "Good quality data on payment rates, response time requirements, island-specific parameters, eligibility, and enrollment process. Clear documentation of capacity payments ($5/kW-month) and performance payments ($0.50/kWh). Excellent documentation of 10-minute response time requirement and automation options. Island-specific operational differences (Oahu vs Maui) are well-documented. Moderate quality on event triggers (qualitative descriptions without specific thresholds). Missing data: specific MW thresholds for event calls, historical event frequency/timing, exact measurement intervals, minimum performance requirements, maximum capacity limits, specific enrollment deadlines. No publicly available historical event log to validate actual program behavior and understand typical event patterns. Baseline calculation methodology is documented but examples/edge cases not provided.",
+    "last_verified_date": "2025-10-11",
+    "notes": "Hawaiian Electric operates isolated island grids serving Oahu, Maui County, and Hawaii Island with no mainland interconnections. This creates unique grid stability challenges, especially as Hawaii pursues 100% renewable energy by 2045. Fast DR's 10-minute response capability is critical for balancing intermittent renewable generation in isolated grid environment where mainland backup is unavailable. Program approved after extensive PUC review (2+ years) demonstrating regulatory support for demand response as grid modernization tool. Third-party aggregator participation supported through GSPA framework, creating competitive market for DR services. Hawaiian Electric's commitment to funding enabling technology ($3,000 meter allowance + automation equipment) reduces participant barriers. Island-specific parameters reflect different grid conditions: Oahu (larger, more stable grid with predictable weekday peak patterns) vs Maui (smaller, more volatile grid requiring 24/7 availability)."
+  },
+  "data_gaps_and_assumptions": {
+    "missing_data_fields": [
+      "Exact MW threshold that triggers Fast DR events",
+      "Specific rate of renewable generation ramp-down (MW/minute) that triggers events",
+      "Historical event dates and times (2018-2024)",
+      "Historical event frequency per year (actual vs maximum 40)",
+      "Historical event durations (actual vs maximum 2-4 hours)",
+      "Typical advance notice provided (actual vs minimum 10 minutes)",
+      "Exact measurement interval for performance calculation (sub-hourly but not specified)",
+      "Minimum performance threshold percentage (if any)",
+      "Maximum capacity limit per participant",
+      "Maximum total program capacity (MW) - only 6+ MW when fully subscribed mentioned",
+      "Current number of enrolled participants",
+      "Current total enrolled capacity (MW vs 6+ MW target)",
+      "Specific enrollment deadline dates",
+      "Minimum event duration (if any)",
+      "Maximum consecutive event days",
+      "Minimum rest hours between events",
+      "Specific penalty structure for consistent non-performance (if any)",
+      "Total annual program budget",
+      "Actual payments made to participants (historical)",
+      "Hawaii Island (Big Island) program availability - only Oahu and Maui mentioned"
+    ],
+    "assumptions_made": [
+      {
+        "field": "typical_duration_hours",
+        "assumption": "Assumed 1.5 hours based on maximum durations of 2 hours (Oahu) and up to 4 hours (Maui) with most events likely being shorter",
+        "confidence": "medium",
+        "basis": "Typical DR events nationwide are 2-4 hours but Hawaii's Fast DR is for emergency/bridge situations suggesting shorter typical durations"
+      }
+    ],
+    "conflicting_information": [
+      {
+        "field": "annual_payment_amount",
+        "conflict": "Two different total annual payment amounts found for 50 kW commitment: (1) Main program page states 'up to $6,000 annually', (2) FAQ page separately documents $5/kW-month capacity payment ($3,000/year for 50 kW) plus $0.50/kWh performance payments",
+        "resolution": "Used FAQ's detailed breakdown as authoritative: $5/kW-month capacity + $0.50/kWh performance. The $6,000 figure on main page likely represents total potential payment combining capacity ($3,000) and estimated performance payments ($3,000 assuming ~60 event-hours at 50 kW full curtailment). The FAQ provides more precise breakdown of payment components.",
+        "sources": [
+          "https://www.hawaiianelectric.com/products-and-services/customer-incentive-programs/fast-demand-response (main page)",
+          "https://www.hawaiianelectric.com/customer-service/frequently-asked-questions?FAQFilter1=845&page=1 (FAQ)"
+        ]
+      },
+      {
+        "field": "event_parameters_source_discrepancy",
+        "conflict": "Earlier web fetch results mentioned: Oahu '40 or 80 hours' annual limit, Maui '40 hours' limit, event durations 'up to 1 hour' (Oahu) or '1 or 4 hours' (Maui). FAQ documentation states: 40 events per year max, 80 hours total max, events last max 2 hours, between 7am-9pm weekdays.",
+        "resolution": "Used FAQ as authoritative for Oahu: max 40 events, max 80 total hours, max 2 hours per event, 7AM-9PM weekdays. Used earlier search results for Maui: 24/7 availability, 40 total hours annual limit, up to 1-4 hour event durations. These parameters likely evolved over program lifetime and may differ by island due to different grid characteristics.",
+        "sources": [
+          "https://www.hawaiianelectric.com/customer-service/frequently-asked-questions?FAQFilter1=845&page=1 (FAQ - Oahu parameters)",
+          "https://www.hawaiianelectric.com/products-and-services/customer-incentive-programs/fast-demand-response (main page - Maui parameters)"
+        ]
+      }
+    ],
+    "data_quality_concerns": [
+      "Event trigger thresholds are described qualitatively only - no specific numerical values for MW capacity shortage or renewable ramp-down rates (MW/minute) publicly available",
+      "Historical event data not published - cannot verify actual program behavior, event frequency, typical event durations, or actual advance notice provided from past 7 years of operation",
+      "Rule No. 31 PDF could not be parsed by automated tools - this is the authoritative tariff document but content was not accessible for verification",
+      "Discrepancies between main program page and FAQ page on annual payment amounts and event parameters required reconciliation",
+      "Hawaii Island (Big Island) program availability not documented - only Oahu and Maui explicitly mentioned",
+      "Minimum performance requirements not explicitly stated - unclear if there are thresholds below which capacity payments are reduced",
+      "API/telemetry integration requirements not publicly documented - would require direct contact with Hawaiian Electric for technical specifications"
+    ]
+  },
+  "research_summary": {
+    "research_date": "2025-10-11",
+    "researcher_notes": "Comprehensive research conducted across multiple Hawaiian Electric official sources and third-party documentation. Fast DR is a unique and sophisticated demand response program designed specifically for Hawaii's isolated island grids and high renewable energy penetration challenges. KEY FINDINGS: (1) 10-minute response time is one of fastest DR programs in US, requiring full automation, (2) Island-specific parameters create different operational models (Oahu: predictable weekday peaks vs Maui: 24/7 emergency capability), (3) Payment structure is clear and attractive: $60/kW-year capacity + $0.50/kWh performance, (4) Hawaiian Electric funds enabling technology reducing participant barriers, (5) Program specifically addresses renewable intermittency not just summer peak load. CRITICAL DESIGN FEATURE: Backup generators prohibited on Oahu but allowed on Maui - this is a major operational difference affecting eligible resource strategies. REGULATORY CONTEXT: Program approved after extensive 2-year PUC review process, demonstrating strong regulatory support. Third-party aggregator participation supported through GSPA contracts. DATA GAPS: Historical event frequency and timing data not available, making it impossible to estimate actual performance payment revenue from past behavior. Event trigger thresholds not publicly specified. These gaps significantly impact ability to model expected program revenues and would require direct Hawaiian Electric engagement (energyscout@hawaiianelectric.com) for operational planning. BATTERY SUITABILITY: Program is extremely well-suited for battery storage given: fast response capability, automated dispatch compatibility, predictable capacity revenue, attractive performance payments, and Hawaii's high electricity rates making grid services valuable. However, 10-minute response requires sophisticated automation and real-time state-of-charge management that may be challenging for some battery operators.",
+    "verification_status": "All data points extracted from official Hawaiian Electric sources, Hawaii PUC documentation, or authoritative third-party sources (Utility Dive, Sandia National Labs). No data invented or estimated except where explicitly noted as assumptions. Fields marked 'not specified' or 'not available' represent genuine data gaps in public documentation. Reconciled conflicting information between main program page and FAQ by using more detailed FAQ documentation as authoritative source.",
+    "recommended_next_steps": [
+      "Contact Hawaiian Electric DR Team (energyscout@hawaiianelectric.com) to obtain:",
+      "- Historical event log (dates, times, durations, advance notice) for 2018-2024",
+      "- Specific event trigger criteria (MW thresholds, renewable ramp rates)",
+      "- API/telemetry technical requirements for automated battery dispatch",
+      "- Actual program participation statistics (number of participants, total enrolled MW)",
+      "- Detailed baseline calculation examples and edge case handling",
+      "- Clarification on minimum performance requirements for capacity payments",
+      "- Hawaii Island (Big Island) program availability status",
+      "Review Rule No. 31 tariff document directly (PDF parsing failed but document is public)",
+      "Request access to participant portal to understand performance tracking interface",
+      "Interview existing Fast DR participants to understand actual operational experience",
+      "Analyze Hawaiian Electric Grid Service Purchase Agreement (GSPA) contracts for aggregator participation requirements",
+      "Monitor Hawaii PUC Docket 2015-0412 for any program modifications or updates",
+      "Research Hawaiian Electric's renewable energy integration challenges to better understand event trigger patterns"
+    ],
+    "confidence_level": "medium-high",
+    "confidence_explanation": "Medium-high confidence in extracted data due to multiple official Hawaiian Electric sources confirming payment rates, response time requirements, island-specific parameters, eligibility, and enrollment process. Program structure and key features are well-documented and consistent across sources. Confidence reduced by: (1) inability to parse Rule No. 31 PDF, (2) lack of historical event data to validate actual program operations, (3) conflicting information between sources requiring reconciliation, (4) missing event trigger thresholds, (5) gaps in technical integration requirements. Overall, sufficient data available for initial program evaluation and enrollment decision, but detailed operational planning and revenue forecasting would require additional information from Hawaiian Electric."
+  }
+}

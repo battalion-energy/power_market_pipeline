@@ -1,0 +1,73 @@
+{
+  "program_id": "ARKANSAS-SWEPCO-LOAD-MANAGEMENT-STANDARD-OFFER-PATHWAY",
+  "program_name": "Load Management Standard Offer Pathway",
+  "utility": "Southwestern Electric Power Company (SWEPCO)",
+  "state": "Arkansas",
+  "iso_rto_territory": "SPP",
+  "program_type": "utility",
+  "status": "active",
+  "payment_structure": {
+    "capacity_payment": {
+      "rate": "not available",
+      "billing_frequency": "not available",
+      "notes": "Incentives are based on verified peak demand (kW) savings. Specific $/kW rate not publicly disclosed. Contact Greg Perkins at 479.973.2435 for rate information."
+    },
+    "performance_payment": {
+      "rate": "not available",
+      "conditions": "Payment based on verified kW reduction during interruption events"
+    },
+    "bill_credit": {
+      "rate": "not applicable",
+      "structure": "not applicable"
+    }
+  },
+  "event_parameters": {
+    "notification_time": "at least 1 hour",
+    "event_duration": "up to 4 hours",
+    "event_window": "1:00 PM - 7:00 PM",
+    "max_events_per_month": "3 weekdays",
+    "max_events_per_season": "not specified",
+    "max_hours_per_season": "not specified",
+    "seasons": ["summer"],
+    "participation_period": "June 1 - September 30",
+    "scheduled_test_events": "1 at beginning of performance period"
+  },
+  "eligibility": {
+    "customer_classes": ["commercial", "industrial"],
+    "minimum_load": "50 kW peak demand",
+    "required_equipment": ["interval data recorder meter"],
+    "geographic_restrictions": ["Must be located on SWEPCO's Arkansas distribution system"],
+    "excluded_customers": []
+  },
+  "baseline_methodology": "not available",
+  "measurement_and_verification": {
+    "method": "Verified peak demand (kW) savings at customer site during interruption",
+    "meter_requirements": "Interval data recorder meter required",
+    "verification_process": "SWEPCO verification process (details not specified)"
+  },
+  "enrollment_process": {
+    "application_required": true,
+    "agreement_required": true,
+    "contact_person": "Greg Perkins",
+    "contact_email": "not provided",
+    "contact_phone": "479.973.2435"
+  },
+  "battery_suitability": {
+    "rating": "Good",
+    "justification": "This program is suitable for battery energy storage systems (BESS) with several positive characteristics: (1) Only 1-hour advance notice required, which is manageable for battery dispatch, (2) Events limited to 4 hours max duration, well within typical BESS capabilities, (3) Events occur during afternoon/early evening peak hours (1-7 PM) when batteries are typically charged, (4) Limited to 3 events per month maximum, allowing revenue predictability, (5) 50 kW minimum makes it accessible to medium-sized BESS installations. However, rating is 'Good' rather than 'Excellent' because: (a) Payment rate not publicly disclosed - cannot assess revenue potential, (b) No information on whether battery charging is explicitly allowed or how it affects baseline, (c) Unclear if batteries can participate in SPP wholesale markets simultaneously, (d) Summer-only program (June-September) limits annual revenue opportunity. The program appears designed for load curtailment/shifting rather than specifically for storage, but batteries can effectively provide the required load reduction through discharge."
+  },
+  "program_interactions": {
+    "wholesale_market_participation": "not specified",
+    "stacking_allowed": "not specified",
+    "restrictions": "not specified"
+  },
+  "data_sources": [
+    "https://www.swepcosavings.com/commercial/load-management",
+    "https://www.swepcosavings.com",
+    "Web searches for SWEPCO tariffs and program documentation"
+  ],
+  "research_notes": "Key findings: Program exists and is active with clear event parameters (1-hour notice, 4-hour max events, 3 events/month max, summer only June-Sept, 1-7 PM window). However, critical payment information is not publicly available. The program website and all search results consistently indicate that specific incentive rates ($/kW) must be obtained by contacting the program coordinator Greg Perkins at 479.973.2435. Attempted to access SWEPCO's Arkansas tariff PDF but document was not readable/parsable. No program manual or application form was publicly accessible online. The program appears to be geared toward large commercial/industrial customers with controllable loads, though battery storage is not explicitly mentioned. Baseline methodology is not disclosed publicly. No information found regarding interaction with SPP wholesale markets. The short notice period (1 hour) and afternoon event window align well with battery discharge capabilities, but the lack of transparent pricing makes revenue modeling impossible without direct utility contact.",
+  "research_date": "2025-10-11",
+  "research_quality_score": 5,
+  "research_quality_notes": "Score of 5/10 reflects: Successfully found (+) event parameters (notification, duration, frequency, timing, season), eligibility requirements, minimum load, meter requirements, contact information. Failed to find (-) payment rates (critical missing data), baseline methodology, battery-specific rules, wholesale market interaction rules, stacking permissions, application forms, program manual. The most critical data gap is the payment rate, which is essential for economic analysis but requires direct utility contact to obtain."
+}

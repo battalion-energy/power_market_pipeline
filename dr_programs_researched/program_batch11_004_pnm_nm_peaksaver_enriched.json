@@ -1,0 +1,336 @@
+{
+  "program_id": "PNM-NM-PEAK-SAVER",
+  "program_name": "Peak Saver Program",
+  "program_type": "utility",
+  "status": "active",
+  "research_completed_date": "2025-10-12",
+  "data_quality_score": 4,
+  "description": "Peak Saver is PNM's demand response program for large commercial and industrial customers in New Mexico. The program targets non-essential electric loads that can be reduced during periods of peak system demand. Participants receive annual incentives for reducing electricity demand during called events. The program has been operating since 2008 and is administered by Itron Inc. as a third-party contractor (previously managed by Enbala Power Networks). Events are called only when needed to maintain grid reliability, typically during summer afternoons.",
+
+  "geography": {
+    "states": ["NM"],
+    "utilities": ["Public Service Company of New Mexico (PNM)"],
+    "isos": [],
+    "service_territories": ["PNM service territory in New Mexico"],
+    "notes": "PNM serves portions of New Mexico including Albuquerque and surrounding areas"
+  },
+
+  "eligibility": {
+    "customer_classes": {
+      "residential": false,
+      "commercial": true,
+      "industrial": true,
+      "institutional": true,
+      "size_threshold_notes": "Customers on specific rate classes: 4B, 5B, 11B, 15B, 30B, and 35B. Also businesses with peak demand greater than 50kW on rate 3B."
+    },
+    "behind_the_meter": true,
+    "front_of_meter": false,
+    "minimum_capacity_kw": 50,
+    "maximum_capacity_kw": "not available",
+    "resource_types": [
+      "load curtailment",
+      "HVAC modification",
+      "manufacturing process adjustment",
+      "lighting reduction",
+      "non-essential equipment shutdown"
+    ],
+    "requires_aggregator": false,
+    "aggregator_name": "not applicable",
+    "notes": "Itron Inc. administers the program as third-party contractor. PNM works with businesses to identify curtailable electric load and measure/verify facility performance. Battery storage eligibility not explicitly mentioned in program documentation."
+  },
+
+  "notification": {
+    "day_ahead_notice": false,
+    "minimum_notice_hours": 0.167,
+    "maximum_notice_hours": "not available",
+    "notification_methods": ["email", "phone", "other"],
+    "notification_notes": "At least 10 minutes advance notice before event start. In many cases, information about possible events can be provided many hours in advance. Businesses always have the option to withdraw from an event if operational constraints prevent participation."
+  },
+
+  "payment_structure": {
+    "has_capacity_payment": true,
+    "has_performance_payment": false,
+    "capacity_rate": {
+      "value": "not available",
+      "unit": "not available",
+      "varies_by_season": false,
+      "seasonal_rates": [],
+      "notes": "Annual incentives provided based on amount of electricity managed during participation. Specific payment rates not publicly disclosed."
+    },
+    "performance_rate": {
+      "value": "not available",
+      "unit": "not available",
+      "varies_by_season": false,
+      "varies_by_time": false,
+      "notes": "Program provides annual incentives rather than per-event performance payments"
+    },
+    "penalty_structure": {
+      "has_penalties": "not available",
+      "penalty_rate": "not available",
+      "penalty_unit": "not available",
+      "penalty_description": "Participants can withdraw from events if operational constraints prevent participation - suggests penalties may not be strictly enforced"
+    },
+    "bonus_payments": [],
+    "forward_curve_available": false,
+    "forward_curve_url": "not available",
+    "payment_notes": "Annual incentive structure based on enrolled capacity and performance. Specific dollar amounts not publicly disclosed. Contact Joel Fisher (Itron) at joel.fisher@itron.com or 480-966-4739 for program details."
+  },
+
+  "seasons": [
+    {
+      "season_name": "Summer",
+      "start_date": "06-01",
+      "end_date": "09-30",
+      "max_events": "not available",
+      "max_hours": 100,
+      "notes": "Program operates primarily during summer peak demand periods June 1 - September 30, with events between 1 PM - 8 PM Monday-Friday. Can address peak demand requirements for up to 100 hours per year."
+    }
+  ],
+
+  "call_windows": [
+    {
+      "window_id": "summer_afternoon",
+      "start_hour": 13,
+      "end_hour": 20,
+      "days_of_week": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      "seasons": ["Summer"],
+      "timezone": "America/Denver",
+      "notes": "Events called 1 PM - 8 PM weekdays during June-September. Excludes holidays and weekends."
+    }
+  ],
+
+  "event_parameters": {
+    "typical_duration_hours": "not available",
+    "minimum_duration_hours": "not available",
+    "maximum_duration_hours": "not available",
+    "event_granularity_minutes": "not available",
+    "response_time_minutes": 10,
+    "max_events_per_season": "not available",
+    "max_events_per_year": "not available",
+    "max_hours_per_season": 100,
+    "max_hours_per_year": 100,
+    "max_consecutive_events": "not available",
+    "minimum_rest_hours": "not available",
+    "notes": "Up to 100 hours per year during summer months. At least 10 minutes notification provided before events."
+  },
+
+  "event_triggers": {
+    "trigger_description": "Events are called when PNM experiences high peak demand and anticipates the need for demand-side resources. System operators call demand response events only when needed for grid reliability during summer peak demand periods.",
+    "primary_trigger": "grid_stress_peak_demand",
+    "secondary_triggers": ["high_temperature", "supply_shortage"],
+    "temperature_threshold": "not available",
+    "price_threshold": "not available",
+    "examples": "Events typically called during hottest summer days in New Mexico, primarily July-August afternoons"
+  },
+
+  "nomination_bidding": {
+    "requires_nomination": true,
+    "nomination_frequency": "not available",
+    "nomination_deadline": "not available",
+    "allows_price_bidding": false,
+    "bidding_structure": "not applicable",
+    "enrollment_period": {
+      "start_date": "not available",
+      "end_date": "not available",
+      "recurring": "not available"
+    },
+    "notes": "Enrollment appears ongoing. Contact Joel Fisher at Itron (joel.fisher@itron.com, 480-966-4739) for enrollment process. PNM works with each business to identify curtailable loads and establish baseline."
+  },
+
+  "special_programs": {
+    "is_rec_based": false,
+    "rec_type": "not applicable",
+    "scheduled_dispatch": false,
+    "clean_peak_standard": false,
+    "special_attributes": [
+      "Environmentally friendly - reduces greenhouse gas emissions",
+      "Helps businesses save energy and money",
+      "Flexibility to withdraw from events if operational constraints exist",
+      "Third-party measurement and verification by Itron"
+    ]
+  },
+
+  "program_history": {
+    "launch_year": 2008,
+    "program_evolution": [
+      {
+        "year": 2008,
+        "change_description": "PNM Peak Saver load management program launched. Program has been operating continuously since inception."
+      },
+      {
+        "year": 2017,
+        "change_description": "Enbala Power Networks selected to manage and administer Peak Saver program, pending NMPRC approval."
+      },
+      {
+        "year": 2018,
+        "change_description": "Enbala began managing existing 15 MW under control and marketing program to add additional capacity."
+      },
+      {
+        "year": 2020,
+        "change_description": "Peak Saver included in 2021 Energy Efficiency and Load Management Program Plan filed with NMPRC (Case No. 19-00195-UT)."
+      },
+      {
+        "year": 2024,
+        "change_description": "Program currently administered by Itron Inc. as third-party contractor. Program remains active for eligible commercial/industrial customers."
+      }
+    ],
+    "budget_committed_through": "not available",
+    "total_annual_budget": "not available",
+    "notes": "Program has operated successfully since 2008 with multiple administrator transitions. Has successfully dispatched load management resources during each summer season since inception."
+  },
+
+  "historical_events": [],
+
+  "case_studies": [],
+
+  "related_programs": {
+    "power_saver_residential": {
+      "program_name": "Power Saver (Residential)",
+      "description": "Separate residential program for air conditioning control",
+      "customer_type": "residential",
+      "payment_structure": "$25 sign-up bonus + $25 annual thank you check",
+      "status": "active",
+      "notes": "This is a different program from Peak Saver - designed for residential customers with AC systems"
+    }
+  },
+
+  "verification_sources": [
+    {
+      "source_name": "PNM Peak Saver Program Page",
+      "url": "https://www.pnm.com/peaksaver",
+      "accessed_date": "2025-10-12",
+      "document_type": "program webpage",
+      "fields_verified": [
+        "eligibility_requirements",
+        "customer_types",
+        "rate_classes",
+        "notification_procedures",
+        "program_administration",
+        "contact_information"
+      ]
+    },
+    {
+      "source_name": "PRWeb - Enbala Selected to Manage PNM Peak Saver",
+      "url": "http://www.prweb.com/releases/2017/05/prweb14316900.htm",
+      "accessed_date": "2025-10-12",
+      "document_type": "press release",
+      "fields_verified": [
+        "program_launch_year_2008",
+        "enbala_selection_2017",
+        "existing_capacity_15MW"
+      ]
+    },
+    {
+      "source_name": "New Mexico Grid Modernization Advisory Group - Rate Design Presentation",
+      "url": "https://www.emnrd.nm.gov/ecmd/wp-content/uploads/sites/3/RateDesign_1.29.21.pdf",
+      "accessed_date": "2025-10-12",
+      "document_type": "regulatory presentation",
+      "fields_verified": [
+        "program_existence",
+        "summer_season_operation"
+      ]
+    },
+    {
+      "source_name": "PNM 2021 Energy Efficiency and Load Management Program Plan",
+      "url": "https://www.pnm.com/documents/28767612/28938760/PNM+Exhibit+ZRJ-(2021+Plan).pdf",
+      "accessed_date": "2025-10-12",
+      "document_type": "regulatory filing",
+      "fields_verified": [
+        "program_continuation",
+        "peak_saver_included_in_plan"
+      ]
+    }
+  ],
+
+  "data_gaps_and_limitations": {
+    "missing_critical_data": [
+      "Specific payment rates ($/kW-year or $/kW-month)",
+      "Battery energy storage system explicit eligibility",
+      "Maximum number of events per year",
+      "Penalty structure for non-performance",
+      "Event duration parameters",
+      "Nomination and enrollment deadlines",
+      "Historical event log with dates and performance",
+      "Current enrolled capacity and participant count",
+      "Event granularity and dispatch intervals"
+    ],
+    "data_not_publicly_available": [
+      "Annual incentive payment rates - customized per participant",
+      "Detailed program tariff or contract terms",
+      "Historical event calendar and performance data",
+      "Individual participant earnings",
+      "Baseline measurement methodology",
+      "Penalty provisions if any",
+      "Current program administrator (Itron) detailed procedures"
+    ],
+    "verification_limitations": [
+      "Program webpage provides only high-level overview",
+      "Specific financial terms require direct contact with Itron/PNM",
+      "No publicly available tariff schedule found",
+      "Regulatory filings (PDF) were not fully accessible for detailed review",
+      "Battery storage eligibility not explicitly addressed in available documentation",
+      "Limited historical event information available"
+    ]
+  },
+
+  "research_notes": "Conducted web research on PNM Peak Saver program on 2025-10-12. Program is well-established (operating since 2008) but documentation is limited compared to other ISO/utility DR programs. Key findings: (1) Targets C&I customers with minimum 50 kW peak demand on eligible rate schedules; (2) Provides annual incentives but rates not disclosed publicly; (3) 10-minute minimum notification with flexibility to decline events; (4) Up to 100 hours/year during summer months (June-Sept, 1-8 PM weekdays); (5) Currently administered by Itron Inc.; (6) Battery storage eligibility not explicitly mentioned - would require direct inquiry. Contact Joel Fisher at Itron for enrollment details and payment rates. Program appears less structured than ISO-based DR programs with more flexible participation requirements. Data quality score of 4 reflects limited publicly available information on key financial parameters and operational details.",
+
+  "battery_suitability_assessment": {
+    "overall_rating": "MODERATE",
+    "rating_scale": "LOW, MODERATE, HIGH, VERY_HIGH",
+    "suitability_factors": {
+      "explicit_battery_allowed": "UNKNOWN",
+      "implicit_battery_suitability": "LIKELY",
+      "minimum_size_compatible": true,
+      "notification_time_adequate": false,
+      "event_frequency_manageable": true,
+      "payment_structure_attractive": "UNKNOWN",
+      "geographic_availability": true
+    },
+    "key_considerations": [
+      "POSITIVE: 10-minute notification provides some advance warning but may be tight for battery dispatch optimization",
+      "POSITIVE: Up to 100 hours/year is moderate commitment allowing revenue stacking with other programs",
+      "POSITIVE: Summer-only operation (June-Sept) aligns with peak arbitrage opportunities in Southwest",
+      "POSITIVE: Weekday afternoon call windows (1-8 PM) are predictable and align with typical solar + storage patterns",
+      "POSITIVE: Flexible participation - can withdraw from events if operational constraints exist",
+      "NEGATIVE: Battery storage not explicitly mentioned as eligible resource type",
+      "NEGATIVE: Payment rates not disclosed - cannot evaluate economics without contacting program administrator",
+      "NEGATIVE: Minimum 50 kW requirement relatively low but no maximum specified",
+      "NEUTRAL: Annual incentive structure (vs per-event) may be less favorable for batteries compared to performance-based payments",
+      "NEUTRAL: Program administered by third-party (Itron) rather than directly by utility"
+    ],
+    "recommended_actions": [
+      "Contact Joel Fisher at Itron (joel.fisher@itron.com, 480-966-4739) to verify battery storage eligibility",
+      "Request specific payment rate information for 1 MW, 2 MW, 5 MW battery systems",
+      "Clarify baseline measurement methodology for battery storage assets",
+      "Understand penalty structure for non-performance or declined events",
+      "Evaluate whether 10-minute notification is sufficient for battery response time",
+      "Compare economics against ERCOT or CAISO DR programs if battery is located near those markets",
+      "Assess stacking opportunities with PNM's solar programs or wholesale market participation"
+    ],
+    "revenue_potential_estimate": "UNKNOWN - Cannot estimate without payment rate information",
+    "technical_compatibility": "MODERATE - 10-minute notification is adequate for battery dispatch but tighter than typical ISO programs (30-120 minutes). Summer-only operation and predictable call windows are favorable.",
+    "regulatory_risk": "LOW - Program has operated continuously since 2008 with consistent NMPRC approval. Stable regulatory environment in New Mexico.",
+    "notes": "Battery suitability is rated MODERATE primarily due to lack of explicit documentation regarding energy storage eligibility and undisclosed payment rates. The program structure (summer peak, afternoon events, flexible participation) is technically compatible with battery operations, but economic viability cannot be assessed without payment information. PNM has shown interest in battery storage through separate grid-scale procurement efforts, suggesting utility is storage-friendly, but Peak Saver program documentation does not specifically address behind-the-meter batteries. For a definitive assessment, direct contact with program administrator is required."
+  },
+
+  "integration_metadata": {
+    "optimizer_compatible": "UNKNOWN",
+    "api_available": false,
+    "api_documentation_url": "not available",
+    "api_notes": "No indication of API access for event notifications or telemetry. Would likely require manual coordination with Itron.",
+    "data_quality_score": 4,
+    "last_verified_date": "2025-10-12",
+    "verification_thoroughness": "Moderate web research conducted. Found program overview information and historical context but unable to access detailed program documentation, tariffs, or financial terms. Primary limitation is lack of published program details beyond high-level eligibility and operations.",
+    "recommended_next_steps": [
+      "Contact Itron program administrator for detailed program terms and payment rates",
+      "Request enrollment packet and contract terms",
+      "Verify battery storage eligibility explicitly",
+      "Obtain historical event log to understand dispatch frequency",
+      "Review NMPRC case files for detailed program filings if needed",
+      "Compare against other New Mexico DR opportunities (if any exist)",
+      "Evaluate wholesale market participation as alternative/complement"
+    ],
+    "notes": "Program is established and actively operating but documentation is limited compared to ISO-administered programs. PNM service territory is relatively small compared to major ISOs, which may explain less formalized program structure. The flexibility to decline events suggests program is more relationship-based than strictly contracted, which could be positive or negative depending on participant preferences. For battery optimization purposes, this program would likely be a secondary revenue stream stacked with energy arbitrage and other services rather than primary DR program given limited hours (100/year) and undisclosed payments."
+  }
+}

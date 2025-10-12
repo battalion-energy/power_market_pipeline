@@ -1,0 +1,73 @@
+{
+  "program_id": "CALIFORNIA-SCE-OPTIONAL-BINDING-MANDATORY-CURTAILMENT",
+  "program_name": "Optional Binding Mandatory Curtailment Program (OBMC)",
+  "utility": "Southern California Edison (SCE)",
+  "state": "California",
+  "iso_rto_territory": "CAISO",
+  "program_type": "utility",
+  "status": "unclear - not listed in current DR programs but tariff sheet exists",
+  "payment_structure": {
+    "capacity_payment": {
+      "rate": "none",
+      "billing_frequency": "not applicable"
+    },
+    "performance_payment": {
+      "rate": "none",
+      "conditions": "no monetary incentive provided"
+    },
+    "bill_credit": {
+      "rate": "none",
+      "structure": "exemption from rotating outages only"
+    },
+    "penalty": {
+      "rate": "$6.00/kWh",
+      "conditions": "excess energy charge for failing to achieve required 15% circuit load reduction"
+    }
+  },
+  "event_parameters": {
+    "notification_time": "as little as 10 minutes",
+    "event_duration": "approximately 1 hour",
+    "max_events_per_season": "not available",
+    "max_hours_per_season": "not available",
+    "seasons": [
+      {
+        "name": "Summer",
+        "period": "12:00 a.m. June 1 - 12:00 a.m. October 1"
+      },
+      {
+        "name": "Winter",
+        "period": "all other periods"
+      }
+    ],
+    "trigger": "Energy Emergency Alert Level 3 (rotating outage events)"
+  },
+  "eligibility": {
+    "customer_classes": [
+      "commercial",
+      "industrial",
+      "agricultural"
+    ],
+    "minimum_load": "must be able to reduce entire circuit load by up to 15% (in 5% increments)",
+    "excluded_customers": [],
+    "requirements": [
+      "must submit and obtain SCE approval of an OBMC Plan",
+      "must be able to reduce load during every rotating outage"
+    ]
+  },
+  "baseline_methodology": "10-day average of prior year's same month average peak period load, with optional Day-Of adjustment capped at 20%, measured symmetrically",
+  "battery_suitability": {
+    "rating": "Poor",
+    "justification": "This program is fundamentally unsuitable for battery storage operations because: (1) No monetary incentive - only exemption from rotating outages, which provides no revenue; (2) Requires 15% load reduction on entire circuit, which would require extremely large battery capacity relative to circuit load; (3) Events are emergency-only with as little as 10 minutes notice, making it impossible to optimize battery charging/discharging schedules; (4) Binding commitment required for every rotating outage creates operational risk; (5) $6.00/kWh penalty for non-performance is extremely high; (6) Battery storage not explicitly mentioned as eligible; (7) Program appears to be inactive or de-emphasized as it's not listed in SCE's current DR program lineup despite having a tariff sheet. This is clearly designed for industrial/commercial facilities with large controllable loads (e.g., manufacturing, pumping), not for battery arbitrage operations."
+  },
+  "data_sources": [
+    "https://www.sce.com/business/savings-incentives/demand-response/eligibility",
+    "http://www.sce.com/business/save-costs-energy/savings-strategies-for-businesses/what-is-demand-response/demand-response-eligibility",
+    "https://www.sce.com/factsheet/optional-binding-mandatory-curtailment",
+    "http://www.sce.com/outages-safety/outage-preparedness/outage-types/rotating-outage",
+    "http://www.sce.com/business/save-costs-energy/savings-strategies/what-is-demand-response"
+  ],
+  "research_notes": "CRITICAL FINDINGS: (1) This program offers NO monetary payment or bill credits - only exemption from rotating outages; (2) Program requires binding commitment to reduce entire circuit load by 15% during EVERY rotating outage with only 10 minutes notice; (3) Very high penalty of $6.00/kWh for non-performance; (4) Program status is unclear - it has a tariff sheet and fact sheet but is NOT listed in SCE's current DR programs page (as of 2025), suggesting it may be inactive, sunset, or only available by special arrangement; (5) Rotating outages are rare emergency events (not regular scheduled DR events) triggered only during Energy Emergency Alert Level 3; (6) Events last approximately 1 hour; (7) No mention of battery storage eligibility; (8) Designed for large industrial/commercial customers who can independently or in aggregate reduce circuit load; (9) Requires pre-approved OBMC Plan submission. RECOMMENDATION: This program should likely be marked as 'inactive' or 'legacy' rather than 'active' given its absence from current program listings. Consider researching SCE's Emergency Load Reduction Program (ELRP) instead, which is currently active and may be more suitable for battery operations.",
+  "research_date": "2025-10-11",
+  "research_quality_score": 7,
+  "research_quality_notes": "Score of 7 reflects: Good information on penalty rates, baseline methodology, eligibility requirements, and event notification times. However, missing key details on: (1) exact minimum load requirements in kW; (2) maximum events per season; (3) battery storage explicit eligibility; (4) current program status (active vs inactive); (5) unable to access full tariff PDF. The program's absence from current DR program listings is a significant concern about its active status."
+}

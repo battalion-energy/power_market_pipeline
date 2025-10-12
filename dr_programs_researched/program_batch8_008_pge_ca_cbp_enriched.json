@@ -1,0 +1,77 @@
+{
+  "program_id": "CALIFORNIA-PGE-CAPACITY-BIDDING-PROGRAM",
+  "program_name": "Capacity Bidding Program (CBP)",
+  "utility": "PG&E",
+  "state": "California",
+  "iso_rto_territory": "CAISO",
+  "program_type": "utility",
+  "status": "active",
+  "payment_structure": {
+    "capacity_payment": {
+      "rate": "CPUC-approved rate in Schedule E-CBP tariff (specific $/kW-month rates not publicly disclosed in web sources; likely based on CAISO market rates which exceeded $13/kW-month in 2023, with CPM soft offer cap at $7.34/kW-month as of June 2024)",
+      "billing_frequency": "monthly",
+      "recipient": "paid to aggregator, who determines customer compensation independently"
+    },
+    "performance_payment": {
+      "rate": "Energy payment for event curtailment (specific $/kWh not disclosed)",
+      "conditions": "If no CBP Events called during operation month, monthly energy payment is zero"
+    },
+    "penalty": {
+      "rate": "$6.00/kWh",
+      "conditions": "Charged to aggregator for energy usage over FSL (Firm Service Level) during curtailment; penalty severity varies based on shortfall magnitude"
+    }
+  },
+  "event_parameters": {
+    "notification_time": "Day-ahead notification by 5 PM",
+    "event_duration": "Maximum 4 hours per event",
+    "max_events_per_day": "1 event maximum",
+    "max_events_per_month": "More than 6 events per month allowed under 'Elect' option",
+    "max_events_per_season": "not specified",
+    "max_hours_per_season": "not specified",
+    "seasons": ["Summer (May 1 - October 31)"],
+    "event_trigger": "Triggered when PG&E receives market award from CAISO for a PDR (Proxy Demand Resource) based on aggregator's offer price for nominated portfolio"
+  },
+  "eligibility": {
+    "customer_classes": [
+      "residential",
+      "commercial",
+      "industrial",
+      "agricultural"
+    ],
+    "minimum_load": "100 kW aggregate per PDR (PG&E combines multiple customers via aggregator to meet CAISO requirement)",
+    "meter_requirements": "Interval Meter (MV90 or SmartMeter) recording 15-minute intervals, remotely readable by PG&E",
+    "eligible_customer_types": [
+      "Bundled",
+      "Direct Access",
+      "CCA (Community Choice Aggregation)",
+      "Partial standby",
+      "Net metered",
+      "Auto DR"
+    ],
+    "excluded_customers": [
+      "Customers receiving power from WAPA or other 3rd parties not DA/CCA",
+      "Full standby customers",
+      "NEMCCSF rate schedule customers"
+    ]
+  },
+  "baseline_methodology": "FSL (Firm Service Level) methodology; similar programs use 10-day baseline (Monday-Friday, excluding PG&E holidays and event days) with optional day-of adjustment (+/- 20% cap based on first 3 of 4 hours prior to event); FSL can be no more than 85% of customer's highest monthly maximum demand during summer on-peak and winter partial-peak periods over past 12 months",
+  "program_structure": {
+    "enrollment": "Aggregator-managed program; customers enrolled through third-party aggregators",
+    "aggregator_role": "Aggregator submits monthly capacity nominations, determines customer incentives, manages portfolio, submits offer prices to CAISO, and bears penalty risk for underperformance",
+    "caiso_integration": "Tied to CAISO PDR (Proxy Demand Resource) market awards; events triggered by day-ahead market results"
+  },
+  "battery_suitability": {
+    "rating": "Excellent",
+    "justification": "Battery storage is highly suitable for CBP due to: (1) Day-ahead notification (by 5 PM) provides sufficient time for battery scheduling and SOC management; (2) 4-hour maximum event duration aligns well with typical commercial battery systems (2-4 hour duration); (3) Program explicitly allows all customer types including Net metered and Auto DR, indicating technology-agnostic approach; (4) No minimum load per customer (only 100 kW aggregate PDR requirement) enables smaller batteries to participate via aggregation; (5) Battery can precisely control discharge to stay below FSL, minimizing penalty risk; (6) Integration with CAISO wholesale markets (PDR) means batteries can potentially stack value with energy arbitrage and ancillary services; (7) Summer-only program (May-Oct) aligns with peak demand season when battery economics are strongest; (8) Aggregator model provides professional management of complex CAISO market interactions; (9) 15-minute interval metering matches battery telemetry capabilities; (10) FSL baseline methodology (85% of peak demand) is favorable for batteries which can reliably deliver full nameplate discharge capacity."
+  },
+  "data_sources": [
+    "https://www.pge.com/en/save-energy-and-money/energy-saving-programs/demand-response-programs/business-programs.html#cbp",
+    "https://www.pge.com/en_US/large-business/save-energy-and-money/energy-management-programs/energy-incentives/third-party-programs-capacity-bidding.page",
+    "https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_E-CBP.pdf",
+    "https://docs.cpuc.ca.gov/published/Final_resolution/61087.htm"
+  ],
+  "research_notes": "Key findings: (1) CBP is fundamentally a wholesale market participation program - aggregators bid customer load reductions into CAISO day-ahead PDR market; (2) Specific $/kW capacity rates are CPUC-approved but not disclosed in web sources, likely vary based on market conditions; CAISO system capacity exceeded $13/kW-month in 2023; (3) Energy payments similarly not disclosed but tied to CAISO market clearing prices; (4) FSL penalty structure ($6/kWh for over-consumption) creates strong incentive for precise load reduction - batteries excel at this precision; (5) Program operates May-October only, no winter events; (6) Aggregator bears financial risk and manages CAISO complexity, making this accessible to customers; (7) CAISO PDR minimum 100 kW enables small batteries to participate via aggregation; (8) Program integrates with broader CAISO demand response ecosystem including resource adequacy; (9) No explicit battery storage exclusions found; residential eligibility suggests behind-the-meter systems are allowed; (10) Relationship to other PG&E programs unclear - customers should evaluate CBP vs Base Interruptible Program vs direct CAISO participation vs retail arbitrage opportunities. Alternative consideration: Larger battery systems (>1 MW) might achieve better economics through direct CAISO market participation as non-generator resources (NGR) or Proxy Demand Resources rather than through utility aggregator programs.",
+  "research_date": "2025-10-11",
+  "research_quality_score": 6,
+  "research_quality_notes": "Moderate completeness: (1) Program structure, eligibility, and event parameters well documented; (2) Critical gap: specific capacity payment rates ($/kW-month) not accessible - Schedule E-CBP PDF could not be extracted; (3) Critical gap: energy payment rates ($/kWh) not disclosed in public sources; (4) Baseline methodology inferred from similar programs but CBP-specific FSL calculation details not confirmed; (5) CAISO PDR context well researched with CPM soft offer cap ($7.34/kW-month) providing benchmark; (6) Battery eligibility inferred from program design and lack of exclusions rather than explicit statement; (7) Aggregator compensation structure confirmed but rates are privately negotiated; (8) No customer case studies or actual participation data found; (9) Tariff document exists but specific rates require direct access to readable PDF; (10) Score of 6/10 reflects good understanding of program mechanics but missing critical financial details needed for ROI analysis."
+}

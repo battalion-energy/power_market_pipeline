@@ -1,0 +1,81 @@
+{
+  "program_id": "CALIFORNIA-SCE-SUMMER-DISCOUNT-PLAN",
+  "program_name": "Summer Discount Plan",
+  "utility": "Southern California Edison (SCE)",
+  "state": "California",
+  "iso_rto_territory": "CAISO",
+  "program_type": "utility",
+  "status": "active",
+  "description": "Voluntary demand response program where businesses earn bill credits by allowing SCE to cycle their central air conditioning units during energy events. Not designed for battery storage participation.",
+  "payment_structure": {
+    "capacity_payment": {
+      "rate": "not applicable",
+      "billing_frequency": "not applicable"
+    },
+    "performance_payment": {
+      "rate": "not applicable",
+      "conditions": "not applicable"
+    },
+    "bill_credit": {
+      "rate": "Up to $145/year per A/C unit (100% cycling), $50/year (50% cycling), or $10/year (30% cycling)",
+      "structure": "Fixed annual credit per enrolled A/C unit based on cycling level selected. Credits applied June 1 to October 1. Prorated for enrollment after June 1. Credits cannot exceed distribution and generation charges."
+    }
+  },
+  "event_parameters": {
+    "notification_time": "Variable - courtesy alerts available via app, email, text, or phone",
+    "event_duration": "up to 6 hours per day",
+    "max_events_per_season": "not specified",
+    "max_hours_per_season": "180 total cycling hours per year",
+    "seasons": ["year-round, 24/7"]
+  },
+  "eligibility": {
+    "customer_classes": ["commercial", "industrial"],
+    "minimum_load": "0.2 kWh per A/C ton during at least one event per calendar year (also requires minimum 1.5 kWh usage during at least one event per calendar year)",
+    "excluded_customers": [
+      "Customers enrolled in Critical Peak Pricing (CPP)",
+      "Customers enrolled in Capacity Bidding Program (CBP)",
+      "Customers enrolled in Time of Use Base Interruptible Program (TOU-BIP)",
+      "Customers enrolled in Smart Energy Program",
+      "Tenants without property owner approval",
+      "Premises with employees sensitive to temperature changes (not recommended)"
+    ],
+    "required_equipment": [
+      "Central A/C units in good working order",
+      "Edison SmartConnect meter or interval data recorder (IDR) meter",
+      "Free cycling device installed by SCE"
+    ]
+  },
+  "baseline_methodology": "Credits calculated based on A/C unit tonnage using formula: Single Phase (Amps x Volts)/1,400 + 0.09 = Tons. Credit amount depends on cycling option selected (100%, 50%, or 30% cycling).",
+  "technical_requirements": {
+    "cycling_options": [
+      {
+        "name": "Maximum Savings",
+        "cycling_rate": "100% (compressor shut off 100% of time during events)",
+        "credit": "up to $145/year per unit"
+      },
+      {
+        "name": "Good Value",
+        "cycling_rate": "50% (compressor shut off 15 min per 30 min)",
+        "credit": "up to $50/year per unit"
+      },
+      {
+        "name": "Maximum Comfort",
+        "cycling_rate": "30% (compressor shut off 9 min per 30 min)",
+        "credit": "up to $10/year per unit"
+      }
+    ],
+    "participation_terms": "One-year minimum participation. Cannot re-enroll for 12 months after dis-enrollment."
+  },
+  "battery_suitability": {
+    "rating": "Poor",
+    "justification": "This program is exclusively designed for direct load control of central air conditioning units through cycling devices installed by SCE. Battery energy storage systems are not eligible for enrollment. The program requires physical A/C equipment with compressor cycling capability, not behind-the-meter generation or storage resources. Battery owners should instead consider SCE's other programs like SGIP (Self Generation Incentive Program) for storage incentives, or Capacity Bidding Program (CBP) for demand response participation. The program explicitly excludes customers enrolled in CPP and CBP, which are more suitable for battery operations."
+  },
+  "data_sources": [
+    "http://www.sce.com/business/save-costs-energy/enroll-in-cost-savings-programs/summer-discount-plan",
+    "https://www.sce.com/customer-service-center/help-center/rebate-savings/summer-discount-plan/sdp-faq"
+  ],
+  "research_notes": "This is a traditional A/C cycling program, not a battery DR program. Key findings: (1) Program requires installation of SCE-provided cycling device on A/C compressor; (2) Credits are fixed annual amounts per unit, not based on actual load reduction or kW/kWh delivered; (3) Customers cannot participate in CBP or CPP simultaneously, which would be the actual battery-relevant programs; (4) The 'baseline methodology' is simply A/C tonnage calculation, not a demand baseline like CBL used in performance-based DR programs; (5) Net metering credits may offset SDP credits. For battery DR catalog purposes, this program should be marked as 'not applicable for battery storage' - it's an equipment-specific direct load control program. Alternative SCE programs for batteries: Capacity Bidding Program (CBP), Critical Peak Pricing (CPP), and SGIP (for incentives, not DR).",
+  "research_date": "2025-10-11",
+  "research_quality_score": 9,
+  "research_quality_notes": "Comprehensive information available on program structure, credits, and eligibility. Clear exclusion criteria. Only minor gap is lack of specific max events per year (only max hours specified). Battery applicability is definitively 'not applicable' based on program design."
+}

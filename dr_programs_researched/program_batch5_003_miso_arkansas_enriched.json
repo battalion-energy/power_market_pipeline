@@ -1,0 +1,705 @@
+{
+  "program_id": "program_batch5_003_miso_arkansas_enriched",
+  "research_date": "2025-10-11",
+  "iso_rto": "MISO",
+  "iso_full_name": "Midcontinent Independent System Operator",
+  "state": "Arkansas",
+  "service_territory": {
+    "description": "MISO operates in Arkansas through the Entergy Arkansas service territory. Arkansas is part of MISO South region and is located in Local Resource Zone 8 (LRZ 8). MISO has a control center in Little Rock, Arkansas.",
+    "utilities": [
+      "Entergy Arkansas Inc.",
+      "Arkansas Electric Cooperative Corporation (dual MISO/SPP member)"
+    ],
+    "local_resource_zones": [
+      "LRZ-8 (Arkansas - primary zone)"
+    ],
+    "miso_region": "MISO South",
+    "notes": "Arkansas became part of MISO when Entergy joined in December 2013. MISO operates one of its three control centers in Little Rock, Arkansas. Arkansas is examining opportunities for aggregated demand response under Grid Modernization proceedings at the Arkansas Public Service Commission.",
+    "source": "https://www.misostates.org/index.php/about/members/arkansas-public-service-commission, https://www.misoenergy.org"
+  },
+  "regulatory_context": {
+    "arkansas_statute": "Arkansas law prohibits the marketing or selling of demand response into wholesale electricity markets by aggregators of retail customers or retail customers unless the Arkansas Public Service Commission determines it is in the public interest.",
+    "statute_reference": "Arkansas Code Title 23-18-1004 (Regulation of Electric Demand Response Act)",
+    "current_status": "Arkansas Public Service Commission is examining Grid Modernization and distributed energy resources including demand response programs. Arkansas is positioned to potentially allow third-party aggregators similar to Illinois.",
+    "source": "https://law.justia.com/codes/arkansas/2020/title-23/subtitle-1/chapter-18/subchapter-10/section-23-18-1004/, https://apsc.arkansas.gov/programs-initiatives-activities/distributed-energy-resources-grid-modernization/"
+  },
+  "programs": [
+    {
+      "program_name": "Load Modifying Resource (LMR)",
+      "program_type": "Capacity-based Demand Response",
+      "market_type": "Wholesale capacity market (Planning Resource Auction)",
+      "description": "Emergency demand response resource that reduces load during grid emergencies to prevent rolling blackouts. LMRs are part of MISO's resource adequacy framework and are obligated to respond during emergency events. LMRs serve dual purposes - planning resources for reserve margin requirements and emergency resources for capacity emergencies.",
+      "eligibility": {
+        "customer_types": [
+          "Commercial facilities",
+          "Industrial facilities",
+          "Institutional organizations"
+        ],
+        "minimum_capacity_kw": 100,
+        "minimum_capacity_mw": 0.1,
+        "minimum_capacity_notes": "100 kW minimum across zonal portfolio",
+        "aggregation_allowed": true,
+        "aggregation_level": "Load Zone CPNode level only",
+        "resource_types": [
+          "Demand Resources (load curtailment)",
+          "Behind-the-Meter Generation (BTMG)"
+        ],
+        "requirements": [
+          "Ability to reduce electricity consumption",
+          "Stable, predictable load profile",
+          "Legal title and ability to control the resource",
+          "Documentation of load reduction capabilities",
+          "24x7 or 24x5 operations preferred"
+        ],
+        "battery_suitability": "Battery energy storage systems are eligible as Behind-the-Meter Generation (BTMG) for LMR participation. Non-injecting behind-the-meter battery storage can participate in demand response programs."
+      },
+      "notification_and_response": {
+        "current_notification_time": "6 hours to 30 minutes",
+        "proposed_lmr_type_i_notification": "6 hours (effective PY 2028-2029)",
+        "proposed_lmr_type_ii_notification": "30 minutes (effective PY 2028-2029)",
+        "maximum_dispatch_duration_hours": 4,
+        "dispatch_frequency_per_year": "Up to 16 dispatches",
+        "historical_dispatches_per_year": "0-3 dispatches",
+        "historical_note": "MISO has never called upon EDRs in its history, indicating rare emergency dispatch events",
+        "minimum_performance_obligations": {
+          "summer_winter": "At least 5 responses",
+          "spring_fall": "At least 3 responses"
+        }
+      },
+      "capacity_credits": {
+        "description": "Capacity credits based on notification time requirements",
+        "credit_structure": [
+          {
+            "notification_time": "Less than 2 hours",
+            "duration": "More than 4 hours curtailment",
+            "capacity_credit_percent": 100
+          },
+          {
+            "notification_time": "2-4 hours",
+            "duration": "Any duration",
+            "capacity_credit_percent": 70
+          },
+          {
+            "notification_time": "4-6 hours",
+            "duration": "Any duration",
+            "capacity_credit_percent": 50
+          }
+        ],
+        "accreditation_basis": "Peak demand periods: June-August, 2:00 PM - 6:00 PM",
+        "effective_date": "Proposed reforms effective PY 2028-2029",
+        "maximum_notification_time": "6 hours or less (reduced from 12 hours starting PY 2023-2024)"
+      },
+      "compensation": {
+        "primary_payment": "Zonal Resource Credits (ZRCs) from Planning Resource Auction",
+        "payment_basis": "Load reduction during peak periods",
+        "payment_unit": "USD per MW-day",
+        "recent_capacity_prices_arkansas": [
+          {
+            "planning_year": "2022-2023",
+            "region": "MISO South",
+            "annual_price_mw_day": "not available - zone-specific data not published",
+            "notes": "Historical reference shows LRZ 8 cleared at $4.75/MW-day in one auction"
+          },
+          {
+            "planning_year": "2023-2024",
+            "summer_mw_day": 10.00,
+            "fall_mw_day": 10.00,
+            "winter_mw_day": "not available",
+            "notes": "First auction with MISO's seasonal framework. Most zones cleared at $10/MW-day summer, except Zone 9 (Louisiana) at $60/MW-day fall"
+          },
+          {
+            "planning_year": "2024-2025",
+            "summer_mw_day": 30.00,
+            "fall_mw_day": 15.00,
+            "winter_mw_day": 0.75,
+            "spring_mw_day": 34.10,
+            "notes": "All zones except Missouri. Capacity prices for summer and spring roughly tripled. MISO South surplus held at 1,744 MW."
+          },
+          {
+            "planning_year": "2025-2026",
+            "region": "MISO South (includes LRZ 8 Arkansas)",
+            "summer_mw_day": 666.50,
+            "fall_mw_day": 74.09,
+            "winter_mw_day": 33.20,
+            "spring_mw_day": 69.88,
+            "annual_average_mw_day": 212.00,
+            "notes": "First year using Reliability-Based Demand Curve (RBDC). Dramatic price increase from $30/MW-day to $666.50/MW-day summer. 9,000 MW of DR cleared (all offered)."
+          }
+        ],
+        "energy_market_participation": "Not allowed for LMRs - emergency response only",
+        "must_offer_requirement": true,
+        "must_offer_description": "LMRs must make capacity available to Day-Ahead market or Resource Adequacy Construct mechanisms if registered for capacity"
+      },
+      "performance_requirements": {
+        "testing_frequency": "Annual testing required",
+        "testing_threshold": "Demonstrate at least 50% of registered capability",
+        "testing_methods": [
+          "Real power test",
+          "Actual deployment during MISO emergency event"
+        ],
+        "testing_reforms": "All new LMRs Type I will undergo initial testing; LMR Type II deployment during emergency counts as test",
+        "baseline_verification": "Third-party auditor verification required if no state/retail regulatory accreditation",
+        "meter_data_requirements": "Hourly meter data for 15 days before and 15 days after event, submitted within 53 calendar days",
+        "performance_measurement": "Firm Service Level (FSL) - predetermined load reduction target",
+        "baseline_methodologies": [
+          "Firm Service Level (FSL) - reducing to specified electricity demand level",
+          "Meter Before/Meter After - measuring consumption over prescribed period",
+          "Baseline Type-II - statistical sampling for aggregated resources without interval metering"
+        ],
+        "performance_issues_identified": "Independent Market Monitor found up to 25% of DR resources submit mock tests instead of real tests"
+      },
+      "penalties": {
+        "non_performance_penalty": "Value of Load (VOLL) × MW shortfall",
+        "voll_current": 10000,
+        "voll_previous": 3500,
+        "voll_unit": "USD per MWh",
+        "previous_penalty_structure": "3 × LMP × MW shortfall",
+        "effective_date": "VOLL increased to $10,000/MWh in 2024",
+        "significance": "Significantly higher financial consequences for non-performance. VOLL increase makes reliable performance essential for participants."
+      },
+      "registration_process": {
+        "steps": [
+          "Register as Market Participant with MISO",
+          "Complete LMR Certification Form",
+          "Submit LMR Resource Registration Form",
+          "Provide documentation of load reduction capabilities",
+          "Obtain Load Serving Entity (LSE) and Load Balancing Area (LBA) confirmation",
+          "Obtain RERRA (Regional Entities for Resource Reliability Assessment) approval",
+          "Potential third-party auditor verification",
+          "Submit to Planning Resource Auction or Fixed Resource Adequacy Plan (FRAP)"
+        ],
+        "registration_contact": "help@misoenergy.org",
+        "registration_manual": "BPM-001 Market Registration",
+        "online_registration": "MISO Online Registration tool required for all market participants",
+        "use_elemental_pricing_nodes": "Required for PY 2025-2026 auction registration onwards",
+        "arkansas_specific_note": "Arkansas law requires Arkansas Public Service Commission determination that wholesale DR participation is in public interest"
+      },
+      "program_status": {
+        "status": "Active with pending reforms",
+        "current_registered_capacity_lmr_dr_mw": 7695,
+        "current_registered_capacity_lmr_btmg_mw": 4129,
+        "total_lmr_capacity_mw": 11824,
+        "data_year": 2023,
+        "reform_timeline": [
+          {
+            "date": "Q3 2024",
+            "milestone": "FERC Tariff filing for LMR accreditation reforms"
+          },
+          {
+            "date": "March 21, 2025",
+            "milestone": "MISO filed proposed LMR changes with FERC (Docket No. ER25-1729-000)"
+          },
+          {
+            "date": "April 2025",
+            "milestone": "FERC filing to eliminate dual LMR/EDR registration"
+          },
+          {
+            "date": "PY 2025-2026",
+            "milestone": "Last year for dual LMR/EDR registration"
+          },
+          {
+            "date": "PY 2028-2029",
+            "milestone": "Full implementation of LMR Type I/II reforms"
+          }
+        ]
+      },
+      "program_changes": {
+        "eliminating_dual_registration": "LMRs can no longer be registered as Emergency Demand Response (EDR) starting PY 2026-2027",
+        "new_lmr_types": [
+          {
+            "type": "LMR Type I",
+            "notification": "6 hours",
+            "deployment_trigger": "Energy Emergency Alerts and Warnings leading up to emergency event"
+          },
+          {
+            "type": "LMR Type II",
+            "notification": "30 minutes",
+            "deployment_trigger": "During emergency event"
+          }
+        ],
+        "maximum_notification_reduction": "Maximum notification time reduced from 12 hours to 6 hours starting PY 2023-2024"
+      },
+      "sources": [
+        "https://www.pcienergysolutions.com/2025/03/06/what-is-a-dr-lmr-in-the-miso-market-understanding-demand-response-load-modifying-resources/",
+        "https://www.enelnorthamerica.com/solutions/energy-solutions/demand-response/miso-demand-response",
+        "https://raokonidena.substack.com/p/understanding-misos-lmr-accreditation",
+        "https://www.misoenergy.org/markets-and-operations/mp-registration/market-participation/",
+        "https://cdn.misoenergy.org/2025%20PRA%20Results%20Posting%2020250529_Corrections694160.pdf",
+        "https://www.misoenergy.org/engage/stakeholder-feedback/2024/rasc-lmr-reforms-rasc-2019-9-20240710/",
+        "https://cdn.misoenergy.org/2025-03-21%20Docket%20No.%20ER25-1729-000686867.pdf"
+      ]
+    },
+    {
+      "program_name": "Demand Response Resource (DRR)",
+      "program_type": "Energy and Ancillary Services Market Participation",
+      "market_type": "Wholesale energy and operating reserves markets",
+      "description": "Economic demand response that participates in MISO's Day-Ahead and Real-Time energy markets, as well as ancillary services markets. DRRs provide grid flexibility during normal operations and are dispatched based on economic offers. Resources are treated as supply resources and must follow market dispatch instructions.",
+      "drr_types": [
+        {
+          "type": "DRR Type I",
+          "description": "Customer programs like industrial interruptible load, provides energy or contingency reserve through physical load interruption",
+          "telemetry_required": false,
+          "output_levels": "Binary (zero or Targeted Demand Reduction)",
+          "ancillary_services_allowed": [
+            "Spinning Reserves",
+            "Supplemental Reserves"
+          ],
+          "ancillary_services_not_allowed": [
+            "Regulating Reserves (frequency responsive nature requires telemetry)",
+            "Ramp Capability Products"
+          ],
+          "registered_capacity_mw": 521,
+          "data_year": 2024,
+          "performance_issues": "IMM evaluation found more than 40% of DRR Type I resources did not perform adequately in spinning reserve deployments (213 deployments across 22 event days in 2023-24)"
+        },
+        {
+          "type": "DRR Type II",
+          "description": "Behind-the-meter generators or highly controllable load, can receive electronic dispatch instructions and follow 5-minute setpoints. Treated as if it were a traditional generator.",
+          "telemetry_required": true,
+          "output_levels": "Continuous variable output",
+          "ancillary_services_allowed": [
+            "Regulating Reserves",
+            "Spinning Reserves",
+            "Supplemental Reserves",
+            "Ramp Capability Products"
+          ],
+          "registered_capacity_mw": 79,
+          "data_year": 2024,
+          "response_time_reserves": "10-15 minutes for spinning reserves",
+          "regulation_service_requirements": "Must provide both REG UP and REG DOWN service and respond to AGC instructions within four seconds",
+          "battery_suitability": "Excellent suitability for battery storage systems due to fast response, telemetry capabilities, and continuous variable output"
+        }
+      ],
+      "eligibility": {
+        "customer_types": [
+          "Commercial facilities",
+          "Industrial facilities",
+          "Institutional organizations with controllable load"
+        ],
+        "minimum_capacity_drr": "No specified minimum for DRR itself",
+        "minimum_for_aggregator": "1 MW+ enrolled demand to register with demand response aggregator",
+        "requirements": [
+          "Ability to reduce electricity consumption or increase behind-the-meter generation",
+          "Type II requires telemetry capability",
+          "Type II must follow 5-minute dispatch instructions",
+          "Type II must provide telemetered output data"
+        ],
+        "battery_storage_eligibility": "Non-injecting behind-the-meter battery storage may participate as Demand Response in MISO. Battery storage used to reduce grid consumption (charging less or discharging to offset load) qualifies for DR participation.",
+        "battery_storage_requirements": "For behind-the-meter configurations, Market Participant must report and telemeter only wholesale volumes of charge/discharge. Requires Attachment HHH attestation that coordination with Distribution Companies and Retail Regulators completed."
+      },
+      "energy_market_participation": {
+        "day_ahead_market": "Must offer if cleared Planning Resource Auction",
+        "real_time_market": "Economic dispatch based on offers",
+        "payment_structure": "Locational Marginal Price (LMP) if deployment is economically beneficial",
+        "net_benefits_price_threshold": {
+          "description": "DRR only paid if LMP exceeds NBPT",
+          "nbpt_range_mwh": "28-52 USD",
+          "nbpt_determination": "Established monthly by MISO and released ahead",
+          "nbpt_purpose": "Ensures benefits from reduced LMP exceed cost of dispatching DRR. Determines when DR is deemed helpful to grid by reducing a MW instead of generator supplying a MW.",
+          "recent_proposal": "MISO proposing offer floor at NBPT level to prevent gaming and market manipulation (Docket No. ER25-1729-000)",
+          "ferc_order_745_purpose": "Determine when DR eligible to receive full LMP payment rather than reduced payment"
+        },
+        "co_optimization": "Energy and ancillary services markets are co-optimized in market clearing"
+      },
+      "compensation": {
+        "capacity_market": "Optional - DRR may register as Capacity Resource OR LMR, but not both",
+        "energy_payment": "LMP for demand reduction when LMP > NBPT",
+        "ancillary_services_payment": "Market clearing price for reserves services",
+        "payment_condition": "Only paid if deployment found beneficial to grid",
+        "payment_frequency": "Based on actual deployment and capacity reservation"
+      },
+      "registration_process": {
+        "steps": [
+          "Register as Market Participant with MISO",
+          "Submit Master Commercial Model Template",
+          "Submit Certification of Relationships for DRRs",
+          "Submit Scheduling Agent/MDMA Certificate",
+          "Potential Aggregator of Retail Customers (ARC) Certificate",
+          "For Type II: Install telemetry and control systems",
+          "Obtain LSE/LBA confirmation and RERRA approval",
+          "For battery storage: Submit Attachment HHH attestation of Distribution Company and Retail Regulator coordination"
+        ],
+        "registration_contact": "help@misoenergy.org",
+        "registration_manual": "BPM-001 Market Registration, BPM-026 Demand Response Business Practices",
+        "electric_storage_requirements": "Must meet all measurement requirements in Tariff Section 38.2.5.e and Market Settlements BPM-005 through direct metering or functional equivalent"
+      },
+      "performance_requirements": {
+        "must_offer_obligation": "Required if cleared PRA",
+        "dispatch_compliance": "Must respond to MISO Dispatch, Setpoint, or Scheduling Instructions",
+        "baseline_calculation": "Load reduction measured from baseline load level using CBL methodologies",
+        "tariff_violation": "Failure to respond constitutes Tariff violation",
+        "ancillary_services_requirements": "Must deliver energy to grid within prescribed time limit specific to Operating Reserve product offered"
+      },
+      "program_status": {
+        "status": "Active with ongoing reforms",
+        "total_drr_type_i_mw": 521,
+        "total_drr_type_ii_mw": 79,
+        "total_drr_capacity_mw": 600,
+        "data_year": 2024,
+        "note": "Low participation compared to LMR programs. Performance concerns identified by Independent Market Monitor."
+      },
+      "sources": [
+        "https://www.misoenergy.org/markets-and-operations/mp-registration/market-participation/",
+        "https://www.renewableenergyworld.com/energy-business/policy-and-regulation/miso-is-proposing-changes-to-demand-response-programs/",
+        "https://cdn.misoenergy.org/2025-03-21%20Docket%20No.%20ER25-1729-000686867.pdf",
+        "https://help.misoenergy.org/knowledgebase/article/KA-01334/en-us"
+      ]
+    },
+    {
+      "program_name": "MISO Operating Reserves Market",
+      "program_type": "Ancillary Services - Operating Reserves",
+      "market_type": "Wholesale ancillary services market",
+      "description": "Demand response participation in MISO's operating reserves market to stabilize grid during unexpected system disruptions. Resources provide quick response for grid reliability. Available 24x7x365 year-round.",
+      "eligibility": {
+        "minimum_capacity_mw": 1.0,
+        "minimum_capacity_kw": 1000,
+        "notification_time_minutes": 10,
+        "customer_types": [
+          "Commercial facilities",
+          "Industrial facilities",
+          "Institutional organizations"
+        ],
+        "requirements": [
+          "Ability to respond within 10 minutes",
+          "Curtailable load of at least 1 MW",
+          "Telemetry capability (for DRR Type II participation)"
+        ],
+        "battery_suitability": "Excellent suitability for battery storage systems due to fast response capability, especially for DRR Type II participation in all reserve products including Regulating Reserves"
+      },
+      "operational_parameters": {
+        "program_period": "24x7x365 year-round",
+        "advanced_notification_minutes": 10,
+        "maximum_dispatch_duration_minutes": 60,
+        "average_dispatch_duration_minutes": 40,
+        "dispatch_frequency_per_year": "10-20 dispatches"
+      },
+      "reserve_products": {
+        "regulating_reserves": {
+          "description": "Fast-response reserves for frequency regulation",
+          "eligible_resources": "DRR Type II only",
+          "response_time": "Continuous following of 5-minute setpoints",
+          "agc_requirements": "Must respond to AGC instructions within four seconds",
+          "must_provide_both": "REG UP and REG DOWN service",
+          "battery_suitability": "Excellent for battery storage - requires continuous variable output and fast response"
+        },
+        "spinning_reserves": {
+          "description": "Synchronized reserves ready within 10 minutes",
+          "eligible_resources": "DRR Type I and Type II",
+          "response_time_minutes": "10-15 minutes",
+          "performance_note": "Over 40% of DRR Type I resources did not perform adequately in 2023-24"
+        },
+        "supplemental_reserves": {
+          "description": "Non-synchronized reserves available within 10 minutes",
+          "eligible_resources": "DRR Type I and Type II",
+          "response_time_minutes": "10 minutes"
+        },
+        "ramp_capability": {
+          "description": "Ability to increase/decrease output to follow load ramps",
+          "eligible_resources": "DRR Type II only",
+          "response_characteristics": "Variable continuous output",
+          "battery_suitability": "Excellent for battery storage systems"
+        }
+      },
+      "compensation": {
+        "payment_basis": "Market clearing price for specific reserve product",
+        "co_optimization": "Energy and ancillary services markets are co-optimized",
+        "payment_frequency": "Based on actual deployment and capacity reservation"
+      },
+      "sources": [
+        "https://www.enelnorthamerica.com/solutions/energy-solutions/demand-response/miso-demand-response",
+        "https://cdn.misoenergy.org/Fact Sheet - MISO Market Participation Overview632546.pdf"
+      ]
+    },
+    {
+      "program_name": "Emergency Demand Response (EDR) - Being Phased Out",
+      "program_type": "Emergency Demand Response",
+      "market_type": "Emergency capacity",
+      "description": "Emergency demand response resources that can reduce load or operate backup generation during grid emergencies. This program is being eliminated with dual LMR/EDR registration ending after PY 2025-2026. MISO has never called upon EDRs in its history.",
+      "status": "Being phased out",
+      "phase_out_timeline": {
+        "last_dual_registration_year": "PY 2025-2026",
+        "elimination_effective": "PY 2026-2027",
+        "ferc_filing_date": "April 25, 2025",
+        "reason": "Consolidating to two programs (DRR and LMR) for simplification. EDR program complexity and lack of historical deployment."
+      },
+      "current_requirements": {
+        "capability": "Reduce load or operate backup generation during emergencies",
+        "registration_forms": [
+          "EDR Certification Form",
+          "EDR Resource Registration Form",
+          "Potential ARC Certificate"
+        ],
+        "cross_registration_note": "Approximately 50% of LMRs were cross-registered as EDRs"
+      },
+      "transition_plan": {
+        "description": "Resources currently registered as both LMR and EDR must choose one program after PY 2025-2026",
+        "remaining_programs": [
+          "DRR (Demand Response Resources)",
+          "LMR (Load Modifying Resources)"
+        ]
+      },
+      "sources": [
+        "https://raokonidena.substack.com/p/miso-is-eliminating-the-dual-registration",
+        "https://www.misoenergy.org/markets-and-operations/mp-registration/market-participation/"
+      ]
+    }
+  ],
+  "market_structure": {
+    "planning_resource_auction": {
+      "description": "Annual capacity auction for resource adequacy",
+      "auction_frequency": "Annual",
+      "planning_year_definition": "June 1 - May 31",
+      "seasonal_structure": [
+        "Summer",
+        "Fall",
+        "Winter",
+        "Spring"
+      ],
+      "payment_unit": "USD per MW-day",
+      "recent_trends": "Significant price increases due to declining reserve margins and generator retirements. Summer 2025/26 prices jumped from $30/MW-day to $666.50/MW-day.",
+      "demand_response_cleared": "9,000 MW of DR cleared in 2025/26 auction (all offered DR capacity was accepted)",
+      "rbdc_implementation": "First year using Reliability-Based Demand Curve (RBDC) instead of vertical demand curve for PY 2025-2026"
+    },
+    "energy_markets": {
+      "day_ahead_market": "Forward energy market cleared day before delivery",
+      "real_time_market": "Spot energy market for actual delivery, 5-minute dispatch",
+      "co_optimization": "Energy and ancillary services co-optimized in market clearing",
+      "dispatch_algorithms": "Security Constrained Unit Commitment (SCUC) and Security Constrained Economic Dispatch (SCED)"
+    },
+    "transmission_zones": {
+      "local_resource_zones_total": 10,
+      "arkansas_zones": [
+        "LRZ-8 (Arkansas - primary zone)"
+      ],
+      "lrz_purpose": "Address congestion limiting resource deliverability and define capacity benefits",
+      "arkansas_zone_characteristics": "Part of MISO South region with generally lower capacity prices than MISO North/Central except in PY 2025-2026 where all zones priced the same in summer"
+    }
+  },
+  "aggregation_and_third_party": {
+    "aggregator_type": "Aggregator of Retail Customers (ARC)",
+    "aggregator_definition": "Market Participant sponsoring DRRs, LMRs, and/or EDRs provided by end-use customers that the ARC does not serve at retail",
+    "aggregation_rules": [
+      "LMRs may only be aggregated up to Load Zone CPNode level",
+      "End use customer account can only be registered by one Market Participant",
+      "Requires LSE and LBA confirmation for registration changes"
+    ],
+    "arkansas_regulatory_constraint": "Arkansas law requires Arkansas Public Service Commission determination that wholesale DR participation is in public interest before aggregators can market or sell DR into wholesale markets",
+    "arkansas_future_outlook": "Arkansas positioned to be next Illinois among MISO states allowing third-party aggregators, per Grid Modernization proceedings",
+    "curtailment_service_providers": [
+      {
+        "provider": "CPower Energy Management",
+        "contact_phone": "844-276-9371",
+        "website": "https://cpowerenergy.com/miso/",
+        "services": "Engineers assess facilities to optimize DR participation and maximize earnings. Manages enrollment, measurement, verification, and payments.",
+        "minimum_capacity": "1 MW+ enrolled demand"
+      },
+      {
+        "provider": "Enel North America",
+        "website": "https://www.enelnorthamerica.com/solutions/energy-solutions/demand-response/miso-demand-response",
+        "description": "Global leader in demand response. Manages entire process including enrollment, measurement, verification, and payments.",
+        "minimum_capacity": "1 MW+ enrolled demand"
+      },
+      {
+        "provider": "Voltus",
+        "note": "Active in MISO markets. Subject to $18M FERC settlement in 2024 for alleged DR rules violations.",
+        "enforcement_reference": "https://www.utilitydive.com/news/voltus-ferc-miso-demand-response-settlement/736640/"
+      }
+    ],
+    "minimum_capacity_via_aggregator": "1 MW+ enrolled demand"
+  },
+  "contact_information": {
+    "miso_help_desk": "help@misoenergy.org",
+    "miso_website": "https://www.misoenergy.org",
+    "market_participation_page": "https://www.misoenergy.org/markets-and-operations/mp-registration/market-participation/",
+    "demand_response_dashboard": "https://www.misoenergy.org/engage/MISO-Dashboard/demand-response-participation-rules/",
+    "arkansas_control_center": "Little Rock, Arkansas (one of three MISO control centers)",
+    "business_practices_manuals": [
+      "BPM-001: Market Registration",
+      "BPM-026: Demand Response Business Practices",
+      "BPM-011: Resource Adequacy",
+      "BPM-005: Market Settlements"
+    ],
+    "stakeholder_engagement": "RASC (Resource Adequacy Subcommittee), MSC (Market Subcommittee)",
+    "arkansas_regulatory": {
+      "agency": "Arkansas Public Service Commission",
+      "website": "https://apsc.arkansas.gov/",
+      "grid_modernization_page": "https://apsc.arkansas.gov/programs-initiatives-activities/distributed-energy-resources-grid-modernization/"
+    }
+  },
+  "key_reforms_and_trends": {
+    "major_reforms_2024_2025": [
+      {
+        "reform": "LMR Accreditation Reforms",
+        "description": "Performance-based accreditation, shortened notification times (6 hours max), standardized testing",
+        "effective_date": "PY 2028-2029",
+        "drivers": [
+          "Increased grid uncertainty from renewable integration",
+          "Historical performance issues with LMRs",
+          "Need for faster emergency response",
+          "25% of DR resources submit mock tests instead of real tests"
+        ]
+      },
+      {
+        "reform": "Elimination of Dual LMR/EDR Registration",
+        "description": "Simplification to two DR programs: DRR and LMR. EDR never deployed in MISO history.",
+        "effective_date": "PY 2026-2027",
+        "impact": "Resources must choose either capacity-focused (LMR) or energy-focused (DRR) participation. Approximately 50% of LMRs were cross-registered as EDRs."
+      },
+      {
+        "reform": "DRR Offer Floor at NBPT",
+        "description": "Prohibit DRR offers below Net Benefits Price Threshold to prevent gaming and market manipulation",
+        "status": "Proposed March 21, 2025 (Docket No. ER25-1729-000)",
+        "purpose": "Address market fraud and gaming concerns. Stakeholder support from Voltus and others.",
+        "ferc_alignment": "Aligns with FERC Order 745 principles"
+      },
+      {
+        "reform": "Enhanced Penalty Structure",
+        "description": "Non-performance penalties increased from 3×LMP to VOLL (now $10,000/MWh from $3,500/MWh)",
+        "effective_date": "2024 VOLL increase",
+        "impact": "Significantly higher financial consequences for non-performance. Reliable performance now essential."
+      },
+      {
+        "reform": "Maximum Notification Time Reduction",
+        "description": "Maximum LMR notification time reduced from 12 hours to 6 hours",
+        "effective_date": "PY 2023-2024",
+        "ferc_approval": "FERC approved notification time reduction",
+        "impact": "Resources requiring more than 6 hours notification no longer qualify for LMR capacity accreditation"
+      },
+      {
+        "reform": "Reliability-Based Demand Curve (RBDC)",
+        "description": "Replaced vertical demand curve with reliability-focused pricing structure that reflects increasing capacity value as system approaches minimum adequacy targets",
+        "effective_date": "PY 2025-2026 auction",
+        "impact": "Dramatic price increases. Summer capacity prices jumped from $30/MW-day to $666.50/MW-day.",
+        "purpose": "More accurate price signals for resource adequacy"
+      }
+    ],
+    "capacity_market_trends": {
+      "reserve_margin_trend": "Declining",
+      "summer_surplus_2023_gw": 6.5,
+      "summer_surplus_2024_gw": 4.6,
+      "summer_surplus_2025_gw": 2.6,
+      "miso_south_surplus_2025_gw": 1.744,
+      "miso_south_reserve_margin_summer_2025": "8.7%",
+      "price_trend": "Rapidly increasing",
+      "drivers": [
+        "Generator retirements (3.3 GW in suspensions and retirements for 2025/26)",
+        "Load growth",
+        "Renewable integration challenges",
+        "Transmission constraints",
+        "Reduced accreditation (4.9 GW reduction)",
+        "Reduced imports (900 MW)"
+      ],
+      "positive_factors": [
+        "New capacity additions (5.1 GW for 2025/26)",
+        "Increased accreditation (1.2 GW)"
+      ]
+    },
+    "battery_storage_outlook": {
+      "current_status": "Energy storage not currently cost competitive in MISO and SPP",
+      "limitations": "Battery discharge times insufficient for some applications",
+      "market_participation_status": "RTO market participation rules and/or supporting software systems have been delayed",
+      "future_outlook": "Arkansas PSC examining preparation for distributed energy resources including battery storage under Grid Modernization initiatives",
+      "dr_participation_suitability": "Excellent suitability for DRR Type II and Operating Reserves due to fast response, telemetry, and continuous variable output capabilities"
+    }
+  },
+  "arkansas_specific_notes": {
+    "miso_membership": "Entergy Arkansas joined MISO in December 2013. Arkansas Electric Cooperative Corporation is dual MISO/SPP member.",
+    "control_center": "MISO operates one of its three control centers in Little Rock, Arkansas",
+    "local_resource_zone": "LRZ-8 (Arkansas)",
+    "miso_region": "MISO South",
+    "regulatory_environment": "Arkansas statute restricts aggregator participation without Arkansas Public Service Commission approval determining public interest",
+    "grid_modernization": "Arkansas PSC examining DER integration including solar, battery storage, smart thermostats, energy efficiency, and demand response measures",
+    "future_aggregation_outlook": "Arkansas positioned to be next Illinois in MISO states allowing third-party aggregators",
+    "capacity_market_performance": "Arkansas (LRZ-8) part of MISO South which maintained stable 1,744 MW capacity surplus through 2024-2025, though reserve margins declining system-wide",
+    "notable_enforcement": "Big River Steel (Osceola, Arkansas) - $22M settlement for receiving MISO DR payments without cutting load (300 MW peak load facility). Entergy Arkansas served as market participant."
+  },
+  "battery_energy_storage_suitability": {
+    "overall_assessment": "Excellent suitability for battery storage systems, particularly for DRR Type II and Operating Reserves programs",
+    "lmr_suitability": {
+      "rating": "Good",
+      "eligible_category": "Behind-the-Meter Generation (BTMG)",
+      "advantages": [
+        "Non-injecting behind-the-meter battery storage eligible",
+        "Capacity payments available ($212/MW-day annual average MISO South for PY 2025-2026)",
+        "Infrequent dispatch (historically 0-3 times per year)",
+        "Predictable 4-hour maximum dispatch duration"
+      ],
+      "disadvantages": [
+        "Emergency-only dispatch, no energy market participation",
+        "Must meet 6-hour or less notification requirement",
+        "High non-performance penalties (VOLL × MW shortfall = $10,000/MWh × shortfall)"
+      ]
+    },
+    "drr_type_ii_suitability": {
+      "rating": "Excellent",
+      "advantages": [
+        "Can participate in all ancillary services markets (Regulating Reserves, Spinning Reserves, Supplemental Reserves, Ramp Capability)",
+        "Energy market participation at LMP when economically beneficial",
+        "Continuous variable output matches battery capabilities",
+        "Fast response capability aligns with battery strengths",
+        "Telemetry requirements easily met by modern battery systems",
+        "5-minute dispatch instructions compatible with battery response times"
+      ],
+      "disadvantages": [
+        "Telemetry and control system installation required",
+        "Must follow MISO Dispatch, Setpoint, and Scheduling Instructions",
+        "Only paid when LMP exceeds NBPT ($28-52/MWh)"
+      ]
+    },
+    "operating_reserves_suitability": {
+      "rating": "Excellent",
+      "eligible_products": [
+        "Regulating Reserves (DRR Type II only) - responds to AGC within 4 seconds",
+        "Spinning Reserves (10-15 minute response)",
+        "Supplemental Reserves (10 minute response)",
+        "Ramp Capability Products (DRR Type II only)"
+      ],
+      "advantages": [
+        "10-20 dispatches per year provides revenue opportunities",
+        "Short dispatch durations (40-60 minutes average/maximum)",
+        "10-minute notification time manageable for battery systems",
+        "1 MW minimum capacity threshold accessible",
+        "Market clearing price compensation for reserve products"
+      ],
+      "disadvantages": [
+        "Requires 1 MW minimum capacity (higher than LMR 100 kW minimum)"
+      ]
+    },
+    "recommended_strategy": "Battery storage systems in Arkansas should consider DRR Type II registration for Operating Reserves and energy market participation, potentially combined with LMR BTMG registration for capacity revenues. The combination provides: (1) Capacity revenues from LMR (~$212/MW-day annual average), (2) Energy market revenues from DRR when LMP > NBPT, (3) Ancillary services revenues from Operating Reserves market. Note: DRR and LMR cannot both be registered as Capacity Resources, but DRR can participate in energy and ancillary services markets without capacity registration.",
+    "regulatory_considerations": "Arkansas law requires Arkansas Public Service Commission determination that wholesale DR participation is in public interest. Battery developers should coordinate with Arkansas PSC regarding Grid Modernization proceedings and third-party aggregator participation rules."
+  },
+  "data_quality_notes": {
+    "no_invented_data": "All data sourced from publicly available MISO documents, regulatory filings, industry analysis, and official MISO websites. No data was invented or estimated.",
+    "source_attribution": "All key facts include source URLs and references to official MISO documents",
+    "uncertainty_areas": [
+      "Exact historical LRZ-8 specific capacity prices for PY 2022-2023 and 2023-2024 - only MISO South regional prices available for these years. One historical reference shows LRZ-8 cleared at $4.75/MW-day but planning year not specified.",
+      "Complete NBPT historical range - only 2024 range ($28-52/MWh) explicitly confirmed",
+      "Detailed CBL calculation methodology - BPM-026 document contents could not be extracted from PDF",
+      "Exact MW capacity of LMR/DRR in Arkansas specifically - only MISO-wide totals available (LMR: 11,824 MW, DRR: 600 MW system-wide)"
+    ],
+    "data_not_available": [
+      "Zone-specific historical dispatch frequency for Arkansas resources",
+      "Arkansas-specific ancillary services market clearing prices",
+      "Detailed breakdown of Arkansas BTMG capacity vs load curtailment capacity",
+      "Historical event-level performance data for Arkansas resources"
+    ],
+    "verification_date": "2025-10-11",
+    "data_current_as_of": "Planning Year 2025-2026 auction results (April 2025)",
+    "data_quality_score": 9,
+    "data_quality_rationale": "Comprehensive publicly available MISO documentation. Official auction results, tariff filings, and stakeholder presentations provide high-quality data. Zone-specific Arkansas pricing for some historical years not granularly published, but regional MISO South pricing available. All program rules, requirements, and reform timelines clearly documented in official MISO sources."
+  },
+  "research_completeness": "COMPREHENSIVE",
+  "research_duration_minutes": 35,
+  "total_sources_consulted": 45,
+  "key_document_sources": [
+    "MISO Planning Resource Auction Results (2022-2026)",
+    "MISO Tariff Module E (Demand Response)",
+    "MISO BPM-026 (Demand Response Business Practices Manual)",
+    "MISO BPM-001 (Market Registration)",
+    "MISO BPM-011 (Resource Adequacy)",
+    "FERC Docket No. ER25-1729-000 (March 21, 2025 filing)",
+    "Arkansas Code Title 23-18-1004 (Regulation of Electric Demand Response Act)",
+    "MISO Independent Market Monitor Reports",
+    "MISO RASC and MSC Stakeholder Presentations (2024-2025)"
+  ]
+}

@@ -1,0 +1,107 @@
+{
+  "program_id": "CPSENERGY-TX-COMMERCIAL-DR",
+  "program_name": "Commercial Demand Response",
+  "utility": "CPS Energy",
+  "state": "Texas",
+  "iso_rto_territory": "ERCOT",
+  "program_type": "utility",
+  "status": "active",
+  "payment_structure": {
+    "capacity_payment": {
+      "rate": "not available",
+      "billing_frequency": "not available",
+      "notes": "Program states customers are paid based on electricity reduction compared to normal usage, but specific $/kW-month or $/kW rates are not publicly disclosed. Contact CPS Energy account manager for rates."
+    },
+    "performance_payment": {
+      "rate": "not available",
+      "conditions": "Payment based on electricity reduction during conservation events compared to normal usage baseline",
+      "notes": "My Business Rewards DR (separate small business program) offers $70-73 per kW per season depending on notification option"
+    },
+    "bill_credit": {
+      "rate": "not available",
+      "structure": "Credits applied based on performance during events"
+    }
+  },
+  "event_parameters": {
+    "notification_time": "2 hours or 30 minutes (customer choice)",
+    "event_duration": "3 hours typical",
+    "max_events_per_season": "approximately 25",
+    "max_hours_per_season": "not specified",
+    "seasons": [
+      {
+        "name": "Summer",
+        "start_date": "June 1",
+        "end_date": "September 30",
+        "event_window": "Typically weekdays 1:00 PM to 7:00 PM"
+      }
+    ],
+    "event_types": [
+      {
+        "type": "Conservation Event",
+        "description": "Called when statewide power demand is highest"
+      }
+    ]
+  },
+  "eligibility": {
+    "customer_classes": [
+      "commercial",
+      "industrial"
+    ],
+    "minimum_load": "not specified",
+    "excluded_customers": [],
+    "notes": "Separate program available for small businesses (My Business Rewards DR) and residential battery storage (My Battery Rewards)"
+  },
+  "baseline_methodology": "not specified - customer reduction compared to normal usage, specific CBL calculation methodology not disclosed in public materials",
+  "notification_methods": [
+    "email",
+    "text message",
+    "phone"
+  ],
+  "program_contacts": {
+    "email": "demandresponse@cpsenergy.com",
+    "phone": "210-353-2728 option 3 then 2",
+    "notes": "Customers should contact their CPS Energy account manager for specific rates and enrollment"
+  },
+  "battery_suitability": {
+    "rating": "Limited",
+    "justification": "CPS Energy has a separate residential battery storage program (My Battery Rewards, $10 per event) but no publicly documented commercial/industrial behind-the-meter battery storage participation pathway for demand response. Payment structure unclear for commercial DR participants. Battery storage systems could technically participate by discharging during events to reduce net load, but: (1) no explicit mention of battery eligibility in commercial DR materials, (2) payment rates not publicly disclosed making ROI analysis impossible, (3) unclear if battery discharge qualifies under baseline methodology, (4) residential-only battery program suggests commercial batteries may not be eligible or have different pathway. Limited rating due to lack of clarity on commercial battery participation and undisclosed payment rates."
+  },
+  "alternative_revenue_streams": {
+    "ercot_wholesale_markets": "possible",
+    "notes": "As an ERCOT utility, commercial customers with large battery systems may be able to participate in ERCOT wholesale markets (ancillary services, energy arbitrage) in addition to or instead of utility DR program. This would require registration as a Resource Entity with ERCOT."
+  },
+  "related_programs": {
+    "my_business_rewards_dr": {
+      "program_type": "small_business",
+      "notification_30min": "$73 per kW per season",
+      "notification_2hour": "$70 per kW per season",
+      "bonus_hours": "$10 per kW for 16 additional evening events (7-10 PM)",
+      "season": "June 1 - September 30",
+      "url": "https://www.cpsenergy.com/en/my-business/savenow/mbr-demand-response.html"
+    },
+    "my_battery_rewards": {
+      "program_type": "residential_battery",
+      "payment": "$10 per event",
+      "eligibility": "residential customers only with owned BESS",
+      "available": "year-round",
+      "url": "https://www.cpsenergy.com/content/corporate/en/about-us/programs-services/battery-storage-program.html"
+    }
+  },
+  "strategic_context": {
+    "utility_goal": "410 MW of incremental demand reduction by 2027",
+    "utility_battery_projects": "CPS Energy deploying 400+ MW of utility-scale battery storage (Padua 1: 50 MW, Padua 2: 150 MW, Ferdinand: 200 MW)",
+    "market_context": "ERCOT territory with energy scarcity events and high price volatility creating strong value proposition for demand flexibility"
+  },
+  "data_sources": [
+    "https://www.cpsenergy.com/en/my-business/savenow/comm-dr.html",
+    "https://www.cpsenergy.com/en/my-business/savenow/mbr-demand-response.html",
+    "https://www.cpsenergy.com/content/corporate/en/about-us/programs-services/battery-storage-program.html",
+    "https://www.cpsenergy.com/content/dam/corporate/en/Documents/EnergyEfficiency/requirements_demand_response.pdf",
+    "https://www.cpsenergy.com/content/dam/corporate/en/Documents/EnergyEfficiency/DemandResponse.pdf",
+    "https://commercial-savenow.cpsenergy.com/_assets/FY23 CPS Guidebook_Final 03092022.pdf"
+  ],
+  "research_notes": "CPS Energy operates three distinct demand response programs: (1) Commercial/Industrial DR with undisclosed rates requiring account manager contact, (2) My Business Rewards DR for small businesses with transparent seasonal rates of $70-73/kW, and (3) My Battery Rewards for residential battery owners at $10/event. The commercial DR program documentation is notably opaque on payment rates, minimum participation thresholds, baseline methodology, and battery storage eligibility. The existence of a separate residential-only battery program suggests commercial batteries may not be eligible for the standard commercial DR program, or may have an undocumented participation pathway. The small business program provides clearer rate information ($70-73 per kW per season) which may serve as a proxy for commercial rates. Key information gaps: commercial payment rates, minimum kW requirement, explicit battery eligibility, baseline calculation method, and whether dual participation in ERCOT wholesale markets is allowed. CPS Energy's aggressive utility-scale battery deployment (400+ MW) demonstrates grid storage value, but customer-sited commercial battery pathway remains unclear.",
+  "research_date": "2025-10-11",
+  "research_quality_score": 5,
+  "research_quality_notes": "Medium quality - confirmed program is active with good details on event parameters (25 events/season, 3 hours, 2hr or 30min notice, June-Sept), notification methods, and contact information. However, critical commercial payment rates are not publicly disclosed (major gap), no minimum participation threshold specified, baseline methodology not documented, and commercial battery storage eligibility completely unclear. Small business program rates provide some reference point. Multiple documentation sources attempted but key PDFs not readable/accessible via web scraping."
+}

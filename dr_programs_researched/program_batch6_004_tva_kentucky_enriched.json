@@ -1,0 +1,587 @@
+{
+  "programs": [
+    {
+      "program_id": "TVA-KY-POWERFLEX-001",
+      "program_name": "TVA PowerFlex Demand Response - Kentucky Territory",
+      "program_type": "utility_managed",
+      "status": "active",
+      "description": "PowerFlex is TVA's premium demand response program for large commercial and industrial facilities with contract demand exceeding 1 MW. Participants receive bill credits for curtailing energy use during capacity event calls. The program offers flexible notification times and capacity hour options, with events lasting 2-4 hours. PowerFlex is managed by TVA EnergyRight and delivered through TVA's local power company partners. Program helps maintain grid reliability and lower regional electricity rates. Participants can select cumulative hours for energy curtailment. IMPORTANT NOTE: This program is ONLY available in TVA service territory in Kentucky, which covers 28 counties in far western and south-central Kentucky. TVA territory is distinct from MISO Kentucky (Big Rivers Electric) and PJM Kentucky (Kentucky Power, LG&E/KU).",
+      "geography": {
+        "states": ["KY"],
+        "utilities": [
+          "West Kentucky Rural Electric Cooperative Corporation (WKRECC)",
+          "Tri-County Electric Membership Corporation",
+          "Hopkinsville Electric System",
+          "Bowling Green Municipal Utilities",
+          "Franklin Municipal Power and Light",
+          "Glasgow Electric Plant Board",
+          "Murray Electric System",
+          "Princeton Electric Plant Board",
+          "Russellville Electric Plant Board"
+        ],
+        "isos": ["TVA"],
+        "service_territories": [
+          "TVA Kentucky territory only",
+          "28 Kentucky counties served by TVA: Adair, Allen, Barren, Butler, Caldwell, Calloway, Carlisle, Christian, Clinton, Cumberland, Edmonson, Fulton, Graves, Grayson, Hickman, Livingston, Logan, Lyon, Marshall, Metcalfe, Monroe, Muhlenberg, Ohio, Simpson, Todd, Trigg, Warren, Whitley",
+          "Note: This is DIFFERENT from Big Rivers Electric/MISO territory and LG&E/KU/PJM territory"
+        ],
+        "service_territory_notes": "TVA service area in Kentucky covers 7,787 square miles (9% of TVA's total territory). TVA sells power to 10 municipal utilities and 5 cooperative utilities in Kentucky that distribute power to end customers. In FY2017, TVA sold approximately 1 billion kilowatt-hours to Kentucky local power companies."
+      },
+      "eligibility": {
+        "customer_classes": {
+          "residential": false,
+          "commercial": true,
+          "industrial": true,
+          "size_threshold_notes": "Minimum 1 MW contracted load required. Minimum 500 kW annual average on-peak interruptible demand. Facilities must be capable of meaningful load reduction through operational changes."
+        },
+        "behind_the_meter": true,
+        "front_of_meter": false,
+        "minimum_capacity_kw": 1000,
+        "maximum_capacity_kw": null,
+        "resource_types": [
+          "Industrial process curtailment (shutting down rectifiers, chillers, electrolyzers)",
+          "Manufacturing operations suspension (non-essential operations)",
+          "HVAC load reduction (lowering/shutting down cooling systems)",
+          "Heavy equipment reduction (furnaces, drives, water systems)",
+          "Battery energy storage systems (behind-the-meter) - ELIGIBILITY UNCERTAIN",
+          "Behind-the-meter generation"
+        ],
+        "requires_aggregator": false,
+        "aggregator_notes": "TVA partners with Enel North America to manage enrollment, assessment, and dispatch for some programs. Local power companies also facilitate enrollment."
+      },
+      "notification": {
+        "day_ahead_notice": false,
+        "minimum_notice_hours": null,
+        "maximum_notice_hours": null,
+        "notification_methods": [
+          "Email",
+          "Phone",
+          "SMS text message",
+          "TVA EnergyRight portal"
+        ],
+        "notification_notes": "Program description indicates 'flexible notification times' but specific advance notice period not publicly disclosed. Participants likely informed of available notification options during enrollment."
+      },
+      "payment_structure": {
+        "has_capacity_payment": true,
+        "has_performance_payment": false,
+        "capacity_rate": {
+          "value": null,
+          "unit": "$/kW-month or bill credit",
+          "varies_by_season": false,
+          "notes": "CRITICAL DATA GAP: Specific capacity payment rates or bill credit amounts are NOT publicly disclosed by TVA. Program materials indicate 'higher monthly credits compared to previous program' and 'bill credits' but exact dollar amounts are not published on TVA EnergyRight website, TVA.com, or Enel North America TVA program pages. Rates appear to be provided during enrollment discussions with TVA or local power company. This is a significant limitation for financial modeling."
+        },
+        "performance_rate": {
+          "value": null,
+          "unit": "$/kWh",
+          "varies_by_season": false,
+          "varies_by_time": false,
+          "notes": "PowerFlex appears to be capacity-focused with bill credits rather than per-event energy payments. No energy payment structure documented in public materials."
+        },
+        "penalty_structure": {
+          "has_penalties": true,
+          "penalty_rate": null,
+          "penalty_unit": "not available",
+          "penalty_description": "Specific penalty structure not publicly disclosed. Participants likely face bill credit reductions or program removal for non-performance, but exact terms not documented in available materials. TVA EnergyRight programs generally emphasize reliability and grid support, suggesting performance expectations exist."
+        },
+        "bonus_payments": [],
+        "forward_curve_available": false,
+        "forward_curve_url": null
+      },
+      "seasons": [
+        {
+          "season_name": "Year-Round",
+          "start_date": "01-01",
+          "end_date": "12-31",
+          "max_events": null,
+          "max_hours": null,
+          "notes": "PowerFlex operates year-round. No seasonal restrictions documented. Events can be called when TVA system needs support."
+        }
+      ],
+      "call_windows": [
+        {
+          "window_id": "year_round",
+          "start_hour": 0,
+          "end_hour": 23,
+          "days_of_week": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+          "seasons": ["Year-Round"],
+          "timezone": "America/Chicago",
+          "notes": "Specific call windows not documented. PowerFlex likely targets peak demand periods but exact hours not publicly specified."
+        }
+      ],
+      "event_parameters": {
+        "typical_duration_hours": 3,
+        "minimum_duration_hours": 2,
+        "maximum_duration_hours": 4,
+        "event_granularity_minutes": null,
+        "response_time_minutes": null,
+        "max_events_per_season": null,
+        "max_events_per_year": null,
+        "max_hours_per_season": null,
+        "max_hours_per_year": null,
+        "max_consecutive_events": null,
+        "minimum_rest_hours": null,
+        "notes": "Capacity call minimum: 2 hours. Capacity call maximum: 4 hours. Emergency calls are unlimited (no cap on emergency event frequency). Participants can select cumulative number of hours their operations curtail energy use during capacity event calls. Specific response time requirements not publicly disclosed."
+      },
+      "nomination_bidding": {
+        "requires_nomination": true,
+        "nomination_frequency": "annual",
+        "nomination_deadline": "Ongoing enrollment, but likely annual commitment periods. Specific enrollment windows not publicly disclosed.",
+        "allows_price_bidding": false,
+        "bidding_structure": "Fixed payment structure determined by TVA. No competitive bidding or price selection by participants. Program operates as utility-managed demand response with predetermined compensation.",
+        "enrollment_period": {
+          "start_date": "Ongoing",
+          "end_date": "Ongoing",
+          "recurring": true,
+          "notes": "Enrollment appears to be ongoing throughout the year. Contact TVA EnergyRight or local power company to begin assessment and enrollment process. Existing IP5 and IP30 participants encouraged to transition to PowerFlex."
+        }
+      },
+      "special_programs": {
+        "is_rec_based": false,
+        "rec_type": null,
+        "scheduled_dispatch": false,
+        "clean_peak_standard": false,
+        "special_attributes": [
+          "Managed by TVA EnergyRight and delivered through local power companies",
+          "Partnership with Enel North America for some customers",
+          "Flexible notification times (exact times not specified publicly)",
+          "More capacity hour options than predecessor programs",
+          "Protected demand flexibility provisions",
+          "Contributes to TVA's goal of offsetting 30% of new load growth through efficiency/DR",
+          "Part of TVA's $100M investment in demand response programs through 2030",
+          "Transition program for former IP5 and IP30 participants"
+        ]
+      },
+      "program_history": {
+        "launch_year": null,
+        "program_evolution": [
+          {
+            "year": 2023,
+            "change_description": "PowerFlex program launched or significantly enhanced as replacement for older Interruptible Power programs (IP5, IP30). Offers higher monthly credits and more flexible options."
+          },
+          {
+            "year": 2024,
+            "change_description": "TVA announced $15B system upgrades including $100M for energy efficiency and demand response programs to offset 30% of new load growth in next 10 years. TVA also working on adding first utility-scale battery storage facility in Vonore, Tennessee."
+          },
+          {
+            "year": 2024,
+            "change_description": "TVA implemented 5.25% base rate increase effective October 1, 2024, following 4.5% increase in 2023. Rising rates may increase attractiveness of DR bill credits."
+          }
+        ],
+        "budget_committed_through": "2030",
+        "total_annual_budget": "$100M over 10 years for all demand response and energy efficiency programs (approx $10M/year)",
+        "notes": "TVA demand response portfolio achieves 1,628 MW average demand reduction with 108% portfolio performance, equivalent to approximately 2.5 combustion turbine plants. This represents significant grid value."
+      },
+      "historical_events": [],
+      "data_sources": [
+        {
+          "source_name": "TVA EnergyRight PowerFlex Program Page",
+          "url": "https://energyright.com/business-industry/demand-response/powerflex/",
+          "last_updated": "2024",
+          "data_type": "program_rules"
+        },
+        {
+          "source_name": "TVA EnergyRight Demand Response Overview",
+          "url": "https://energyright.com/business-industry/demand-response/",
+          "last_updated": "2024",
+          "data_type": "program_rules"
+        },
+        {
+          "source_name": "Enel North America TVA Demand Response Program",
+          "url": "https://www.enelnorthamerica.com/solutions/energy-solutions/demand-response/tennessee-valley-authority-demand-response",
+          "last_updated": "2024",
+          "data_type": "program_rules"
+        },
+        {
+          "source_name": "TVA $15B Investment Announcement",
+          "url": "https://www.renewableenergyworld.com/power-grid/grid-modernization/tva-to-invest-15b-in-system-upgrades-including-100m-for-demand-response-programs/",
+          "last_updated": "2024",
+          "data_type": "program_history"
+        },
+        {
+          "source_name": "TVA in Kentucky - Service Territory",
+          "url": "https://www.tva.com/about-tva/tva-in-kentucky",
+          "last_updated": "2024",
+          "data_type": "geography"
+        }
+      ],
+      "integration_metadata": {
+        "optimizer_compatible": false,
+        "api_available": false,
+        "api_documentation_url": null,
+        "data_quality_score": 3.5,
+        "last_verified_date": "2025-10-11",
+        "notes": "CRITICAL DATA GAPS: This program has SEVERE data quality limitations for battery optimization purposes. Specific capacity payment rates NOT publicly available - this is the most critical missing data point for financial modeling. Notification times not specified. Event frequency not documented. Response time requirements not disclosed. Penalty structures not detailed. These gaps make it IMPOSSIBLE to accurately model revenue potential or build optimization algorithms. Data quality score 3.5/10 reflects significant information deficits. TVA and Enel appear to provide detailed program information only during enrollment discussions, creating opacity for pre-enrollment analysis. Battery suitability: UNCERTAIN. Program description focuses on industrial process curtailment and manufacturing operations, with no specific mention of battery energy storage eligibility. Unlike MISO/PJM programs that explicitly welcome battery participation, TVA PowerFlex materials are silent on batteries. The 1 MW minimum and 2-4 hour event duration are technically compatible with utility-scale batteries, but absence of explicit battery language suggests program may not be designed for storage resources. Recommend direct contact with TVA EnergyRight to confirm battery eligibility before investment. Geographic coverage: GOOD for TVA Kentucky territory (28 counties, 7,787 sq mi). Clear delineation from MISO and PJM territories. Overall: LOW CONFIDENCE for battery optimization modeling due to missing payment data."
+      }
+    },
+    {
+      "program_id": "TVA-KY-PEAKREWARDS-002",
+      "program_name": "TVA Peak Rewards Demand Response - Kentucky Territory",
+      "program_type": "utility_managed",
+      "status": "active",
+      "description": "Peak Rewards is TVA's demand response program for businesses, schools, and nonprofits with minimum curtailable demand of 50 kW. Operated by TVA EnergyRight and local power companies, powered by Enel North America. Participants receive seasonal payments for reducing electricity during peak demand periods with 30-minute notification. Events last 1-4 hours and occur during 5 AM - 8 PM CT window. Up to 32 event hours per fiscal year (October-September). Program provides access to energy intelligence software and 24/7 real-time monitoring. No upfront or out-of-pocket costs. Tailored energy reduction strategies accommodate various facility types. IMPORTANT: Only available in TVA Kentucky service territory (28 counties in western and south-central KY), distinct from MISO and PJM territories.",
+      "geography": {
+        "states": ["KY"],
+        "utilities": [
+          "West Kentucky Rural Electric Cooperative Corporation (WKRECC)",
+          "Tri-County Electric Membership Corporation",
+          "Hopkinsville Electric System",
+          "Bowling Green Municipal Utilities",
+          "Franklin Municipal Power and Light",
+          "Glasgow Electric Plant Board",
+          "Murray Electric System",
+          "Princeton Electric Plant Board",
+          "Russellville Electric Plant Board"
+        ],
+        "isos": ["TVA"],
+        "service_territories": [
+          "TVA Kentucky territory only",
+          "Same 28-county service area as PowerFlex: Adair, Allen, Barren, Butler, Caldwell, Calloway, Carlisle, Christian, Clinton, Cumberland, Edmonson, Fulton, Graves, Grayson, Hickman, Livingston, Logan, Lyon, Marshall, Metcalfe, Monroe, Muhlenberg, Ohio, Simpson, Todd, Trigg, Warren, Whitley"
+        ]
+      },
+      "eligibility": {
+        "customer_classes": {
+          "residential": false,
+          "commercial": true,
+          "industrial": true,
+          "size_threshold_notes": "Minimum 50 kW curtailable demand. Significantly lower threshold than PowerFlex (1 MW), making this accessible to smaller facilities."
+        },
+        "behind_the_meter": true,
+        "front_of_meter": false,
+        "minimum_capacity_kw": 50,
+        "maximum_capacity_kw": null,
+        "resource_types": [
+          "HVAC adjustment (modify temperature setpoints)",
+          "Lighting reduction (reduce non-essential lighting)",
+          "Industrial process modification (shift or curtail energy-intensive processes)",
+          "Manufacturing process adjustment",
+          "Industrial freezer settings change",
+          "Pumps reduction (dial back pumps)",
+          "Battery energy storage systems (behind-the-meter) - ELIGIBILITY UNCERTAIN"
+        ],
+        "requires_aggregator": false,
+        "aggregator_notes": "Enel North America serves as aggregator and program manager, handling enrollment, assessment, metering, dispatch notification, and payment management."
+      },
+      "notification": {
+        "day_ahead_notice": false,
+        "minimum_notice_hours": 0.5,
+        "maximum_notice_hours": null,
+        "notification_methods": [
+          "Email",
+          "Phone",
+          "SMS text message",
+          "Enel energy intelligence software portal"
+        ],
+        "notification_notes": "30-minute advance notification before event start. This is relatively short notice compared to many utility DR programs."
+      },
+      "payment_structure": {
+        "has_capacity_payment": true,
+        "has_performance_payment": false,
+        "capacity_rate": {
+          "value": null,
+          "unit": "seasonal payment ($/kW-season or total payment)",
+          "varies_by_season": true,
+          "notes": "CRITICAL DATA GAP: Specific seasonal payment amounts NOT publicly disclosed. Program materials indicate 'seasonal payment for successful participation' but exact dollar amounts per kW or total payment values not published. This represents a major limitation for financial analysis and battery business case development. Payment structure appears to be capacity-based (paid for availability/enrollment) rather than per-event performance-based."
+        },
+        "performance_rate": {
+          "value": null,
+          "unit": "$/kWh",
+          "varies_by_season": false,
+          "varies_by_time": false,
+          "notes": "No per-event energy payments documented. Compensation structure appears to be seasonal capacity payments only."
+        },
+        "penalty_structure": {
+          "has_penalties": true,
+          "penalty_rate": null,
+          "penalty_unit": "not available",
+          "penalty_description": "Specific penalties not documented in public materials. 'Successful participation' language suggests participants must perform when called to receive full seasonal payment. Non-performance likely results in reduced or eliminated seasonal payments."
+        },
+        "bonus_payments": [],
+        "forward_curve_available": false,
+        "forward_curve_url": null
+      },
+      "seasons": [
+        {
+          "season_name": "Fiscal Year",
+          "start_date": "10-01",
+          "end_date": "09-30",
+          "max_events": null,
+          "max_hours": 32,
+          "notes": "TVA operates on federal fiscal year (October - September). Up to 32 event hours per fiscal year maximum."
+        }
+      ],
+      "call_windows": [
+        {
+          "window_id": "peak_period",
+          "start_hour": 5,
+          "end_hour": 20,
+          "days_of_week": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+          "seasons": ["Fiscal Year"],
+          "timezone": "America/Chicago",
+          "notes": "Events can occur between 5 AM and 8 PM Central Time. This wide window (15 hours) covers both morning and evening peak periods."
+        }
+      ],
+      "event_parameters": {
+        "typical_duration_hours": 2.5,
+        "minimum_duration_hours": 1,
+        "maximum_duration_hours": 4,
+        "event_granularity_minutes": null,
+        "response_time_minutes": 30,
+        "max_events_per_season": null,
+        "max_events_per_year": null,
+        "max_hours_per_season": 32,
+        "max_hours_per_year": 32,
+        "max_consecutive_events": null,
+        "minimum_rest_hours": null,
+        "notes": "Events last 1-4 hours. Maximum 32 event hours per fiscal year (October-September). 30-minute advance notification. No stated limit on number of individual events, only total hours. Participants reduce load according to predetermined energy reduction plans - either manually or automatically."
+      },
+      "nomination_bidding": {
+        "requires_nomination": true,
+        "nomination_frequency": "annual",
+        "nomination_deadline": "Ongoing enrollment. Annual commitment likely follows TVA fiscal year (October-September).",
+        "allows_price_bidding": false,
+        "bidding_structure": "Fixed payment structure set by TVA. No competitive bidding. Utility-managed program with predetermined compensation.",
+        "enrollment_period": {
+          "start_date": "Ongoing",
+          "end_date": "Ongoing",
+          "recurring": true,
+          "notes": "Enrollment process: 1) Enel assesses energy reduction potential, 2) Potential metering device installation, 3) Site enrollment, 4) Dispatch response, 5) Payment management. Contact TVA EnergyRight or local power company to initiate."
+        }
+      },
+      "special_programs": {
+        "is_rec_based": false,
+        "rec_type": null,
+        "scheduled_dispatch": false,
+        "clean_peak_standard": false,
+        "special_attributes": [
+          "Managed by Enel North America with TVA EnergyRight and local power companies",
+          "Access to Enel energy intelligence software platform",
+          "24/7 real-time energy consumption monitoring",
+          "Login credentials provided to participants for energy tracking",
+          "Tailored energy reduction strategies for each facility",
+          "No upfront costs or out-of-pocket expenses",
+          "Enel handles enrollment through payment",
+          "Flexible approach accommodating various facility types"
+        ]
+      },
+      "program_history": {
+        "launch_year": null,
+        "program_evolution": [
+          {
+            "year": 2024,
+            "change_description": "Program continues as part of TVA's $100M demand response investment through 2030. TVA rate increases (5.25% in Oct 2024) may increase program attractiveness."
+          }
+        ],
+        "budget_committed_through": "2030",
+        "total_annual_budget": "Part of TVA's $100M total DR/efficiency budget over 10 years",
+        "notes": "Peak Rewards complements PowerFlex by serving smaller facilities (50 kW vs 1 MW threshold). Together these programs contribute to TVA's 1,628 MW portfolio demand reduction."
+      },
+      "historical_events": [],
+      "data_sources": [
+        {
+          "source_name": "TVA EnergyRight Peak Rewards Program Page",
+          "url": "https://energyright.com/business-industry/demand-response/peak-rewards/",
+          "last_updated": "2024",
+          "data_type": "program_rules"
+        },
+        {
+          "source_name": "Enel North America TVA Demand Response Program",
+          "url": "https://www.enelnorthamerica.com/solutions/energy-solutions/demand-response/tennessee-valley-authority-demand-response",
+          "last_updated": "2024",
+          "data_type": "program_rules"
+        },
+        {
+          "source_name": "TVA EnergyRight Demand Response Overview",
+          "url": "https://energyright.com/business-industry/demand-response/",
+          "last_updated": "2024",
+          "data_type": "program_rules"
+        }
+      ],
+      "integration_metadata": {
+        "optimizer_compatible": false,
+        "api_available": false,
+        "api_documentation_url": null,
+        "data_quality_score": 4.0,
+        "last_verified_date": "2025-10-11",
+        "notes": "CRITICAL DATA GAP: Seasonal payment rates NOT publicly disclosed, making financial modeling impossible. This is the single most important missing data point. Data quality score 4.0/10 reflects this limitation. However, Peak Rewards has BETTER operational clarity than PowerFlex: event windows clearly defined (5 AM - 8 PM CT), notification time specified (30 minutes), event duration clear (1-4 hours), annual hour cap documented (32 hours). Battery suitability: UNCERTAIN due to lack of explicit battery mention in program materials and very short 30-minute notification time. Most batteries can respond within 30 minutes technically, but this short notice may complicate operational planning. 50 kW minimum is achievable for commercial batteries, but program focus on HVAC, lighting, and process adjustments suggests traditional load curtailment orientation rather than battery storage design. Battery eligibility should be confirmed with TVA EnergyRight before enrollment. Geographic coverage: GOOD - same 28 counties as PowerFlex. Lower 50 kW threshold makes this more accessible than PowerFlex for smaller battery installations. 32-hour annual cap is relatively LOW compared to many DR programs, potentially limiting revenue opportunity. Overall: MODERATE INTEREST for smaller batteries IF payment rates are competitive, but missing payment data prevents recommendation."
+      }
+    },
+    {
+      "program_id": "TVA-KY-DVR-003",
+      "program_name": "TVA Dispatchable Voltage Regulation (DVR) - Kentucky Territory",
+      "program_type": "utility_managed",
+      "status": "active",
+      "description": "Dispatchable Voltage Regulation (DVR) is a program offered to TVA's local power companies (not end customers) to deliver energy more efficiently during peak demand by optimizing distribution-level voltage. TVA dispatches voltage reduction economically for up to 400 hours annually with 30-minute event notification. Events last 2-6 hours and occur approximately 2 times per week. Local power companies receive event energy credits that cover lost revenue margin. TVA assumes forecasting risk and provides credit if they miss a peak. IMPORTANT: This is an LPC-LEVEL program, NOT available to individual commercial/industrial customers or battery operators. Battery facilities cannot directly participate in DVR. Only mentioned here for completeness of TVA Kentucky DR program portfolio.",
+      "geography": {
+        "states": ["KY"],
+        "utilities": [
+          "TVA local power companies in Kentucky (10 municipals + 5 cooperatives)"
+        ],
+        "isos": ["TVA"],
+        "service_territories": [
+          "TVA Kentucky territory - all 28 counties"
+        ]
+      },
+      "eligibility": {
+        "customer_classes": {
+          "residential": false,
+          "commercial": false,
+          "industrial": false,
+          "size_threshold_notes": "NOT AVAILABLE to end customers. This is a local power company (utility) program only. Battery owners and operators CANNOT directly participate."
+        },
+        "behind_the_meter": false,
+        "front_of_meter": false,
+        "minimum_capacity_kw": null,
+        "maximum_capacity_kw": null,
+        "resource_types": [],
+        "requires_aggregator": false
+      },
+      "notification": {
+        "day_ahead_notice": false,
+        "minimum_notice_hours": 0.5,
+        "maximum_notice_hours": null,
+        "notification_methods": [
+          "TVA notification to local power company"
+        ]
+      },
+      "payment_structure": {
+        "has_capacity_payment": false,
+        "has_performance_payment": true,
+        "capacity_rate": null,
+        "performance_rate": {
+          "value": null,
+          "unit": "event energy credits to LPC",
+          "varies_by_season": false,
+          "varies_by_time": false,
+          "notes": "Local power companies receive event energy credits that cover lost revenue margin from voltage reduction. Specific credit values not publicly disclosed. NOT applicable to battery operators."
+        },
+        "penalty_structure": {
+          "has_penalties": false,
+          "penalty_rate": null,
+          "penalty_unit": null,
+          "penalty_description": "No penalties for LPCs. TVA assumes forecasting risk and issues credit if they miss a peak event."
+        },
+        "bonus_payments": [],
+        "forward_curve_available": false,
+        "forward_curve_url": null
+      },
+      "seasons": [],
+      "call_windows": [],
+      "event_parameters": {
+        "typical_duration_hours": 4,
+        "minimum_duration_hours": 2,
+        "maximum_duration_hours": 6,
+        "event_granularity_minutes": null,
+        "response_time_minutes": 30,
+        "max_events_per_season": null,
+        "max_events_per_year": 104,
+        "max_hours_per_season": null,
+        "max_hours_per_year": 400,
+        "max_consecutive_events": null,
+        "minimum_rest_hours": null,
+        "notes": "Up to 400 hours of events per year. Approximately 2 events per week. Events last 2-6 hours. 30-minute notification. Local power companies must have revenue-quality interval meter, real-time telemetry capability, ability to demonstrate voltage reduction within required window, and at least one control zone with dynamic voltage control."
+      },
+      "nomination_bidding": {
+        "requires_nomination": false,
+        "nomination_frequency": "none",
+        "nomination_deadline": "Not applicable",
+        "allows_price_bidding": false,
+        "bidding_structure": "Not applicable - LPC program only",
+        "enrollment_period": {
+          "start_date": "Not applicable",
+          "end_date": "Not applicable",
+          "recurring": false,
+          "notes": "Local power companies enroll, not end customers"
+        }
+      },
+      "special_programs": {
+        "is_rec_based": false,
+        "rec_type": null,
+        "scheduled_dispatch": true,
+        "clean_peak_standard": false,
+        "special_attributes": [
+          "LPC-level program, not customer-facing",
+          "Smart grid technology demonstration project origin",
+          "TVA assumes peak forecasting risk",
+          "Predictable credit structure for LPCs",
+          "Dispatched economically with energy cost tied to Henry Hub natural gas index",
+          "Requires advanced metering and control infrastructure at LPC level"
+        ]
+      },
+      "program_history": {
+        "launch_year": null,
+        "program_evolution": [
+          {
+            "year": null,
+            "change_description": "DVR Program began as smart grid technology demonstration project, later expanded to operational program dispatched up to 100 hours annually."
+          }
+        ],
+        "budget_committed_through": null,
+        "total_annual_budget": null,
+        "notes": "DVR is part of TVA's broader demand response portfolio contributing to 1,628 MW system demand reduction. However, it operates at distribution utility level rather than customer level."
+      },
+      "historical_events": [],
+      "data_sources": [
+        {
+          "source_name": "TVA EnergyRight DVR Program Page",
+          "url": "https://energyright.com/business-industry/demand-response/dvr/",
+          "last_updated": "2024",
+          "data_type": "program_rules"
+        }
+      ],
+      "integration_metadata": {
+        "optimizer_compatible": false,
+        "api_available": false,
+        "api_documentation_url": null,
+        "data_quality_score": 5.0,
+        "last_verified_date": "2025-10-11",
+        "notes": "NOT APPLICABLE for battery energy storage optimization. This is a local power company (utility-level) program, not a customer-facing demand response program. Battery operators CANNOT directly participate in DVR. Data quality score 5.0/10 reflects moderate documentation for informational purposes, but program is irrelevant for battery business case analysis. Included in this research only for comprehensive documentation of TVA Kentucky DR portfolio. Recommendation: IGNORE this program for battery optimization purposes."
+      }
+    }
+  ],
+  "research_summary": {
+    "total_programs_documented": 3,
+    "active_programs": 3,
+    "discontinued_programs": 0,
+    "customer_facing_programs": 2,
+    "utility_level_programs": 1,
+    "geographic_coverage": "TVA service territory in Kentucky: 28 counties in far western and south-central Kentucky (7,787 square miles, 9% of TVA's total territory). Distinct from MISO Kentucky (Big Rivers Electric) and PJM Kentucky (Kentucky Power, LG&E/KU).",
+    "data_quality_assessment": "LOW data quality for battery optimization purposes. Score: 3.5-4.0/10. CRITICAL LIMITATION: Capacity payment rates and seasonal payment amounts NOT publicly disclosed for either PowerFlex or Peak Rewards programs. This represents a severe data gap that prevents financial modeling and business case development. TVA/Enel appear to provide payment information only during enrollment discussions, creating significant opacity for pre-enrollment analysis. Operational parameters are partially documented (event windows, notification times, duration) but many details remain unclear. No API documentation available. No forward pricing curves. Battery eligibility not explicitly addressed in program materials. Geographic coverage is well-documented with clear county-level detail. Data sources: TVA EnergyRight website, Enel North America TVA program pages, and general TVA corporate information. Compared to MISO, PJM, CAISO, and ERCOT programs which publish detailed tariffs and pricing, TVA's lack of public payment data significantly limits research quality.",
+    "battery_suitability_summary": "UNCERTAIN battery suitability with LOW CONFIDENCE for financial modeling. PowerFlex (1 MW minimum, 2-4 hour events) and Peak Rewards (50 kW minimum, 1-4 hour events, 30-minute notice) have technical parameters compatible with battery systems, but neither program explicitly mentions battery energy storage as eligible resource type. Program descriptions focus heavily on industrial process curtailment, manufacturing operations, HVAC control, and lighting reduction - traditional demand response strategies rather than storage resources. This is markedly different from MISO/PJM/CAISO programs which explicitly welcome battery participation. Battery eligibility should be directly confirmed with TVA EnergyRight before investment decisions. CRITICAL FINANCIAL MODELING BARRIER: Missing payment rate data makes it impossible to calculate potential battery revenues or compare TVA programs to other markets. Cannot determine if TVA DR programs offer competitive compensation without this information. Geographic coverage is CLEAR and POSITIVE: 28 Kentucky counties are definitively in TVA territory, distinct from MISO and PJM regions. Overall recommendation: Contact TVA EnergyRight directly to: 1) Confirm battery eligibility, 2) Obtain payment rate information, 3) Understand program terms and conditions before considering TVA DR participation for Kentucky battery projects.",
+    "key_findings": [
+      "TVA serves 28 Kentucky counties in far western and south-central regions (7,787 sq mi)",
+      "TVA Kentucky territory is DISTINCT from MISO Kentucky (Big Rivers Electric) and PJM Kentucky (Kentucky Power, LG&E/KU)",
+      "TVA sells power to 10 municipal utilities and 5 cooperatives in Kentucky",
+      "PowerFlex program: 1 MW minimum, 2-4 hour events, flexible notification, bill credits - payment rates NOT PUBLIC",
+      "Peak Rewards program: 50 kW minimum, 1-4 hour events, 30-minute notice, 32 hours/year max, seasonal payments - amounts NOT PUBLIC",
+      "DVR program is utility-level only, NOT available to battery operators or end customers",
+      "TVA DR portfolio achieves 1,628 MW demand reduction across entire TVA territory (108% performance)",
+      "TVA investing $100M in DR and efficiency programs through 2030",
+      "Partnership with Enel North America for program management and aggregation",
+      "No public tariff documents, rate schedules, or detailed payment structures available",
+      "Battery eligibility not explicitly mentioned in any TVA DR program materials",
+      "No API integration, forward curves, or automated dispatch capabilities documented",
+      "TVA rate increases (5.25% in Oct 2024) may improve DR program economics",
+      "Programs operate year-round with no clear seasonal restrictions",
+      "No programs comparable to MISO EmDR, PJM Emergency, or CAISO PDR emergency programs"
+    ],
+    "comparison_with_miso_kentucky": {
+      "geographic_separation": "TVA Kentucky (28 counties, western/south-central) and MISO Kentucky (Big Rivers Electric, 22 counties, far western) have SOME OVERLAP in western Kentucky counties including Ballard, Carlisle, Graves, Livingston, Marshall, and McCracken. However, LG&E/KU (central Kentucky) are NOT in either TVA or MISO - they withdrew from MISO in 2006 and are not TVA members.",
+      "program_structure": "TVA uses utility-managed programs with fixed payments (PowerFlex, Peak Rewards). MISO uses wholesale market programs with competitive auctions (LMR, DRR-II). Fundamentally different structures.",
+      "payment_transparency": "MISO publishes detailed auction results with specific $/MW-day rates by zone and season. TVA does NOT publish payment rates. MISO has significantly higher transparency.",
+      "battery_clarity": "MISO explicitly welcomes batteries in LMR and DRR-II programs with detailed technical requirements. TVA does not mention batteries. MISO has superior battery guidance.",
+      "payment_magnitude": "MISO Kentucky (Zone 6) capacity rates: $0.75-$34.10/MW-day in 2024-25, $666.50/MW-day in 2025-26. TVA rates: UNKNOWN. Cannot compare without TVA data.",
+      "data_quality": "MISO: 8.5/10 with comprehensive documentation. TVA: 3.5-4.0/10 with major data gaps. MISO significantly superior.",
+      "recommendation": "For Kentucky battery projects: 1) Confirm grid operator (TVA vs MISO vs PJM), 2) MISO programs have much better documentation and clarity for batteries (IF in Big Rivers territory), 3) TVA programs require direct inquiry to obtain critical information, 4) LG&E/KU customers have no access to either TVA or MISO DR programs unless third-party aggregation exists."
+    },
+    "comparison_with_pjm_kentucky": {
+      "geographic_separation": "PJM Kentucky includes Kentucky Power (eastern KY, ~20 counties) and portions of LG&E/KU territory (central KY, ~90 counties). TVA Kentucky is western/south-central (28 counties). Geographic separation is CLEAR with minimal overlap.",
+      "program_structure": "PJM operates wholesale capacity market (RPM/BRA) and emergency programs (Emergency, Economic DR). TVA uses utility-managed fixed-payment programs. Different structures.",
+      "payment_transparency": "PJM publishes detailed capacity auction results by zone. TVA does not. PJM has superior transparency.",
+      "battery_participation": "PJM explicitly allows battery participation as Capacity Performance resources and Demand Resources. TVA does not address batteries. PJM has clear battery pathways.",
+      "recommendation": "For Kentucky batteries: Verify if location is in PJM territory (Kentucky Power or LG&E/KU). PJM offers more transparent and battery-friendly DR programs compared to TVA based on available documentation."
+    },
+    "research_time_minutes": 35,
+    "research_date": "2025-10-11",
+    "researcher_notes": "This research reveals significant challenges for battery energy storage operators considering TVA demand response programs in Kentucky. While TVA has established DR programs (PowerFlex, Peak Rewards) with operational parameters that could theoretically work for batteries (MW-scale resources, 1-4 hour events), the complete absence of published payment rate information creates an insurmountable barrier to financial analysis. This is markedly different from wholesale market operators (MISO, PJM, CAISO, ERCOT) which publish detailed tariffs, auction results, and payment schedules. TVA's utility-managed structure means payment information is shared during enrollment rather than published publicly. For rigorous battery optimization research requiring validated, trustworthy data, TVA programs cannot be properly modeled without direct engagement with TVA EnergyRight or local power companies to obtain payment terms. Geographic research was successful - TVA's Kentucky service territory is well-documented (28 counties, 10 municipal + 5 cooperative distributors, 7,787 sq mi) and clearly distinct from MISO and PJM territories. The overlapping counties between TVA and Big Rivers Electric (MISO) in western Kentucky add complexity but are well-identified. Battery eligibility uncertainty is a secondary concern - even if batteries are allowed, missing payment data prevents business case development. Recommendation: For any Kentucky battery project in TVA territory, immediate next step must be direct contact with TVA EnergyRight to: 1) Confirm battery eligibility, 2) Obtain capacity payment rates or bill credit values, 3) Understand detailed program terms, penalties, and performance requirements. Until this information is obtained, TVA DR programs should be marked as 'INSUFFICIENT DATA' in optimization models. Data quality assessment of 3.5-4.0/10 reflects the fundamental gap in financial modeling inputs despite adequate operational parameter documentation."
+  }
+}

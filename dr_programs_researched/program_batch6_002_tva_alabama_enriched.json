@@ -1,0 +1,583 @@
+{
+  "program_id": "TVA-ALABAMA-DR-PORTFOLIO",
+  "program_name": "Tennessee Valley Authority (TVA) Demand Response Program Portfolio - Alabama Service Territory",
+  "program_type": "utility",
+  "status": "active",
+  "research_completed_date": "2025-10-11",
+  "data_quality_score": 7,
+  "description": "TVA operates multiple demand response programs serving commercial and industrial customers in northern Alabama through partnership with Enel North America. TVA serves 16 Alabama counties through 17 municipalities and 8 cooperatively owned power companies, covering 8,360 square miles and 461,000 households. The portfolio includes Peak Rewards (50 kW minimum), PowerFlex (1 MW minimum), and legacy Interruptible Power programs (IP5, IP30). All programs are managed by Enel North America and provide payments for load curtailment during peak demand periods. Battery energy storage systems are eligible to participate through load curtailment or backup generation strategies.",
+
+  "geography": {
+    "states": ["AL"],
+    "utilities": [
+      "Tennessee Valley Authority (TVA)"
+    ],
+    "isos": [],
+    "service_territories": [
+      "Northern Alabama TVA service territory"
+    ],
+    "alabama_specific": {
+      "counties_served": 16,
+      "square_miles": 8360,
+      "households_served": 461000,
+      "municipalities": 17,
+      "cooperatives": 8,
+      "infrastructure": "77 substations and 2,364 circuit miles of transmission lines",
+      "major_facilities": "Browns Ferry nuclear plant (Athens), Widows Creek coal plant, Colbert coal plant",
+      "major_cities": [
+        "Huntsville",
+        "Athens",
+        "Florence",
+        "Decatur"
+      ],
+      "local_power_companies": [
+        "Huntsville Utilities",
+        "Athens Utilities Board (AL)",
+        "Florence Utilities",
+        "Decatur Utilities",
+        "Joe Wheeler Electric Membership Corporation",
+        "Tennessee Valley Electric Cooperative",
+        "Cullman Electric Cooperative",
+        "Sand Mountain Electric Cooperative"
+      ],
+      "notes": "TVA serves northern Alabama counties. Alabama Power (Southern Company) serves central and southern Alabama. TVA territory begins approximately at the Tennessee state line and extends south through the northern tier of counties."
+    }
+  },
+
+  "eligibility": {
+    "customer_classes": {
+      "residential": false,
+      "commercial": true,
+      "industrial": true,
+      "institutional": true,
+      "size_threshold_notes": "Peak Rewards: 50 kW minimum curtailable demand. PowerFlex: 1,000 kW minimum contract demand with 500 kW minimum annual average on-peak interruptible demand. Programs target businesses, schools, nonprofits, churches, and commercial/industrial organizations."
+    },
+    "behind_the_meter": true,
+    "front_of_meter": false,
+    "minimum_capacity_kw": 50,
+    "maximum_capacity_kw": null,
+    "resource_types": [
+      "load curtailment",
+      "battery energy storage (discharge mode)",
+      "backup generation (diesel, natural gas)",
+      "HVAC modification",
+      "manufacturing process adjustment",
+      "pump reduction",
+      "lighting reduction",
+      "rectifier curtailment",
+      "chiller curtailment",
+      "electrolyzer curtailment",
+      "furnace curtailment",
+      "water system adjustment",
+      "air compression system reduction",
+      "industrial freezer adjustment"
+    ],
+    "requires_aggregator": true,
+    "aggregator_name": "Enel North America",
+    "aggregator_exclusive": true,
+    "notes": "Enel manages all aspects of participation including enrollment, measurement, verification, and payments on behalf of TVA. Battery energy storage systems are eligible and can participate by reducing grid consumption during events. Direct customer enrollment (without aggregator) is not available for these programs."
+  },
+
+  "notification": {
+    "day_ahead_notice": false,
+    "minimum_notice_hours": 0.5,
+    "maximum_notice_hours": null,
+    "notification_methods": [
+      "email",
+      "SMS",
+      "phone",
+      "API",
+      "cloud-based software"
+    ],
+    "notification_notes": "Peak Rewards: 30-minute advance notice. PowerFlex: flexible notification times. Participants select preferred notification methods. Enel provides cloud-based energy intelligence software with 24/7/365 real-time monitoring and advanced notification of grid stability issues."
+  },
+
+  "payment_structure": {
+    "has_capacity_payment": true,
+    "has_performance_payment": true,
+    "capacity_rate": {
+      "value": null,
+      "unit": null,
+      "varies_by_season": true,
+      "seasonal_rates": [],
+      "notes": "Capacity payment rates are not publicly disclosed by TVA or Enel. Peak Rewards offers 'seasonal payments.' PowerFlex offers 'bill credits' with higher demand and energy credits than Peak Rewards. Payment structures appear to be customized per participant based on enrolled capacity, performance capabilities, and contract terms. TVA's Schedule of Credits and Charges contains specific rates but is not publicly available - distributed to participants and local power companies only."
+    },
+    "performance_rate": {
+      "value": null,
+      "unit": "$/kWh",
+      "varies_by_season": false,
+      "varies_by_time": false,
+      "notes": "PowerFlex includes event-based energy credits in addition to capacity payments. Peak Rewards primarily offers capacity-based seasonal payments. IP30 (legacy program) includes event-based energy credit calculated using ECA (Energy Credit Amount) from Schedule of Credits and Charges. Specific $/kWh rates not publicly available."
+    },
+    "penalty_structure": {
+      "has_penalties": true,
+      "penalty_rate": null,
+      "penalty_unit": null,
+      "penalty_description": "IP30 program references 'Underperformance Charge' with multiplier (UP multiplier) specified in Schedule of Credits and Charges. Specific penalty rates not publicly disclosed. PowerFlex and Peak Rewards penalty structures not available."
+    },
+    "bonus_payments": [],
+    "forward_curve_available": false,
+    "forward_curve_url": null,
+    "payment_notes": "Historical example: Metro Nashville Public Schools earned $400,000 over 10 years ($40,000/year average) for 60 locations. Since 2015, all TVA demand response customers through Enel have earned more than $1.325 billion in total payments. TVA investing $1.5 billion through 2027 in energy efficiency and demand response programs. No upfront or out-of-pocket costs to participate. PowerFlex offers sign-up incentives for enrolling businesses with >1 MW demand."
+  },
+
+  "seasons": [
+    {
+      "season_name": "Year-round",
+      "start_date": "10-01",
+      "end_date": "09-30",
+      "max_events": null,
+      "max_hours": 32,
+      "notes": "Peak Rewards operates year-round with up to 32 event hours per TVA fiscal year (October 1 - September 30). PowerFlex has 2-4 hour capacity calls with unlimited emergency calls."
+    }
+  ],
+
+  "call_windows": [
+    {
+      "window_id": "peak_rewards_daytime",
+      "start_hour": 5,
+      "end_hour": 20,
+      "days_of_week": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday"
+      ],
+      "seasons": [
+        "Year-round"
+      ],
+      "timezone": "America/Chicago",
+      "notes": "Peak Rewards events called between 5 AM and 8 PM Central Time, seven days per week. Summer peaks typically occur noon-8 PM. Winter peaks can occur morning or evening."
+    }
+  ],
+
+  "event_parameters": {
+    "typical_duration_hours": 4,
+    "minimum_duration_hours": 1,
+    "maximum_duration_hours": 4,
+    "event_granularity_minutes": null,
+    "response_time_minutes": 30,
+    "max_events_per_season": null,
+    "max_events_per_year": null,
+    "max_hours_per_season": null,
+    "max_hours_per_year": 32,
+    "max_consecutive_events": null,
+    "minimum_rest_hours": null,
+    "notes": "Peak Rewards: 1-4 hour events, typically 4 hours, 30-minute response time, 32 annual hours maximum. PowerFlex: 2-4 hour capacity calls (minimum 2 hours, maximum 4 hours) with flexible notification times. Emergency calls are unlimited duration. Events are called during grid stress, primarily extreme weather conditions (heat waves, winter storms)."
+  },
+
+  "event_triggers": {
+    "trigger_description": "Events are called during periods of exceptionally high electricity demand to maintain grid reliability and prevent blackouts. Primary triggers are extreme weather conditions creating peak demand (summer heat waves, winter storms). TVA also calls events for economic optimization when purchasing power from surrounding utilities would be more expensive than demand response activation.",
+    "primary_trigger": "grid_reliability_peak_demand",
+    "secondary_triggers": [
+      "extreme_weather",
+      "high_temperature",
+      "low_temperature",
+      "supply_shortage",
+      "economic_optimization"
+    ],
+    "temperature_threshold": null,
+    "price_threshold": null,
+    "examples": "December 2022 Winter Storm Elliott: TVA hit all-time winter peak of 33,425 MW requiring rolling blackouts across entire region. January 2024: New winter record of 34,524 MW during 0-4°F temperatures (no blackouts required due to new generation). August 2024: Summer peak of 31,096 MW. June 2024: 13 days exceeded 28,000 MW (vs typical 3 days)."
+  },
+
+  "nomination_bidding": {
+    "requires_nomination": true,
+    "nomination_frequency": "annual",
+    "nomination_deadline": null,
+    "allows_price_bidding": false,
+    "bidding_structure": "not applicable",
+    "enrollment_period": {
+      "start_date": null,
+      "end_date": null,
+      "recurring": true
+    },
+    "notes": "Participants must enroll through Enel North America. Enrollment appears to be ongoing rather than limited to specific annual periods. PowerFlex allows participants to temporarily increase capacity block election when offered by TVA. Contact Enel or local power company for enrollment."
+  },
+
+  "special_programs": {
+    "is_rec_based": false,
+    "rec_type": null,
+    "scheduled_dispatch": false,
+    "clean_peak_standard": false,
+    "special_attributes": [
+      "Cloud-based energy intelligence software provided by Enel",
+      "24/7/365 real-time energy consumption monitoring",
+      "Advanced notification of grid stability issues",
+      "Full program management by Enel (enrollment, M&V, payments)",
+      "Contributes to lower Fuel Cost Adjustment (FCA) for all TVA customers",
+      "Helps prevent blackouts and maintain regional grid reliability",
+      "Multiple program tiers for different customer sizes",
+      "Battery energy storage explicitly supported",
+      "Virtual Power Plant (VPP) aggregation through Enel platform"
+    ]
+  },
+
+  "program_history": {
+    "launch_year": 2015,
+    "program_evolution": [
+      {
+        "year": 2015,
+        "change_description": "Partnership with Enel North America formalized. Tracking of total customer earnings began."
+      },
+      {
+        "year": 2022,
+        "change_description": "December Winter Storm Elliott tested programs to maximum extent. TVA implemented emergency load curtailment (Step 50) for first time in 90-year history."
+      },
+      {
+        "year": 2024,
+        "change_description": "Peak Rewards continues as primary small/medium customer program. PowerFlex introduced for larger facilities (>1 MW) offering enhanced benefits. IP5 and IP30 participants encouraged to transition to PowerFlex. TVA announces $1.5 billion investment through 2027."
+      }
+    ],
+    "budget_committed_through": 2027,
+    "total_annual_budget": null,
+    "total_program_budget_2024_2027": 1500000000,
+    "notes": "TVA has operated interruptible power programs for decades. Modern demand response portfolio formalized with Enel partnership around 2015. Since 2015, customers have earned $1.325+ billion total. Current portfolio serves 600 participants providing 1,628 MW average demand reduction (equivalent to 2.5 combustion turbine plants). Program performance: 108% of target. TVA committed $1.5 billion through 2027 for energy efficiency and demand response."
+  },
+
+  "historical_events": [
+    {
+      "event_id": "winter_storm_elliott_2022_12_23",
+      "event_date": "2022-12-23",
+      "start_time": "10:31:00",
+      "end_time": "12:43:00",
+      "duration_hours": 2.2,
+      "season": "Winter",
+      "notification_time": null,
+      "advance_notice_hours": null,
+      "call_window": "morning",
+      "performance_payment_rate": null,
+      "total_mw_called": null,
+      "notes": "Winter Storm Elliott - First rolling blackout period. TVA system peak demand reached 33,425 MW at 7 PM (third-highest peak in TVA history). Temperatures near 0°F across region. All 153 local power companies required to reduce load - Step 50 of Emergency Load Curtailment Plan activated for first time in TVA's 90-year history."
+    },
+    {
+      "event_id": "winter_storm_elliott_2022_12_24",
+      "event_date": "2022-12-24",
+      "start_time": "05:51:00",
+      "end_time": "11:30:00",
+      "duration_hours": 5.65,
+      "season": "Winter",
+      "notification_time": null,
+      "advance_notice_hours": null,
+      "call_window": "morning",
+      "performance_payment_rate": null,
+      "total_mw_called": null,
+      "notes": "Winter Storm Elliott - Second rolling blackout period. Christmas Eve emergency conditions continued."
+    },
+    {
+      "event_id": "winter_peak_2024_01_17",
+      "event_date": "2024-01-17",
+      "start_time": "09:00:00",
+      "end_time": null,
+      "duration_hours": null,
+      "season": "Winter",
+      "notification_time": null,
+      "advance_notice_hours": null,
+      "call_window": "morning",
+      "performance_payment_rate": null,
+      "total_mw_called": null,
+      "notes": "New all-time winter peak demand record: 34,524 MW at 9 AM CT. Temperatures averaged 4°F across Tennessee Valley, near 0°F in Knoxville. No rolling blackouts required - new Paradise and Colbert generation capacity came online preventing emergency measures. Demonstrates successful capacity additions after 2022 winter storm."
+    },
+    {
+      "event_id": "summer_peak_2024_08_29",
+      "event_date": "2024-08-29",
+      "start_time": "15:00:00",
+      "end_time": null,
+      "duration_hours": null,
+      "season": "Summer",
+      "notification_time": null,
+      "advance_notice_hours": null,
+      "call_window": "afternoon",
+      "performance_payment_rate": null,
+      "total_mw_called": null,
+      "notes": "Summer 2024 peak demand: 31,096 MW at 3 PM CT on August 29. Highest summer demand of 2024. June 2024 saw 13 days exceed 28,000 MW (vs typical 3 days). System performed well without emergency measures."
+    }
+  ],
+
+  "program_portfolio": {
+    "peak_rewards": {
+      "program_name": "Peak Rewards",
+      "description": "Primary demand response program for small to medium commercial/industrial customers operated in partnership with Enel North America",
+      "minimum_capacity_kw": 50,
+      "notification_minutes": 30,
+      "event_duration_hours": "1-4",
+      "typical_event_hours": 4,
+      "max_annual_hours": 32,
+      "call_window": "5 AM - 8 PM CT",
+      "payment_type": "seasonal payments",
+      "fiscal_year": "October 1 - September 30",
+      "status": "active",
+      "battery_compatible": true,
+      "battery_notes": "Battery energy storage can participate by discharging to offset grid consumption during events. 30-minute notice provides adequate time for battery management system to respond."
+    },
+    "powerflex": {
+      "program_name": "PowerFlex",
+      "description": "Enhanced demand response program for larger facilities offering higher credits and flexible notification",
+      "minimum_capacity_kw": 1000,
+      "minimum_on_peak_interruptible_kw": 500,
+      "notification_minutes": null,
+      "notification_notes": "Flexible notification times offered",
+      "event_duration_capacity_calls": "2-4 hours",
+      "event_duration_emergency_calls": "unlimited",
+      "capacity_call_minimum_hours": 2,
+      "capacity_call_maximum_hours": 4,
+      "payment_type": "bill credits (demand and energy)",
+      "sign_up_incentive": true,
+      "status": "active",
+      "transition_notes": "IP5 and IP30 participants encouraged to transition to PowerFlex",
+      "battery_compatible": true,
+      "battery_notes": "Well-suited for battery energy storage systems >1 MW. Participants can select cumulative hours for curtailment. Can temporarily increase capacity block when offered by TVA."
+    },
+    "ip5": {
+      "program_name": "IP5 (Interruptible Power - 5 minute)",
+      "description": "Legacy reliability-only interruptible power product with 5-minute notification",
+      "minimum_capacity_kw": null,
+      "notification_minutes": 5,
+      "payment_type": "monthly demand credits",
+      "status": "legacy - transitioning to PowerFlex",
+      "battery_compatible": false,
+      "battery_notes": "5-minute response time too short for most battery management systems to coordinate load reduction strategies"
+    },
+    "ip30": {
+      "program_name": "IP30 (Interruptible Power - 30 minute)",
+      "description": "Legacy reliability and economics interruptible power product with 30-minute notification",
+      "minimum_capacity_kw": null,
+      "notification_minutes": 30,
+      "payment_type": "monthly demand credits plus event-based energy credits",
+      "energy_credit_formula": "ECA × Heat Rate (from Schedule of Credits and Charges)",
+      "underperformance_charge": true,
+      "status": "legacy - transitioning to PowerFlex",
+      "battery_compatible": true,
+      "battery_notes": "30-minute response time compatible with battery systems. Event-based energy credits make this attractive for storage assets."
+    },
+    "dispatchable_voltage_regulation": {
+      "program_name": "Dispatchable Voltage Regulation (DVR)",
+      "description": "Voltage optimization program for local power companies to reduce peak demand invisibly to customers",
+      "target_participant": "Local Power Companies only",
+      "customer_impact": "Invisible to end customers",
+      "status": "active",
+      "battery_compatible": false,
+      "battery_notes": "Not applicable - utility-level program, not customer-facing"
+    }
+  },
+
+  "battery_storage_suitability": {
+    "overall_rating": "Highly Suitable",
+    "rating_explanation": "TVA demand response programs are well-suited for battery energy storage systems in Alabama. Peak Rewards (50 kW minimum) and PowerFlex (1 MW minimum) both offer 30-minute or flexible notification, allowing battery management systems adequate time to respond. Year-round program with limited annual hours (32 for Peak Rewards) allows revenue stacking with other applications. Behind-the-meter batteries can participate by reducing grid consumption during events. Enel provides sophisticated monitoring and control platform suitable for coordinated battery dispatch.",
+    "minimum_system_size_kw": 50,
+    "optimal_system_size_kw": 1000,
+    "optimal_size_notes": "Systems >1 MW should enroll in PowerFlex for higher payments and more flexibility",
+    "response_time_adequate": true,
+    "annual_cycle_impact": "low",
+    "annual_cycle_notes": "32 hours per year = ~8 events × 4 hours. Minimal battery degradation impact. Majority of battery capacity available for other revenue streams (energy arbitrage, backup power, demand charge reduction).",
+    "geographic_coverage": "Northern Alabama only",
+    "interconnection_requirements": "Standard behind-the-meter installation per local utility requirements",
+    "aggregator_support": "Strong - Enel is leading aggregator with extensive battery storage experience",
+    "monitoring_requirements": "Enel provides cloud-based platform with 24/7 monitoring and API access",
+    "settlement_complexity": "Low - Enel handles all settlement",
+    "revenue_predictability": "Medium - Seasonal payments provide baseline, event frequency varies by weather",
+    "stacking_opportunities": [
+      "Energy arbitrage (DA price forecast)",
+      "Demand charge reduction",
+      "Backup power/resilience",
+      "Frequency regulation (if market access available)",
+      "Solar + storage time shifting",
+      "Additional demand response programs (if available)"
+    ],
+    "barriers_to_participation": [
+      "Payment rates not publicly disclosed - must contact Enel for project economics",
+      "Aggregator required - no direct enrollment option",
+      "Limited to TVA service territory (northern Alabama only)",
+      "Must coordinate with local power company",
+      "Requires Enel enrollment and M&V equipment"
+    ],
+    "recommendations": [
+      "Contact Enel North America for Alabama-specific pricing and enrollment",
+      "Size system to qualify for PowerFlex (>1 MW) if possible for better economics",
+      "Coordinate with local TVA power company (Huntsville Utilities, Athens Utilities, etc.)",
+      "Model revenue with conservative assumptions: 8-10 events per year, 4 hours each",
+      "Plan for revenue stacking with demand charge reduction and energy arbitrage",
+      "Ensure battery management system can receive and respond to Enel API notifications",
+      "Consider 2-hour minimum duration batteries for PowerFlex participation",
+      "Account for TVA's continued $1.5B investment through 2027 - program growth likely"
+    ]
+  },
+
+  "data_sources": [
+    {
+      "source_name": "Enel North America - TVA Demand Response Program Page",
+      "url": "https://www.enelnorthamerica.com/solutions/energy-solutions/demand-response/tennessee-valley-authority-demand-response",
+      "last_updated": "2024-10-11",
+      "data_type": "program_rules",
+      "fields_verified": [
+        "program_structure",
+        "notification_time",
+        "event_duration",
+        "customer_eligibility",
+        "Enel_partnership"
+      ]
+    },
+    {
+      "source_name": "TVA EnergyRight - Peak Rewards Program Page",
+      "url": "https://energyright.com/business-industry/demand-response/peak-rewards/",
+      "last_updated": "2024-10-11",
+      "data_type": "program_rules",
+      "fields_verified": [
+        "minimum_50kw",
+        "max_32_hours_annual",
+        "event_window_5am_8pm",
+        "1_4_hour_duration",
+        "30_minute_notification"
+      ]
+    },
+    {
+      "source_name": "TVA EnergyRight - PowerFlex Program Page",
+      "url": "https://energyright.com/business-industry/demand-response/powerflex/",
+      "last_updated": "2024-10-11",
+      "data_type": "program_rules",
+      "fields_verified": [
+        "minimum_1mw",
+        "minimum_500kw_interruptible",
+        "2_4_hour_capacity_calls",
+        "unlimited_emergency_calls",
+        "bill_credit_structure"
+      ]
+    },
+    {
+      "source_name": "TVA EnergyRight - Demand Response Portfolio Overview",
+      "url": "https://energyright.com/business-industry/demand-response/",
+      "last_updated": "2024-10-11",
+      "data_type": "program_rules",
+      "fields_verified": [
+        "program_portfolio",
+        "performance_metrics",
+        "1628_mw_reduction",
+        "108_percent_performance"
+      ]
+    },
+    {
+      "source_name": "Athens Utilities Board (TN) - Interruptible Power Options",
+      "url": "https://www.aub.org/for-my-business/business-industry-energy-services/interruptible-power-options",
+      "last_updated": "2024-10-11",
+      "data_type": "program_rules",
+      "fields_verified": [
+        "IP5_5_minute_notice",
+        "IP30_30_minute_notice",
+        "monthly_demand_credits",
+        "event_energy_credits"
+      ]
+    },
+    {
+      "source_name": "TVA Website - Alabama Local Power Companies",
+      "url": "https://www.tva.com/energy/public-power-partnerships/local-power-companies/alabama",
+      "last_updated": "2024-10-11",
+      "data_type": "enrollment",
+      "fields_verified": [
+        "alabama_service_territory",
+        "local_power_companies"
+      ],
+      "access_notes": "Page returned 403 error but information confirmed through Encyclopedia of Alabama"
+    },
+    {
+      "source_name": "Encyclopedia of Alabama - Tennessee Valley Authority in Alabama",
+      "url": "http://www.encyclopediaofalabama.org/article/h-2380",
+      "last_updated": "2024-10-11",
+      "data_type": "enrollment",
+      "fields_verified": [
+        "16_alabama_counties",
+        "8360_square_miles",
+        "461000_households",
+        "17_municipalities",
+        "8_cooperatives",
+        "77_substations",
+        "2364_transmission_miles"
+      ]
+    },
+    {
+      "source_name": "American Public Power Association - TVA $1.5B Investment Announcement",
+      "url": "https://www.publicpower.org/periodical/article/tva-investing-15-billion-through-2027-energy-efficiency-incentives-demand-response-programs",
+      "last_updated": "2024-10-11",
+      "data_type": "pricing",
+      "fields_verified": [
+        "1.5_billion_budget_through_2027",
+        "600_participants",
+        "1100_mw_capacity"
+      ]
+    },
+    {
+      "source_name": "TVA Newsroom - Winter Storm Elliott Analysis",
+      "url": "https://www.wvlt.tv/2023/05/06/tva-releases-report-detailing-december-2022-blackouts/",
+      "last_updated": "2024-10-11",
+      "data_type": "historical_events",
+      "fields_verified": [
+        "december_2022_events",
+        "33425_mw_peak",
+        "step_50_activation",
+        "rolling_blackout_times"
+      ]
+    },
+    {
+      "source_name": "TVA Newsroom - January 2024 Winter Peak Record",
+      "url": "https://www.powermag.com/tva-urges-conservation-as-cold-snap-sets-all-time-peak-demand-record/",
+      "last_updated": "2024-10-11",
+      "data_type": "historical_events",
+      "fields_verified": [
+        "34524_mw_january_2024_peak",
+        "new_generation_prevented_blackouts"
+      ]
+    },
+    {
+      "source_name": "TVA Newsroom - Summer 2024 Peak Demand",
+      "url": "https://www.tva.com/newsroom/press-releases/tva-sets-summer-2024-record-power-demand",
+      "last_updated": "2024-10-11",
+      "data_type": "historical_events",
+      "fields_verified": [
+        "31096_mw_august_2024",
+        "13_days_over_28000_mw_june"
+      ]
+    },
+    {
+      "source_name": "Enel North America - Summer 2024 Demand Response Record",
+      "url": "https://www.enelnorthamerica.com/insights/blogs/summer-2024-sets-demand-response-record",
+      "last_updated": "2024-10-11",
+      "data_type": "historical_events",
+      "fields_verified": [
+        "411_dispatches_summer_2024",
+        "11000_mwh_total",
+        "1700_hours"
+      ]
+    },
+    {
+      "source_name": "TVA Annual Report FY24",
+      "url": "https://www.tva.com/about-tva/reports/annual-report-fy24",
+      "last_updated": "2024-10-11",
+      "data_type": "program_rules",
+      "fields_verified": [
+        "1700_mw_current_dr_capacity",
+        "2800_mw_target_by_2030"
+      ]
+    },
+    {
+      "source_name": "TVA Integrated Resource Plan 2024",
+      "url": "https://www.tva.com/environment/integrated-resource-plan",
+      "last_updated": "2024-10-11",
+      "data_type": "program_rules",
+      "fields_verified": [
+        "battery_storage_strategy",
+        "demand_response_expansion_plans"
+      ]
+    }
+  ],
+
+  "integration_metadata": {
+    "optimizer_compatible": true,
+    "api_available": true,
+    "api_documentation_url": null,
+    "data_quality_score": 7,
+    "last_verified_date": "2025-10-11",
+    "notes": "Comprehensive research completed on TVA demand response programs for Alabama. Data quality is good (7/10) with strong documentation of program parameters, eligibility, event characteristics, and Alabama-specific geography. Primary limitation is lack of publicly available payment rate schedules - TVA's Schedule of Credits and Charges is distributed to participants and local power companies but not published online. Historical event data provides valuable context for actual program utilization. Battery suitability is high due to adequate notification times (30 minutes), moderate annual hours (32), and sophisticated aggregator support through Enel. Alabama service territory clearly defined (16 northern counties, 461,000 households). Multiple program tiers accommodate different facility sizes from 50 kW to multi-MW installations. Strong program commitment with $1.5B investment through 2027 and 108% performance vs targets indicate mature, reliable program suitable for long-term battery investment planning."
+  }
+}
