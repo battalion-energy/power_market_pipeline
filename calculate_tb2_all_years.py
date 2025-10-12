@@ -50,7 +50,7 @@ def calculate_tb2_for_year(year: int, da_prices_dir: Path) -> pl.DataFrame:
 
 def main():
     logger.info("=" * 100)
-    logger.info("TB2 CALCULATION FOR ALL YEARS (2019-2024)")
+    logger.info("TB2 CALCULATION FOR ALL YEARS (2019-2025)")
     logger.info("TB2 = Daily max price - min price (arbitrage opportunity)")
     logger.info("=" * 100)
 
@@ -58,7 +58,7 @@ def main():
 
     all_tb2 = []
 
-    for year in range(2019, 2025):
+    for year in range(2019, 2026):
         tb2_year = calculate_tb2_for_year(year, da_prices_dir)
         if tb2_year is not None:
             all_tb2.append(tb2_year)
@@ -71,8 +71,8 @@ def main():
     logger.info(f"   Unique settlement points: {df_all_tb2.select(pl.col('SettlementPoint').n_unique()).item():,}")
 
     # Save daily TB2 data
-    df_all_tb2.write_parquet('tb2_daily_2019_2024.parquet')
-    logger.info(f"✅ Saved: tb2_daily_2019_2024.parquet")
+    df_all_tb2.write_parquet('tb2_daily_2019_2025.parquet')
+    logger.info(f"✅ Saved: tb2_daily_2019_2025.parquet")
 
     # Calculate average TB2 by settlement point (across all years)
     avg_tb2 = df_all_tb2.group_by('SettlementPoint').agg([
@@ -99,7 +99,7 @@ def main():
 
     # Print top settlement points by TB2
     logger.info("\n" + "=" * 100)
-    logger.info("TOP 20 SETTLEMENT POINTS BY AVERAGE TB2 (2019-2024)")
+    logger.info("TOP 20 SETTLEMENT POINTS BY AVERAGE TB2 (2019-2025)")
     logger.info("=" * 100)
     print(avg_tb2.head(20))
 

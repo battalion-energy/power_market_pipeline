@@ -1,0 +1,92 @@
+[
+  {
+    "index": 115,
+    "program_id": "TEXAS-SAVER'S-SWITCH-PROGRAM",
+    "program_name": "Saver's Switch Program",
+    "state": "Texas",
+    "utility": "Xcel Energy",
+    "program_url": "https://tx.my.xcelenergy.com/s/business/rate-plans/savers-switch",
+    "description": "Xcel Energy's Saver's Switch Program\u00a0provides savings on cooling costs by letting Xcel install a remote-controlled switch on air-conditioning units that cycle them on and off for brief 15- to 20-minut..."
+  },
+  {
+    "index": 113,
+    "program_id": "TEXAS-DEMAND-RESPONSE-OFFERINGS",
+    "program_name": "Demand Response Offerings",
+    "state": "Texas",
+    "utility": "MISO",
+    "program_url": "https://www.misoenergy.org/markets-and-operations/#nt=%2Fmarketsandopstype%3ADemand%20Response&amp;t=10&amp;p=0&amp;s=FileName&amp;sd=desc",
+    "description": "The Midcontinent Independent System Operator (MISO) enables commercial entities with demand response capabilities to bid into both its electricity supply-side and demand-side markets. These arrangemen..."
+  },
+  {
+    "index": 114,
+    "program_id": "TEXAS-COMMERCIAL-LOAD-MANAGEMENT-PROGRAM",
+    "program_name": "Commercial Load Management Program",
+    "state": "Texas",
+    "utility": "Oncur",
+    "program_url": "https://www.oncor.com/us/en/home/partners/eepm-home/commercial-provider/load-management-program.html",
+    "description": "Oncor's Commercial Load Management Program\u00a0provides remuneration directly to service contractors (e.g., ESCOs, aggregators, energy efficiency service providers, retail electric providers, and utility ..."
+  },
+  {
+    "index": 1,
+    "program_id": "ARIZONA-PEAK-SOLUTIONS",
+    "program_name": "Peak Solutions",
+    "state": "Arizona",
+    "utility": "Arizona Public Service (APS)",
+    "program_url": "https://cpowerenergy.com/aps/",
+    "description": "Arizona Public Service Company (APS) offers the Peak Solutions demand response program to its commercial and industrial customers. The program is offered through CPower and allows customers to earn re..."
+  },
+  {
+    "index": 10,
+    "program_id": "CALIFORNIA-SUMMER-DISCOUNT-PLAN",
+    "program_name": "Summer Discount Plan",
+    "state": "California",
+    "utility": "Southern California Edison (SCE)",
+    "program_url": "https://www.sce.com/business/savings-incentives/summer-discount-plan",
+    "description": "Southern California Edison's (SCE) Summer Discount Plan is a summer air conditioner cycling program for commercial customers. This is a \"direct load control\" program where participants receive a bill ..."
+  },
+  {
+    "index": 13,
+    "program_id": "COLORADO-PEAK-PARTNER-REWARDS-PROGRAM",
+    "program_name": "Peak Partner Rewards Program",
+    "state": "Colorado",
+    "utility": "Xcel Energy",
+    "program_url": "https://co.my.xcelenergy.com/s/business/rate-plans/peak-partner-rewards",
+    "description": "Xcel Energy's Peak Partner Rewards\u00a0program offers customers with as little as 25 kW in reduction capability a monthly credit for reduced electricity use during periods of peak energy demand. Customers..."
+  },
+  {
+    "index": 19,
+    "program_id": "FLORIDA-CONSERVATION-VALUE-PROGRAM",
+    "program_name": "Conservation Value Program",
+    "state": "Florida",
+    "utility": "Tampa Electric (TECO)",
+    "program_url": "http://www.tampaelectric.com/business/saveenergy/conservationvalue/",
+    "description": "The Tampa Electric (TECO)\u00a0Conservation Value Program\u00a0provides rebates up to $92 per kW reduction for equipment that shifts or reduces energy use during summer and/or winter peak periods. The peak-dema..."
+  },
+  {
+    "index": 20,
+    "program_id": "FLORIDA-LOAD-MANAGEMENT-PROGRAM",
+    "program_name": "Load Management Program",
+    "state": "Florida",
+    "utility": "Tampa Electric (TECO)",
+    "program_url": "http://www.tampaelectric.com/business/saveenergy/loadmanagement/",
+    "description": "The Tampa Electric (TECO) Load Management Program offers customers $3.00-$3.50/kW credit on their monthly bills for allowing Tampa Electric to control operation of air conditioning or specialized equi..."
+  },
+  {
+    "index": 21,
+    "program_id": "FLORIDA-STANDBY-GENERATOR-PROGRAM",
+    "program_name": "Standby Generator Program",
+    "state": "Florida",
+    "utility": "Tampa Electric (TECO)",
+    "program_url": "http://www.tampaelectric.com/business/saveenergy/standbygenerator/",
+    "description": "The Tampa Electric (TECO) Standby Generator Program provides customers with credits of $6.15 per kW on their monthly electric bill for the portion of the normal facility load that can be served by a s..."
+  },
+  {
+    "index": 25,
+    "program_id": "HAWAII-FAST-DEMAND-RESPONSE",
+    "program_name": "Fast Demand Response",
+    "state": "Hawaii",
+    "utility": "Hawaiian Electric Company",
+    "program_url": "https://www.hawaiianelectric.com/products-and-services/demand-response/fast-demand-response",
+    "description": "Hawaiian Electric's (HECO's)\u00a0Fast Demand Response\u00a0(DR) program is intended to stabilize the grid and prevent unplanned outages during times when demand exceeds generation capacity. Program participant..."
+  }
+]

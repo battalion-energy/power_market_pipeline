@@ -104,10 +104,12 @@ def main():
     """Main execution function."""
     # Setup directories
     project_root = Path(__file__).parent
-    weather_dir = project_root / 'weather_data'
+    # Use SSD storage for weather data
+    weather_dir = Path('/pool/ssd8tb/data/weather_data')
+    weather_dir.mkdir(exist_ok=True, parents=True)
 
     meteostat_dir = weather_dir / 'meteostat_stations'
-    meteostat_dir.mkdir(exist_ok=True)
+    meteostat_dir.mkdir(exist_ok=True, parents=True)
 
     meteostat_csv_dir = meteostat_dir / 'csv_files'
     meteostat_csv_dir.mkdir(exist_ok=True)
@@ -119,9 +121,9 @@ def main():
     locations_file = weather_dir / 'weather_locations.csv'
     locations_df = pd.read_csv(locations_file)
 
-    # Date range: last 5 years
+    # Date range: from 2019-01-01 to present
     end_date = datetime.now()
-    start_date = end_date - timedelta(days=5*365)
+    start_date = datetime(2019, 1, 1)
 
     print(f"Downloading Meteostat weather station data from {start_date.date()} to {end_date.date()}")
     print(f"Source: Ground-based weather stations (NOAA, DWD, and others)\n")

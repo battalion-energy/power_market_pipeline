@@ -1,0 +1,102 @@
+[
+  {
+    "index": 30,
+    "score": 16,
+    "program_id": "ILLINOIS-DEMAND-RESPONSE-OFFERINGS",
+    "program_name": "Demand Response Offerings",
+    "state": "Illinois",
+    "utility": "MISO",
+    "program_url": "https://www.misoenergy.org/markets-and-operations/#nt=%2Fmarketsandopstype%3ADemand%20Response&amp;t=10&amp;p=0&amp;s=FileName&amp;sd=desc",
+    "description": ""
+  },
+  {
+    "index": 44,
+    "score": 15,
+    "program_id": "MICHIGAN-DEMAND-RESPONSE-OFFERINGS",
+    "program_name": "Demand Response Offerings",
+    "state": "Michigan",
+    "utility": "MISO",
+    "program_url": "https://www.misoenergy.org/markets-and-operations/#nt=%2Fmarketsandopstype%3ADemand%20Response&amp;t=10&amp;p=0&amp;s=FileName&amp;sd=desc",
+    "description": ""
+  },
+  {
+    "index": 5,
+    "score": 14,
+    "program_id": "ARKANSAS-DEMAND-RESPONSE-OFFERINGS",
+    "program_name": "Demand Response Offerings",
+    "state": "Arkansas",
+    "utility": "MISO",
+    "program_url": "https://www.misoenergy.org/markets-and-operations/#nt=%2Fmarketsandopstype%3ADemand%20Response&amp;t=10&amp;p=0&amp;s=FileName&amp;sd=desc",
+    "description": ""
+  },
+  {
+    "index": 33,
+    "score": 14,
+    "program_id": "INDIANA-DEMAND-RESPONSE-OFFERINGS",
+    "program_name": "Demand Response Offerings",
+    "state": "Indiana",
+    "utility": "MISO",
+    "program_url": "https://www.misoenergy.org/markets-and-operations/#nt=%2Fmarketsandopstype%3ADemand%20Response&amp;t=10&amp;p=0&amp;s=FileName&amp;sd=desc",
+    "description": ""
+  },
+  {
+    "index": 35,
+    "score": 14,
+    "program_id": "IOWA-DEMAND-RESPONSE-OFFERINGS",
+    "program_name": "Demand Response Offerings",
+    "state": "Iowa",
+    "utility": "MISO",
+    "program_url": "https://www.misoenergy.org/markets-and-operations/#nt=%2Fmarketsandopstype%3ADemand%20Response&amp;t=10&amp;p=0&amp;s=FileName&amp;sd=desc",
+    "description": ""
+  },
+  {
+    "index": 38,
+    "score": 14,
+    "program_id": "KENTUCKY-DEMAND-RESPONSE-OFFERINGS",
+    "program_name": "Demand Response Offerings",
+    "state": "Kentucky",
+    "utility": "MISO",
+    "program_url": "https://www.misoenergy.org/markets-and-operations/#nt=%2Fmarketsandopstype%3ADemand%20Response&amp;t=10&amp;p=0&amp;s=FileName&amp;sd=desc",
+    "description": ""
+  },
+  {
+    "index": 40,
+    "score": 14,
+    "program_id": "LOUISIANA-DEMAND-RESPONSE-OFFERINGS",
+    "program_name": "Demand Response Offerings",
+    "state": "Louisiana",
+    "utility": "MISO",
+    "program_url": "https://www.misoenergy.org/markets-and-operations/#nt=%2Fmarketsandopstype%3ADemand%20Response&amp;t=10&amp;p=0&amp;s=FileName&amp;sd=desc",
+    "description": ""
+  },
+  {
+    "index": 49,
+    "score": 14,
+    "program_id": "MINNESOTA-DEMAND-RESPONSE-OFFERINGS",
+    "program_name": "Demand Response Offerings",
+    "state": "Minnesota",
+    "utility": "MISO",
+    "program_url": "https://www.misoenergy.org/markets-and-operations/#nt=%2Fmarketsandopstype%3ADemand%20Response&amp;t=10&amp;p=0&amp;s=FileName&amp;sd=desc",
+    "description": ""
+  },
+  {
+    "index": 55,
+    "score": 14,
+    "program_id": "MISSISSIPPI-DEMAND-RESPONSE-OFFERINGS",
+    "program_name": "Demand Response Offerings",
+    "state": "Mississippi",
+    "utility": "MISO",
+    "program_url": "https://www.misoenergy.org/markets-and-operations/#nt=%2Fmarketsandopstype%3ADemand%20Response&amp;t=10&amp;p=0&amp;s=FileName&amp;sd=desc",
+    "description": ""
+  },
+  {
+    "index": 59,
+    "score": 14,
+    "program_id": "MISSOURI-DEMAND-RESPONSE-OFFERINGS",
+    "program_name": "Demand Response Offerings",
+    "state": "Missouri",
+    "utility": "MISO",
+    "program_url": "https://www.misoenergy.org/markets-and-operations/#nt=%2Fmarketsandopstype%3ADemand%20Response&amp;t=10&amp;p=0&amp;s=FileName&amp;sd=desc",
+    "description": ""
+  }
+]

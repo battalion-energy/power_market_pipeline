@@ -1,0 +1,92 @@
+[
+  {
+    "index": 7,
+    "program_id": "CALIFORNIA-DEMAND-RESPONSE-PROGRAM",
+    "program_name": "Demand Response Program",
+    "state": "California",
+    "utility": "Los Angeles Department of Water and Power",
+    "program_url": "https://www.ladwp.com/commercial-services/programs-and-rebates-commercial/demand-response-program",
+    "description": "The Los Angeles Department of Water and Power (LADWP) offers financial incentives to customers participating in their demand response (DR) program. Customers are eligible to receive two different ince..."
+  },
+  {
+    "index": 9,
+    "program_id": "CALIFORNIA-OPTIONAL-BINDING-MANDATORY-CURTAILMENT-",
+    "program_name": "Optional Binding Mandatory Curtailment Program",
+    "state": "California",
+    "utility": "Southern California Edison (SCE)",
+    "program_url": "https://www.sce.com/business/savings-incentives/demand-response/eligibility",
+    "description": "SCE offers the Optional Binding Mandatory Curtailment Program, which provides customers with exemptions from rotating power outages if they can reduce their circuit load during Stage 3 emergencies. Pa..."
+  },
+  {
+    "index": 67,
+    "program_id": "NEW-YORK-TARGETED-DEMAND-RESPONSE",
+    "program_name": "Targeted Demand Response",
+    "state": "New York",
+    "utility": "Central Hudson",
+    "program_url": "https://cenhudpeakperks.com/targeted-demand-response/",
+    "description": "For customers in certain transmission-constrained portions of its service territory, Central Hudson offers the Targeted Demand Response program. Customers can earn roughly $27.30/kW each summer (June ..."
+  },
+  {
+    "index": 69,
+    "program_id": "NEW-YORK-DISTRIBUTION-LOAD-RELIEF-PROGRAM",
+    "program_name": "Distribution Load Relief Program",
+    "state": "New York",
+    "utility": "Con Edison",
+    "program_url": "https://www.coned.com/en/save-money/rebates-incentives-tax-credits/rebates-incentives-tax-credits-for-commercial-industrial-buildings-customers/smart-usage-rewards",
+    "description": "The Distribution Load Relief Program (DLRP) pays participants between $18 and $25 per kW for each month of enrollment, as well as $1/kWh for actual event reductions, in exchange for their willingness ..."
+  },
+  {
+    "index": 73,
+    "program_id": "NEW-YORK-COMMERCIAL-SYSTEM-RELIEF-PROGRAM",
+    "program_name": "Commercial System Relief Program",
+    "state": "New York",
+    "utility": "NYSEG",
+    "program_url": "https://www.nyseg.com/web/nyseg/smartenergy/businesssolutions/cidemandresponse/commercial-system-relief-program",
+    "description": "Through the Commercial System Relief Program (CSRP) New York State Electric and Gas (NYSEG) offers its commercial/industrial customers incentives for reducing their electricity usage during peak perio..."
+  },
+  {
+    "index": 112,
+    "program_id": "TEXAS-LOAD-MANAGEMENT-PROGRAM",
+    "program_name": "Load Management Program",
+    "state": "Texas",
+    "utility": "Entergy Texas",
+    "program_url": "https://www.entergy-texas.com/your_business/save_money/ee/load-management/",
+    "description": "The\u00a0Entergy Texas Load Management Program\u00a0offers $32.50/kW for participation in one scheduled curtailment event which lasts one hour, and up to four unscheduled events that last a maximum of four hour..."
+  },
+  {
+    "index": 8,
+    "program_id": "CALIFORNIA-CAPACITY-BIDDING-PROGRAM",
+    "program_name": "Capacity Bidding Program",
+    "state": "California",
+    "utility": "PG&amp;E",
+    "program_url": "https://www.pge.com/en/save-energy-and-money/energy-saving-programs/demand-response-programs/business-programs.html#cbp",
+    "description": "Under the Capacity Bidding Program (CBP), PG&amp;E participants receive an incentive for pledging to reduce their energy use by a pre-determined amount in the event a CBP event is call by the utility...."
+  },
+  {
+    "index": 11,
+    "program_id": "CALIFORNIA-CAPACITY-BIDDING-PROGRAM",
+    "program_name": "Capacity Bidding Program",
+    "state": "California",
+    "utility": "San Diego Gas and Electric (SDGE)",
+    "program_url": "https://www.sdge.com/businesses/savings-center/energy-management-programs/demand-response/capacity-bidding-program",
+    "description": "Under the Capacity Bidding Program (CBP), SDG&amp;E participants receive a monthly incentive for pledging to reduce their energy by a pre-determined amount in the event a CBP event is called by the ut..."
+  },
+  {
+    "index": 29,
+    "program_id": "ILLINOIS-CURTAILMENT-PROGRAM",
+    "program_name": "Curtailment Program",
+    "state": "Illinois",
+    "utility": "MidAmerican Energy",
+    "program_url": "https://www.midamericanenergy.com/curtailment",
+    "description": "MidAmerican Energy offers its Curtailment\u00a0program to its Illinois commercial and industrial customers who can reduce load by a minimum of 200 kW during peak demand periods. Customers can choose betwee..."
+  },
+  {
+    "index": 65,
+    "program_id": "NEW-YORK-COMMERCIAL-SYSTEM-RELIEF-PROGRAM",
+    "program_name": "Commercial System Relief Program",
+    "state": "New York",
+    "utility": "Central Hudson",
+    "program_url": "https://www.cenhud.com/my-energy/save-energy-money/commercial-demand-response/",
+    "description": "Through the Commercial System Relief Program (CSRP) Central Hudson offers its customers incentives for reducing their electricity usage during peak periods. Two enrollment options are available, one v..."
+  }
+]

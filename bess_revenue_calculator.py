@@ -173,20 +173,28 @@ class BESSRevenueCalculator:
         flat2 = self.rollup_dir / f"flattened/DA_prices_flat_{self.year}.parquet"
         longp = self.rollup_dir / f"DA_prices/{self.year}.parquet"
 
+        df = None
         if flat1.exists() or flat2.exists():
             path = flat1 if flat1.exists() else flat2
-            df = pl.read_parquet(path)
-            col = resource_node if resource_node in df.columns else ("HB_BUSAVG" if "HB_BUSAVG" in df.columns else None)
-            if col is None:
-                # Fall back to long path
-                df = None
-            else:
-                df = df.select([
-                    pl.col("datetime"),
-                    pl.col(col).alias("da_price")
-                ])
-        else:
-            df = None
+            df_flat = pl.read_parquet(path)
+            # Pick the requested hub column, or fall back to HB_BUSAVG
+            col = resource_node if resource_node in df_flat.columns else ("HB_BUSAVG" if "HB_BUSAVG" in df_flat.columns else None)
+            if col is not None:
+                # Handle datetime column name variants
+                dt_col = None
+                if "datetime" in df_flat.columns:
+                    dt_col = "datetime"
+                elif "datetime_ts" in df_flat.columns:
+                    dt_col = "datetime_ts"
+                elif "DeliveryDate" in df_flat.columns:
+                    # Daily file with date only; will still convert to midnight local
+                    dt_col = "DeliveryDate"
+
+                if dt_col is not None:
+                    df = df_flat.select([
+                        pl.col(dt_col).alias("dt"),
+                        pl.col(col).alias("da_price"),
+                    ])
 
         if df is None:
             # Long format: filter by settlement point
@@ -196,15 +204,19 @@ class BESSRevenueCalculator:
             # Column variants
             sp_col = "settlement_point" if "settlement_point" in df_long.columns else "SettlementPointName"
             price_col = "da_lmp" if "da_lmp" in df_long.columns else "SettlementPointPrice"
+            dt_col = "datetime" if "datetime" in df_long.columns else ("datetime_ts" if "datetime_ts" in df_long.columns else None)
+            if dt_col is None:
+                return pl.DataFrame({"local_date": [], "local_hour": [], "da_price": []})
             df = df_long.filter(pl.col(sp_col) == resource_node).select([
-                "datetime",
+                pl.col(dt_col).alias("dt"),
                 pl.col(price_col).alias("da_price")
             ])
 
         # Convert to local date/hour for DAM alignment
+        # Ensure the timestamp is a proper datetime
         df = df.with_columns([
-            pl.col("datetime").dt.replace_time_zone("UTC").dt.convert_time_zone("America/Chicago").dt.date().alias("local_date"),
-            pl.col("datetime").dt.replace_time_zone("UTC").dt.convert_time_zone("America/Chicago").dt.hour().alias("local_hour")
+            pl.col("dt").cast(pl.Datetime).dt.replace_time_zone("UTC").dt.convert_time_zone("America/Chicago").dt.date().alias("local_date"),
+            pl.col("dt").cast(pl.Datetime).dt.replace_time_zone("UTC").dt.convert_time_zone("America/Chicago").dt.hour().alias("local_hour")
         ]).select(["local_date", "local_hour", "da_price"]).group_by(["local_date", "local_hour"]).agg(pl.col("da_price").mean()).sort(["local_date", "local_hour"])
 
         return df
@@ -602,6 +614,8 @@ class BESSRevenueCalculator:
             pl.col("rounded_dt").dt.convert_time_zone("America/Chicago").dt.date().alias("local_date"),
             pl.col("rounded_dt").dt.convert_time_zone("America/Chicago").dt.hour().alias("local_hour"),
             pl.col("rounded_dt").dt.epoch("ms").alias("rounded_epoch")
+        ]).with_columns([
+            pl.col("local_hour").cast(pl.Int32)
         ])
 
         # Build DAM hourly schedule for this Gen resource (net MW)
@@ -680,7 +694,9 @@ class BESSRevenueCalculator:
         # Build hourly dispatch aggregates for parquet export
         # Prepare DA price series for hourly/15-min revenue components
         try:
-            da_price_series = self._load_da_price_series(resource_node)
+            da_price_series = self._load_da_price_series(resource_node).with_columns([
+                pl.col("local_hour").cast(pl.Int32)
+            ])
             dev_15_da = dev_15.join(da_price_series, on=["local_date", "local_hour"], how="left")
         except Exception:
             dev_15_da = dev_15.with_columns([pl.lit(None).alias("da_price")])

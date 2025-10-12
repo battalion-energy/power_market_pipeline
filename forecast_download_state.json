@@ -1,0 +1,5306 @@
+{
+  "datasets": {
+    "Wind_Power_Production": {
+      "last_timestamp": "2025-10-10T00:00:00",
+      "last_download": "2025-10-10T21:34:14.693067",
+      "last_records_count": 50514,
+      "download_history": [
+        {
+          "timestamp": "2025-10-10T21:29:14.779697",
+          "start_date": "2025-10-07T21:29:12.632454",
+          "end_date": "2025-10-10T21:29:12.632454",
+          "success": true,
+          "records_count": 19410
+        },
+        {
+          "timestamp": "2025-10-10T21:30:28.975616",
+          "start_date": "2023-12-11T00:00:00",
+          "end_date": "2024-01-09T00:00:00",
+          "success": true,
+          "records_count": 155520
+        },
+        {
+          "timestamp": "2025-10-10T21:30:39.010406",
+          "start_date": "2024-01-10T00:00:00",
+          "end_date": "2024-02-08T00:00:00",
+          "success": true,
+          "records_count": 155515
+        },
+        {
+          "timestamp": "2025-10-10T21:30:48.885508",
+          "start_date": "2024-02-09T00:00:00",
+          "end_date": "2024-03-09T00:00:00",
+          "success": true,
+          "records_count": 155690
+        },
+        {
+          "timestamp": "2025-10-10T21:30:59.399668",
+          "start_date": "2024-03-10T00:00:00",
+          "end_date": "2024-04-08T00:00:00",
+          "success": true,
+          "records_count": 155135
+        },
+        {
+          "timestamp": "2025-10-10T21:31:09.001451",
+          "start_date": "2024-04-09T00:00:00",
+          "end_date": "2024-05-08T00:00:00",
+          "success": true,
+          "records_count": 155519
+        },
+        {
+          "timestamp": "2025-10-10T21:31:18.930464",
+          "start_date": "2024-05-09T00:00:00",
+          "end_date": "2024-06-07T00:00:00",
+          "success": true,
+          "records_count": 155304
+        },
+        {
+          "timestamp": "2025-10-10T21:31:28.957873",
+          "start_date": "2024-06-08T00:00:00",
+          "end_date": "2024-07-07T00:00:00",
+          "success": true,
+          "records_count": 155519
+        },
+        {
+          "timestamp": "2025-10-10T21:31:38.943208",
+          "start_date": "2024-07-08T00:00:00",
+          "end_date": "2024-08-06T00:00:00",
+          "success": true,
+          "records_count": 155519
+        },
+        {
+          "timestamp": "2025-10-10T21:31:48.944113",
+          "start_date": "2024-08-07T00:00:00",
+          "end_date": "2024-09-05T00:00:00",
+          "success": true,
+          "records_count": 155475
+        },
+        {
+          "timestamp": "2025-10-10T21:31:59.016486",
+          "start_date": "2024-09-06T00:00:00",
+          "end_date": "2024-10-05T00:00:00",
+          "success": true,
+          "records_count": 155520
+        },
+        {
+          "timestamp": "2025-10-10T21:32:16.117534",
+          "start_date": "2024-10-06T00:00:00",
+          "end_date": "2024-11-04T00:00:00",
+          "success": true,
+          "records_count": 155784
+        },
+        {
+          "timestamp": "2025-10-10T21:32:26.844926",
+          "start_date": "2024-11-05T00:00:00",
+          "end_date": "2024-12-04T00:00:00",
+          "success": true,
+          "records_count": 155520
+        },
+        {
+          "timestamp": "2025-10-10T21:32:39.117236",
+          "start_date": "2024-12-05T00:00:00",
+          "end_date": "2025-01-03T00:00:00",
+          "success": true,
+          "records_count": 155520
+        },
+        {
+          "timestamp": "2025-10-10T21:32:49.273362",
+          "start_date": "2025-01-04T00:00:00",
+          "end_date": "2025-02-02T00:00:00",
+          "success": true,
+          "records_count": 155519
+        },
+        {
+          "timestamp": "2025-10-10T21:32:59.371008",
+          "start_date": "2025-02-03T00:00:00",
+          "end_date": "2025-03-04T00:00:00",
+          "success": true,
+          "records_count": 155520
+        },
+        {
+          "timestamp": "2025-10-10T21:33:09.514193",
+          "start_date": "2025-03-05T00:00:00",
+          "end_date": "2025-04-03T00:00:00",
+          "success": true,
+          "records_count": 154082
+        },
+        {
+          "timestamp": "2025-10-10T21:33:19.248561",
+          "start_date": "2025-04-04T00:00:00",
+          "end_date": "2025-05-03T00:00:00",
+          "success": true,
+          "records_count": 155324
+        },
+        {
+          "timestamp": "2025-10-10T21:33:29.353506",
+          "start_date": "2025-05-04T00:00:00",
+          "end_date": "2025-06-02T00:00:00",
+          "success": true,
+          "records_count": 155520
+        },
+        {
+          "timestamp": "2025-10-10T21:33:39.295367",
+          "start_date": "2025-06-03T00:00:00",
+          "end_date": "2025-07-02T00:00:00",
+          "success": true,
+          "records_count": 155520
+        },
+        {
+          "timestamp": "2025-10-10T21:33:49.348930",
+          "start_date": "2025-07-03T00:00:00",
+          "end_date": "2025-08-01T00:00:00",
+          "success": true,
+          "records_count": 155449
+        },
+        {
+          "timestamp": "2025-10-10T21:33:59.269731",
+          "start_date": "2025-08-02T00:00:00",
+          "end_date": "2025-08-31T00:00:00",
+          "success": true,
+          "records_count": 155339
+        },
+        {
+          "timestamp": "2025-10-10T21:34:09.372248",
+          "start_date": "2025-09-01T00:00:00",
+          "end_date": "2025-09-30T00:00:00",
+          "success": true,
+          "records_count": 155520
+        },
+        {
+          "timestamp": "2025-10-10T21:34:14.693102",
+          "start_date": "2025-10-01T00:00:00",
+          "end_date": "2025-10-10T00:00:00",
+          "success": true,
+          "records_count": 50514
+        }
+      ]
+    },
+    "Solar_Power_Production": {
+      "last_timestamp": "2025-10-10T00:00:00",
+      "last_download": "2025-10-10T21:38:03.831430",
+      "last_records_count": 50514,
+      "download_history": [
+        {
+          "timestamp": "2025-10-10T21:34:27.040326",
+          "start_date": "2023-12-11T00:00:00",
+          "end_date": "2024-01-09T00:00:00",
+          "success": true,
+          "records_count": 139049
+        },
+        {
+          "timestamp": "2025-10-10T21:34:37.226312",
+          "start_date": "2024-01-10T00:00:00",
+          "end_date": "2024-02-08T00:00:00",
+          "success": true,
+          "records_count": 155088
+        },
+        {
+          "timestamp": "2025-10-10T21:34:46.672788",
+          "start_date": "2024-02-09T00:00:00",
+          "end_date": "2024-03-09T00:00:00",
+          "success": true,
+          "records_count": 155690
+        },
+        {
+          "timestamp": "2025-10-10T21:34:56.659075",
+          "start_date": "2024-03-10T00:00:00",
+          "end_date": "2024-04-08T00:00:00",
+          "success": true,
+          "records_count": 155135
+        },
+        {
+          "timestamp": "2025-10-10T21:35:06.779924",
+          "start_date": "2024-04-09T00:00:00",
+          "end_date": "2024-05-08T00:00:00",
+          "success": true,
+          "records_count": 155518
+        },
+        {
+          "timestamp": "2025-10-10T21:35:16.791439",
+          "start_date": "2024-05-09T00:00:00",
+          "end_date": "2024-06-07T00:00:00",
+          "success": true,
+          "records_count": 155304
+        },
+        {
+          "timestamp": "2025-10-10T21:35:27.606890",
+          "start_date": "2024-06-08T00:00:00",
+          "end_date": "2024-07-07T00:00:00",
+          "success": true,
+          "records_count": 155475
+        },
+        {
+          "timestamp": "2025-10-10T21:35:37.322143",
+          "start_date": "2024-07-08T00:00:00",
+          "end_date": "2024-08-06T00:00:00",
+          "success": true,
+          "records_count": 155302
+        },
+        {
+          "timestamp": "2025-10-10T21:35:47.303884",
+          "start_date": "2024-08-07T00:00:00",
+          "end_date": "2024-09-05T00:00:00",
+          "success": true,
+          "records_count": 155520
+        },
+        {
+          "timestamp": "2025-10-10T21:35:57.489931",
+          "start_date": "2024-09-06T00:00:00",
+          "end_date": "2024-10-05T00:00:00",
+          "success": true,
+          "records_count": 155520
+        },
+        {
+          "timestamp": "2025-10-10T21:36:07.366401",
+          "start_date": "2024-10-06T00:00:00",
+          "end_date": "2024-11-04T00:00:00",
+          "success": true,
+          "records_count": 155784
+        },
+        {
+          "timestamp": "2025-10-10T21:36:17.315298",
+          "start_date": "2024-11-05T00:00:00",
+          "end_date": "2024-12-04T00:00:00",
+          "success": true,
+          "records_count": 155520
+        },
+        {
+          "timestamp": "2025-10-10T21:36:27.229163",
+          "start_date": "2024-12-05T00:00:00",
+          "end_date": "2025-01-03T00:00:00",
+          "success": true,
+          "records_count": 155519
+        },
+        {
+          "timestamp": "2025-10-10T21:36:37.382811",
+          "start_date": "2025-01-04T00:00:00",
+          "end_date": "2025-02-02T00:00:00",
+          "success": true,
+          "records_count": 155520
+        },
+        {
+          "timestamp": "2025-10-10T21:36:47.453495",
+          "start_date": "2025-02-03T00:00:00",
+          "end_date": "2025-03-04T00:00:00",
+          "success": true,
+          "records_count": 155520
+        },
+        {
+          "timestamp": "2025-10-10T21:36:57.702099",
+          "start_date": "2025-03-05T00:00:00",
+          "end_date": "2025-04-03T00:00:00",
+          "success": true,
+          "records_count": 155089
+        },
+        {
+          "timestamp": "2025-10-10T21:37:07.476941",
+          "start_date": "2025-04-04T00:00:00",
+          "end_date": "2025-05-03T00:00:00",
+          "success": true,
+          "records_count": 155520
+        },
+        {
+          "timestamp": "2025-10-10T21:37:18.090405",
+          "start_date": "2025-05-04T00:00:00",
+          "end_date": "2025-06-02T00:00:00",
+          "success": true,
+          "records_count": 155520
+        },
+        {
+          "timestamp": "2025-10-10T21:37:28.194245",
+          "start_date": "2025-06-03T00:00:00",
+          "end_date": "2025-07-02T00:00:00",
+          "success": true,
+          "records_count": 155520
+        },
+        {
+          "timestamp": "2025-10-10T21:37:40.058852",
+          "start_date": "2025-07-03T00:00:00",
+          "end_date": "2025-08-01T00:00:00",
+          "success": true,
+          "records_count": 155520
+        },
+        {
+          "timestamp": "2025-10-10T21:37:50.349002",
+          "start_date": "2025-08-02T00:00:00",
+          "end_date": "2025-08-31T00:00:00",
+          "success": true,
+          "records_count": 155520
+        },
+        {
+          "timestamp": "2025-10-10T21:38:00.100874",
+          "start_date": "2025-09-01T00:00:00",
+          "end_date": "2025-09-30T00:00:00",
+          "success": true,
+          "records_count": 155520
+        },
+        {
+          "timestamp": "2025-10-10T21:38:03.831464",
+          "start_date": "2025-10-01T00:00:00",
+          "end_date": "2025-10-10T00:00:00",
+          "success": true,
+          "records_count": 50514
+        }
+      ]
+    },
+    "Load_Forecast_By_Forecast_Zone": {
+      "download_history": [
+        {
+          "timestamp": "2025-10-10T21:38:26.158678",
+          "start_date": "2023-12-11T00:00:00",
+          "end_date": "2023-12-17T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:38:45.780577",
+          "start_date": "2023-12-18T00:00:00",
+          "end_date": "2023-12-24T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:39:05.509927",
+          "start_date": "2023-12-25T00:00:00",
+          "end_date": "2023-12-31T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:39:25.188273",
+          "start_date": "2024-01-01T00:00:00",
+          "end_date": "2024-01-07T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:39:44.850377",
+          "start_date": "2024-01-08T00:00:00",
+          "end_date": "2024-01-14T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:40:04.541707",
+          "start_date": "2024-01-15T00:00:00",
+          "end_date": "2024-01-21T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:40:24.206362",
+          "start_date": "2024-01-22T00:00:00",
+          "end_date": "2024-01-28T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:40:43.908658",
+          "start_date": "2024-01-29T00:00:00",
+          "end_date": "2024-02-04T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:41:03.615809",
+          "start_date": "2024-02-05T00:00:00",
+          "end_date": "2024-02-11T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:41:23.337548",
+          "start_date": "2024-02-12T00:00:00",
+          "end_date": "2024-02-18T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:41:43.039340",
+          "start_date": "2024-02-19T00:00:00",
+          "end_date": "2024-02-25T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:42:02.769493",
+          "start_date": "2024-02-26T00:00:00",
+          "end_date": "2024-03-03T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:42:22.445038",
+          "start_date": "2024-03-04T00:00:00",
+          "end_date": "2024-03-10T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:42:42.116820",
+          "start_date": "2024-03-11T00:00:00",
+          "end_date": "2024-03-17T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:43:01.865369",
+          "start_date": "2024-03-18T00:00:00",
+          "end_date": "2024-03-24T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:43:21.530239",
+          "start_date": "2024-03-25T00:00:00",
+          "end_date": "2024-03-31T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:43:41.242499",
+          "start_date": "2024-04-01T00:00:00",
+          "end_date": "2024-04-07T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:44:01.014910",
+          "start_date": "2024-04-08T00:00:00",
+          "end_date": "2024-04-14T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:44:20.763463",
+          "start_date": "2024-04-15T00:00:00",
+          "end_date": "2024-04-21T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:44:40.383445",
+          "start_date": "2024-04-22T00:00:00",
+          "end_date": "2024-04-28T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:45:00.174593",
+          "start_date": "2024-04-29T00:00:00",
+          "end_date": "2024-05-05T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:45:19.776247",
+          "start_date": "2024-05-06T00:00:00",
+          "end_date": "2024-05-12T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:45:39.479308",
+          "start_date": "2024-05-13T00:00:00",
+          "end_date": "2024-05-19T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:45:59.223302",
+          "start_date": "2024-05-20T00:00:00",
+          "end_date": "2024-05-26T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:46:18.835118",
+          "start_date": "2024-05-27T00:00:00",
+          "end_date": "2024-06-02T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:46:38.693028",
+          "start_date": "2024-06-03T00:00:00",
+          "end_date": "2024-06-09T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:46:58.500615",
+          "start_date": "2024-06-10T00:00:00",
+          "end_date": "2024-06-16T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:47:18.170270",
+          "start_date": "2024-06-17T00:00:00",
+          "end_date": "2024-06-23T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:47:37.872103",
+          "start_date": "2024-06-24T00:00:00",
+          "end_date": "2024-06-30T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:47:57.570108",
+          "start_date": "2024-07-01T00:00:00",
+          "end_date": "2024-07-07T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:48:17.279415",
+          "start_date": "2024-07-08T00:00:00",
+          "end_date": "2024-07-14T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:48:36.948240",
+          "start_date": "2024-07-15T00:00:00",
+          "end_date": "2024-07-21T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:48:56.676968",
+          "start_date": "2024-07-22T00:00:00",
+          "end_date": "2024-07-28T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:49:16.314115",
+          "start_date": "2024-07-29T00:00:00",
+          "end_date": "2024-08-04T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:49:36.004236",
+          "start_date": "2024-08-05T00:00:00",
+          "end_date": "2024-08-11T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:49:55.763520",
+          "start_date": "2024-08-12T00:00:00",
+          "end_date": "2024-08-18T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:50:15.454103",
+          "start_date": "2024-08-19T00:00:00",
+          "end_date": "2024-08-25T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:50:35.139467",
+          "start_date": "2024-08-26T00:00:00",
+          "end_date": "2024-09-01T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:50:55.020818",
+          "start_date": "2024-09-02T00:00:00",
+          "end_date": "2024-09-08T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:51:14.732563",
+          "start_date": "2024-09-09T00:00:00",
+          "end_date": "2024-09-15T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:51:34.442147",
+          "start_date": "2024-09-16T00:00:00",
+          "end_date": "2024-09-22T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:51:54.212405",
+          "start_date": "2024-09-23T00:00:00",
+          "end_date": "2024-09-29T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:52:13.797817",
+          "start_date": "2024-09-30T00:00:00",
+          "end_date": "2024-10-06T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:52:33.470596",
+          "start_date": "2024-10-07T00:00:00",
+          "end_date": "2024-10-13T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:52:53.192910",
+          "start_date": "2024-10-14T00:00:00",
+          "end_date": "2024-10-20T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:53:12.852919",
+          "start_date": "2024-10-21T00:00:00",
+          "end_date": "2024-10-27T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:53:32.579800",
+          "start_date": "2024-10-28T00:00:00",
+          "end_date": "2024-11-03T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:53:52.347516",
+          "start_date": "2024-11-04T00:00:00",
+          "end_date": "2024-11-10T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:54:12.081346",
+          "start_date": "2024-11-11T00:00:00",
+          "end_date": "2024-11-17T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:54:31.740018",
+          "start_date": "2024-11-18T00:00:00",
+          "end_date": "2024-11-24T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:54:51.613499",
+          "start_date": "2024-11-25T00:00:00",
+          "end_date": "2024-12-01T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:55:11.312221",
+          "start_date": "2024-12-02T00:00:00",
+          "end_date": "2024-12-08T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:55:31.005531",
+          "start_date": "2024-12-09T00:00:00",
+          "end_date": "2024-12-15T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:55:50.684391",
+          "start_date": "2024-12-16T00:00:00",
+          "end_date": "2024-12-22T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:56:10.350618",
+          "start_date": "2024-12-23T00:00:00",
+          "end_date": "2024-12-29T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:56:30.201179",
+          "start_date": "2024-12-30T00:00:00",
+          "end_date": "2025-01-05T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:56:49.793227",
+          "start_date": "2025-01-06T00:00:00",
+          "end_date": "2025-01-12T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:57:09.503986",
+          "start_date": "2025-01-13T00:00:00",
+          "end_date": "2025-01-19T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:57:29.230952",
+          "start_date": "2025-01-20T00:00:00",
+          "end_date": "2025-01-26T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:57:48.923681",
+          "start_date": "2025-01-27T00:00:00",
+          "end_date": "2025-02-02T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:58:08.694949",
+          "start_date": "2025-02-03T00:00:00",
+          "end_date": "2025-02-09T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:58:28.410050",
+          "start_date": "2025-02-10T00:00:00",
+          "end_date": "2025-02-16T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:58:48.166102",
+          "start_date": "2025-02-17T00:00:00",
+          "end_date": "2025-02-23T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:59:07.757997",
+          "start_date": "2025-02-24T00:00:00",
+          "end_date": "2025-03-02T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:59:27.457943",
+          "start_date": "2025-03-03T00:00:00",
+          "end_date": "2025-03-09T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T21:59:47.168955",
+          "start_date": "2025-03-10T00:00:00",
+          "end_date": "2025-03-16T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:00:06.876075",
+          "start_date": "2025-03-17T00:00:00",
+          "end_date": "2025-03-23T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:00:26.549435",
+          "start_date": "2025-03-24T00:00:00",
+          "end_date": "2025-03-30T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:00:46.216411",
+          "start_date": "2025-03-31T00:00:00",
+          "end_date": "2025-04-06T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:01:05.894520",
+          "start_date": "2025-04-07T00:00:00",
+          "end_date": "2025-04-13T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:01:25.585781",
+          "start_date": "2025-04-14T00:00:00",
+          "end_date": "2025-04-20T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:01:45.301480",
+          "start_date": "2025-04-21T00:00:00",
+          "end_date": "2025-04-27T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:02:05.023784",
+          "start_date": "2025-04-28T00:00:00",
+          "end_date": "2025-05-04T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:02:24.722592",
+          "start_date": "2025-05-05T00:00:00",
+          "end_date": "2025-05-11T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:02:44.440774",
+          "start_date": "2025-05-12T00:00:00",
+          "end_date": "2025-05-18T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:03:04.144771",
+          "start_date": "2025-05-19T00:00:00",
+          "end_date": "2025-05-25T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:03:23.825961",
+          "start_date": "2025-05-26T00:00:00",
+          "end_date": "2025-06-01T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:03:43.562584",
+          "start_date": "2025-06-02T00:00:00",
+          "end_date": "2025-06-08T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:04:03.276616",
+          "start_date": "2025-06-09T00:00:00",
+          "end_date": "2025-06-15T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:04:23.026997",
+          "start_date": "2025-06-16T00:00:00",
+          "end_date": "2025-06-22T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:04:42.722906",
+          "start_date": "2025-06-23T00:00:00",
+          "end_date": "2025-06-29T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:05:02.467231",
+          "start_date": "2025-06-30T00:00:00",
+          "end_date": "2025-07-06T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:05:22.158817",
+          "start_date": "2025-07-07T00:00:00",
+          "end_date": "2025-07-13T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:05:41.867671",
+          "start_date": "2025-07-14T00:00:00",
+          "end_date": "2025-07-20T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:06:01.575578",
+          "start_date": "2025-07-21T00:00:00",
+          "end_date": "2025-07-27T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:06:21.243624",
+          "start_date": "2025-07-28T00:00:00",
+          "end_date": "2025-08-03T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:06:40.953319",
+          "start_date": "2025-08-04T00:00:00",
+          "end_date": "2025-08-10T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:07:00.626729",
+          "start_date": "2025-08-11T00:00:00",
+          "end_date": "2025-08-17T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:07:20.336777",
+          "start_date": "2025-08-18T00:00:00",
+          "end_date": "2025-08-24T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:07:40.039197",
+          "start_date": "2025-08-25T00:00:00",
+          "end_date": "2025-08-31T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:07:59.752703",
+          "start_date": "2025-09-01T00:00:00",
+          "end_date": "2025-09-07T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:08:19.474357",
+          "start_date": "2025-09-08T00:00:00",
+          "end_date": "2025-09-14T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:08:39.194674",
+          "start_date": "2025-09-15T00:00:00",
+          "end_date": "2025-09-21T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:08:59.026168",
+          "start_date": "2025-09-22T00:00:00",
+          "end_date": "2025-09-28T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:09:18.689212",
+          "start_date": "2025-09-29T00:00:00",
+          "end_date": "2025-10-05T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:09:38.381456",
+          "start_date": "2025-10-06T00:00:00",
+          "end_date": "2025-10-10T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T10:43:53.022814",
+          "start_date": "2025-10-10T10:43:49.940613",
+          "end_date": "2025-10-11T10:43:49.940613",
+          "success": true,
+          "records_count": 53760
+        }
+      ],
+      "last_timestamp": "2025-10-11T10:43:49.940613",
+      "last_download": "2025-10-11T10:43:53.022771",
+      "last_records_count": 53760
+    },
+    "Load_Forecast_By_Weather_Zone": {
+      "download_history": [
+        {
+          "timestamp": "2025-10-10T22:10:00.682553",
+          "start_date": "2023-12-11T00:00:00",
+          "end_date": "2023-12-17T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:10:20.364658",
+          "start_date": "2023-12-18T00:00:00",
+          "end_date": "2023-12-24T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:10:40.035197",
+          "start_date": "2023-12-25T00:00:00",
+          "end_date": "2023-12-31T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:10:59.790327",
+          "start_date": "2024-01-01T00:00:00",
+          "end_date": "2024-01-07T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:11:19.419329",
+          "start_date": "2024-01-08T00:00:00",
+          "end_date": "2024-01-14T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:11:39.138804",
+          "start_date": "2024-01-15T00:00:00",
+          "end_date": "2024-01-21T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:11:58.836242",
+          "start_date": "2024-01-22T00:00:00",
+          "end_date": "2024-01-28T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:12:18.521723",
+          "start_date": "2024-01-29T00:00:00",
+          "end_date": "2024-02-04T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:12:38.203729",
+          "start_date": "2024-02-05T00:00:00",
+          "end_date": "2024-02-11T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:12:57.953968",
+          "start_date": "2024-02-12T00:00:00",
+          "end_date": "2024-02-18T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:13:17.688560",
+          "start_date": "2024-02-19T00:00:00",
+          "end_date": "2024-02-25T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:13:37.416447",
+          "start_date": "2024-02-26T00:00:00",
+          "end_date": "2024-03-03T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:13:57.173426",
+          "start_date": "2024-03-04T00:00:00",
+          "end_date": "2024-03-10T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:14:16.811140",
+          "start_date": "2024-03-11T00:00:00",
+          "end_date": "2024-03-17T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:14:36.556490",
+          "start_date": "2024-03-18T00:00:00",
+          "end_date": "2024-03-24T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:14:56.290312",
+          "start_date": "2024-03-25T00:00:00",
+          "end_date": "2024-03-31T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:15:16.016326",
+          "start_date": "2024-04-01T00:00:00",
+          "end_date": "2024-04-07T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:15:35.716979",
+          "start_date": "2024-04-08T00:00:00",
+          "end_date": "2024-04-14T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:15:55.435051",
+          "start_date": "2024-04-15T00:00:00",
+          "end_date": "2024-04-21T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:16:15.165656",
+          "start_date": "2024-04-22T00:00:00",
+          "end_date": "2024-04-28T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:16:34.789457",
+          "start_date": "2024-04-29T00:00:00",
+          "end_date": "2024-05-05T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:16:54.521759",
+          "start_date": "2024-05-06T00:00:00",
+          "end_date": "2024-05-12T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:17:14.216830",
+          "start_date": "2024-05-13T00:00:00",
+          "end_date": "2024-05-19T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:17:33.891247",
+          "start_date": "2024-05-20T00:00:00",
+          "end_date": "2024-05-26T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:17:53.594187",
+          "start_date": "2024-05-27T00:00:00",
+          "end_date": "2024-06-02T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:18:13.274410",
+          "start_date": "2024-06-03T00:00:00",
+          "end_date": "2024-06-09T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:18:33.009747",
+          "start_date": "2024-06-10T00:00:00",
+          "end_date": "2024-06-16T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:18:52.676036",
+          "start_date": "2024-06-17T00:00:00",
+          "end_date": "2024-06-23T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:19:12.348595",
+          "start_date": "2024-06-24T00:00:00",
+          "end_date": "2024-06-30T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:19:32.083160",
+          "start_date": "2024-07-01T00:00:00",
+          "end_date": "2024-07-07T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:19:51.718070",
+          "start_date": "2024-07-08T00:00:00",
+          "end_date": "2024-07-14T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:20:12.203274",
+          "start_date": "2024-07-15T00:00:00",
+          "end_date": "2024-07-21T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:20:31.122415",
+          "start_date": "2024-07-22T00:00:00",
+          "end_date": "2024-07-28T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:20:50.817650",
+          "start_date": "2024-07-29T00:00:00",
+          "end_date": "2024-08-04T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:21:10.544516",
+          "start_date": "2024-08-05T00:00:00",
+          "end_date": "2024-08-11T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:21:30.203357",
+          "start_date": "2024-08-12T00:00:00",
+          "end_date": "2024-08-18T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:21:49.925288",
+          "start_date": "2024-08-19T00:00:00",
+          "end_date": "2024-08-25T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:22:09.610578",
+          "start_date": "2024-08-26T00:00:00",
+          "end_date": "2024-09-01T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:22:29.387947",
+          "start_date": "2024-09-02T00:00:00",
+          "end_date": "2024-09-08T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:22:49.107631",
+          "start_date": "2024-09-09T00:00:00",
+          "end_date": "2024-09-15T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:23:08.770759",
+          "start_date": "2024-09-16T00:00:00",
+          "end_date": "2024-09-22T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:23:28.461077",
+          "start_date": "2024-09-23T00:00:00",
+          "end_date": "2024-09-29T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:23:48.176808",
+          "start_date": "2024-09-30T00:00:00",
+          "end_date": "2024-10-06T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:24:07.883629",
+          "start_date": "2024-10-07T00:00:00",
+          "end_date": "2024-10-13T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:24:27.575949",
+          "start_date": "2024-10-14T00:00:00",
+          "end_date": "2024-10-20T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:24:47.259211",
+          "start_date": "2024-10-21T00:00:00",
+          "end_date": "2024-10-27T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:25:06.962053",
+          "start_date": "2024-10-28T00:00:00",
+          "end_date": "2024-11-03T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:25:26.697816",
+          "start_date": "2024-11-04T00:00:00",
+          "end_date": "2024-11-10T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:25:46.374170",
+          "start_date": "2024-11-11T00:00:00",
+          "end_date": "2024-11-17T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:26:06.067018",
+          "start_date": "2024-11-18T00:00:00",
+          "end_date": "2024-11-24T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:26:25.739339",
+          "start_date": "2024-11-25T00:00:00",
+          "end_date": "2024-12-01T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:26:45.422340",
+          "start_date": "2024-12-02T00:00:00",
+          "end_date": "2024-12-08T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:27:05.103706",
+          "start_date": "2024-12-09T00:00:00",
+          "end_date": "2024-12-15T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:27:24.821793",
+          "start_date": "2024-12-16T00:00:00",
+          "end_date": "2024-12-22T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:27:44.520337",
+          "start_date": "2024-12-23T00:00:00",
+          "end_date": "2024-12-29T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:28:04.258549",
+          "start_date": "2024-12-30T00:00:00",
+          "end_date": "2025-01-05T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:28:23.949282",
+          "start_date": "2025-01-06T00:00:00",
+          "end_date": "2025-01-12T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:28:43.705464",
+          "start_date": "2025-01-13T00:00:00",
+          "end_date": "2025-01-19T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:29:03.398204",
+          "start_date": "2025-01-20T00:00:00",
+          "end_date": "2025-01-26T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:29:23.154523",
+          "start_date": "2025-01-27T00:00:00",
+          "end_date": "2025-02-02T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:29:42.935281",
+          "start_date": "2025-02-03T00:00:00",
+          "end_date": "2025-02-09T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:30:02.632391",
+          "start_date": "2025-02-10T00:00:00",
+          "end_date": "2025-02-16T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:30:22.312107",
+          "start_date": "2025-02-17T00:00:00",
+          "end_date": "2025-02-23T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:30:42.196135",
+          "start_date": "2025-02-24T00:00:00",
+          "end_date": "2025-03-02T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:31:02.184285",
+          "start_date": "2025-03-03T00:00:00",
+          "end_date": "2025-03-09T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:31:21.846871",
+          "start_date": "2025-03-10T00:00:00",
+          "end_date": "2025-03-16T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:31:41.586461",
+          "start_date": "2025-03-17T00:00:00",
+          "end_date": "2025-03-23T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:32:01.251799",
+          "start_date": "2025-03-24T00:00:00",
+          "end_date": "2025-03-30T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:32:20.931118",
+          "start_date": "2025-03-31T00:00:00",
+          "end_date": "2025-04-06T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:32:40.598950",
+          "start_date": "2025-04-07T00:00:00",
+          "end_date": "2025-04-13T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:33:00.316824",
+          "start_date": "2025-04-14T00:00:00",
+          "end_date": "2025-04-20T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:33:20.010581",
+          "start_date": "2025-04-21T00:00:00",
+          "end_date": "2025-04-27T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:33:39.700735",
+          "start_date": "2025-04-28T00:00:00",
+          "end_date": "2025-05-04T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:33:59.384640",
+          "start_date": "2025-05-05T00:00:00",
+          "end_date": "2025-05-11T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:34:19.156226",
+          "start_date": "2025-05-12T00:00:00",
+          "end_date": "2025-05-18T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:34:38.870687",
+          "start_date": "2025-05-19T00:00:00",
+          "end_date": "2025-05-25T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:34:58.569029",
+          "start_date": "2025-05-26T00:00:00",
+          "end_date": "2025-06-01T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:35:18.250939",
+          "start_date": "2025-06-02T00:00:00",
+          "end_date": "2025-06-08T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:35:37.962201",
+          "start_date": "2025-06-09T00:00:00",
+          "end_date": "2025-06-15T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:35:57.627581",
+          "start_date": "2025-06-16T00:00:00",
+          "end_date": "2025-06-22T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:36:17.365838",
+          "start_date": "2025-06-23T00:00:00",
+          "end_date": "2025-06-29T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:36:37.102210",
+          "start_date": "2025-06-30T00:00:00",
+          "end_date": "2025-07-06T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:36:57.001601",
+          "start_date": "2025-07-07T00:00:00",
+          "end_date": "2025-07-13T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:37:16.758350",
+          "start_date": "2025-07-14T00:00:00",
+          "end_date": "2025-07-20T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:37:36.405280",
+          "start_date": "2025-07-21T00:00:00",
+          "end_date": "2025-07-27T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:37:56.103364",
+          "start_date": "2025-07-28T00:00:00",
+          "end_date": "2025-08-03T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:38:15.845336",
+          "start_date": "2025-08-04T00:00:00",
+          "end_date": "2025-08-10T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:38:35.450188",
+          "start_date": "2025-08-11T00:00:00",
+          "end_date": "2025-08-17T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:38:55.180463",
+          "start_date": "2025-08-18T00:00:00",
+          "end_date": "2025-08-24T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:39:14.818102",
+          "start_date": "2025-08-25T00:00:00",
+          "end_date": "2025-08-31T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:39:34.546696",
+          "start_date": "2025-09-01T00:00:00",
+          "end_date": "2025-09-07T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:39:54.220019",
+          "start_date": "2025-09-08T00:00:00",
+          "end_date": "2025-09-14T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:40:13.995390",
+          "start_date": "2025-09-15T00:00:00",
+          "end_date": "2025-09-21T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:40:33.842801",
+          "start_date": "2025-09-22T00:00:00",
+          "end_date": "2025-09-28T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:40:53.504724",
+          "start_date": "2025-09-29T00:00:00",
+          "end_date": "2025-10-05T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:41:13.228922",
+          "start_date": "2025-10-06T00:00:00",
+          "end_date": "2025-10-10T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T11:33:07.442711",
+          "start_date": "2025-10-09T11:33:06.052966",
+          "end_date": "2025-10-11T11:33:06.052966",
+          "success": true,
+          "records_count": 45312
+        }
+      ],
+      "last_timestamp": "2025-10-11T11:33:06.052966",
+      "last_download": "2025-10-11T11:33:07.442670",
+      "last_records_count": 45312
+    },
+    "Actual_System_Load_By_Weather_Zone": {
+      "download_history": [
+        {
+          "timestamp": "2025-10-10T22:41:35.514948",
+          "start_date": "2023-12-11T00:00:00",
+          "end_date": "2023-12-17T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:41:55.200856",
+          "start_date": "2023-12-18T00:00:00",
+          "end_date": "2023-12-24T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:42:14.906536",
+          "start_date": "2023-12-25T00:00:00",
+          "end_date": "2023-12-31T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:42:34.582368",
+          "start_date": "2024-01-01T00:00:00",
+          "end_date": "2024-01-07T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:42:54.336527",
+          "start_date": "2024-01-08T00:00:00",
+          "end_date": "2024-01-14T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:43:14.026320",
+          "start_date": "2024-01-15T00:00:00",
+          "end_date": "2024-01-21T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:43:33.739805",
+          "start_date": "2024-01-22T00:00:00",
+          "end_date": "2024-01-28T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:43:53.420807",
+          "start_date": "2024-01-29T00:00:00",
+          "end_date": "2024-02-04T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:44:13.129510",
+          "start_date": "2024-02-05T00:00:00",
+          "end_date": "2024-02-11T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:44:32.877113",
+          "start_date": "2024-02-12T00:00:00",
+          "end_date": "2024-02-18T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:44:52.495964",
+          "start_date": "2024-02-19T00:00:00",
+          "end_date": "2024-02-25T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:45:12.232012",
+          "start_date": "2024-02-26T00:00:00",
+          "end_date": "2024-03-03T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:45:31.920668",
+          "start_date": "2024-03-04T00:00:00",
+          "end_date": "2024-03-10T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:45:51.605032",
+          "start_date": "2024-03-11T00:00:00",
+          "end_date": "2024-03-17T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:46:11.337801",
+          "start_date": "2024-03-18T00:00:00",
+          "end_date": "2024-03-24T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:46:31.004480",
+          "start_date": "2024-03-25T00:00:00",
+          "end_date": "2024-03-31T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:46:50.655790",
+          "start_date": "2024-04-01T00:00:00",
+          "end_date": "2024-04-07T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:47:10.367374",
+          "start_date": "2024-04-08T00:00:00",
+          "end_date": "2024-04-14T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:47:30.084530",
+          "start_date": "2024-04-15T00:00:00",
+          "end_date": "2024-04-21T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:47:49.742434",
+          "start_date": "2024-04-22T00:00:00",
+          "end_date": "2024-04-28T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:48:09.465917",
+          "start_date": "2024-04-29T00:00:00",
+          "end_date": "2024-05-05T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:48:29.144347",
+          "start_date": "2024-05-06T00:00:00",
+          "end_date": "2024-05-12T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:48:48.910539",
+          "start_date": "2024-05-13T00:00:00",
+          "end_date": "2024-05-19T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:49:08.649492",
+          "start_date": "2024-05-20T00:00:00",
+          "end_date": "2024-05-26T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:49:28.375953",
+          "start_date": "2024-05-27T00:00:00",
+          "end_date": "2024-06-02T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:49:48.049821",
+          "start_date": "2024-06-03T00:00:00",
+          "end_date": "2024-06-09T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:50:07.746349",
+          "start_date": "2024-06-10T00:00:00",
+          "end_date": "2024-06-16T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:50:27.514671",
+          "start_date": "2024-06-17T00:00:00",
+          "end_date": "2024-06-23T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:50:47.200761",
+          "start_date": "2024-06-24T00:00:00",
+          "end_date": "2024-06-30T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:51:06.913013",
+          "start_date": "2024-07-01T00:00:00",
+          "end_date": "2024-07-07T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:52:26.558166",
+          "start_date": "2024-07-08T00:00:00",
+          "end_date": "2024-07-14T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:52:46.305674",
+          "start_date": "2024-07-15T00:00:00",
+          "end_date": "2024-07-21T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:53:05.968774",
+          "start_date": "2024-07-22T00:00:00",
+          "end_date": "2024-07-28T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:53:25.706231",
+          "start_date": "2024-07-29T00:00:00",
+          "end_date": "2024-08-04T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:53:45.435386",
+          "start_date": "2024-08-05T00:00:00",
+          "end_date": "2024-08-11T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:54:05.190592",
+          "start_date": "2024-08-12T00:00:00",
+          "end_date": "2024-08-18T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:54:24.867474",
+          "start_date": "2024-08-19T00:00:00",
+          "end_date": "2024-08-25T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:54:44.583178",
+          "start_date": "2024-08-26T00:00:00",
+          "end_date": "2024-09-01T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:55:04.412348",
+          "start_date": "2024-09-02T00:00:00",
+          "end_date": "2024-09-08T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:55:24.065280",
+          "start_date": "2024-09-09T00:00:00",
+          "end_date": "2024-09-15T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:55:44.016577",
+          "start_date": "2024-09-16T00:00:00",
+          "end_date": "2024-09-22T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:56:03.708724",
+          "start_date": "2024-09-23T00:00:00",
+          "end_date": "2024-09-29T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:56:23.521641",
+          "start_date": "2024-09-30T00:00:00",
+          "end_date": "2024-10-06T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:56:43.160049",
+          "start_date": "2024-10-07T00:00:00",
+          "end_date": "2024-10-13T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:57:02.878322",
+          "start_date": "2024-10-14T00:00:00",
+          "end_date": "2024-10-20T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:57:22.534941",
+          "start_date": "2024-10-21T00:00:00",
+          "end_date": "2024-10-27T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:57:42.264136",
+          "start_date": "2024-10-28T00:00:00",
+          "end_date": "2024-11-03T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:58:01.967640",
+          "start_date": "2024-11-04T00:00:00",
+          "end_date": "2024-11-10T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:58:21.631165",
+          "start_date": "2024-11-11T00:00:00",
+          "end_date": "2024-11-17T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:58:41.355027",
+          "start_date": "2024-11-18T00:00:00",
+          "end_date": "2024-11-24T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:59:01.015094",
+          "start_date": "2024-11-25T00:00:00",
+          "end_date": "2024-12-01T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:59:20.694583",
+          "start_date": "2024-12-02T00:00:00",
+          "end_date": "2024-12-08T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T22:59:40.421302",
+          "start_date": "2024-12-09T00:00:00",
+          "end_date": "2024-12-15T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:00:00.255018",
+          "start_date": "2024-12-16T00:00:00",
+          "end_date": "2024-12-22T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:00:20.191860",
+          "start_date": "2024-12-23T00:00:00",
+          "end_date": "2024-12-29T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:00:39.817349",
+          "start_date": "2024-12-30T00:00:00",
+          "end_date": "2025-01-05T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:00:59.564829",
+          "start_date": "2025-01-06T00:00:00",
+          "end_date": "2025-01-12T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:01:19.254709",
+          "start_date": "2025-01-13T00:00:00",
+          "end_date": "2025-01-19T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:01:38.932971",
+          "start_date": "2025-01-20T00:00:00",
+          "end_date": "2025-01-26T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:01:58.730300",
+          "start_date": "2025-01-27T00:00:00",
+          "end_date": "2025-02-02T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:02:18.349373",
+          "start_date": "2025-02-03T00:00:00",
+          "end_date": "2025-02-09T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:02:38.120262",
+          "start_date": "2025-02-10T00:00:00",
+          "end_date": "2025-02-16T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:02:57.761933",
+          "start_date": "2025-02-17T00:00:00",
+          "end_date": "2025-02-23T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:03:17.476826",
+          "start_date": "2025-02-24T00:00:00",
+          "end_date": "2025-03-02T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:03:37.244757",
+          "start_date": "2025-03-03T00:00:00",
+          "end_date": "2025-03-09T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:03:56.986885",
+          "start_date": "2025-03-10T00:00:00",
+          "end_date": "2025-03-16T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:04:16.840790",
+          "start_date": "2025-03-17T00:00:00",
+          "end_date": "2025-03-23T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:04:36.562655",
+          "start_date": "2025-03-24T00:00:00",
+          "end_date": "2025-03-30T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:04:56.272006",
+          "start_date": "2025-03-31T00:00:00",
+          "end_date": "2025-04-06T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:05:16.001356",
+          "start_date": "2025-04-07T00:00:00",
+          "end_date": "2025-04-13T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:05:35.634197",
+          "start_date": "2025-04-14T00:00:00",
+          "end_date": "2025-04-20T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:05:55.339833",
+          "start_date": "2025-04-21T00:00:00",
+          "end_date": "2025-04-27T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:06:15.040251",
+          "start_date": "2025-04-28T00:00:00",
+          "end_date": "2025-05-04T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:06:34.727890",
+          "start_date": "2025-05-05T00:00:00",
+          "end_date": "2025-05-11T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:06:54.409945",
+          "start_date": "2025-05-12T00:00:00",
+          "end_date": "2025-05-18T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:07:14.106112",
+          "start_date": "2025-05-19T00:00:00",
+          "end_date": "2025-05-25T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:07:33.840903",
+          "start_date": "2025-05-26T00:00:00",
+          "end_date": "2025-06-01T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:07:53.479457",
+          "start_date": "2025-06-02T00:00:00",
+          "end_date": "2025-06-08T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:08:13.241935",
+          "start_date": "2025-06-09T00:00:00",
+          "end_date": "2025-06-15T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:08:32.894633",
+          "start_date": "2025-06-16T00:00:00",
+          "end_date": "2025-06-22T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:08:52.598239",
+          "start_date": "2025-06-23T00:00:00",
+          "end_date": "2025-06-29T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:09:12.327381",
+          "start_date": "2025-06-30T00:00:00",
+          "end_date": "2025-07-06T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:09:31.997050",
+          "start_date": "2025-07-07T00:00:00",
+          "end_date": "2025-07-13T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:09:51.659849",
+          "start_date": "2025-07-14T00:00:00",
+          "end_date": "2025-07-20T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:10:12.141588",
+          "start_date": "2025-07-21T00:00:00",
+          "end_date": "2025-07-27T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:10:31.799754",
+          "start_date": "2025-07-28T00:00:00",
+          "end_date": "2025-08-03T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:10:51.509571",
+          "start_date": "2025-08-04T00:00:00",
+          "end_date": "2025-08-10T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:11:11.159331",
+          "start_date": "2025-08-11T00:00:00",
+          "end_date": "2025-08-17T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:11:30.852326",
+          "start_date": "2025-08-18T00:00:00",
+          "end_date": "2025-08-24T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:11:50.580752",
+          "start_date": "2025-08-25T00:00:00",
+          "end_date": "2025-08-31T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:12:10.268686",
+          "start_date": "2025-09-01T00:00:00",
+          "end_date": "2025-09-07T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:12:29.968467",
+          "start_date": "2025-09-08T00:00:00",
+          "end_date": "2025-09-14T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:12:49.612913",
+          "start_date": "2025-09-15T00:00:00",
+          "end_date": "2025-09-21T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:13:09.308919",
+          "start_date": "2025-09-22T00:00:00",
+          "end_date": "2025-09-28T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:13:28.984415",
+          "start_date": "2025-09-29T00:00:00",
+          "end_date": "2025-10-05T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:13:49.001184",
+          "start_date": "2025-10-06T00:00:00",
+          "end_date": "2025-10-10T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T11:32:00.887971",
+          "start_date": "2025-10-09T11:32:00.064093",
+          "end_date": "2025-10-11T11:32:00.064093",
+          "success": true,
+          "records_count": 48
+        }
+      ],
+      "last_timestamp": "2025-10-11T11:32:00.064093",
+      "last_download": "2025-10-11T11:32:00.887954",
+      "last_records_count": 48
+    },
+    "Actual_System_Load_By_Forecast_Zone": {
+      "download_history": [
+        {
+          "timestamp": "2025-10-10T23:14:11.293032",
+          "start_date": "2023-12-11T00:00:00",
+          "end_date": "2024-01-09T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:14:30.962339",
+          "start_date": "2024-01-10T00:00:00",
+          "end_date": "2024-02-08T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:14:50.691667",
+          "start_date": "2024-02-09T00:00:00",
+          "end_date": "2024-03-09T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:15:10.394570",
+          "start_date": "2024-03-10T00:00:00",
+          "end_date": "2024-04-08T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:15:30.067176",
+          "start_date": "2024-04-09T00:00:00",
+          "end_date": "2024-05-08T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:15:49.770325",
+          "start_date": "2024-05-09T00:00:00",
+          "end_date": "2024-06-07T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:16:09.465475",
+          "start_date": "2024-06-08T00:00:00",
+          "end_date": "2024-07-07T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:16:29.115037",
+          "start_date": "2024-07-08T00:00:00",
+          "end_date": "2024-08-06T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:16:48.814245",
+          "start_date": "2024-08-07T00:00:00",
+          "end_date": "2024-09-05T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:17:08.429654",
+          "start_date": "2024-09-06T00:00:00",
+          "end_date": "2024-10-05T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:17:28.105852",
+          "start_date": "2024-10-06T00:00:00",
+          "end_date": "2024-11-04T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:17:47.803468",
+          "start_date": "2024-11-05T00:00:00",
+          "end_date": "2024-12-04T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:18:07.399996",
+          "start_date": "2024-12-05T00:00:00",
+          "end_date": "2025-01-03T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:18:27.164193",
+          "start_date": "2025-01-04T00:00:00",
+          "end_date": "2025-02-02T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:18:46.764040",
+          "start_date": "2025-02-03T00:00:00",
+          "end_date": "2025-03-04T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:19:06.464852",
+          "start_date": "2025-03-05T00:00:00",
+          "end_date": "2025-04-03T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:19:26.133569",
+          "start_date": "2025-04-04T00:00:00",
+          "end_date": "2025-05-03T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:19:45.781009",
+          "start_date": "2025-05-04T00:00:00",
+          "end_date": "2025-06-02T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:20:05.520359",
+          "start_date": "2025-06-03T00:00:00",
+          "end_date": "2025-07-02T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:20:25.081319",
+          "start_date": "2025-07-03T00:00:00",
+          "end_date": "2025-08-01T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:20:44.767231",
+          "start_date": "2025-08-02T00:00:00",
+          "end_date": "2025-08-31T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:21:04.428767",
+          "start_date": "2025-09-01T00:00:00",
+          "end_date": "2025-09-30T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:21:24.125523",
+          "start_date": "2025-10-01T00:00:00",
+          "end_date": "2025-10-10T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T11:32:06.007789",
+          "start_date": "2025-10-09T11:32:00.064093",
+          "end_date": "2025-10-11T11:32:00.064093",
+          "success": true,
+          "records_count": 48
+        }
+      ],
+      "last_timestamp": "2025-10-11T11:32:00.064093",
+      "last_download": "2025-10-11T11:32:06.007771",
+      "last_records_count": 48
+    },
+    "Fuel_Mix": {
+      "download_history": [
+        {
+          "timestamp": "2025-10-10T23:21:46.362374",
+          "start_date": "2023-12-11T00:00:00",
+          "end_date": "2023-12-17T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:22:06.077389",
+          "start_date": "2023-12-18T00:00:00",
+          "end_date": "2023-12-24T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:22:25.778958",
+          "start_date": "2023-12-25T00:00:00",
+          "end_date": "2023-12-31T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:22:45.402831",
+          "start_date": "2024-01-01T00:00:00",
+          "end_date": "2024-01-07T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:23:05.092075",
+          "start_date": "2024-01-08T00:00:00",
+          "end_date": "2024-01-14T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:23:24.758576",
+          "start_date": "2024-01-15T00:00:00",
+          "end_date": "2024-01-21T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:23:44.474927",
+          "start_date": "2024-01-22T00:00:00",
+          "end_date": "2024-01-28T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:24:04.126979",
+          "start_date": "2024-01-29T00:00:00",
+          "end_date": "2024-02-04T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:24:23.813837",
+          "start_date": "2024-02-05T00:00:00",
+          "end_date": "2024-02-11T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:24:43.437183",
+          "start_date": "2024-02-12T00:00:00",
+          "end_date": "2024-02-18T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:25:03.119437",
+          "start_date": "2024-02-19T00:00:00",
+          "end_date": "2024-02-25T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:25:22.821573",
+          "start_date": "2024-02-26T00:00:00",
+          "end_date": "2024-03-03T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:25:42.525487",
+          "start_date": "2024-03-04T00:00:00",
+          "end_date": "2024-03-10T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:26:02.167391",
+          "start_date": "2024-03-11T00:00:00",
+          "end_date": "2024-03-17T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:26:21.834310",
+          "start_date": "2024-03-18T00:00:00",
+          "end_date": "2024-03-24T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:26:41.545924",
+          "start_date": "2024-03-25T00:00:00",
+          "end_date": "2024-03-31T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:27:01.171050",
+          "start_date": "2024-04-01T00:00:00",
+          "end_date": "2024-04-07T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:27:20.815371",
+          "start_date": "2024-04-08T00:00:00",
+          "end_date": "2024-04-14T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:27:40.482788",
+          "start_date": "2024-04-15T00:00:00",
+          "end_date": "2024-04-21T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:28:00.122817",
+          "start_date": "2024-04-22T00:00:00",
+          "end_date": "2024-04-28T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:28:19.873219",
+          "start_date": "2024-04-29T00:00:00",
+          "end_date": "2024-05-05T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:28:39.509354",
+          "start_date": "2024-05-06T00:00:00",
+          "end_date": "2024-05-12T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:28:59.190876",
+          "start_date": "2024-05-13T00:00:00",
+          "end_date": "2024-05-19T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:29:18.872835",
+          "start_date": "2024-05-20T00:00:00",
+          "end_date": "2024-05-26T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:29:38.627044",
+          "start_date": "2024-05-27T00:00:00",
+          "end_date": "2024-06-02T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:29:58.300719",
+          "start_date": "2024-06-03T00:00:00",
+          "end_date": "2024-06-09T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:30:17.993388",
+          "start_date": "2024-06-10T00:00:00",
+          "end_date": "2024-06-16T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:30:37.712583",
+          "start_date": "2024-06-17T00:00:00",
+          "end_date": "2024-06-23T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:30:57.432312",
+          "start_date": "2024-06-24T00:00:00",
+          "end_date": "2024-06-30T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:31:17.083260",
+          "start_date": "2024-07-01T00:00:00",
+          "end_date": "2024-07-07T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:31:36.851675",
+          "start_date": "2024-07-08T00:00:00",
+          "end_date": "2024-07-14T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:31:56.486349",
+          "start_date": "2024-07-15T00:00:00",
+          "end_date": "2024-07-21T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:32:16.169789",
+          "start_date": "2024-07-22T00:00:00",
+          "end_date": "2024-07-28T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:32:35.883308",
+          "start_date": "2024-07-29T00:00:00",
+          "end_date": "2024-08-04T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:32:55.642879",
+          "start_date": "2024-08-05T00:00:00",
+          "end_date": "2024-08-11T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:33:15.335982",
+          "start_date": "2024-08-12T00:00:00",
+          "end_date": "2024-08-18T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:33:35.042786",
+          "start_date": "2024-08-19T00:00:00",
+          "end_date": "2024-08-25T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:33:54.698315",
+          "start_date": "2024-08-26T00:00:00",
+          "end_date": "2024-09-01T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:34:14.395527",
+          "start_date": "2024-09-02T00:00:00",
+          "end_date": "2024-09-08T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:34:34.120244",
+          "start_date": "2024-09-09T00:00:00",
+          "end_date": "2024-09-15T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:34:53.756622",
+          "start_date": "2024-09-16T00:00:00",
+          "end_date": "2024-09-22T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:35:13.521265",
+          "start_date": "2024-09-23T00:00:00",
+          "end_date": "2024-09-29T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:35:33.158537",
+          "start_date": "2024-09-30T00:00:00",
+          "end_date": "2024-10-06T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:35:52.853991",
+          "start_date": "2024-10-07T00:00:00",
+          "end_date": "2024-10-13T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:36:12.702691",
+          "start_date": "2024-10-14T00:00:00",
+          "end_date": "2024-10-20T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:36:32.373270",
+          "start_date": "2024-10-21T00:00:00",
+          "end_date": "2024-10-27T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:36:52.062003",
+          "start_date": "2024-10-28T00:00:00",
+          "end_date": "2024-11-03T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:37:11.765789",
+          "start_date": "2024-11-04T00:00:00",
+          "end_date": "2024-11-10T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:37:31.452073",
+          "start_date": "2024-11-11T00:00:00",
+          "end_date": "2024-11-17T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:37:51.168117",
+          "start_date": "2024-11-18T00:00:00",
+          "end_date": "2024-11-24T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:38:10.909944",
+          "start_date": "2024-11-25T00:00:00",
+          "end_date": "2024-12-01T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:38:30.528543",
+          "start_date": "2024-12-02T00:00:00",
+          "end_date": "2024-12-08T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:38:50.215333",
+          "start_date": "2024-12-09T00:00:00",
+          "end_date": "2024-12-15T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:39:09.893300",
+          "start_date": "2024-12-16T00:00:00",
+          "end_date": "2024-12-22T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:39:29.940299",
+          "start_date": "2024-12-23T00:00:00",
+          "end_date": "2024-12-29T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:39:49.663320",
+          "start_date": "2024-12-30T00:00:00",
+          "end_date": "2025-01-05T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:40:09.310310",
+          "start_date": "2025-01-06T00:00:00",
+          "end_date": "2025-01-12T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:40:29.002470",
+          "start_date": "2025-01-13T00:00:00",
+          "end_date": "2025-01-19T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:40:48.694019",
+          "start_date": "2025-01-20T00:00:00",
+          "end_date": "2025-01-26T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:41:08.383921",
+          "start_date": "2025-01-27T00:00:00",
+          "end_date": "2025-02-02T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:41:28.072019",
+          "start_date": "2025-02-03T00:00:00",
+          "end_date": "2025-02-09T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:41:47.753253",
+          "start_date": "2025-02-10T00:00:00",
+          "end_date": "2025-02-16T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:42:07.515042",
+          "start_date": "2025-02-17T00:00:00",
+          "end_date": "2025-02-23T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:42:27.210155",
+          "start_date": "2025-02-24T00:00:00",
+          "end_date": "2025-03-02T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:42:46.900624",
+          "start_date": "2025-03-03T00:00:00",
+          "end_date": "2025-03-09T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:43:06.615313",
+          "start_date": "2025-03-10T00:00:00",
+          "end_date": "2025-03-16T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:43:26.272691",
+          "start_date": "2025-03-17T00:00:00",
+          "end_date": "2025-03-23T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:43:45.970004",
+          "start_date": "2025-03-24T00:00:00",
+          "end_date": "2025-03-30T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:44:05.725082",
+          "start_date": "2025-03-31T00:00:00",
+          "end_date": "2025-04-06T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:44:25.366358",
+          "start_date": "2025-04-07T00:00:00",
+          "end_date": "2025-04-13T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:44:45.063631",
+          "start_date": "2025-04-14T00:00:00",
+          "end_date": "2025-04-20T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:45:04.759786",
+          "start_date": "2025-04-21T00:00:00",
+          "end_date": "2025-04-27T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:45:24.488673",
+          "start_date": "2025-04-28T00:00:00",
+          "end_date": "2025-05-04T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:45:44.369179",
+          "start_date": "2025-05-05T00:00:00",
+          "end_date": "2025-05-11T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:46:03.861536",
+          "start_date": "2025-05-12T00:00:00",
+          "end_date": "2025-05-18T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:46:23.612801",
+          "start_date": "2025-05-19T00:00:00",
+          "end_date": "2025-05-25T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:46:43.308677",
+          "start_date": "2025-05-26T00:00:00",
+          "end_date": "2025-06-01T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:47:02.996943",
+          "start_date": "2025-06-02T00:00:00",
+          "end_date": "2025-06-08T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:47:22.667528",
+          "start_date": "2025-06-09T00:00:00",
+          "end_date": "2025-06-15T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:47:42.407422",
+          "start_date": "2025-06-16T00:00:00",
+          "end_date": "2025-06-22T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:48:02.121022",
+          "start_date": "2025-06-23T00:00:00",
+          "end_date": "2025-06-29T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:48:21.829407",
+          "start_date": "2025-06-30T00:00:00",
+          "end_date": "2025-07-06T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:48:41.548906",
+          "start_date": "2025-07-07T00:00:00",
+          "end_date": "2025-07-13T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:49:01.169647",
+          "start_date": "2025-07-14T00:00:00",
+          "end_date": "2025-07-20T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:49:20.844610",
+          "start_date": "2025-07-21T00:00:00",
+          "end_date": "2025-07-27T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:49:40.539622",
+          "start_date": "2025-07-28T00:00:00",
+          "end_date": "2025-08-03T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:50:00.247469",
+          "start_date": "2025-08-04T00:00:00",
+          "end_date": "2025-08-10T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:50:19.954019",
+          "start_date": "2025-08-11T00:00:00",
+          "end_date": "2025-08-17T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:50:39.651415",
+          "start_date": "2025-08-18T00:00:00",
+          "end_date": "2025-08-24T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:50:59.310376",
+          "start_date": "2025-08-25T00:00:00",
+          "end_date": "2025-08-31T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:51:19.000781",
+          "start_date": "2025-09-01T00:00:00",
+          "end_date": "2025-09-07T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:51:38.674923",
+          "start_date": "2025-09-08T00:00:00",
+          "end_date": "2025-09-14T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:51:58.343251",
+          "start_date": "2025-09-15T00:00:00",
+          "end_date": "2025-09-21T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:52:18.050390",
+          "start_date": "2025-09-22T00:00:00",
+          "end_date": "2025-09-28T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:52:37.703813",
+          "start_date": "2025-09-29T00:00:00",
+          "end_date": "2025-10-05T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:52:57.415609",
+          "start_date": "2025-10-06T00:00:00",
+          "end_date": "2025-10-10T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T11:50:31.077456",
+          "start_date": "2025-10-09T11:50:30.492172",
+          "end_date": "2025-10-11T11:50:30.492172",
+          "success": true,
+          "records_count": 48
+        }
+      ],
+      "last_timestamp": "2025-10-11T11:50:30.492172",
+      "last_download": "2025-10-11T11:50:31.077439",
+      "last_records_count": 48
+    },
+    "System_Wide_Demand": {
+      "download_history": [
+        {
+          "timestamp": "2025-10-10T23:53:19.721764",
+          "start_date": "2023-12-11T00:00:00",
+          "end_date": "2023-12-17T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:53:39.398853",
+          "start_date": "2023-12-18T00:00:00",
+          "end_date": "2023-12-24T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:53:59.111806",
+          "start_date": "2023-12-25T00:00:00",
+          "end_date": "2023-12-31T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:54:18.814822",
+          "start_date": "2024-01-01T00:00:00",
+          "end_date": "2024-01-07T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:54:38.491087",
+          "start_date": "2024-01-08T00:00:00",
+          "end_date": "2024-01-14T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:54:58.214488",
+          "start_date": "2024-01-15T00:00:00",
+          "end_date": "2024-01-21T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:55:17.918832",
+          "start_date": "2024-01-22T00:00:00",
+          "end_date": "2024-01-28T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:55:37.589163",
+          "start_date": "2024-01-29T00:00:00",
+          "end_date": "2024-02-04T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:55:57.266289",
+          "start_date": "2024-02-05T00:00:00",
+          "end_date": "2024-02-11T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:56:16.962772",
+          "start_date": "2024-02-12T00:00:00",
+          "end_date": "2024-02-18T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:56:36.709636",
+          "start_date": "2024-02-19T00:00:00",
+          "end_date": "2024-02-25T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:56:56.429891",
+          "start_date": "2024-02-26T00:00:00",
+          "end_date": "2024-03-03T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:57:16.160906",
+          "start_date": "2024-03-04T00:00:00",
+          "end_date": "2024-03-10T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:57:35.839837",
+          "start_date": "2024-03-11T00:00:00",
+          "end_date": "2024-03-17T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:57:55.513941",
+          "start_date": "2024-03-18T00:00:00",
+          "end_date": "2024-03-24T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:58:15.189745",
+          "start_date": "2024-03-25T00:00:00",
+          "end_date": "2024-03-31T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:58:34.915200",
+          "start_date": "2024-04-01T00:00:00",
+          "end_date": "2024-04-07T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:58:54.629089",
+          "start_date": "2024-04-08T00:00:00",
+          "end_date": "2024-04-14T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:59:14.362752",
+          "start_date": "2024-04-15T00:00:00",
+          "end_date": "2024-04-21T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:59:34.062110",
+          "start_date": "2024-04-22T00:00:00",
+          "end_date": "2024-04-28T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-10T23:59:54.133015",
+          "start_date": "2024-04-29T00:00:00",
+          "end_date": "2024-05-05T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:00:13.477092",
+          "start_date": "2024-05-06T00:00:00",
+          "end_date": "2024-05-12T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:00:33.145654",
+          "start_date": "2024-05-13T00:00:00",
+          "end_date": "2024-05-19T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:00:52.825854",
+          "start_date": "2024-05-20T00:00:00",
+          "end_date": "2024-05-26T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:01:12.557904",
+          "start_date": "2024-05-27T00:00:00",
+          "end_date": "2024-06-02T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:01:32.189715",
+          "start_date": "2024-06-03T00:00:00",
+          "end_date": "2024-06-09T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:01:51.999399",
+          "start_date": "2024-06-10T00:00:00",
+          "end_date": "2024-06-16T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:02:11.735735",
+          "start_date": "2024-06-17T00:00:00",
+          "end_date": "2024-06-23T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:02:31.402359",
+          "start_date": "2024-06-24T00:00:00",
+          "end_date": "2024-06-30T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:02:51.157310",
+          "start_date": "2024-07-01T00:00:00",
+          "end_date": "2024-07-07T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:03:10.854258",
+          "start_date": "2024-07-08T00:00:00",
+          "end_date": "2024-07-14T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:03:30.529892",
+          "start_date": "2024-07-15T00:00:00",
+          "end_date": "2024-07-21T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:03:50.234844",
+          "start_date": "2024-07-22T00:00:00",
+          "end_date": "2024-07-28T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:04:09.948673",
+          "start_date": "2024-07-29T00:00:00",
+          "end_date": "2024-08-04T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:04:29.788996",
+          "start_date": "2024-08-05T00:00:00",
+          "end_date": "2024-08-11T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:04:49.470018",
+          "start_date": "2024-08-12T00:00:00",
+          "end_date": "2024-08-18T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:05:09.198276",
+          "start_date": "2024-08-19T00:00:00",
+          "end_date": "2024-08-25T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:05:28.897537",
+          "start_date": "2024-08-26T00:00:00",
+          "end_date": "2024-09-01T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:05:48.599465",
+          "start_date": "2024-09-02T00:00:00",
+          "end_date": "2024-09-08T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:06:08.271563",
+          "start_date": "2024-09-09T00:00:00",
+          "end_date": "2024-09-15T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:06:27.964535",
+          "start_date": "2024-09-16T00:00:00",
+          "end_date": "2024-09-22T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:06:47.645729",
+          "start_date": "2024-09-23T00:00:00",
+          "end_date": "2024-09-29T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:07:07.346926",
+          "start_date": "2024-09-30T00:00:00",
+          "end_date": "2024-10-06T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:07:27.069461",
+          "start_date": "2024-10-07T00:00:00",
+          "end_date": "2024-10-13T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:07:46.741512",
+          "start_date": "2024-10-14T00:00:00",
+          "end_date": "2024-10-20T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:08:06.455303",
+          "start_date": "2024-10-21T00:00:00",
+          "end_date": "2024-10-27T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:08:26.130738",
+          "start_date": "2024-10-28T00:00:00",
+          "end_date": "2024-11-03T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:08:45.866449",
+          "start_date": "2024-11-04T00:00:00",
+          "end_date": "2024-11-10T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:09:05.527195",
+          "start_date": "2024-11-11T00:00:00",
+          "end_date": "2024-11-17T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:09:25.239738",
+          "start_date": "2024-11-18T00:00:00",
+          "end_date": "2024-11-24T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:09:44.879252",
+          "start_date": "2024-11-25T00:00:00",
+          "end_date": "2024-12-01T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:10:04.596680",
+          "start_date": "2024-12-02T00:00:00",
+          "end_date": "2024-12-08T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:10:24.226501",
+          "start_date": "2024-12-09T00:00:00",
+          "end_date": "2024-12-15T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:10:43.939413",
+          "start_date": "2024-12-16T00:00:00",
+          "end_date": "2024-12-22T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:12:03.569047",
+          "start_date": "2024-12-23T00:00:00",
+          "end_date": "2024-12-29T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:12:23.317849",
+          "start_date": "2024-12-30T00:00:00",
+          "end_date": "2025-01-05T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:12:43.005521",
+          "start_date": "2025-01-06T00:00:00",
+          "end_date": "2025-01-12T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:13:02.670187",
+          "start_date": "2025-01-13T00:00:00",
+          "end_date": "2025-01-19T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:13:22.339297",
+          "start_date": "2025-01-20T00:00:00",
+          "end_date": "2025-01-26T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:13:42.040407",
+          "start_date": "2025-01-27T00:00:00",
+          "end_date": "2025-02-02T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:14:01.676238",
+          "start_date": "2025-02-03T00:00:00",
+          "end_date": "2025-02-09T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:14:21.370696",
+          "start_date": "2025-02-10T00:00:00",
+          "end_date": "2025-02-16T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:14:41.060298",
+          "start_date": "2025-02-17T00:00:00",
+          "end_date": "2025-02-23T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:15:00.779310",
+          "start_date": "2025-02-24T00:00:00",
+          "end_date": "2025-03-02T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:15:20.470356",
+          "start_date": "2025-03-03T00:00:00",
+          "end_date": "2025-03-09T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:15:40.304766",
+          "start_date": "2025-03-10T00:00:00",
+          "end_date": "2025-03-16T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:15:59.959244",
+          "start_date": "2025-03-17T00:00:00",
+          "end_date": "2025-03-23T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:16:19.704740",
+          "start_date": "2025-03-24T00:00:00",
+          "end_date": "2025-03-30T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:16:39.368162",
+          "start_date": "2025-03-31T00:00:00",
+          "end_date": "2025-04-06T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:16:59.095562",
+          "start_date": "2025-04-07T00:00:00",
+          "end_date": "2025-04-13T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:17:18.721556",
+          "start_date": "2025-04-14T00:00:00",
+          "end_date": "2025-04-20T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:17:38.450264",
+          "start_date": "2025-04-21T00:00:00",
+          "end_date": "2025-04-27T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:17:58.150175",
+          "start_date": "2025-04-28T00:00:00",
+          "end_date": "2025-05-04T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:18:17.860371",
+          "start_date": "2025-05-05T00:00:00",
+          "end_date": "2025-05-11T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:18:37.543640",
+          "start_date": "2025-05-12T00:00:00",
+          "end_date": "2025-05-18T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:18:57.150152",
+          "start_date": "2025-05-19T00:00:00",
+          "end_date": "2025-05-25T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:19:16.876972",
+          "start_date": "2025-05-26T00:00:00",
+          "end_date": "2025-06-01T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:19:36.557465",
+          "start_date": "2025-06-02T00:00:00",
+          "end_date": "2025-06-08T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:19:56.190976",
+          "start_date": "2025-06-09T00:00:00",
+          "end_date": "2025-06-15T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:20:16.138524",
+          "start_date": "2025-06-16T00:00:00",
+          "end_date": "2025-06-22T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:20:35.577881",
+          "start_date": "2025-06-23T00:00:00",
+          "end_date": "2025-06-29T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:20:55.322845",
+          "start_date": "2025-06-30T00:00:00",
+          "end_date": "2025-07-06T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:21:15.010816",
+          "start_date": "2025-07-07T00:00:00",
+          "end_date": "2025-07-13T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:21:34.728475",
+          "start_date": "2025-07-14T00:00:00",
+          "end_date": "2025-07-20T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:21:54.454165",
+          "start_date": "2025-07-21T00:00:00",
+          "end_date": "2025-07-27T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:22:14.142512",
+          "start_date": "2025-07-28T00:00:00",
+          "end_date": "2025-08-03T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:22:33.819205",
+          "start_date": "2025-08-04T00:00:00",
+          "end_date": "2025-08-10T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:22:53.528790",
+          "start_date": "2025-08-11T00:00:00",
+          "end_date": "2025-08-17T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:23:13.259083",
+          "start_date": "2025-08-18T00:00:00",
+          "end_date": "2025-08-24T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:23:32.999424",
+          "start_date": "2025-08-25T00:00:00",
+          "end_date": "2025-08-31T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:23:52.666432",
+          "start_date": "2025-09-01T00:00:00",
+          "end_date": "2025-09-07T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:24:12.407087",
+          "start_date": "2025-09-08T00:00:00",
+          "end_date": "2025-09-14T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:24:32.076930",
+          "start_date": "2025-09-15T00:00:00",
+          "end_date": "2025-09-21T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:24:51.791316",
+          "start_date": "2025-09-22T00:00:00",
+          "end_date": "2025-09-28T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:25:11.469922",
+          "start_date": "2025-09-29T00:00:00",
+          "end_date": "2025-10-05T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:25:31.277010",
+          "start_date": "2025-10-06T00:00:00",
+          "end_date": "2025-10-10T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        }
+      ]
+    },
+    "Unplanned_Resource_Outages": {
+      "download_history": [
+        {
+          "timestamp": "2025-10-11T00:25:53.530060",
+          "start_date": "2023-12-11T00:00:00",
+          "end_date": "2024-01-09T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:26:13.221989",
+          "start_date": "2024-01-10T00:00:00",
+          "end_date": "2024-02-08T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:26:32.919194",
+          "start_date": "2024-02-09T00:00:00",
+          "end_date": "2024-03-09T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:26:52.614304",
+          "start_date": "2024-03-10T00:00:00",
+          "end_date": "2024-04-08T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:27:12.292915",
+          "start_date": "2024-04-09T00:00:00",
+          "end_date": "2024-05-08T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:27:31.979529",
+          "start_date": "2024-05-09T00:00:00",
+          "end_date": "2024-06-07T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:27:51.657987",
+          "start_date": "2024-06-08T00:00:00",
+          "end_date": "2024-07-07T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:28:11.386389",
+          "start_date": "2024-07-08T00:00:00",
+          "end_date": "2024-08-06T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:28:31.052373",
+          "start_date": "2024-08-07T00:00:00",
+          "end_date": "2024-09-05T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:28:50.757533",
+          "start_date": "2024-09-06T00:00:00",
+          "end_date": "2024-10-05T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:29:10.486777",
+          "start_date": "2024-10-06T00:00:00",
+          "end_date": "2024-11-04T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:29:30.109037",
+          "start_date": "2024-11-05T00:00:00",
+          "end_date": "2024-12-04T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:29:49.820549",
+          "start_date": "2024-12-05T00:00:00",
+          "end_date": "2025-01-03T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:30:09.497046",
+          "start_date": "2025-01-04T00:00:00",
+          "end_date": "2025-02-02T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:30:29.188409",
+          "start_date": "2025-02-03T00:00:00",
+          "end_date": "2025-03-04T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:30:48.879213",
+          "start_date": "2025-03-05T00:00:00",
+          "end_date": "2025-04-03T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:31:08.603632",
+          "start_date": "2025-04-04T00:00:00",
+          "end_date": "2025-05-03T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:31:28.275408",
+          "start_date": "2025-05-04T00:00:00",
+          "end_date": "2025-06-02T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:31:47.956361",
+          "start_date": "2025-06-03T00:00:00",
+          "end_date": "2025-07-02T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:32:07.672188",
+          "start_date": "2025-07-03T00:00:00",
+          "end_date": "2025-08-01T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:32:27.306436",
+          "start_date": "2025-08-02T00:00:00",
+          "end_date": "2025-08-31T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:32:46.987288",
+          "start_date": "2025-09-01T00:00:00",
+          "end_date": "2025-09-30T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:33:06.664387",
+          "start_date": "2025-10-01T00:00:00",
+          "end_date": "2025-10-10T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        }
+      ]
+    },
+    "DAM_System_Lambda": {
+      "download_history": [
+        {
+          "timestamp": "2025-10-11T00:33:28.936278",
+          "start_date": "2023-12-11T00:00:00",
+          "end_date": "2024-01-09T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:33:48.664037",
+          "start_date": "2024-01-10T00:00:00",
+          "end_date": "2024-02-08T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:34:08.372660",
+          "start_date": "2024-02-09T00:00:00",
+          "end_date": "2024-03-09T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:34:28.111230",
+          "start_date": "2024-03-10T00:00:00",
+          "end_date": "2024-04-08T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:34:47.780404",
+          "start_date": "2024-04-09T00:00:00",
+          "end_date": "2024-05-08T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:35:07.436590",
+          "start_date": "2024-05-09T00:00:00",
+          "end_date": "2024-06-07T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:35:27.145765",
+          "start_date": "2024-06-08T00:00:00",
+          "end_date": "2024-07-07T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:35:46.830591",
+          "start_date": "2024-07-08T00:00:00",
+          "end_date": "2024-08-06T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:36:06.463443",
+          "start_date": "2024-08-07T00:00:00",
+          "end_date": "2024-09-05T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:36:26.165024",
+          "start_date": "2024-09-06T00:00:00",
+          "end_date": "2024-10-05T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:36:45.869564",
+          "start_date": "2024-10-06T00:00:00",
+          "end_date": "2024-11-04T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:37:05.583738",
+          "start_date": "2024-11-05T00:00:00",
+          "end_date": "2024-12-04T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:37:25.291003",
+          "start_date": "2024-12-05T00:00:00",
+          "end_date": "2025-01-03T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:37:44.934888",
+          "start_date": "2025-01-04T00:00:00",
+          "end_date": "2025-02-02T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:38:04.655913",
+          "start_date": "2025-02-03T00:00:00",
+          "end_date": "2025-03-04T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:38:24.315599",
+          "start_date": "2025-03-05T00:00:00",
+          "end_date": "2025-04-03T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:38:44.030629",
+          "start_date": "2025-04-04T00:00:00",
+          "end_date": "2025-05-03T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:39:03.709804",
+          "start_date": "2025-05-04T00:00:00",
+          "end_date": "2025-06-02T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:39:23.439404",
+          "start_date": "2025-06-03T00:00:00",
+          "end_date": "2025-07-02T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:39:43.100486",
+          "start_date": "2025-07-03T00:00:00",
+          "end_date": "2025-08-01T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:40:02.796013",
+          "start_date": "2025-08-02T00:00:00",
+          "end_date": "2025-08-31T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:40:22.486590",
+          "start_date": "2025-09-01T00:00:00",
+          "end_date": "2025-09-30T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:40:42.177784",
+          "start_date": "2025-10-01T00:00:00",
+          "end_date": "2025-10-10T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T11:54:23.039523",
+          "start_date": "2025-10-09T11:54:22.059164",
+          "end_date": "2025-10-11T11:54:22.059164",
+          "success": true,
+          "records_count": 72
+        }
+      ],
+      "last_timestamp": "2025-10-11T11:54:22.059164",
+      "last_download": "2025-10-11T11:54:23.039505",
+      "last_records_count": 72
+    },
+    "DAM_Prices": {
+      "last_timestamp": "2025-10-10T00:00:00",
+      "last_download": "2025-10-11T00:53:58.487111",
+      "last_records_count": 252576,
+      "download_history": [
+        {
+          "timestamp": "2025-10-11T00:41:16.094401",
+          "start_date": "2023-12-11T00:00:00",
+          "end_date": "2024-01-09T00:00:00",
+          "success": true,
+          "records_count": 593064
+        },
+        {
+          "timestamp": "2025-10-11T00:41:48.825347",
+          "start_date": "2024-01-10T00:00:00",
+          "end_date": "2024-02-08T00:00:00",
+          "success": true,
+          "records_count": 637704
+        },
+        {
+          "timestamp": "2025-10-11T00:42:21.394614",
+          "start_date": "2024-02-09T00:00:00",
+          "end_date": "2024-03-09T00:00:00",
+          "success": true,
+          "records_count": 640896
+        },
+        {
+          "timestamp": "2025-10-11T00:42:53.857402",
+          "start_date": "2024-03-10T00:00:00",
+          "end_date": "2024-04-08T00:00:00",
+          "success": true,
+          "records_count": 644704
+        },
+        {
+          "timestamp": "2025-10-11T00:43:26.328670",
+          "start_date": "2024-04-09T00:00:00",
+          "end_date": "2024-05-08T00:00:00",
+          "success": true,
+          "records_count": 649680
+        },
+        {
+          "timestamp": "2025-10-11T00:44:01.151849",
+          "start_date": "2024-05-09T00:00:00",
+          "end_date": "2024-06-07T00:00:00",
+          "success": true,
+          "records_count": 654096
+        },
+        {
+          "timestamp": "2025-10-11T00:44:36.213048",
+          "start_date": "2024-06-08T00:00:00",
+          "end_date": "2024-07-07T00:00:00",
+          "success": true,
+          "records_count": 658392
+        },
+        {
+          "timestamp": "2025-10-11T00:45:11.423324",
+          "start_date": "2024-07-08T00:00:00",
+          "end_date": "2024-08-06T00:00:00",
+          "success": true,
+          "records_count": 654960
+        },
+        {
+          "timestamp": "2025-10-11T00:45:46.291294",
+          "start_date": "2024-08-07T00:00:00",
+          "end_date": "2024-09-05T00:00:00",
+          "success": true,
+          "records_count": 658416
+        },
+        {
+          "timestamp": "2025-10-11T00:46:21.388849",
+          "start_date": "2024-09-06T00:00:00",
+          "end_date": "2024-10-05T00:00:00",
+          "success": true,
+          "records_count": 670104
+        },
+        {
+          "timestamp": "2025-10-11T00:46:56.507358",
+          "start_date": "2024-10-06T00:00:00",
+          "end_date": "2024-11-04T00:00:00",
+          "success": true,
+          "records_count": 676088
+        },
+        {
+          "timestamp": "2025-10-11T00:47:31.582011",
+          "start_date": "2024-11-05T00:00:00",
+          "end_date": "2024-12-04T00:00:00",
+          "success": true,
+          "records_count": 679680
+        },
+        {
+          "timestamp": "2025-10-11T00:48:06.575925",
+          "start_date": "2024-12-05T00:00:00",
+          "end_date": "2025-01-03T00:00:00",
+          "success": true,
+          "records_count": 684384
+        },
+        {
+          "timestamp": "2025-10-11T00:48:41.687461",
+          "start_date": "2025-01-04T00:00:00",
+          "end_date": "2025-02-02T00:00:00",
+          "success": true,
+          "records_count": 694584
+        },
+        {
+          "timestamp": "2025-10-11T00:49:19.058634",
+          "start_date": "2025-02-03T00:00:00",
+          "end_date": "2025-03-04T00:00:00",
+          "success": true,
+          "records_count": 700200
+        },
+        {
+          "timestamp": "2025-10-11T00:49:56.643795",
+          "start_date": "2025-03-05T00:00:00",
+          "end_date": "2025-04-03T00:00:00",
+          "success": true,
+          "records_count": 705315
+        },
+        {
+          "timestamp": "2025-10-11T00:50:34.134456",
+          "start_date": "2025-04-04T00:00:00",
+          "end_date": "2025-05-03T00:00:00",
+          "success": true,
+          "records_count": 712032
+        },
+        {
+          "timestamp": "2025-10-11T00:51:11.785325",
+          "start_date": "2025-05-04T00:00:00",
+          "end_date": "2025-06-02T00:00:00",
+          "success": true,
+          "records_count": 722760
+        },
+        {
+          "timestamp": "2025-10-11T00:51:49.355621",
+          "start_date": "2025-06-03T00:00:00",
+          "end_date": "2025-07-02T00:00:00",
+          "success": true,
+          "records_count": 728184
+        },
+        {
+          "timestamp": "2025-10-11T00:52:26.959223",
+          "start_date": "2025-07-03T00:00:00",
+          "end_date": "2025-08-01T00:00:00",
+          "success": true,
+          "records_count": 744480
+        },
+        {
+          "timestamp": "2025-10-11T00:53:04.546478",
+          "start_date": "2025-08-02T00:00:00",
+          "end_date": "2025-08-31T00:00:00",
+          "success": true,
+          "records_count": 748080
+        },
+        {
+          "timestamp": "2025-10-11T00:53:44.350450",
+          "start_date": "2025-09-01T00:00:00",
+          "end_date": "2025-09-30T00:00:00",
+          "success": true,
+          "records_count": 753168
+        },
+        {
+          "timestamp": "2025-10-11T00:53:58.487166",
+          "start_date": "2025-10-01T00:00:00",
+          "end_date": "2025-10-10T00:00:00",
+          "success": true,
+          "records_count": 252576
+        }
+      ]
+    },
+    "RTM_Prices": {
+      "download_history": [
+        {
+          "timestamp": "2025-10-11T00:54:20.754790",
+          "start_date": "2023-12-11T00:00:00",
+          "end_date": "2023-12-17T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:54:40.415342",
+          "start_date": "2023-12-18T00:00:00",
+          "end_date": "2023-12-24T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:55:00.125106",
+          "start_date": "2023-12-25T00:00:00",
+          "end_date": "2023-12-31T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:55:19.803489",
+          "start_date": "2024-01-01T00:00:00",
+          "end_date": "2024-01-07T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:55:39.475982",
+          "start_date": "2024-01-08T00:00:00",
+          "end_date": "2024-01-14T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:55:59.159201",
+          "start_date": "2024-01-15T00:00:00",
+          "end_date": "2024-01-21T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:56:18.875818",
+          "start_date": "2024-01-22T00:00:00",
+          "end_date": "2024-01-28T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:56:38.538269",
+          "start_date": "2024-01-29T00:00:00",
+          "end_date": "2024-02-04T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:56:58.207493",
+          "start_date": "2024-02-05T00:00:00",
+          "end_date": "2024-02-11T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:57:17.884972",
+          "start_date": "2024-02-12T00:00:00",
+          "end_date": "2024-02-18T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:57:37.624761",
+          "start_date": "2024-02-19T00:00:00",
+          "end_date": "2024-02-25T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:57:57.263597",
+          "start_date": "2024-02-26T00:00:00",
+          "end_date": "2024-03-03T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:58:16.977649",
+          "start_date": "2024-03-04T00:00:00",
+          "end_date": "2024-03-10T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:58:36.682845",
+          "start_date": "2024-03-11T00:00:00",
+          "end_date": "2024-03-17T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:58:56.383210",
+          "start_date": "2024-03-18T00:00:00",
+          "end_date": "2024-03-24T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:59:16.076026",
+          "start_date": "2024-03-25T00:00:00",
+          "end_date": "2024-03-31T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:59:35.785865",
+          "start_date": "2024-04-01T00:00:00",
+          "end_date": "2024-04-07T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T00:59:55.482119",
+          "start_date": "2024-04-08T00:00:00",
+          "end_date": "2024-04-14T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:00:15.193379",
+          "start_date": "2024-04-15T00:00:00",
+          "end_date": "2024-04-21T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:00:34.903314",
+          "start_date": "2024-04-22T00:00:00",
+          "end_date": "2024-04-28T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:00:54.595123",
+          "start_date": "2024-04-29T00:00:00",
+          "end_date": "2024-05-05T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:01:14.276782",
+          "start_date": "2024-05-06T00:00:00",
+          "end_date": "2024-05-12T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:01:33.992689",
+          "start_date": "2024-05-13T00:00:00",
+          "end_date": "2024-05-19T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:01:53.709794",
+          "start_date": "2024-05-20T00:00:00",
+          "end_date": "2024-05-26T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:02:13.358851",
+          "start_date": "2024-05-27T00:00:00",
+          "end_date": "2024-06-02T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:02:33.046421",
+          "start_date": "2024-06-03T00:00:00",
+          "end_date": "2024-06-09T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:02:52.752299",
+          "start_date": "2024-06-10T00:00:00",
+          "end_date": "2024-06-16T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:03:12.474313",
+          "start_date": "2024-06-17T00:00:00",
+          "end_date": "2024-06-23T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:03:32.137317",
+          "start_date": "2024-06-24T00:00:00",
+          "end_date": "2024-06-30T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:03:51.915004",
+          "start_date": "2024-07-01T00:00:00",
+          "end_date": "2024-07-07T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:04:11.575606",
+          "start_date": "2024-07-08T00:00:00",
+          "end_date": "2024-07-14T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:04:31.287927",
+          "start_date": "2024-07-15T00:00:00",
+          "end_date": "2024-07-21T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:04:51.136396",
+          "start_date": "2024-07-22T00:00:00",
+          "end_date": "2024-07-28T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:05:10.798313",
+          "start_date": "2024-07-29T00:00:00",
+          "end_date": "2024-08-04T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:05:30.511294",
+          "start_date": "2024-08-05T00:00:00",
+          "end_date": "2024-08-11T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:05:50.184259",
+          "start_date": "2024-08-12T00:00:00",
+          "end_date": "2024-08-18T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:06:09.853045",
+          "start_date": "2024-08-19T00:00:00",
+          "end_date": "2024-08-25T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:06:29.556043",
+          "start_date": "2024-08-26T00:00:00",
+          "end_date": "2024-09-01T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:06:49.248394",
+          "start_date": "2024-09-02T00:00:00",
+          "end_date": "2024-09-08T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:07:08.936304",
+          "start_date": "2024-09-09T00:00:00",
+          "end_date": "2024-09-15T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:07:28.619793",
+          "start_date": "2024-09-16T00:00:00",
+          "end_date": "2024-09-22T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:07:48.304426",
+          "start_date": "2024-09-23T00:00:00",
+          "end_date": "2024-09-29T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:08:08.010718",
+          "start_date": "2024-09-30T00:00:00",
+          "end_date": "2024-10-06T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:08:27.667571",
+          "start_date": "2024-10-07T00:00:00",
+          "end_date": "2024-10-13T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:08:47.400852",
+          "start_date": "2024-10-14T00:00:00",
+          "end_date": "2024-10-20T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:09:07.113429",
+          "start_date": "2024-10-21T00:00:00",
+          "end_date": "2024-10-27T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:09:26.815215",
+          "start_date": "2024-10-28T00:00:00",
+          "end_date": "2024-11-03T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:09:46.430134",
+          "start_date": "2024-11-04T00:00:00",
+          "end_date": "2024-11-10T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:10:06.145774",
+          "start_date": "2024-11-11T00:00:00",
+          "end_date": "2024-11-17T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:10:25.832530",
+          "start_date": "2024-11-18T00:00:00",
+          "end_date": "2024-11-24T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:10:45.513279",
+          "start_date": "2024-11-25T00:00:00",
+          "end_date": "2024-12-01T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:11:05.174759",
+          "start_date": "2024-12-02T00:00:00",
+          "end_date": "2024-12-08T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:11:24.893116",
+          "start_date": "2024-12-09T00:00:00",
+          "end_date": "2024-12-15T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:11:44.643090",
+          "start_date": "2024-12-16T00:00:00",
+          "end_date": "2024-12-22T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:12:04.356477",
+          "start_date": "2024-12-23T00:00:00",
+          "end_date": "2024-12-29T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:12:23.997416",
+          "start_date": "2024-12-30T00:00:00",
+          "end_date": "2025-01-05T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:12:43.624680",
+          "start_date": "2025-01-06T00:00:00",
+          "end_date": "2025-01-12T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:13:03.311960",
+          "start_date": "2025-01-13T00:00:00",
+          "end_date": "2025-01-19T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:13:23.031664",
+          "start_date": "2025-01-20T00:00:00",
+          "end_date": "2025-01-26T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:13:42.761850",
+          "start_date": "2025-01-27T00:00:00",
+          "end_date": "2025-02-02T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:14:02.415752",
+          "start_date": "2025-02-03T00:00:00",
+          "end_date": "2025-02-09T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:14:22.067128",
+          "start_date": "2025-02-10T00:00:00",
+          "end_date": "2025-02-16T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:14:41.902915",
+          "start_date": "2025-02-17T00:00:00",
+          "end_date": "2025-02-23T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:15:01.585955",
+          "start_date": "2025-02-24T00:00:00",
+          "end_date": "2025-03-02T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:15:21.268989",
+          "start_date": "2025-03-03T00:00:00",
+          "end_date": "2025-03-09T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:15:41.042034",
+          "start_date": "2025-03-10T00:00:00",
+          "end_date": "2025-03-16T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:16:00.669009",
+          "start_date": "2025-03-17T00:00:00",
+          "end_date": "2025-03-23T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:16:20.366623",
+          "start_date": "2025-03-24T00:00:00",
+          "end_date": "2025-03-30T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:16:39.992241",
+          "start_date": "2025-03-31T00:00:00",
+          "end_date": "2025-04-06T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:16:59.668141",
+          "start_date": "2025-04-07T00:00:00",
+          "end_date": "2025-04-13T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:17:19.339509",
+          "start_date": "2025-04-14T00:00:00",
+          "end_date": "2025-04-20T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:17:39.012845",
+          "start_date": "2025-04-21T00:00:00",
+          "end_date": "2025-04-27T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:17:58.688395",
+          "start_date": "2025-04-28T00:00:00",
+          "end_date": "2025-05-04T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:18:18.401129",
+          "start_date": "2025-05-05T00:00:00",
+          "end_date": "2025-05-11T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:18:38.072797",
+          "start_date": "2025-05-12T00:00:00",
+          "end_date": "2025-05-18T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:18:57.732914",
+          "start_date": "2025-05-19T00:00:00",
+          "end_date": "2025-05-25T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:19:17.411317",
+          "start_date": "2025-05-26T00:00:00",
+          "end_date": "2025-06-01T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:19:37.089058",
+          "start_date": "2025-06-02T00:00:00",
+          "end_date": "2025-06-08T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:19:56.765736",
+          "start_date": "2025-06-09T00:00:00",
+          "end_date": "2025-06-15T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:20:16.457714",
+          "start_date": "2025-06-16T00:00:00",
+          "end_date": "2025-06-22T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:20:36.136637",
+          "start_date": "2025-06-23T00:00:00",
+          "end_date": "2025-06-29T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:20:55.814027",
+          "start_date": "2025-06-30T00:00:00",
+          "end_date": "2025-07-06T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:21:15.486786",
+          "start_date": "2025-07-07T00:00:00",
+          "end_date": "2025-07-13T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:21:35.167236",
+          "start_date": "2025-07-14T00:00:00",
+          "end_date": "2025-07-20T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:21:54.890838",
+          "start_date": "2025-07-21T00:00:00",
+          "end_date": "2025-07-27T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:22:14.520209",
+          "start_date": "2025-07-28T00:00:00",
+          "end_date": "2025-08-03T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:22:34.184265",
+          "start_date": "2025-08-04T00:00:00",
+          "end_date": "2025-08-10T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:22:53.855122",
+          "start_date": "2025-08-11T00:00:00",
+          "end_date": "2025-08-17T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:23:13.525990",
+          "start_date": "2025-08-18T00:00:00",
+          "end_date": "2025-08-24T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:23:33.221290",
+          "start_date": "2025-08-25T00:00:00",
+          "end_date": "2025-08-31T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:23:52.888306",
+          "start_date": "2025-09-01T00:00:00",
+          "end_date": "2025-09-07T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:24:12.558701",
+          "start_date": "2025-09-08T00:00:00",
+          "end_date": "2025-09-14T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:24:32.287554",
+          "start_date": "2025-09-15T00:00:00",
+          "end_date": "2025-09-21T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:24:51.972110",
+          "start_date": "2025-09-22T00:00:00",
+          "end_date": "2025-09-28T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:25:11.652992",
+          "start_date": "2025-09-29T00:00:00",
+          "end_date": "2025-10-05T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T01:25:31.391749",
+          "start_date": "2025-10-06T00:00:00",
+          "end_date": "2025-10-10T00:00:00",
+          "success": false,
+          "error": "Failed to download data"
+        },
+        {
+          "timestamp": "2025-10-11T10:43:19.490242",
+          "start_date": "2025-10-10T10:43:13.394253",
+          "end_date": "2025-10-11T10:43:13.394253",
+          "success": true,
+          "records_count": 146970
+        }
+      ],
+      "last_timestamp": "2025-10-11T10:43:13.394253",
+      "last_download": "2025-10-11T10:43:19.490192",
+      "last_records_count": 146970
+    },
+    "AS_Prices": {
+      "last_timestamp": "2025-10-10T00:00:00",
+      "last_download": "2025-10-11T01:26:31.610754",
+      "last_records_count": 1200,
+      "download_history": [
+        {
+          "timestamp": "2025-10-11T01:25:36.604373",
+          "start_date": "2023-12-11T00:00:00",
+          "end_date": "2024-01-09T00:00:00",
+          "success": true,
+          "records_count": 3360
+        },
+        {
+          "timestamp": "2025-10-11T01:25:39.070258",
+          "start_date": "2024-01-10T00:00:00",
+          "end_date": "2024-02-08T00:00:00",
+          "success": true,
+          "records_count": 3600
+        },
+        {
+          "timestamp": "2025-10-11T01:25:41.545051",
+          "start_date": "2024-02-09T00:00:00",
+          "end_date": "2024-03-09T00:00:00",
+          "success": true,
+          "records_count": 3600
+        },
+        {
+          "timestamp": "2025-10-11T01:25:44.085766",
+          "start_date": "2024-03-10T00:00:00",
+          "end_date": "2024-04-08T00:00:00",
+          "success": true,
+          "records_count": 3595
+        },
+        {
+          "timestamp": "2025-10-11T01:25:46.575670",
+          "start_date": "2024-04-09T00:00:00",
+          "end_date": "2024-05-08T00:00:00",
+          "success": true,
+          "records_count": 3600
+        },
+        {
+          "timestamp": "2025-10-11T01:25:49.056488",
+          "start_date": "2024-05-09T00:00:00",
+          "end_date": "2024-06-07T00:00:00",
+          "success": true,
+          "records_count": 3600
+        },
+        {
+          "timestamp": "2025-10-11T01:25:51.646653",
+          "start_date": "2024-06-08T00:00:00",
+          "end_date": "2024-07-07T00:00:00",
+          "success": true,
+          "records_count": 3600
+        },
+        {
+          "timestamp": "2025-10-11T01:25:54.093838",
+          "start_date": "2024-07-08T00:00:00",
+          "end_date": "2024-08-06T00:00:00",
+          "success": true,
+          "records_count": 3600
+        },
+        {
+          "timestamp": "2025-10-11T01:25:56.616024",
+          "start_date": "2024-08-07T00:00:00",
+          "end_date": "2024-09-05T00:00:00",
+          "success": true,
+          "records_count": 3600
+        },
+        {
+          "timestamp": "2025-10-11T01:25:59.073521",
+          "start_date": "2024-09-06T00:00:00",
+          "end_date": "2024-10-05T00:00:00",
+          "success": true,
+          "records_count": 3600
+        },
+        {
+          "timestamp": "2025-10-11T01:26:01.627921",
+          "start_date": "2024-10-06T00:00:00",
+          "end_date": "2024-11-04T00:00:00",
+          "success": true,
+          "records_count": 3605
+        },
+        {
+          "timestamp": "2025-10-11T01:26:04.070440",
+          "start_date": "2024-11-05T00:00:00",
+          "end_date": "2024-12-04T00:00:00",
+          "success": true,
+          "records_count": 3600
+        },
+        {
+          "timestamp": "2025-10-11T01:26:06.585501",
+          "start_date": "2024-12-05T00:00:00",
+          "end_date": "2025-01-03T00:00:00",
+          "success": true,
+          "records_count": 3600
+        },
+        {
+          "timestamp": "2025-10-11T01:26:09.156222",
+          "start_date": "2025-01-04T00:00:00",
+          "end_date": "2025-02-02T00:00:00",
+          "success": true,
+          "records_count": 3600
+        },
+        {
+          "timestamp": "2025-10-11T01:26:11.593939",
+          "start_date": "2025-02-03T00:00:00",
+          "end_date": "2025-03-04T00:00:00",
+          "success": true,
+          "records_count": 3600
+        },
+        {
+          "timestamp": "2025-10-11T01:26:14.082727",
+          "start_date": "2025-03-05T00:00:00",
+          "end_date": "2025-04-03T00:00:00",
+          "success": true,
+          "records_count": 3595
+        },
+        {
+          "timestamp": "2025-10-11T01:26:16.621530",
+          "start_date": "2025-04-04T00:00:00",
+          "end_date": "2025-05-03T00:00:00",
+          "success": true,
+          "records_count": 3600
+        },
+        {
+          "timestamp": "2025-10-11T01:26:19.088954",
+          "start_date": "2025-05-04T00:00:00",
+          "end_date": "2025-06-02T00:00:00",
+          "success": true,
+          "records_count": 3600
+        },
+        {
+          "timestamp": "2025-10-11T01:26:21.667682",
+          "start_date": "2025-06-03T00:00:00",
+          "end_date": "2025-07-02T00:00:00",
+          "success": true,
+          "records_count": 3600
+        },
+        {
+          "timestamp": "2025-10-11T01:26:24.129095",
+          "start_date": "2025-07-03T00:00:00",
+          "end_date": "2025-08-01T00:00:00",
+          "success": true,
+          "records_count": 3600
+        },
+        {
+          "timestamp": "2025-10-11T01:26:26.617791",
+          "start_date": "2025-08-02T00:00:00",
+          "end_date": "2025-08-31T00:00:00",
+          "success": true,
+          "records_count": 3600
+        },
+        {
+          "timestamp": "2025-10-11T01:26:29.131631",
+          "start_date": "2025-09-01T00:00:00",
+          "end_date": "2025-09-30T00:00:00",
+          "success": true,
+          "records_count": 3600
+        },
+        {
+          "timestamp": "2025-10-11T01:26:31.610771",
+          "start_date": "2025-10-01T00:00:00",
+          "end_date": "2025-10-10T00:00:00",
+          "success": true,
+          "records_count": 1200
+        }
+      ]
+    }
+  },
+  "last_updated": "2025-10-11T11:54:23.039531",
+  "version": "1.0"
+}

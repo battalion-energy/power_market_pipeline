@@ -7,7 +7,8 @@ import json
 
 def main():
     project_root = Path(__file__).parent
-    weather_dir = project_root / 'weather_data'
+    # Use SSD storage for weather data
+    weather_dir = Path('/pool/ssd8tb/data/weather_data')
     meteostat_dir = weather_dir / 'meteostat_stations'
     meteostat_csv_dir = meteostat_dir / 'csv_files'
 

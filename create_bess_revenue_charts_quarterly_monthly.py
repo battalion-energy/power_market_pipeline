@@ -147,9 +147,17 @@ def _period_revenue_exact(year: int, month_start: int, month_end: int, df_map: p
             continue
         df_dp = pl.read_parquet(dp)
         df_aw = pl.read_parquet(aw)
-        # filter months
-        df_dp = df_dp.filter((pl.col('local_date').dt.month() >= month_start) & (pl.col('local_date').dt.month() <= month_end))
-        df_aw = df_aw.filter((pl.col('local_date').dt.month() >= month_start) & (pl.col('local_date').dt.month() <= month_end))
+        # filter target year and months
+        df_dp = df_dp.filter(
+            (pl.col('local_date').dt.year() == year) &
+            (pl.col('local_date').dt.month() >= month_start) &
+            (pl.col('local_date').dt.month() <= month_end)
+        )
+        df_aw = df_aw.filter(
+            (pl.col('local_date').dt.year() == year) &
+            (pl.col('local_date').dt.month() >= month_start) &
+            (pl.col('local_date').dt.month() <= month_end)
+        )
         if len(df_dp) == 0 and len(df_aw) == 0:
             continue
         # Exact components
@@ -190,6 +198,35 @@ def _period_revenue_exact(year: int, month_start: int, month_end: int, df_map: p
         if c not in df.columns:
             df[c] = np.nan
     return df[expected_cols]
+
+
+def _compute_cod_map(year: int, df_map: pd.DataFrame, base_dir: Path) -> pd.DataFrame:
+    """Infer COD/start date per BESS for the target year using first dispatch date.
+    Returns columns: bess_name, settlement_point, cod_date (date)
+    """
+    rows: list[dict] = []
+    ddir = base_dir / 'bess_analysis' / 'hourly' / 'dispatch'
+    for _, r in df_map.iterrows():
+        bess = r['gen_resource']
+        sp = r['settlement_point']
+        dp = ddir / f'{bess}_{year}_dispatch.parquet'
+        if not dp.exists():
+            continue
+        try:
+            df_dp = pl.read_parquet(dp)
+            # restrict to target year and find earliest local_date
+            df_dp_y = df_dp.filter(pl.col('local_date').dt.year() == year)
+            if len(df_dp_y) == 0:
+                continue
+            first = df_dp_y.select(pl.col('local_date').min()).item()
+            if isinstance(first, datetime):
+                first = first.date()
+            rows.append({'bess_name': bess, 'settlement_point': sp, 'cod_date': first})
+        except Exception:
+            continue
+    if not rows:
+        return pd.DataFrame(columns=['bess_name', 'settlement_point', 'cod_date'])
+    return pd.DataFrame(rows)
 
 
 def create_period_charts(year: int, df_revenue_all: pd.DataFrame, tb2_daily: pl.DataFrame,
@@ -244,8 +281,18 @@ def create_period_charts(year: int, df_revenue_all: pd.DataFrame, tb2_daily: pl.
         'Q4': (4, 92),   # Oct-Dec
     }
 
-    # Get TB2 data for this year
-    tb2_year = tb2_daily.filter(pl.col('year') == year)
+    # Compute COD map for this year and prepare TB2 view
+    cod_df_pd = _compute_cod_map(year, df_mapping, base_dir)
+    cod_pl = (
+        pl.from_pandas(cod_df_pd)
+        .with_columns(pl.col('cod_date').cast(pl.Date, strict=False))
+        if len(cod_df_pd)
+        else pl.DataFrame({'bess_name': [], 'settlement_point': [], 'cod_date': []},
+                          schema={'bess_name': pl.Utf8, 'settlement_point': pl.Utf8, 'cod_date': pl.Date})
+    )
+
+    # Get TB2 data for this year (by DeliveryDate)
+    tb2_year = tb2_daily.filter(pl.col('DeliveryDate').dt.year() == year)
 
     logger.info(f"\nGenerating Quarterly Charts for {year}:")
     for q_name, (q_num, days_in_q) in quarters.items():
@@ -259,11 +306,16 @@ def create_period_charts(year: int, df_revenue_all: pd.DataFrame, tb2_daily: pl.
             (pl.col('DeliveryDate').dt.month() <= end_month)
         )
 
-        # Calculate average TB2 for quarter
-        tb2_q_avg = tb2_q.group_by('SettlementPoint').agg([
-            pl.col('TB2').mean().alias('avg_TB2'),
-            pl.col('TB2').count().alias('days')
-        ])
+        # Effective TB2 per unit after COD, summed over the quarter
+        tb2_q_by_unit = (
+            tb2_q.join(cod_pl, left_on='SettlementPoint', right_on='settlement_point', how='inner')
+                 .filter(pl.col('DeliveryDate') >= pl.col('cod_date'))
+                 .group_by('bess_name')
+                 .agg([
+                     pl.col('TB2').sum().alias('tb2_sum'),
+                     pl.len().alias('days_eff')
+                 ])
+        )
 
         # Exact quarterly revenue from hourly parquets
         df_q = _period_revenue_exact(year, start_month, end_month, df_mapping, base_dir)
@@ -276,40 +328,40 @@ def create_period_charts(year: int, df_revenue_all: pd.DataFrame, tb2_daily: pl.
             pl.col('as_revenue').cast(pl.Float64, strict=False),
             pl.col('total_revenue').cast(pl.Float64, strict=False),
         ])
-        df_q_with_tb2 = df_q_pl.join(
-            tb2_q_avg,
-            left_on='settlement_point_final',
-            right_on='SettlementPoint',
-            how='left'
-        )
+        df_q_with_tb2 = df_q_pl.join(tb2_q_by_unit, on='bess_name', how='left')
 
         # Calculate per kW and % TB2 (annualized)
-        _scale_q = 365 / days_in_q
+        # Annualization scale based on effective days with TB2 after COD per unit
+        _scale_q_expr = (
+            pl.when(pl.col('days_eff').fill_null(0) > 0)
+              .then(365 / pl.col('days_eff'))
+              .otherwise(0.0)
+        )
         df_q_with_tb2 = df_q_with_tb2.with_columns([
             pl.when(pl.col('capacity_mw') > 0)
-              .then(pl.col('da_revenue') / (pl.col('capacity_mw') * 1000.0) * pl.lit(_scale_q))
+              .then(pl.col('da_revenue') / (pl.col('capacity_mw') * 1000.0) * _scale_q_expr)
               .otherwise(0.0)
               .alias('da_per_kw'),
             pl.when(pl.col('capacity_mw') > 0)
-              .then(pl.col('rt_revenue') / (pl.col('capacity_mw') * 1000.0) * pl.lit(_scale_q))
+              .then(pl.col('rt_revenue') / (pl.col('capacity_mw') * 1000.0) * _scale_q_expr)
               .otherwise(0.0)
               .alias('rt_per_kw'),
             pl.lit(0.0).alias('regup_per_kw'),
             pl.lit(0.0).alias('regdown_per_kw'),
             pl.when(pl.col('capacity_mw') > 0)
-              .then(pl.col('as_revenue') / (pl.col('capacity_mw') * 1000.0) * pl.lit(_scale_q))
+              .then(pl.col('as_revenue') / (pl.col('capacity_mw') * 1000.0) * _scale_q_expr)
               .otherwise(0.0)
               .alias('reserves_per_kw'),
             pl.lit(0.0).alias('ecrs_per_kw'),
             pl.lit(0.0).alias('nonspin_per_kw'),
             pl.when(pl.col('capacity_mw') > 0)
-              .then(pl.col('total_revenue') / (pl.col('capacity_mw') * 1000.0) * pl.lit(_scale_q))
+              .then(pl.col('total_revenue') / (pl.col('capacity_mw') * 1000.0) * _scale_q_expr)
               .otherwise(0.0)
               .alias('total_per_kw'),
 
-            # % vs TB2 (guard against null/zero denominators)
-            pl.when((pl.col('capacity_mw') > 0) & (pl.col('avg_TB2').fill_null(0.0) > 0) & (pl.col('days').fill_null(0) > 0))
-              .then(((pl.col('total_revenue') / pl.col('capacity_mw')) / (pl.col('avg_TB2') * pl.col('days'))) * 100.0)
+            # % vs TB2 using effective TB2 sum after COD
+            pl.when((pl.col('capacity_mw') > 0) & (pl.col('tb2_sum').fill_null(0.0) > 0))
+              .then(((pl.col('total_revenue') / pl.col('capacity_mw')) / pl.col('tb2_sum')) * 100.0)
               .otherwise(None)
               .alias('pct_total_vs_tb2')
         ])
@@ -334,11 +386,16 @@ def create_period_charts(year: int, df_revenue_all: pd.DataFrame, tb2_daily: pl.
         # Filter TB2 to month
         tb2_m = tb2_year.filter(pl.col('DeliveryDate').dt.month() == month_num)
 
-        # Calculate average TB2 for month
-        tb2_m_avg = tb2_m.group_by('SettlementPoint').agg([
-            pl.col('TB2').mean().alias('avg_TB2'),
-            pl.col('TB2').count().alias('days')
-        ])
+        # Effective TB2 per unit after COD, summed over the month
+        tb2_m_by_unit = (
+            tb2_m.join(cod_pl, left_on='SettlementPoint', right_on='settlement_point', how='inner')
+                 .filter(pl.col('DeliveryDate') >= pl.col('cod_date'))
+                 .group_by('bess_name')
+                 .agg([
+                     pl.col('TB2').sum().alias('tb2_sum'),
+                     pl.len().alias('days_eff')
+                 ])
+        )
 
         # Exact monthly revenue from hourly parquets
         df_m = _period_revenue_exact(year, month_num, month_num, df_mapping, base_dir)
@@ -351,39 +408,38 @@ def create_period_charts(year: int, df_revenue_all: pd.DataFrame, tb2_daily: pl.
             pl.col('as_revenue').cast(pl.Float64, strict=False),
             pl.col('total_revenue').cast(pl.Float64, strict=False),
         ])
-        df_m_with_tb2 = df_m_pl.join(
-            tb2_m_avg,
-            left_on='settlement_point_final',
-            right_on='SettlementPoint',
-            how='left'
-        )
+        df_m_with_tb2 = df_m_pl.join(tb2_m_by_unit, on='bess_name', how='left')
 
         # Calculate per kW and % TB2 (annualized)
-        _scale_m = 365 / days_in_month
+        _scale_m_expr = (
+            pl.when(pl.col('days_eff').fill_null(0) > 0)
+              .then(365 / pl.col('days_eff'))
+              .otherwise(0.0)
+        )
         df_m_with_tb2 = df_m_with_tb2.with_columns([
             pl.when(pl.col('capacity_mw') > 0)
-              .then(pl.col('da_revenue') / (pl.col('capacity_mw') * 1000.0) * pl.lit(_scale_m))
+              .then(pl.col('da_revenue') / (pl.col('capacity_mw') * 1000.0) * _scale_m_expr)
               .otherwise(0.0)
               .alias('da_per_kw'),
             pl.when(pl.col('capacity_mw') > 0)
-              .then(pl.col('rt_revenue') / (pl.col('capacity_mw') * 1000.0) * pl.lit(_scale_m))
+              .then(pl.col('rt_revenue') / (pl.col('capacity_mw') * 1000.0) * _scale_m_expr)
               .otherwise(0.0)
               .alias('rt_per_kw'),
             pl.lit(0.0).alias('regup_per_kw'),
             pl.lit(0.0).alias('regdown_per_kw'),
             pl.when(pl.col('capacity_mw') > 0)
-              .then(pl.col('as_revenue') / (pl.col('capacity_mw') * 1000.0) * pl.lit(_scale_m))
+              .then(pl.col('as_revenue') / (pl.col('capacity_mw') * 1000.0) * _scale_m_expr)
               .otherwise(0.0)
               .alias('reserves_per_kw'),
             pl.lit(0.0).alias('ecrs_per_kw'),
             pl.lit(0.0).alias('nonspin_per_kw'),
             pl.when(pl.col('capacity_mw') > 0)
-              .then(pl.col('total_revenue') / (pl.col('capacity_mw') * 1000.0) * pl.lit(_scale_m))
+              .then(pl.col('total_revenue') / (pl.col('capacity_mw') * 1000.0) * _scale_m_expr)
               .otherwise(0.0)
               .alias('total_per_kw'),
 
-            pl.when((pl.col('capacity_mw') > 0) & (pl.col('avg_TB2').fill_null(0.0) > 0) & (pl.col('days').fill_null(0) > 0))
-              .then(((pl.col('total_revenue') / pl.col('capacity_mw')) / (pl.col('avg_TB2') * pl.col('days'))) * 100.0)
+            pl.when((pl.col('capacity_mw') > 0) & (pl.col('tb2_sum').fill_null(0.0) > 0))
+              .then(((pl.col('total_revenue') / pl.col('capacity_mw')) / pl.col('tb2_sum')) * 100.0)
               .otherwise(None)
               .alias('pct_total_vs_tb2')
         ])
@@ -413,12 +469,17 @@ def create_period_charts(year: int, df_revenue_all: pd.DataFrame, tb2_daily: pl.
         else:
             last_date = last_dt
         if isinstance(last_date, date) and last_date.year == year:
-            # TB2 over YTD
+            # TB2 over YTD (sum per unit after COD)
             tb2_ytd = tb2_year.filter(pl.col('DeliveryDate') <= pl.lit(last_date))
-            tb2_ytd_avg = tb2_ytd.group_by('SettlementPoint').agg([
-                pl.col('TB2').mean().alias('avg_TB2'),
-                pl.col('TB2').count().alias('days')
-            ])
+            tb2_ytd_by_unit = (
+                tb2_ytd.join(cod_pl, left_on='SettlementPoint', right_on='settlement_point', how='inner')
+                        .filter(pl.col('DeliveryDate') >= pl.col('cod_date'))
+                        .group_by('bess_name')
+                        .agg([
+                            pl.col('TB2').sum().alias('tb2_sum'),
+                            pl.len().alias('days_eff')
+                        ])
+            )
 
             # Exact YTD revenue (aggregate months 1..last_date.month)
             df_ytd = _period_revenue_exact(year, 1, int(last_date.month), df_mapping, base_dir)
@@ -430,12 +491,7 @@ def create_period_charts(year: int, df_revenue_all: pd.DataFrame, tb2_daily: pl.
                 pl.col('as_revenue').cast(pl.Float64, strict=False),
                 pl.col('total_revenue').cast(pl.Float64, strict=False),
             ])
-            df_ytd_with_tb2 = df_ytd_pl.join(
-                tb2_ytd_avg,
-                left_on='settlement_point_final',
-                right_on='SettlementPoint',
-                how='left'
-            )
+            df_ytd_with_tb2 = df_ytd_pl.join(tb2_ytd_by_unit, on='bess_name', how='left')
 
             # Determine number of days in YTD from the last_date
             start_of_year = date(year, 1, 1)
@@ -463,8 +519,8 @@ def create_period_charts(year: int, df_revenue_all: pd.DataFrame, tb2_daily: pl.
                   .then(pl.col('total_revenue') / (pl.col('capacity_mw') * 1000.0) * pl.lit(_scale_ytd))
                   .otherwise(0.0)
                   .alias('total_per_kw'),
-                pl.when((pl.col('capacity_mw') > 0) & (pl.col('avg_TB2').fill_null(0.0) > 0) & (pl.col('days').fill_null(0) > 0))
-                  .then(((pl.col('total_revenue') / pl.col('capacity_mw')) / (pl.col('avg_TB2') * pl.col('days'))) * 100.0)
+                pl.when((pl.col('capacity_mw') > 0) & (pl.col('tb2_sum').fill_null(0.0) > 0))
+                  .then(((pl.col('total_revenue') / pl.col('capacity_mw')) / pl.col('tb2_sum')) * 100.0)
                   .otherwise(None)
                   .alias('pct_total_vs_tb2')
             ])

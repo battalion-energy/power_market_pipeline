@@ -22,7 +22,8 @@ CITY_POPULATIONS = {
 
 def main():
     project_root = Path(__file__).parent
-    weather_dir = project_root / 'weather_data'
+    # Use SSD storage for weather data
+    weather_dir = Path('/pool/ssd8tb/data/weather_data')
 
     # Read existing locations
     locations_df = pd.read_csv(weather_dir / 'weather_locations.csv')

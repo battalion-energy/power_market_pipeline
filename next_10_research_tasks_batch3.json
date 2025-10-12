@@ -1,0 +1,92 @@
+[
+  {
+    "index": 70,
+    "program_id": "NEW-YORK-LOAD-MANAGEMENT-INCENTIVE-PROGRAM",
+    "program_name": "Load Management Incentive Program",
+    "state": "New York",
+    "utility": "Con Edison",
+    "program_url": "https://www.coned.com/en/save-money/rebates-incentives-tax-credits/rebates-incentives-tax-credits-for-commercial-industrial-buildings-customers",
+    "description": "ConEd offers a number of\u00a0 incentives\u00a0for customers to purchase products and systems that facilitate load management, from absorption chillers to thermal storage systems."
+  },
+  {
+    "index": 71,
+    "program_id": "NEW-YORK-TERM-AND-AUTO-DYNAMIC-LOAD-MANAGEMENT",
+    "program_name": "Term and Auto Dynamic Load Management",
+    "state": "New York",
+    "utility": "Con Edison",
+    "program_url": "https://www.coned.com/en/business-partners/business-opportunities/dynamic-load-management-request-for-proposals",
+    "description": "ConEd offers longer-term options, called Term-DLM and Auto-DLM, for customers willing to make multiple (three to five) year commitments to offerings comparable to CSRP. These longer deals will entail ..."
+  },
+  {
+    "index": 77,
+    "program_id": "NEW-YORK-SMART-SAVERS",
+    "program_name": "Smart Savers",
+    "state": "New York",
+    "utility": "PSE&amp;G Long Island",
+    "program_url": "https://www.psegliny.com/en/saveenergyandmoney/GreenEnergy/PeakLoad/SmartSavers",
+    "description": "PSE&amp;G offers a direct load control program, called Smart Savers, which allows PSE&amp;G to make small temperature adjustments to customers' thermostats that are enrolled with the utility. Customer..."
+  },
+  {
+    "index": 94,
+    "program_id": "PENNSYLVANIA-COMMERCIAL-AND-INDUSTRIAL-DEMAND-RESP",
+    "program_name": "Commercial and Industrial Demand Response Program",
+    "state": "Pennsylvania",
+    "utility": "FirstEnergy",
+    "program_url": "https://firstenergycorp.com/save_energy/save_energy_pennsylvania/west_penn_power/for_your_business/commercial-industrial-demand-response.html",
+    "description": "FirstEnergy customers in the Met-Ed, Penn Power, and West Penn Power service areas can take advantage of their\u00a0Commercial &amp; Industrial Demand Response Program, administered by\u00a0CPower\u00a0and EnerNOC I..."
+  },
+  {
+    "index": 106,
+    "program_id": "TEXAS-LOAD-MANAGEMENT-PROGRAM",
+    "program_name": "Load Management Program",
+    "state": "Texas",
+    "utility": "AEP Texas",
+    "program_url": "https://aeptexasefficiency.com/#/commercial/south-load-management",
+    "description": "AEP provides the Texas Load Management Standard Offer Program to distribution customers who are prepared to curtail electric load with at least 30 minutes' notice. The program performance period is fo..."
+  },
+  {
+    "index": 107,
+    "program_id": "TEXAS-COMMERCIAL-DEMAND-RESPONSE",
+    "program_name": "Commercial Demand Response",
+    "state": "Texas",
+    "utility": "Austin Energy",
+    "program_url": "https://savings.austinenergy.com/commercial/offerings/load-management/commercial-demand-response",
+    "description": "Austin Energy's\u00a0Commercial Demand Response program offers customers incentives for curtailing unnecessary load during peak demand periods, which occurs between 1 to 7 P.M. from June through September...."
+  },
+  {
+    "index": 108,
+    "program_id": "TEXAS-POWER-PARTNER-PROGRAM",
+    "program_name": "Power Partner Program",
+    "state": "Texas",
+    "utility": "Austin Energy",
+    "program_url": "https://savings.austinenergy.com/rebates/commercial/offerings/cooling-and-heating/pp-thermostat",
+    "description": "Austin Energy customers can also enroll in the Power Partner Program when they allow the utility to make brief temperature adjustments of 2 to 4 degrees on their thermostats during times of peak deman..."
+  },
+  {
+    "index": 109,
+    "program_id": "TEXAS-LOAD-MANAGEMENT-PROGRAM",
+    "program_name": "Load Management Program",
+    "state": "Texas",
+    "utility": "Center Point Energy",
+    "program_url": "https://www.centerpointenergy.com/en-us/SaveEnergyandMoney/Pages/Load-Management-.aspx?sa=ho&amp;au=bus",
+    "description": "CenterPoint Energy's Commercial Load Management Program\u00a0provides up to $30.00/kW to participants for curtailing load during two scheduled curtailments of 1 to 3 hours plus up to four unscheduled peak ..."
+  },
+  {
+    "index": 110,
+    "program_id": "TEXAS-COMMERCIAL-DEMAND-RESPONSE",
+    "program_name": "Commercial Demand Response",
+    "state": "Texas",
+    "utility": "CPS Energy",
+    "program_url": "https://www.cpsenergy.com/en/my-business/savenow/comm-dr.html",
+    "description": "Commercial and Industrial CPS Energy customers can enroll in their\u00a0Demand Response\u00a0program. Incentives are based on verified performance during peak events, which occur between 1 and 7 p.m. on weekday..."
+  },
+  {
+    "index": 111,
+    "program_id": "TEXAS-SUMMER-DR-PROGRAM",
+    "program_name": "Summer DR Program",
+    "state": "Texas",
+    "utility": "CPS Energy",
+    "program_url": "https://www.cpsenergy.com/en/my-home/savenow/my-thermostat-rewards.html?linkvar=new-mainhero",
+    "description": "CPS Energy offers a Summer DR program to help customers save money and manage energy usage during peak summer months. Customers with a Wi-Fi enabled smart thermostat, can enroll in the program and all..."
+  }
+]

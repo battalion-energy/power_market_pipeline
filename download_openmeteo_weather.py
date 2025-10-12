@@ -151,10 +151,12 @@ def main():
     """Main execution function."""
     # Setup directories
     project_root = Path(__file__).parent
-    weather_dir = project_root / 'weather_data'
+    # Use SSD storage for weather data
+    weather_dir = Path('/pool/ssd8tb/data/weather_data')
+    weather_dir.mkdir(exist_ok=True, parents=True)
 
     openmeteo_dir = weather_dir / 'openmeteo'
-    openmeteo_dir.mkdir(exist_ok=True)
+    openmeteo_dir.mkdir(exist_ok=True, parents=True)
 
     # Create subdirectories for hourly and daily data
     hourly_csv_dir = openmeteo_dir / 'hourly_csv'
@@ -173,9 +175,9 @@ def main():
     locations_file = weather_dir / 'weather_locations.csv'
     locations_df = pd.read_csv(locations_file)
 
-    # Date range: last 5 years
+    # Date range: from 2019-01-01 to present
     end_date = datetime.now()
-    start_date = end_date - timedelta(days=5*365)
+    start_date = datetime(2019, 1, 1)
 
     start_str = start_date.strftime('%Y-%m-%d')
     end_str = end_date.strftime('%Y-%m-%d')

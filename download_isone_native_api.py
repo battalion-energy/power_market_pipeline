@@ -1,59 +1,80 @@
 #!/usr/bin/env python3
 """
-NYISO data downloader using gridstatus library with auto-resume.
+ISO-NE data downloader using native ISO-NE Web Services API.
+
+Bypasses gridstatus to get full native data directly from ISO-NE.
 
 Features:
-- Uses gridstatus library (handles all API complexity)
+- Direct ISO-NE API calls (no gridstatus filtering)
 - Automatically resumes from last downloaded date
-- Saves data to CSV files organized by date
-- Suitable for cron jobs
-- Logs all operations
+- Handles RT LMP 5-min (requires 24 hourly API calls per day)
+- Handles Load data
+- Auto-resume capability for cron jobs
+
+API Documentation: https://www.iso-ne.com/participate/support/web-services-data
 
 Usage:
-    # Download from 2019 to today
-    python download_nyiso_gridstatus.py --start-date 2019-01-01
-
-    # Auto-resume (starts from last downloaded date or 2019-01-01)
-    python download_nyiso_gridstatus.py --auto-resume
-
-    # Test with small range
-    python download_nyiso_gridstatus.py --start-date 2024-01-01 --end-date 2024-01-03
+    python download_isone_native_api.py --start-date 2019-01-01
+    python download_isone_native_api.py --auto-resume
 """
 
 import argparse
 import logging
 import sys
+import os
+import time
 from datetime import datetime, timedelta
 from pathlib import Path
-import gridstatus
+import requests
+from requests.auth import HTTPBasicAuth
 import pandas as pd
+from dotenv import load_dotenv
 
+load_dotenv()
 
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler('nyiso_gridstatus_download.log'),
+        logging.FileHandler('isone_native_api_download.log'),
         logging.StreamHandler(sys.stdout)
     ]
 )
 logger = logging.getLogger(__name__)
 
 
-class NYISOGridstatusDownloader:
-    """NYISO downloader using gridstatus with resume capability."""
+class ISONENativeAPIDownloader:
+    """ISO-NE downloader using native Web Services API."""
 
-    def __init__(self, output_dir: Path):
+    def __init__(self, output_dir: Path, username: str, password: str):
         self.output_dir = output_dir
-        self.csv_dir = output_dir / "NYISO_data" / "csv_files"
+        self.csv_dir = output_dir / "ISONE_data" / "csv_files"
         self.csv_dir.mkdir(parents=True, exist_ok=True)
-        self.nyiso = gridstatus.NYISO()
+
+        self.base_url = "https://webservices.iso-ne.com/api/v1.1"
+        self.auth = HTTPBasicAuth(username, password)
 
         self.stats = {
             'downloaded': 0,
             'skipped': 0,
             'failed': 0
         }
+
+    def make_api_call(self, url: str, retries: int = 3) -> dict:
+        """Make API call with retries."""
+        for attempt in range(retries):
+            try:
+                # Add Accept header to request JSON format
+                headers = {'Accept': 'application/json'}
+                response = requests.get(url, auth=self.auth, headers=headers, timeout=30)
+                response.raise_for_status()
+                return response.json()
+            except Exception as e:
+                if attempt < retries - 1:
+                    logger.warning(f"  Retry {attempt + 1}/{retries} for {url}: {e}")
+                    continue
+                else:
+                    raise
 
     def find_last_date(self, data_type: str) -> datetime:
         """Find the most recent date downloaded for a data type."""
@@ -63,7 +84,6 @@ class NYISOGridstatusDownloader:
 
         dates = []
         for csv_file in type_dir.glob("*.csv"):
-            # Extract date from filename (format: YYYY-MM-DD_*.csv)
             try:
                 date_str = csv_file.stem.split('_')[0]
                 date = datetime.strptime(date_str, '%Y-%m-%d')
@@ -86,33 +106,13 @@ class NYISOGridstatusDownloader:
         df.to_csv(output_path, index=False)
         return True
 
-    def download_lmp_day(self, date: datetime, market: str):
-        """Download LMP data for one day."""
-        data_type = f"lmp_{market.lower()}"
-        output_path = self.csv_dir / data_type / f"{date.strftime('%Y-%m-%d')}_{data_type}.csv"
+    def download_rt_lmp_5min_day(self, date: datetime):
+        """Download RT LMP 5-min data for one day.
 
-        if output_path.exists():
-            self.stats['skipped'] += 1
-            logger.debug(f"Skipping {data_type} {date.date()} (already exists)")
-            return True
-
-        try:
-            logger.info(f"Downloading {data_type} for {date.date()}...")
-            df = self.nyiso.get_lmp(date=date, market=market, locations="ALL")
-
-            if self.save_dataframe(df, data_type, date):
-                self.stats['downloaded'] += 1
-                logger.info(f"  ✓ Saved {len(df)} rows to {output_path.name}")
-                return True
-        except Exception as e:
-            logger.error(f"  ✗ Failed to download {data_type} for {date.date()}: {e}")
-            self.stats['failed'] += 1
-
-        return False
-
-    def download_as_day(self, date: datetime, market: str):
-        """Download ancillary services for one day."""
-        data_type = f"as_{market.lower()}"
+        ISO-NE requires calling hour-by-hour (24 API calls per day).
+        Using 'final' data which is more complete than 'prelim'.
+        """
+        data_type = "lmp_real_time_5_min"
         output_path = self.csv_dir / data_type / f"{date.strftime('%Y-%m-%d')}_{data_type}.csv"
 
         if output_path.exists():
@@ -123,15 +123,41 @@ class NYISOGridstatusDownloader:
         try:
             logger.info(f"Downloading {data_type} for {date.date()}...")
 
-            if market == "DAY_AHEAD_HOURLY":
-                df = self.nyiso.get_as_prices_day_ahead_hourly(date=date)
-            else:  # REAL_TIME_5_MIN
-                df = self.nyiso.get_as_prices_real_time_5_min(date=date)
+            all_data = []
+            date_str = date.strftime('%Y%m%d')
 
-            if self.save_dataframe(df, data_type, date):
-                self.stats['downloaded'] += 1
-                logger.info(f"  ✓ Saved {len(df)} rows to {output_path.name}")
-                return True
+            # Need to call each hour (0-23) separately
+            for hour in range(24):
+                url = f"{self.base_url}/fiveminutelmp/final/day/{date_str}/starthour/{hour:02d}"
+
+                try:
+                    # Add delay to respect rate limits (1 second between calls)
+                    if hour > 0:
+                        time.sleep(1)
+                    response = self.make_api_call(url)
+
+                    # Extract data from response
+                    if "FiveMinLmps" in response and "FiveMinLmp" in response["FiveMinLmps"]:
+                        hour_data = response["FiveMinLmps"]["FiveMinLmp"]
+                        if isinstance(hour_data, list):
+                            all_data.extend(hour_data)
+                        else:
+                            all_data.append(hour_data)
+                except Exception as e:
+                    logger.warning(f"  Failed hour {hour}: {e}")
+                    continue
+
+            if all_data:
+                df = pd.DataFrame(all_data)
+
+                if self.save_dataframe(df, data_type, date):
+                    self.stats['downloaded'] += 1
+                    logger.info(f"  ✓ Saved {len(df)} rows to {output_path.name}")
+                    return True
+            else:
+                logger.warning(f"  No data returned for {date.date()}")
+                self.stats['failed'] += 1
+
         except Exception as e:
             logger.error(f"  ✗ Failed to download {data_type} for {date.date()}: {e}")
             self.stats['failed'] += 1
@@ -150,40 +176,31 @@ class NYISOGridstatusDownloader:
 
         try:
             logger.info(f"Downloading load for {date.date()}...")
-            end_date = date + timedelta(days=1)
-            df = self.nyiso.get_load(start=date, end=end_date)
 
-            if self.save_dataframe(df, data_type, date):
-                self.stats['downloaded'] += 1
-                logger.info(f"  ✓ Saved {len(df)} rows to {output_path.name}")
-                return True
+            date_str = date.strftime('%Y%m%d')
+            url = f"{self.base_url}/hourlysysload/day/{date_str}"
+
+            response = self.make_api_call(url)
+
+            # Extract data from response
+            if "HourlySysLoads" in response and "HourlySysLoad" in response["HourlySysLoads"]:
+                data = response["HourlySysLoads"]["HourlySysLoad"]
+
+                if isinstance(data, list):
+                    df = pd.DataFrame(data)
+                else:
+                    df = pd.DataFrame([data])
+
+                if self.save_dataframe(df, data_type, date):
+                    self.stats['downloaded'] += 1
+                    logger.info(f"  ✓ Saved {len(df)} rows to {output_path.name}")
+                    return True
+            else:
+                logger.warning(f"  No load data returned for {date.date()}")
+                self.stats['failed'] += 1
+
         except Exception as e:
             logger.error(f"  ✗ Failed to download load for {date.date()}: {e}")
-            self.stats['failed'] += 1
-
-        return False
-
-    def download_fuel_mix_day(self, date: datetime):
-        """Download fuel mix data for one day."""
-        data_type = "fuel_mix"
-        output_path = self.csv_dir / data_type / f"{date.strftime('%Y-%m-%d')}_{data_type}.csv"
-
-        if output_path.exists():
-            self.stats['skipped'] += 1
-            logger.debug(f"Skipping fuel_mix {date.date()} (already exists)")
-            return True
-
-        try:
-            logger.info(f"Downloading fuel_mix for {date.date()}...")
-            end_date = date + timedelta(days=1)
-            df = self.nyiso.get_fuel_mix(start=date, end=end_date)
-
-            if self.save_dataframe(df, data_type, date):
-                self.stats['downloaded'] += 1
-                logger.info(f"  ✓ Saved {len(df)} rows to {output_path.name}")
-                return True
-        except Exception as e:
-            logger.error(f"  ✗ Failed to download fuel_mix for {date.date()}: {e}")
             self.stats['failed'] += 1
 
         return False
@@ -191,30 +208,20 @@ class NYISOGridstatusDownloader:
     def download_date_range(self, start_date: datetime, end_date: datetime):
         """Download all data types for a date range."""
         logger.info(f"\n{'='*80}")
-        logger.info(f"NYISO DATA DOWNLOAD (gridstatus)")
+        logger.info(f"ISO-NE DATA DOWNLOAD (Native API)")
         logger.info(f"Date range: {start_date.date()} to {end_date.date()}")
         logger.info(f"Output directory: {self.csv_dir}")
         logger.info(f"{'='*80}\n")
-
-        # Data types to download
-        downloads = [
-            ("DAY_AHEAD_HOURLY", self.download_lmp_day),
-            ("REAL_TIME_5_MIN", self.download_lmp_day),
-            ("DAY_AHEAD_HOURLY", lambda d, m: self.download_as_day(d, m)),
-            ("REAL_TIME_5_MIN", lambda d, m: self.download_as_day(d, m)),
-            (None, lambda d, _: self.download_load_day(d)),
-            (None, lambda d, _: self.download_fuel_mix_day(d)),
-        ]
 
         current_date = start_date
         while current_date <= end_date:
             logger.info(f"\n--- Processing {current_date.date()} ---")
 
-            for market, download_func in downloads:
-                if market:
-                    download_func(current_date, market)
-                else:
-                    download_func(current_date, None)
+            # Download RT LMP 5-min (requires 24 API calls)
+            self.download_rt_lmp_5min_day(current_date)
+
+            # Download Load
+            self.download_load_day(current_date)
 
             current_date += timedelta(days=1)
 
@@ -229,9 +236,7 @@ class NYISOGridstatusDownloader:
 
     def auto_resume(self, fallback_start: datetime, end_date: datetime):
         """Auto-resume from the last downloaded date."""
-        # Find the earliest last date across all data types
-        data_types = ["lmp_day_ahead_hourly", "lmp_real_time_5_min",
-                     "as_day_ahead_hourly", "as_real_time_5_min", "load", "fuel_mix"]
+        data_types = ["lmp_real_time_5_min", "load"]
 
         last_dates = []
         for data_type in data_types:
@@ -241,7 +246,6 @@ class NYISOGridstatusDownloader:
                 logger.info(f"Found {data_type} data through {last_date.date()}")
 
         if last_dates:
-            # Use the earliest last date to ensure all data types are in sync
             earliest = min(last_dates, key=lambda x: x[1])
             resume_date = earliest[1] + timedelta(days=1)
             logger.info(f"\n✓ Resuming from {resume_date.date()} (earliest incomplete: {earliest[0]})")
@@ -258,7 +262,7 @@ class NYISOGridstatusDownloader:
 
 def main():
     parser = argparse.ArgumentParser(
-        description="NYISO downloader using gridstatus with auto-resume"
+        description="ISO-NE downloader using native Web Services API"
     )
     parser.add_argument(
         "--start-date",
@@ -284,13 +288,21 @@ def main():
 
     args = parser.parse_args()
 
+    # Get credentials from environment
+    username = os.getenv("ISONE_USERNAME")
+    password = os.getenv("ISONE_PASSWORD")
+
+    if not username or not password:
+        logger.error("ISONE_USERNAME and ISONE_PASSWORD must be set in environment or .env file")
+        sys.exit(1)
+
     # Parse dates
     start_date = datetime.strptime(args.start_date, "%Y-%m-%d") if args.start_date else datetime(2019, 1, 1)
     end_date = datetime.strptime(args.end_date, "%Y-%m-%d") if args.end_date else datetime.now()
     output_dir = Path(args.output_dir)
 
     # Create downloader
-    downloader = NYISOGridstatusDownloader(output_dir)
+    downloader = ISONENativeAPIDownloader(output_dir, username, password)
 
     if args.auto_resume:
         downloader.auto_resume(start_date, end_date)

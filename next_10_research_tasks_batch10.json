@@ -1,0 +1,112 @@
+[
+  {
+    "index": 70,
+    "score": 10,
+    "program_id": "NEW-YORK-LOAD-MANAGEMENT-INCENTIVE-PROGRAM",
+    "program_name": "Load Management Incentive Program",
+    "state": "New York",
+    "utility": "Con Edison",
+    "program_url": "https://www.coned.com/en/save-money/rebates-incentives-tax-credits/rebates-incentives-tax-credits-for-commercial-industrial-buildings-customers",
+    "description": "",
+    "status": "active"
+  },
+  {
+    "index": 71,
+    "score": 10,
+    "program_id": "NEW-YORK-TERM-AND-AUTO-DYNAMIC-LOAD-MANAGEMENT",
+    "program_name": "Term and Auto Dynamic Load Management",
+    "state": "New York",
+    "utility": "Con Edison",
+    "program_url": "https://www.coned.com/en/business-partners/business-opportunities/dynamic-load-management-request-for-proposals",
+    "description": "",
+    "status": "active"
+  },
+  {
+    "index": 106,
+    "score": 10,
+    "program_id": "TEXAS-LOAD-MANAGEMENT-PROGRAM",
+    "program_name": "Load Management Program",
+    "state": "Texas",
+    "utility": "AEP Texas",
+    "program_url": "https://aeptexasefficiency.com/#/commercial/south-load-management",
+    "description": "",
+    "status": "active"
+  },
+  {
+    "index": 109,
+    "score": 10,
+    "program_id": "TEXAS-LOAD-MANAGEMENT-PROGRAM",
+    "program_name": "Load Management Program",
+    "state": "Texas",
+    "utility": "Center Point Energy",
+    "program_url": "https://www.centerpointenergy.com/en-us/SaveEnergyandMoney/Pages/Load-Management-.aspx?sa=ho&amp;au=bus",
+    "description": "",
+    "status": "active"
+  },
+  {
+    "index": 112,
+    "score": 10,
+    "program_id": "TEXAS-LOAD-MANAGEMENT-PROGRAM",
+    "program_name": "Load Management Program",
+    "state": "Texas",
+    "utility": "Entergy Texas",
+    "program_url": "https://www.entergy-texas.com/your_business/save_money/ee/load-management/",
+    "description": "",
+    "status": "active"
+  },
+  {
+    "index": 117,
+    "score": 10,
+    "program_id": "VIRGINIA-NON-RESIDENTIAL-DISTRIBUTED-GENERATION-PR",
+    "program_name": "Non-Residential Distributed Generation Program",
+    "state": "Virginia",
+    "utility": "Dominion Energy",
+    "program_url": "https://www.dominionenergy.com/virginia/save-energy/targeted-sector-programs#distributed",
+    "description": "",
+    "status": "active"
+  },
+  {
+    "index": 72,
+    "score": 7,
+    "program_id": "NEW-YORK-TERM-AND-AUTO-DYNAMIC-LOAD-MANAGEMENT",
+    "program_name": "Term and Auto Dynamic Load Management",
+    "state": "New York",
+    "utility": "National Grid",
+    "program_url": "https://www.nationalgridus.com/Upstate-NY-Business/RFP/Term-DLM-and-Auto-DLM-Program-Request-for-Proposals",
+    "description": "",
+    "status": "closed_to_new"
+  },
+  {
+    "index": 74,
+    "score": 7,
+    "program_id": "NEW-YORK-TERM-AND-AUTO-DYNAMIC-LOAD-MANAGEMENT",
+    "program_name": "Term and Auto Dynamic Load Management",
+    "state": "New York",
+    "utility": "NYSEG",
+    "program_url": "https://www.nyseg.com/smartenergy/businesssolutions/cidemandresponse",
+    "description": "",
+    "status": "closed_to_new"
+  },
+  {
+    "index": 15,
+    "score": 5,
+    "program_id": "FLORIDA-BACKUP-GENERATOR-PROGRAM",
+    "program_name": "Backup Generator Program",
+    "state": "Florida",
+    "utility": "Duke Energy",
+    "program_url": "https://www.duke-energy.com/business/products/backup-generator-program",
+    "description": "",
+    "status": "active"
+  },
+  {
+    "index": 18,
+    "score": 5,
+    "program_id": "FLORIDA-CUSTOM-INCENTIVES-PROGRAM",
+    "program_name": "Custom Incentives Program",
+    "state": "Florida",
+    "utility": "Florida Power and Light",
+    "program_url": "https://www.fpl.com/business/save/programs/customized-incentives.html",
+    "description": "",
+    "status": "active"
+  }
+]

@@ -110,9 +110,14 @@ class CAISOGridstatusDownloader:
 
         return False
 
-    def download_as_day(self, date: datetime, market: str):
-        """Download ancillary services for one day."""
-        data_type = f"as_{market.lower()}"
+    def download_as_day(self, date: datetime, market: str = None):
+        """Download ancillary services for one day.
+
+        Note: CAISO AS prices API returns data for both DAM and HASP markets together.
+        The market parameter is kept for compatibility but not used in API call.
+        """
+        # Use generic "as_prices" since CAISO returns both DAM and HASP together
+        data_type = "as_prices"
         output_path = self.csv_dir / data_type / f"{date.strftime('%Y-%m-%d')}_{data_type}.csv"
 
         if output_path.exists():
@@ -123,11 +128,18 @@ class CAISOGridstatusDownloader:
         try:
             logger.info(f"Downloading {data_type} for {date.date()}...")
 
-            # CAISO AS prices
-            if market == "DAY_AHEAD_HOURLY":
-                df = self.caiso.get_as_prices(date=date, market="DAY_AHEAD_HOURLY")
-            else:  # REAL_TIME_5_MIN or REAL_TIME_15_MIN
-                df = self.caiso.get_as_prices(date=date, market=market)
+            # CAISO AS prices - call get_oasis_dataset directly without market_run_id filter
+            # The API dataset doesn't support market_run_id parameter, returns all markets
+            end_date = date + timedelta(days=1)
+            df = self.caiso.get_oasis_dataset(
+                dataset="as_clearing_prices",
+                start=date,
+                end=end_date,
+                params={},  # Empty params - let API return all data
+                sleep=4,
+                verbose=False,
+                raw_data=False,
+            )
 
             if self.save_dataframe(df, data_type, date):
                 self.stats['downloaded'] += 1
@@ -202,8 +214,7 @@ class CAISOGridstatusDownloader:
             ("DAY_AHEAD_HOURLY", self.download_lmp_day),
             ("REAL_TIME_5_MIN", self.download_lmp_day),
             ("REAL_TIME_15_MIN", self.download_lmp_day),
-            ("DAY_AHEAD_HOURLY", lambda d, m: self.download_as_day(d, m)),
-            ("REAL_TIME_5_MIN", lambda d, m: self.download_as_day(d, m)),
+            (None, lambda d, _: self.download_as_day(d)),  # AS prices returns all markets
             (None, lambda d, _: self.download_load_day(d)),
             (None, lambda d, _: self.download_fuel_mix_day(d)),
         ]
@@ -233,7 +244,7 @@ class CAISOGridstatusDownloader:
         """Auto-resume from the last downloaded date."""
         # Find the earliest last date across all data types
         data_types = ["lmp_day_ahead_hourly", "lmp_real_time_5_min", "lmp_real_time_15_min",
-                     "as_day_ahead_hourly", "as_real_time_5_min", "load", "fuel_mix"]
+                     "as_prices", "load", "fuel_mix"]
 
         last_dates = []
         for data_type in data_types:

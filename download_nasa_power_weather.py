@@ -164,8 +164,9 @@ def main():
     project_root = Path(__file__).parent
     generators_file = project_root / 'ERCOT_GENERATORS_LOCATIONS_VALIDATED.csv'
 
-    weather_dir = project_root / 'weather_data'
-    weather_dir.mkdir(exist_ok=True)
+    # Use SSD storage for weather data
+    weather_dir = Path('/pool/ssd8tb/data/weather_data')
+    weather_dir.mkdir(exist_ok=True, parents=True)
 
     csv_dir = weather_dir / 'csv_files'
     csv_dir.mkdir(exist_ok=True)
@@ -173,9 +174,9 @@ def main():
     parquet_dir = weather_dir / 'parquet_files'
     parquet_dir.mkdir(exist_ok=True)
 
-    # Date range: last 5 years
+    # Date range: from 2019-01-01 to present
     end_date = datetime.now()
-    start_date = end_date - timedelta(days=5*365)
+    start_date = datetime(2019, 1, 1)
 
     start_str = start_date.strftime('%Y%m%d')
     end_str = end_date.strftime('%Y%m%d')
