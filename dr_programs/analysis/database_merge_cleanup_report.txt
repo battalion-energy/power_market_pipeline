@@ -1,0 +1,60 @@
+DR Program Database Merge and Cleanup Report
+================================================================================
+Date: 2025-10-12
+
+Original programs:       122
+Programs researched:     180
+Programs removed:        2
+Programs deduplicated:   0
+Corrections applied:     0
+Final program count:     120
+
+================================================================================
+
+REMOVED PROGRAMS:
+  Index 70: Load Management Incentive Program
+    Reason: Program does not exist (404 error)
+  Index 97: On-Site Generation Service Program
+    Reason: Misclassified - standby service tariff, not DR program
+
+================================================================================
+PROGRAM STATISTICS
+================================================================================
+
+Total Programs: 120
+
+By Status:
+  active: 100
+  active_but_closed_to_new_enrollment_annually: 3
+  closed_to_new: 5
+  inactive: 2
+  temporarily_paused: 4
+  unknown: 6
+
+By Program Type:
+  demand_response: 1
+  direct_load_control: 5
+  iso_rto_wholesale: 15
+  standby_service_tariff: 1
+  unknown: 6
+  utility: 87
+  utility_demand_response: 1
+  utility_retail: 4
+
+Top 10 States by Program Count:
+  SD: 10
+  ND: 9
+  OR: 6
+  MN: 5
+  SC: 4
+  AZ: 2
+  IL: 2
+  IA: 2
+  CA: 1
+  NM: 1
+
+Data Quality Scores:
+  excellent: 2
+  good: 12
+  moderate: 62
+  poor: 0
