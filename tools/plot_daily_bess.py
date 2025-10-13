@@ -99,33 +99,35 @@ def main(args):
             y = [m.get(int(hh), np.nan) for hh in h]
             return np.array(y, dtype=float)
 
-        RT_COLOR = '#2E4053'
-        DA_COLOR = '#1f77b4'
-        ECRS_COLOR = '#1F618D'
-        RRS_COLOR = '#5DADE2'
-        REGUP_COLOR = '#F4E76E'
-        REGDOWN_COLOR = '#F4A6A6'
-        NSPIN_COLOR = '#2C3E50'
+        # High-contrast, color-blind friendly palette
+        # Use distinct hues and different linestyles to avoid confusion
+        RT_COLOR = '#D62728'       # red
+        DA_COLOR = '#9467BD'       # purple
+        ECRS_COLOR = '#17BECF'     # teal
+        RRS_COLOR = '#FF7F0E'      # orange
+        REGUP_COLOR = '#BCBD22'    # olive/gold
+        REGDOWN_COLOR = '#E377C2'  # magenta/pink
+        NSPIN_COLOR = '#8C564B'    # brown
 
         if 'rt_price_avg' in df_dp.columns:
             ax3.plot(h, aligned(df_dp['local_hour'].values, df_dp['rt_price_avg'].values),
-                     color=RT_COLOR, label='RT Price', linewidth=1.8, zorder=5)
+                     color=RT_COLOR, label='RT Price', linewidth=1.9, linestyle='-', zorder=6)
         if 'da_price_hour' in df_dp.columns:
             ax3.plot(h, aligned(df_dp['local_hour'].values, df_dp['da_price_hour'].values),
-                     color=DA_COLOR, label='DA Price', linewidth=1.4, zorder=4)
+                     color=DA_COLOR, label='DA Price', linewidth=1.6, linestyle='--', zorder=5)
         # Ancillary MCPCs from awards parquet (align lengths to hours)
         if len(aw_d) > 0:
             df_awp = aw_d.to_pandas()
             if 'ecrs_mcpc' in df_awp.columns:
-                ax3.plot(h, aligned(df_awp['local_hour'].values, df_awp['ecrs_mcpc'].values), color=ECRS_COLOR, label='ECRS MCPC', linewidth=1.0)
+                ax3.plot(h, aligned(df_awp['local_hour'].values, df_awp['ecrs_mcpc'].values), color=ECRS_COLOR, label='ECRS MCPC', linewidth=1.2, linestyle=':')
             if 'rrs_mcpc' in df_awp.columns:
-                ax3.plot(h, aligned(df_awp['local_hour'].values, df_awp['rrs_mcpc'].values), color=RRS_COLOR, label='RRS MCPC', linewidth=1.0)
+                ax3.plot(h, aligned(df_awp['local_hour'].values, df_awp['rrs_mcpc'].values), color=RRS_COLOR, label='RRS MCPC', linewidth=1.2, linestyle=':')
             if 'regup_mcpc' in df_awp.columns:
-                ax3.plot(h, aligned(df_awp['local_hour'].values, df_awp['regup_mcpc'].values), color=REGUP_COLOR, label='RegUp MCPC', linewidth=1.0)
+                ax3.plot(h, aligned(df_awp['local_hour'].values, df_awp['regup_mcpc'].values), color=REGUP_COLOR, label='RegUp MCPC', linewidth=1.1, linestyle='-.')
             if 'regdown_mcpc' in df_awp.columns:
-                ax3.plot(h, aligned(df_awp['local_hour'].values, df_awp['regdown_mcpc'].values), color=REGDOWN_COLOR, label='RegDown MCPC', linewidth=1.0)
+                ax3.plot(h, aligned(df_awp['local_hour'].values, df_awp['regdown_mcpc'].values), color=REGDOWN_COLOR, label='RegDown MCPC', linewidth=1.1, linestyle='-.')
             if 'nonspin_mcpc' in df_awp.columns:
-                ax3.plot(h, aligned(df_awp['local_hour'].values, df_awp['nonspin_mcpc'].values), color=NSPIN_COLOR, label='NonSpin MCPC', linewidth=1.0)
+                ax3.plot(h, aligned(df_awp['local_hour'].values, df_awp['nonspin_mcpc'].values), color=NSPIN_COLOR, label='NonSpin MCPC', linewidth=1.1, linestyle=':')
         ax2.set_title(f"{target_date:%-m/%-d} Dispatch Profile | {args.bess}")
         ax2.set_xlabel("Hour")
         ax2.set_ylabel("MWh")

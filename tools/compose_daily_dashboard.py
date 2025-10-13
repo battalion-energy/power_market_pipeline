@@ -27,6 +27,9 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 import subprocess, sys
+import matplotlib
+# Use non-interactive backend for headless environments
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 

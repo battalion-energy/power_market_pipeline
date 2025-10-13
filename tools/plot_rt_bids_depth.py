@@ -21,12 +21,16 @@ from __future__ import annotations
 
 import argparse
 from pathlib import Path
+import os
 from datetime import datetime, date
 import numpy as np
 import pandas as pd
 import polars as pl
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-from matplotlib.colors import TwoSlopeNorm, LinearSegmentedColormap
+from matplotlib.colors import LinearSegmentedColormap, Normalize, ListedColormap
+from matplotlib.cm import ScalarMappable
 
 
 def last_sced_per_15(df: pl.DataFrame) -> pl.DataFrame:
@@ -86,6 +90,9 @@ def main():
     ap.add_argument('--pmax', type=float, default=250)
     ap.add_argument('--pstep', type=float, default=2.0)
     ap.add_argument('--out-dir', type=str, default=None, help='Directory to save image (defaults to tools/output/rt_bids_depth)')
+    # Colormap/normalization controls
+    ap.add_argument('--kink-mw', type=float, default=1.0, help='Magnitude (MW) for fast transition from white to color (default 1 MW)')
+    ap.add_argument('--fast-frac', type=float, default=0.9, help='Fraction of half-colormap used up to kink (0-1). Higher = faster transition (default 0.9)')
     args = ap.parse_args()
 
     base = Path(args.base_dir)
@@ -99,7 +106,8 @@ def main():
         raise ValueError('No SCED rows for resource')
     sced = sced.with_columns([
         pl.col('SCEDTimeStamp').str.strptime(pl.Datetime, '%m/%d/%Y %H:%M:%S')
-            .dt.replace_time_zone('America/Chicago').dt.convert_time_zone('UTC').alias('sced_dt'),
+            .dt.replace_time_zone('America/Chicago', ambiguous='earliest')
+            .dt.convert_time_zone('UTC').alias('sced_dt'),
         ])
     target = pd.to_datetime(args.date).date()
     sced = sced.filter(sced['sced_dt'].dt.date() == target)
@@ -145,27 +153,82 @@ def main():
         sell_depth = curve_depth_at_bins(sell_pairs, bins, 'sell')
         buy_depth  = curve_depth_at_bins(buy_pairs, bins, 'buy')
         # Only show buy on y <= 0 and sell on y >= 0
-        Z[:,j] = np.where(bins>=0, sell_depth, 0.0) + np.where(bins<=0, -buy_depth, 0.0)
+        # Use strict inequalities so the 0-price row is exactly 0 MW (white)
+        Z[:,j] = np.where(bins>0, sell_depth, 0.0) + np.where(bins<0, -buy_depth, 0.0)
 
     # Plot
     fig, ax = plt.subplots(figsize=(12,6))
-    # Create diverging normalization centered on zero
+    # Create diverging normalization centered on zero with a fast ramp to ±kink
     vmax = max(1.0, np.nanmax(np.abs(Z)))
-    norm = TwoSlopeNorm(vmin=-vmax, vcenter=0.0, vmax=vmax)
-    # Build a color-blind friendly diverging colormap (blue/orange) with color near zero
-    def blue_orange():
-        neg = ['#cfe7ff','#8fc2ff','#4f9bff','#1f70b4']    # light->deep blue
-        pos = ['#ffe1c2','#f7b267','#e98b2a','#c55400']    # light->deep orange
-        colors = neg[::-1] + ['#f2e1c8'] + pos
-        return LinearSegmentedColormap.from_list('blueorange', colors, N=256)
-    cmap = blue_orange()
+
+    class KinkedDivergingNorm(Normalize):
+        """Piecewise normalization with a "kink" at ±kink_mw.
+
+        - 0 maps to the center (0.5) -> white.
+        - Magnitudes up to kink_mw consume `fast_frac` of each half of the colormap
+          (fast transition to strong color).
+        - Magnitudes beyond kink_mw consume the remaining fraction linearly up to |vmax|.
+        """
+
+        def __init__(self, vmin, vmax, kink, fast_frac=0.9, clip=False):
+            super().__init__(vmin=vmin, vmax=vmax, clip=clip)
+            self.kink = float(max(0.0, kink))
+            self.fast_frac = float(np.clip(fast_frac, 0.0, 1.0))
+
+        def __call__(self, values, clip=None):
+            v = np.asarray(values, dtype=float)
+            out = np.full_like(v, 0.5, dtype=float)  # exact white at 0
+            vmin = float(self.vmin)
+            vmax = float(self.vmax)
+            k = self.kink
+            f = self.fast_frac
+
+            pos_mag = np.where(v > 0, v, 0.0)
+            if k > 0:
+                t_pos = np.where(
+                    pos_mag <= k,
+                    f * (pos_mag / k),
+                    f + (1.0 - f) * ((pos_mag - k) / max(vmax - k, 1e-9)),
+                )
+            else:
+                t_pos = np.minimum(1.0, f * pos_mag)
+            out[v > 0] = 0.5 + 0.5 * t_pos[v > 0]
+
+            neg_mag = np.where(v < 0, -v, 0.0)
+            if k > 0:
+                t_neg = np.where(
+                    neg_mag <= k,
+                    f * (neg_mag / k),
+                    f + (1.0 - f) * ((neg_mag - k) / max(abs(vmin) - k, 1e-9)),
+                )
+            else:
+                t_neg = np.minimum(1.0, f * neg_mag)
+            out[v < 0] = 0.5 - 0.5 * t_neg[v < 0]
+
+            return np.clip(out, 0.0, 1.0)
+
+    norm = KinkedDivergingNorm(vmin=-vmax, vmax=vmax, kink=args.kink_mw, fast_frac=args.fast_frac)
+
+    # Build a diverging colormap: deep blue -> white -> deep orange, with pure white at center
+    cmap = LinearSegmentedColormap.from_list(
+        'biddepth_blue_white_orange',
+        ['#08306b', '#ffffff', '#d94801'],  # deep blue, white, deep orange
+        N=256,
+    )
     t_axis = [pd.to_datetime(t).tz_convert('America/Chicago') for t in times]
     X, Y = np.meshgrid(range(len(t_axis)), bins)
     im = ax.pcolormesh(X, Y, Z, cmap=cmap, norm=norm, shading='auto')
     ax.set_ylabel('Price ($/MWh)'); ax.set_xlabel('Time')
     ax.set_xticks(range(0,len(t_axis), max(1,len(t_axis)//8)))
     ax.set_xticklabels([t.strftime('%H:%M') for i,t in enumerate(t_axis) if i in ax.get_xticks()])
-    cbar = fig.colorbar(im, ax=ax, label='Power (MW)')
+    # Colorbar with linear value spacing but matching non-linear mapping:
+    # Build a proxy colormap sampled in data space and use linear Normalize.
+    sample_vals = np.linspace(-vmax, vmax, 512)
+    sample_colors = cmap(norm(sample_vals))
+    cb_cmap = ListedColormap(sample_colors)
+    sm = ScalarMappable(norm=Normalize(vmin=-vmax, vmax=vmax), cmap=cb_cmap)
+    sm.set_array([])
+    cbar = fig.colorbar(sm, ax=ax, label='Power (MW)')
 
     # Overlay RT/DA prices (15-min)
     if prices15 is not None and len(prices15)>0:
@@ -195,7 +258,11 @@ def main():
     if args.out_dir:
         out_dir = Path(args.out_dir)
     else:
-        out_dir = Path(__file__).parent / 'output' / 'rt_bids_depth'
+        charts_root = os.getenv('CHARTS_OUTPUT_DIR')
+        if charts_root:
+            out_dir = Path(charts_root) / 'rt_bids_depth'
+        else:
+            out_dir = Path(__file__).parent / 'output' / 'rt_bids_depth'
     out_dir.mkdir(parents=True, exist_ok=True)
     out = out_dir / f"{args.bess}_{args.date}_rt_bids.png"
     fig.tight_layout(); fig.savefig(out, dpi=180, bbox_inches='tight')

@@ -18,11 +18,15 @@ from __future__ import annotations
 
 import argparse
 from pathlib import Path
+import os
 import numpy as np
 import pandas as pd
 import polars as pl
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-from matplotlib.colors import TwoSlopeNorm, LinearSegmentedColormap
+from matplotlib.colors import LinearSegmentedColormap, Normalize, ListedColormap
+from matplotlib.cm import ScalarMappable
 
 
 def load_mapping(mp: Path) -> pd.DataFrame:
@@ -46,11 +50,11 @@ def find_offers_file(base: Path, year: int) -> Path | None:
     return None
 
 
-def blue_orange():
-    neg = ['#cfe7ff','#8fc2ff','#4f9bff','#1f70b4']    # light->deep blue
-    pos = ['#ffe1c2','#f7b267','#e98b2a','#c55400']    # light->deep orange
-    colors = neg[::-1] + ['#f2e1c8'] + pos
-    return LinearSegmentedColormap.from_list('blueorange', colors, N=256)
+def biddepth_cmap():
+    # Deep blue -> white -> deep orange
+    return LinearSegmentedColormap.from_list(
+        'biddepth_blue_white_orange', ['#08306b', '#ffffff', '#d94801'], N=256
+    )
 
 
 def main():
@@ -63,7 +67,9 @@ def main():
     ap.add_argument('--pmin', type=float, default=-250)
     ap.add_argument('--pmax', type=float, default=250)
     ap.add_argument('--pstep', type=float, default=5.0)
-    ap.add_argument('--out-dir', default='tools/output/da_bids_depth')
+    ap.add_argument('--out-dir', default=None)
+    ap.add_argument('--kink-mw', type=float, default=1.0, help='Magnitude (MW) for fast transition from white to color (default 1 MW)')
+    ap.add_argument('--fast-frac', type=float, default=0.9, help='Fraction of half-colormap used up to kink (0-1). Higher = faster transition (default 0.9)')
     args = ap.parse_args()
 
     base = Path(args.base_dir)
@@ -108,6 +114,9 @@ def main():
         raise ValueError('DAM offers missing DeliveryDate/hour meta')
 
     hours = dff['hour'].to_list()
+    if not hours:
+        print('No hourly DAM offers for the selected day; skipping plot.')
+        return
 
     bins = np.arange(args.pmin, args.pmax+args.pstep/2, args.pstep)
     Z = np.zeros((len(bins), len(hours)))
@@ -127,7 +136,8 @@ def main():
         p = np.array([x[0] for x in pairs]); mw = np.array([x[1] for x in pairs])
         sell_depth = np.array([mw[p <= y].sum() for y in bins])
         buy_depth  = np.array([mw[p >= y].sum() for y in bins])
-        Z[:,j] = np.where(bins>=0, sell_depth, 0.0) + np.where(bins<=0, -buy_depth, 0.0)
+        # Use strict inequalities so the 0-price row is exactly 0 MW (white)
+        Z[:,j] = np.where(bins>0, sell_depth, 0.0) + np.where(bins<0, -buy_depth, 0.0)
 
     # Load DA price overlay for the node (or HB_BUSAVG if node not available in the file)
     da_p = base / 'rollup_files' / 'DA_prices' / f'{args.year}.parquet'
@@ -154,21 +164,73 @@ def main():
     # Plot
     fig, ax = plt.subplots(figsize=(12,6))
     vmax = max(1.0, np.nanmax(np.abs(Z)))
-    norm = TwoSlopeNorm(vmin=-vmax, vcenter=0.0, vmax=vmax)
-    cmap = blue_orange()
+
+    class KinkedDivergingNorm(Normalize):
+        def __init__(self, vmin, vmax, kink, fast_frac=0.9, clip=False):
+            super().__init__(vmin=vmin, vmax=vmax, clip=clip)
+            self.kink = float(max(0.0, kink))
+            self.fast_frac = float(np.clip(fast_frac, 0.0, 1.0))
+
+        def __call__(self, values, clip=None):
+            v = np.asarray(values, dtype=float)
+            out = np.full_like(v, 0.5, dtype=float)
+            vmin = float(self.vmin)
+            vmax = float(self.vmax)
+            k = self.kink
+            f = self.fast_frac
+
+            pos_mag = np.where(v > 0, v, 0.0)
+            if k > 0:
+                t_pos = np.where(
+                    pos_mag <= k,
+                    f * (pos_mag / k),
+                    f + (1.0 - f) * ((pos_mag - k) / max(vmax - k, 1e-9)),
+                )
+            else:
+                t_pos = np.minimum(1.0, f * pos_mag)
+            out[v > 0] = 0.5 + 0.5 * t_pos[v > 0]
+
+            neg_mag = np.where(v < 0, -v, 0.0)
+            if k > 0:
+                t_neg = np.where(
+                    neg_mag <= k,
+                    f * (neg_mag / k),
+                    f + (1.0 - f) * ((neg_mag - k) / max(abs(vmin) - k, 1e-9)),
+                )
+            else:
+                t_neg = np.minimum(1.0, f * neg_mag)
+            out[v < 0] = 0.5 - 0.5 * t_neg[v < 0]
+
+            return np.clip(out, 0.0, 1.0)
+
+    norm = KinkedDivergingNorm(vmin=-vmax, vmax=vmax, kink=args.kink_mw, fast_frac=args.fast_frac)
+    cmap = biddepth_cmap()
     X, Y = np.meshgrid(range(len(hours)), bins)
     im = ax.pcolormesh(X, Y, Z, cmap=cmap, norm=norm, shading='auto')
     ax.set_ylabel('Price ($/MWh)'); ax.set_xlabel('Hour')
     ax.set_xticks(range(len(hours)))
     ax.set_xticklabels([f"{h:02d}:00" for h in hours], rotation=0)
-    fig.colorbar(im, ax=ax, label='Power (MW)')
+    sample_vals = np.linspace(-vmax, vmax, 512)
+    sample_colors = cmap(norm(sample_vals))
+    cb_cmap = ListedColormap(sample_colors)
+    sm = ScalarMappable(norm=Normalize(vmin=-vmax, vmax=vmax), cmap=cb_cmap)
+    sm.set_array([])
+    fig.colorbar(sm, ax=ax, label='Power (MW)')
     if da_overlay:
         xs = list(range(len(hours)))
         ys = [da_overlay.get(h, np.nan) for h in hours]
         ax.plot(xs, ys, color='#1f77b4', linewidth=1.6, label='DA Price')
         ax.legend(loc='upper right', fontsize=8)
 
-    out = Path(args.out_dir)
+    # Resolve output directory: explicit path or repo-local default
+    if args.out_dir:
+        out = Path(args.out_dir)
+    else:
+        charts_root = os.getenv('CHARTS_OUTPUT_DIR')
+        if charts_root:
+            out = Path(charts_root) / 'da_bids_depth'
+        else:
+            out = Path(__file__).parent / 'output' / 'da_bids_depth'
     out.mkdir(parents=True, exist_ok=True)
     out_path = out / f"{args.bess}_{args.date}_da_bids.png"
     fig.tight_layout(); fig.savefig(out_path, dpi=180, bbox_inches='tight')

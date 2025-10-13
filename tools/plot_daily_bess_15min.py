@@ -79,9 +79,10 @@ def main():
     ax1.legend(loc='upper left', fontsize=8)
 
     # Panel 2: RT and DA prices (15-min)
-    ax2.plot(x, pdf['rt_price'].values, color='#2E4053', label='RT Price', linewidth=1.6)
+    # Distinct, high-contrast colors/linestyles
+    ax2.plot(x, pdf['rt_price'].values, color='#D62728', label='RT Price', linewidth=1.8, linestyle='-')
     if 'da_price' in pdf.columns:
-        ax2.plot(x, pdf['da_price'].values, color='#1f77b4', label='DA Price', linewidth=1.2)
+        ax2.plot(x, pdf['da_price'].values, color='#9467BD', label='DA Price', linewidth=1.5, linestyle='--')
     ax2.set_title(f"{day.strftime('%-m/%-d')} 15-min Prices | {args.bess}")
     ax2.set_xlabel('Hour')
     ax2.set_ylabel('Price ($/MWh)')
