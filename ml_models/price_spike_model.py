@@ -53,8 +53,21 @@ class PriceSpikeDataset(Dataset):
             # 'reserve_margin', 'reserve_error', 'distance_to_3000mw',
             # 'distance_to_2000mw', 'distance_to_1000mw', 'ordc_adder',
 
-            # Weather extremes
-            'temp', 'heat_wave', 'cold_snap', 'temp_change_3h', 'temp_change_6h',
+            # Weather features (27 total from NASA POWER satellite data)
+            # Temperature
+            'temp_avg', 'temp_max_daily', 'temp_min_daily', 'temp_std_cities', 'temp_range_daily',
+            # Humidity & Precipitation
+            'humidity_avg', 'precip_total',
+            # Wind (from wind farm locations)
+            'wind_speed_avg', 'wind_speed_min', 'wind_speed_max', 'wind_speed_std', 'wind_direction_avg',
+            'wind_calm', 'wind_strong',
+            # Solar (from solar farm locations)
+            'solar_irrad_avg', 'solar_irrad_min', 'solar_irrad_max', 'solar_irrad_std',
+            'solar_irrad_clear_sky', 'cloud_cover', 'cloud_cover_pct',
+            # Demand indicators
+            'cooling_degree_days', 'heating_degree_days',
+            # Extreme weather indicators
+            'heat_wave', 'cold_snap',
 
             # Net load
             'net_load', 'net_load_pct_capacity', 'net_load_ramp_1h', 'net_load_ramp_3h',
@@ -167,8 +180,8 @@ class PriceSpikeTransformer(nn.Module):
             nn.Linear(128, 64),
             nn.GELU(),
             nn.Dropout(dropout),
-            nn.Linear(64, 1),
-            nn.Sigmoid()
+            nn.Linear(64, 1)
+            # No sigmoid - will use BCEWithLogitsLoss instead
         )
 
     def forward(self, x):
@@ -205,6 +218,8 @@ class FocalLoss(nn.Module):
     - α: class weight (0.75 for minority class)
     - γ: focusing parameter (2.0 to focus on hard examples)
     - p_t: predicted probability of correct class
+
+    Uses BCEWithLogitsLoss for FP16 safety.
     """
 
     def __init__(self, alpha: float = 0.75, gamma: float = 2.0):
@@ -213,11 +228,15 @@ class FocalLoss(nn.Module):
         self.gamma = gamma
 
     def forward(self, inputs, targets):
-        # inputs: (batch, 1) probabilities
+        # inputs: (batch, 1) logits (NOT probabilities)
         # targets: (batch, 1) binary labels
 
-        BCE_loss = F.binary_cross_entropy(inputs, targets, reduction='none')
-        p_t = torch.where(targets == 1, inputs, 1 - inputs)
+        # Use BCEWithLogitsLoss for numerical stability and FP16 safety
+        BCE_loss = F.binary_cross_entropy_with_logits(inputs, targets, reduction='none')
+
+        # Convert logits to probabilities for focal weight calculation
+        probs = torch.sigmoid(inputs)
+        p_t = torch.where(targets == 1, probs, 1 - probs)
         focal_weight = (1 - p_t) ** self.gamma
         focal_loss = self.alpha * focal_weight * BCE_loss
 
@@ -236,7 +255,8 @@ class PriceSpikeModelTrainer:
             print(f"VRAM: {torch.cuda.get_device_properties(0).total_memory / 1024**3:.1f} GB")
 
     def train(self, train_df: pd.DataFrame, val_df: pd.DataFrame,
-              epochs: int = 100, batch_size: int = 256, lr: float = 1e-4) -> PriceSpikeTransformer:
+              epochs: int = 100, batch_size: int = 256, lr: float = 1e-4,
+              sequence_length: int = 12) -> PriceSpikeTransformer:
         """
         Train price spike model with mixed precision (FP16) for RTX 4070.
 
@@ -253,8 +273,8 @@ class PriceSpikeModelTrainer:
         print(f"{'='*80}\n")
 
         # Create datasets
-        train_dataset = PriceSpikeDataset(train_df, sequence_length=12)
-        val_dataset = PriceSpikeDataset(val_df, sequence_length=12)
+        train_dataset = PriceSpikeDataset(train_df, sequence_length=sequence_length)
+        val_dataset = PriceSpikeDataset(val_df, sequence_length=sequence_length)
 
         # Handle class imbalance with weighted sampling
         spike_rate = train_df['price_spike'].mean()
@@ -339,12 +359,15 @@ class PriceSpikeModelTrainer:
             all_preds = np.array(all_preds).flatten()
             all_targets = np.array(all_targets).flatten()
 
-            val_auc = roc_auc_score(all_targets, all_preds)
-            val_f1 = f1_score(all_targets, (all_preds > 0.5).astype(int))
+            # Apply sigmoid to convert logits to probabilities
+            all_probs = 1 / (1 + np.exp(-all_preds))
+
+            val_auc = roc_auc_score(all_targets, all_probs)
+            val_f1 = f1_score(all_targets, (all_probs > 0.5).astype(int))
 
             # Precision@5% (top 5% predicted spikes)
-            threshold_95 = np.percentile(all_preds, 95)
-            precision_at_5 = (all_targets[all_preds > threshold_95]).mean()
+            threshold_95 = np.percentile(all_probs, 95)
+            precision_at_5 = (all_targets[all_probs > threshold_95]).mean()
 
             history['train_loss'].append(train_loss)
             history['val_loss'].append(val_loss)

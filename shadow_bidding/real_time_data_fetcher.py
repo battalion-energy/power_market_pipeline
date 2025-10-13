@@ -111,8 +111,11 @@ class RealTimeDataFetcher:
         self.solar_downloader = None
         self.load_downloader = None
 
-        # Weather data source
-        self.weather_data_dir = Path("/home/enrico/data/weather_data")
+        # Weather data source from environment
+        import os
+        from dotenv import load_dotenv
+        load_dotenv()
+        self.weather_data_dir = Path(os.getenv('WEATHER_DATA_DIR', '/pool/ssd8tb/data/weather_data'))
 
         # Cache for latest data
         self.latest_data: Optional[ForecastData] = None

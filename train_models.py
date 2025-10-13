@@ -19,6 +19,8 @@ Usage:
 """
 
 import argparse
+import os
+from dotenv import load_dotenv
 import sys
 from pathlib import Path
 import pandas as pd
@@ -153,6 +155,8 @@ def train_rt_price_model(train_df: pd.DataFrame, val_df: pd.DataFrame,
 
 
 def main():
+    # Load environment variables from .env if present
+    load_dotenv()
     parser = argparse.ArgumentParser(
         description="Train ERCOT Price Forecasting Models",
         formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -178,8 +182,8 @@ Examples:
                        default='/pool/ssd8tb/data/iso/ERCOT/ercot_market_data/ERCOT_data',
                        help='Data directory')
     parser.add_argument('--weather-dir', type=str,
-                       default='/home/enrico/data/weather_data',
-                       help='Weather data directory')
+                       default=os.getenv('WEATHER_DATA_DIR', '/pool/ssd8tb/data/weather_data'),
+                       help='Weather data directory (default from WEATHER_DATA_DIR)')
     parser.add_argument('--epochs', type=int, default=100,
                        help='Number of epochs')
     parser.add_argument('--batch-size', type=int, default=256,

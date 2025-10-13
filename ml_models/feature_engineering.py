@@ -425,8 +425,11 @@ class ERCOTFeatureEngineer:
 
 if __name__ == "__main__":
     # Test the feature engineering pipeline
+    import os
+    from dotenv import load_dotenv
+    load_dotenv()
     data_dir = Path("/pool/ssd8tb/data/iso/ERCOT/ercot_market_data/ERCOT_data")
-    weather_dir = Path("/home/enrico/data/weather_data")
+    weather_dir = Path(os.getenv('WEATHER_DATA_DIR', '/pool/ssd8tb/data/weather_data'))
 
     fe = ERCOTFeatureEngineer(data_dir)
     master_features = fe.build_master_feature_set(weather_dir=weather_dir)
