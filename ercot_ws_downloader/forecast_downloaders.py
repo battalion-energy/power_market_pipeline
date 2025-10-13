@@ -165,7 +165,7 @@ class ActualSystemLoadByWeatherZoneDownloader(BaseDownloader):
 
     Report NP6-345-CD includes:
     - Actual system load by weather zone
-    - 5-minute intervals
+    - Hourly intervals (not 5-minute as originally thought)
     - System-wide and zone-level data
     """
 
@@ -180,17 +180,18 @@ class ActualSystemLoadByWeatherZoneDownloader(BaseDownloader):
         return self.output_dir / "Actual_System_Load_By_Weather_Zone"
 
     def format_params(self, start_date: datetime, end_date: datetime) -> Dict:
+        # FIXED: Uses operatingDay parameters (not deliveryDate)
         return {
-            "deliveryDateFrom": start_date.strftime("%Y-%m-%d"),
-            "deliveryDateTo": end_date.strftime("%Y-%m-%d"),
+            "operatingDayFrom": start_date.strftime("%Y-%m-%d"),
+            "operatingDayTo": end_date.strftime("%Y-%m-%d"),
         }
 
     def get_chunk_size(self) -> int:
-        # 5-minute data, so much larger
-        return 7  # 7 days per chunk
+        # Hourly data
+        return 30  # 30 days per chunk
 
     def get_page_size(self) -> int:
-        # Multiple zones * 288 intervals/day * 7 days
+        # Multiple zones * 24 hours/day * 30 days
         return 50000
 
 
@@ -215,9 +216,10 @@ class ActualSystemLoadByForecastZoneDownloader(BaseDownloader):
         return self.output_dir / "Actual_System_Load_By_Forecast_Zone"
 
     def format_params(self, start_date: datetime, end_date: datetime) -> Dict:
+        # FIXED: Uses operatingDay parameters (same as NP6-345-CD)
         return {
-            "deliveryDateFrom": start_date.strftime("%Y-%m-%d"),
-            "deliveryDateTo": end_date.strftime("%Y-%m-%d"),
+            "operatingDayFrom": start_date.strftime("%Y-%m-%d"),
+            "operatingDayTo": end_date.strftime("%Y-%m-%d"),
         }
 
     def get_chunk_size(self) -> int:
@@ -271,7 +273,7 @@ class DAMSystemLambdaDownloader(BaseDownloader):
     """
     DAM System Lambda.
 
-    Report NP4-191-CD includes:
+    Report NP4-523-CD includes:
     - Day-Ahead Market System Lambda (shadow price)
     - Hourly values
     - Important indicator of system constraints
@@ -281,8 +283,8 @@ class DAMSystemLambdaDownloader(BaseDownloader):
         return "DAM_System_Lambda"
 
     def get_endpoint(self) -> str:
-        # FIXED: Correct report code is NP4-523-CD (not NP4-191-CD)
-        return "np4-523-cd/dam_sys_lambda"
+        # FIXED: Correct endpoint is dam_system_lambda (full word "system", not "sys")
+        return "np4-523-cd/dam_system_lambda"
 
     def get_output_dir(self) -> Path:
         return self.output_dir / "DAM_System_Lambda"
@@ -297,73 +299,135 @@ class DAMSystemLambdaDownloader(BaseDownloader):
         return 30  # 30 days per chunk
 
     def get_page_size(self) -> int:
-        # Hourly, single value
+        # Hourly, single value per hour
         return 10000
 
 
 class FuelMixDownloader(BaseDownloader):
     """
-    Fuel Mix Report.
+    Fuel Mix Report (2-Day Aggregate Generation Summary).
 
-    Report NP6-787-CD includes:
-    - Actual generation by fuel type
-    - 15-minute intervals
-    - Includes: Wind, Solar, Gas, Coal, Nuclear, Hydro, Other
+    Report NP3-910-ER includes:
+    - Aggregate generation by resource type (15-minute intervals)
+    - NonIRR (Non-Intermittent Renewable Resources)
+    - WGR (Wind Generation Resources)
+    - PVGR (PhotoVoltaic Generation Resources)
+    - REMRES (Remaining Resources)
+    - Total generation telemetry
     """
 
     def get_dataset_name(self) -> str:
         return "Fuel_Mix"
 
     def get_endpoint(self) -> str:
-        return "np6-787-cd/fuel_mix"
+        # FIXED: Use NP3-910-ER (2-day aggregate generation summary)
+        # Original NP6-787-CD doesn't exist in API
+        return "np3-910-er/2d_agg_gen_summary"
 
     def get_output_dir(self) -> Path:
         return self.output_dir / "Fuel_Mix"
 
     def format_params(self, start_date: datetime, end_date: datetime) -> Dict:
+        # FIXED: Uses SCEDTimestamp parameters (not deliveryDate)
         return {
-            "deliveryDateFrom": start_date.strftime("%Y-%m-%d"),
-            "deliveryDateTo": end_date.strftime("%Y-%m-%d"),
+            "SCEDTimestampFrom": start_date.strftime("%Y-%m-%dT%H:%M"),
+            "SCEDTimestampTo": end_date.strftime("%Y-%m-%dT23:55"),
         }
 
     def get_chunk_size(self) -> int:
-        # 15-minute data
+        # 15-minute data (96 intervals/day)
         return 7  # 7 days per chunk
 
     def get_page_size(self) -> int:
-        # Multiple fuel types * 96 intervals/day * 7 days
+        # 96 intervals/day * 7 days = 672 records per chunk
         return 50000
 
 
 class SystemWideDemandDownloader(BaseDownloader):
     """
-    System Wide Demand - Actual 5-minute values.
+    System Wide Demand - Calculated from Weather Zone data.
 
-    Report NP6-322-CD includes:
-    - System-wide actual demand
-    - 5-minute intervals
-    - Includes total and net load after renewables
+    Since NP6-322-CD/act_sys_load_5_min doesn't exist in the API,
+    this downloader uses NP6-345-CD (Actual System Load by Weather Zone)
+    which already includes a "total" column with system-wide demand.
+
+    The weather zone data includes:
+    - Individual zone loads (coast, east, farWest, north, northC, southern, southC, west)
+    - Total system load (already summed)
+    - Hourly intervals
     """
 
     def get_dataset_name(self) -> str:
         return "System_Wide_Demand"
 
     def get_endpoint(self) -> str:
-        return "np6-322-cd/act_sys_load_5_min"
+        # WORKAROUND: Use weather zone endpoint which includes system total
+        return "np6-345-cd/act_sys_load_by_wzn"
 
     def get_output_dir(self) -> Path:
         return self.output_dir / "System_Wide_Demand"
 
     def format_params(self, start_date: datetime, end_date: datetime) -> Dict:
+        # Uses operatingDay parameters (same as weather zone data)
         return {
-            "deliveryDateFrom": start_date.strftime("%Y-%m-%d"),
-            "deliveryDateTo": end_date.strftime("%Y-%m-%d"),
+            "operatingDayFrom": start_date.strftime("%Y-%m-%d"),
+            "operatingDayTo": end_date.strftime("%Y-%m-%d"),
         }
 
     def get_chunk_size(self) -> int:
-        # 5-minute data
-        return 7  # 7 days per chunk
+        # Hourly data
+        return 30  # 30 days per chunk
 
     def get_page_size(self) -> int:
-        # 288 intervals/day * 7 days
+        # 24 hours/day * 30 days
         return 50000
+
+    async def download_chunk(
+        self, start_date: datetime, end_date: datetime
+    ):
+        """
+        Download and process weather zone data to extract system-wide demand.
+
+        Override to process data after download:
+        - Downloads full weather zone data (NP6-345-CD)
+        - Extracts only system-wide total column
+        - Returns processed data with reduced columns
+        """
+        # Call parent download_chunk to get weather zone data
+        data = await super().download_chunk(start_date, end_date)
+
+        if not data:
+            return data
+
+        # Process to extract only system-wide demand
+        # Weather zone data has columns: operatingDay, hourEnding, coast, east,
+        # farWest, north, northC, southern, southC, west, total, DSTFlag
+
+        processed = []
+        for record in data:
+            if isinstance(record, list) and len(record) >= 11:
+                # Array format: extract operatingDay, hourEnding, total, DSTFlag
+                processed.append([
+                    record[0],   # operatingDay
+                    record[1],   # hourEnding
+                    record[9],   # total (system-wide demand)
+                    record[10] if len(record) > 10 else None   # DSTFlag
+                ])
+            elif isinstance(record, dict):
+                # Dict format
+                processed.append({
+                    "operatingDay": record.get("operatingDay"),
+                    "hourEnding": record.get("hourEnding"),
+                    "systemLoad": record.get("total"),
+                    "DSTFlag": record.get("DSTFlag")
+                })
+            else:
+                # Unknown format, keep as is
+                processed.append(record)
+
+        logger = logging.getLogger(__name__)
+        logger.info(
+            f"{self.dataset_name}: Extracted system-wide demand from {len(processed)} weather zone records"
+        )
+
+        return processed

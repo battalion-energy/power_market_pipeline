@@ -183,23 +183,30 @@ class PJMAPIClient:
         return self._make_request('da_hrl_lmps', params)
 
     def get_rt_hourly_lmps(self, start_date: str, end_date: str,
-                           pnode_id: Optional[str] = None) -> List[Dict]:
+                           pnode_id: Optional[str] = None,
+                           use_exact_times: bool = False) -> List[Dict]:
         """
         Get real-time hourly LMPs (settlement roll-up of 5-minute runs).
 
         Args:
-            start_date: Start date in YYYY-MM-DD format
-            end_date: End date in YYYY-MM-DD format
+            start_date: Start date/time (YYYY-MM-DD or YYYY-MM-DD HH:mm if use_exact_times=True)
+            end_date: End date/time (YYYY-MM-DD or YYYY-MM-DD HH:mm if use_exact_times=True)
             pnode_id: Specific pnode ID (optional, for hubs or specific nodes)
+            use_exact_times: If True, use start_date/end_date as-is without adding times
 
         Returns:
             List of price records
         """
         # API requires date range in format: "YYYY-MM-DD HH:mm to YYYY-MM-DD HH:mm"
+        if use_exact_times:
+            datetime_range = f'{start_date} to {end_date}'
+        else:
+            datetime_range = f'{start_date} 00:00 to {end_date} 23:59'
+
         params = {
             'startRow': '1',
             'rowCount': '50000',  # Max allowed per request
-            'datetime_beginning_ept': f'{start_date} 00:00 to {end_date} 23:59'
+            'datetime_beginning_ept': datetime_range
         }
 
         if pnode_id:
@@ -208,22 +215,30 @@ class PJMAPIClient:
         return self._make_request('rt_hrl_lmps', params)
 
     def get_rt_fivemin_lmps(self, start_date: str, end_date: str,
-                            pnode_id: Optional[str] = None) -> List[Dict]:
+                            pnode_id: Optional[str] = None,
+                            use_exact_times: bool = False) -> List[Dict]:
         """
         Get real-time 5-minute LMPs.
 
         Args:
-            start_date: Start date in YYYY-MM-DD format
-            end_date: End date in YYYY-MM-DD format
+            start_date: Start date/time (YYYY-MM-DD or YYYY-MM-DD HH:mm if use_exact_times=True)
+            end_date: End date/time (YYYY-MM-DD or YYYY-MM-DD HH:mm if use_exact_times=True)
             pnode_id: Specific pnode ID (optional)
+            use_exact_times: If True, use start_date/end_date as-is without adding times
 
         Returns:
             List of price records
         """
+        # API requires date range in format: "YYYY-MM-DD HH:mm to YYYY-MM-DD HH:mm"
+        if use_exact_times:
+            datetime_range = f'{start_date} to {end_date}'
+        else:
+            datetime_range = f'{start_date} 00:00 to {end_date} 23:59'
+
         params = {
             'startRow': '1',
             'rowCount': '50000',
-            'datetime_beginning_ept': f'{start_date} 00:00 to {end_date} 23:59'
+            'datetime_beginning_ept': datetime_range
         }
 
         if pnode_id:

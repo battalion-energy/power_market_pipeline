@@ -52,11 +52,18 @@ Temporary Files: /tmp/
    - DA, RT, and AS price file formats
    - Settlement point types and pricing nodes
 
-4. **[Resource Settlement Point Mapping](RESOURCE_SETTLEMENT_POINT_MAPPING.md)**
+4. **[ERCOT SCED Forecast Vintages](ERCOT_SCED_Forecast_Vintages.md)** 🆕 ✨
+   - **10.1M+ forecast records** with vintage preservation
+   - Real-time price forecasts from ERCOT RTD runs
+   - Forecast accuracy and evolution analysis
+   - Battery response to price signals
+   - Updated every 5 minutes via automated collection
+
+5. **[Resource Settlement Point Mapping](RESOURCE_SETTLEMENT_POINT_MAPPING.md)**
    - BESS-specific settlement point relationships
    - Load zone mappings
 
-5. **[BESS Unified Mapping](BESS_UNIFIED_MAPPING_DOCUMENTATION.md)**
+6. **[BESS Unified Mapping](BESS_UNIFIED_MAPPING_DOCUMENTATION.md)**
    - Comprehensive BESS resource mapping
    - Interconnection queue and EIA integration
 
@@ -159,11 +166,13 @@ NextJS Frontend / API
 - **Interconnection Queue Projects**: 1,905 (Large: 1,849, Small: 56)
 
 ### Data Coverage
-- **Years**: 2019-2024
+- **Years**: 2019-2024 (historical), Oct 2025+ (live forecasts)
 - **BESS Resources**: 582 identified
 - **All Generators**: 1,278 mapped
-- **Data Frequency**: Hourly (DA), 5-min (RT)
-- **File Size**: ~50GB compressed
+- **SCED Forecasts**: 10.1M+ records (rolling 72 hours, updated every 5 min)
+- **Forecast Settlement Points**: 1,053+ (hubs, zones, nodes)
+- **Data Frequency**: Hourly (DA), 5-min (RT, SCED forecasts)
+- **File Size**: ~50GB compressed (historical), 931MB (live forecasts)
 
 ## Support & Contact
 
@@ -178,6 +187,10 @@ For questions or issues:
 - v1.2 (Aug 2024): Rust implementation and parallelization
 - v1.3 (Dec 2024): Added comprehensive generator mapping for all resource types
 - v1.4 (Dec 2024): Enhanced to 68.2% match rate using LLM-assisted decoding
+- v1.5 (Oct 2025): **SCED forecast vintage collection** - 10.1M+ real-time price forecasts
+  - Live collection every 5 minutes
+  - Forecast evolution and accuracy tracking
+  - Battery response analysis capability
 
 ---
-*Last Updated: December 5, 2024*
+*Last Updated: October 11, 2025*
