@@ -18,6 +18,7 @@ Documentation: https://registry.opendata.aws/noaa-hrrr-pds/
 Herbie Package: https://github.com/blaylockbk/Herbie
 """
 
+import os
 import pandas as pd
 import numpy as np
 import xarray as xr
@@ -27,6 +28,7 @@ import time
 from typing import Optional, List
 import json
 from herbie import Herbie
+from dotenv import load_dotenv
 
 # Forecast horizons to download (hours ahead)
 FORECAST_HORIZONS = [1, 3, 6, 12, 24]  # 1-hr, 3-hr, 6-hr, 12-hr, day-ahead
@@ -144,9 +146,10 @@ def main():
     print("Resolution: 3km | Frequency: Hourly | Source: NOAA/AWS")
     print()
 
-    # Setup directories
+    # Load environment variables and setup directories
+    load_dotenv()
     project_root = Path(__file__).parent
-    weather_dir = Path('/pool/ssd8tb/data/weather_data')
+    weather_dir = Path(os.getenv('WEATHER_DATA_DIR', '/pool/ssd8tb/data/weather_data'))
 
     hrrr_dir = weather_dir / 'hrrr_forecasts'
     hrrr_dir.mkdir(exist_ok=True, parents=True)

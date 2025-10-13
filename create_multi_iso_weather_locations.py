@@ -356,8 +356,11 @@ def main():
     print("="*80)
     print()
 
-    # Setup output directory
-    weather_dir = Path('/pool/ssd8tb/data/weather_data')
+    # Setup output directory from environment
+    import os
+    from dotenv import load_dotenv
+    load_dotenv()
+    weather_dir = Path(os.getenv('WEATHER_DATA_DIR', '/pool/ssd8tb/data/weather_data'))
     weather_dir.mkdir(exist_ok=True, parents=True)
 
     # Create locations DataFrame

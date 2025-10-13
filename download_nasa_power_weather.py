@@ -5,6 +5,7 @@ Download NASA POWER satellite weather data for Texas renewable energy sites and 
 NASA POWER API Documentation: https://power.larc.nasa.gov/docs/services/api/
 """
 
+import os
 import pandas as pd
 import requests
 from datetime import datetime, timedelta
@@ -12,6 +13,7 @@ from pathlib import Path
 import time
 from typing import Dict, List, Tuple
 import json
+from dotenv import load_dotenv
 
 # Major Texas cities with coordinates
 TEXAS_CITIES = {
@@ -160,12 +162,14 @@ def download_nasa_power_data(
 
 def main():
     """Main execution function."""
+    # Load environment variables
+    load_dotenv()
     # Setup directories
     project_root = Path(__file__).parent
     generators_file = project_root / 'ERCOT_GENERATORS_LOCATIONS_VALIDATED.csv'
 
-    # Use SSD storage for weather data
-    weather_dir = Path('/pool/ssd8tb/data/weather_data')
+    # Weather data directory from environment
+    weather_dir = Path(os.getenv('WEATHER_DATA_DIR', '/pool/ssd8tb/data/weather_data'))
     weather_dir.mkdir(exist_ok=True, parents=True)
 
     csv_dir = weather_dir / 'csv_files'

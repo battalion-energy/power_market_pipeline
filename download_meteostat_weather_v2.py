@@ -23,6 +23,7 @@ Usage:
   python download_meteostat_weather_v2.py --incremental --iso CAISO
 """
 
+import os
 import pandas as pd
 from datetime import datetime, timedelta
 from pathlib import Path
@@ -31,6 +32,7 @@ import json
 import argparse
 from typing import Optional
 from meteostat import Point, Daily, Stations
+from dotenv import load_dotenv
 
 def get_last_date_in_file(file_path: Path) -> Optional[datetime]:
     """Get the last date in an existing CSV file."""
@@ -371,8 +373,9 @@ def main():
     print("="*80)
     print()
 
-    # Setup directories
-    weather_dir = Path('/pool/ssd8tb/data/weather_data')
+    # Setup directories from environment
+    load_dotenv()
+    weather_dir = Path(os.getenv('WEATHER_DATA_DIR', '/pool/ssd8tb/data/weather_data'))
     weather_dir.mkdir(exist_ok=True, parents=True)
 
     # Load locations

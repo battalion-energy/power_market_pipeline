@@ -13,6 +13,7 @@ Open-Meteo provides free access to high-resolution weather reanalysis data:
 Documentation: https://open-meteo.com/en/docs/historical-weather-api
 """
 
+import os
 import pandas as pd
 import requests
 from datetime import datetime, timedelta
@@ -21,6 +22,7 @@ import time
 from typing import Optional, Dict, List
 import json
 import numpy as np
+from dotenv import load_dotenv
 
 # Open-Meteo API endpoint
 OPENMETEO_BASE_URL = "https://archive-api.open-meteo.com/v1/archive"
@@ -151,8 +153,9 @@ def main():
     """Main execution function."""
     # Setup directories
     project_root = Path(__file__).parent
-    # Use SSD storage for weather data
-    weather_dir = Path('/pool/ssd8tb/data/weather_data')
+    # Use environment-configured weather data directory
+    load_dotenv()
+    weather_dir = Path(os.getenv('WEATHER_DATA_DIR', '/pool/ssd8tb/data/weather_data'))
     weather_dir.mkdir(exist_ok=True, parents=True)
 
     openmeteo_dir = weather_dir / 'openmeteo'

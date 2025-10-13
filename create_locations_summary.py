@@ -3,8 +3,10 @@
 Create a combined locations CSV with population and generation capacity.
 """
 
+import os
 import pandas as pd
 from pathlib import Path
+from dotenv import load_dotenv
 
 # Texas city populations (2023 estimates)
 CITY_POPULATIONS = {
@@ -22,8 +24,9 @@ CITY_POPULATIONS = {
 
 def main():
     project_root = Path(__file__).parent
-    # Use SSD storage for weather data
-    weather_dir = Path('/pool/ssd8tb/data/weather_data')
+    # Use environment-configured weather data directory
+    load_dotenv()
+    weather_dir = Path(os.getenv('WEATHER_DATA_DIR', '/pool/ssd8tb/data/weather_data'))
 
     # Read existing locations
     locations_df = pd.read_csv(weather_dir / 'weather_locations.csv')

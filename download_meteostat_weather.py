@@ -8,12 +8,14 @@ worldwide. No API key required!
 Documentation: https://dev.meteostat.net/python/
 """
 
+import os
 import pandas as pd
 from datetime import datetime, timedelta
 from pathlib import Path
 import time
 from typing import Optional
 import json
+from dotenv import load_dotenv
 
 try:
     from meteostat import Point, Daily, Stations
@@ -104,8 +106,9 @@ def main():
     """Main execution function."""
     # Setup directories
     project_root = Path(__file__).parent
-    # Use SSD storage for weather data
-    weather_dir = Path('/pool/ssd8tb/data/weather_data')
+    # Weather data directory from environment
+    load_dotenv()
+    weather_dir = Path(os.getenv('WEATHER_DATA_DIR', '/pool/ssd8tb/data/weather_data'))
     weather_dir.mkdir(exist_ok=True, parents=True)
 
     meteostat_dir = weather_dir / 'meteostat_stations'

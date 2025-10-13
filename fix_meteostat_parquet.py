@@ -1,14 +1,17 @@
 #!/usr/bin/env python3
 """Fix and create combined Meteostat Parquet file."""
 
+import os
 import pandas as pd
 from pathlib import Path
 import json
+from dotenv import load_dotenv
 
 def main():
     project_root = Path(__file__).parent
-    # Use SSD storage for weather data
-    weather_dir = Path('/pool/ssd8tb/data/weather_data')
+    # Use environment-configured weather data directory
+    load_dotenv()
+    weather_dir = Path(os.getenv('WEATHER_DATA_DIR', '/pool/ssd8tb/data/weather_data'))
     meteostat_dir = weather_dir / 'meteostat_stations'
     meteostat_csv_dir = meteostat_dir / 'csv_files'
 

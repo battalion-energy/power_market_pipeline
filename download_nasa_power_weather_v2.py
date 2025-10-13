@@ -23,6 +23,7 @@ Usage:
   python download_nasa_power_weather_v2.py --incremental --iso CAISO
 """
 
+import os
 import requests
 import pandas as pd
 from datetime import datetime, timedelta
@@ -31,6 +32,7 @@ import time
 import json
 import argparse
 from typing import Optional
+from dotenv import load_dotenv
 
 # NASA POWER API configuration
 BASE_URL = "https://power.larc.nasa.gov/api/temporal/daily/point"
@@ -356,8 +358,9 @@ def main():
     print("="*80)
     print()
 
-    # Setup directories
-    weather_dir = Path('/pool/ssd8tb/data/weather_data')
+    # Setup directories from environment
+    load_dotenv()
+    weather_dir = Path(os.getenv('WEATHER_DATA_DIR', '/pool/ssd8tb/data/weather_data'))
     weather_dir.mkdir(exist_ok=True, parents=True)
 
     # Load locations

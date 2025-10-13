@@ -16,6 +16,7 @@ AWS Archive: s3://noaa-hrrr-bdp-pds/
 Documentation: https://registry.opendata.aws/noaa-hrrr-pds/
 """
 
+import os
 import xarray as xr
 import pandas as pd
 import numpy as np
@@ -25,6 +26,7 @@ import s3fs
 import time
 from typing import Optional, List, Tuple
 import json
+from dotenv import load_dotenv
 
 # AWS S3 configuration for HRRR
 HRRR_BUCKET = 'noaa-hrrr-bdp-pds'
@@ -164,8 +166,9 @@ def main():
     print()
 
     # Setup directories
+    load_dotenv()
     project_root = Path(__file__).parent
-    weather_dir = Path('/pool/ssd8tb/data/weather_data')
+    weather_dir = Path(os.getenv('WEATHER_DATA_DIR', '/pool/ssd8tb/data/weather_data'))
 
     hrrr_dir = weather_dir / 'hrrr_forecasts'
     hrrr_dir.mkdir(exist_ok=True, parents=True)
