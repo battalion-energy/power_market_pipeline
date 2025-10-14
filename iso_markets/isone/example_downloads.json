@@ -1,0 +1,54 @@
+[
+  {
+    "name": "isone_lmp_2025",
+    "script": "iso_markets/isone/download_lmp.py",
+    "args": [
+      "--start-date", "2025-01-01",
+      "--end-date", "2025-10-12",
+      "--market-types", "da", "rt",
+      "--hubs-only",
+      "--max-concurrent", "1",
+      "--reverse"
+    ],
+    "stop_on_failure": false
+  },
+  {
+    "name": "isone_as_2025",
+    "script": "iso_markets/isone/download_ancillary_services.py",
+    "args": [
+      "--start-date", "2025-01-01",
+      "--end-date", "2025-10-12",
+      "--data-types", "freq_reg", "reserves",
+      "--reserve-zones", "7000", "7001", "7002", "7003", "7004", "7005", "7006", "7007", "7008", "7009", "7010", "7011",
+      "--max-concurrent", "1",
+      "--reverse"
+    ],
+    "stop_on_failure": false
+  },
+  {
+    "name": "isone_lmp_2024",
+    "script": "iso_markets/isone/download_lmp.py",
+    "args": [
+      "--start-date", "2024-01-01",
+      "--end-date", "2024-12-31",
+      "--market-types", "da", "rt",
+      "--hubs-only",
+      "--max-concurrent", "1",
+      "--reverse"
+    ],
+    "stop_on_failure": false
+  },
+  {
+    "name": "isone_as_2024",
+    "script": "iso_markets/isone/download_ancillary_services.py",
+    "args": [
+      "--start-date", "2024-01-01",
+      "--end-date", "2024-12-31",
+      "--data-types", "freq_reg", "reserves",
+      "--reserve-zones", "7000", "7001", "7002", "7003", "7004", "7005", "7006", "7007", "7008", "7009", "7010", "7011",
+      "--max-concurrent", "1",
+      "--reverse"
+    ],
+    "stop_on_failure": false
+  }
+]

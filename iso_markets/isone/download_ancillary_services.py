@@ -119,9 +119,6 @@ class ISONEASDownloader:
             return pd.read_csv(output_file)
 
         try:
-            # Rate limiting: wait before making request
-            await asyncio.sleep(self.request_delay)
-
             print(f"Downloading: {date_str} frequency regulation...", end=" ")
 
             response = await self.session.get(url)
@@ -199,9 +196,6 @@ class ISONEASDownloader:
             return pd.read_csv(output_file)
 
         try:
-            # Rate limiting: wait before making request
-            await asyncio.sleep(self.request_delay)
-
             print(f"Downloading: {date_str} reserve zone {zone_id} ({zone_name})...", end=" ")
 
             response = await self.session.get(url)

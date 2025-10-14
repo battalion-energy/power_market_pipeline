@@ -88,7 +88,6 @@ class ISONELMPDownloader:
         url = f"{ISONE_API_BASE}/locations/all.json"
 
         try:
-            await asyncio.sleep(self.request_delay)
             print(f"Fetching all location IDs...", end=" ")
 
             response = await self.session.get(url)
@@ -102,7 +101,7 @@ class ISONELMPDownloader:
 
             # Extract location IDs
             locations = data.get('Locations', {}).get('Location', [])
-            self.all_locations = [loc['LocId'] for loc in locations if 'LocId' in loc]
+            self.all_locations = [loc['LocationID'] for loc in locations if 'LocationID' in loc]
 
             print(f"✓ Found {len(self.all_locations)} locations")
             return self.all_locations
@@ -147,9 +146,6 @@ class ISONELMPDownloader:
             return pd.read_csv(output_file)
 
         try:
-            # Rate limiting: wait before making request
-            await asyncio.sleep(self.request_delay)
-
             print(f"Downloading: {date_str} DA LMP location {location_id}...", end=" ")
 
             response = await self.session.get(url)
@@ -245,9 +241,6 @@ class ISONELMPDownloader:
             return pd.read_csv(output_file)
 
         try:
-            # Rate limiting: wait before making request
-            await asyncio.sleep(self.request_delay)
-
             print(f"Downloading: {date_str} RT LMP location {location_id}...", end=" ")
 
             response = await self.session.get(url)

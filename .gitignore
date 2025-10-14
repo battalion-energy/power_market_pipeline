@@ -33,6 +33,7 @@ MANIFEST
 *.csv
 !bess_mapping/**/*/.csv
 !specs/screenshots/*.csv  # Keep reference data
+!dr_programs/**
 annual_output/
 test_daily_output/
 bess_analysis/

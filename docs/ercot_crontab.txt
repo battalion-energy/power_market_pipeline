@@ -1,0 +1,20 @@
+# ERCOT Data Update Cron Jobs
+# Run twice daily at low priority (nice 19)
+#
+# Schedule:
+#   - 2:00 AM: Morning update (after midnight data posting)
+#   - 2:00 PM: Afternoon update (for any late arrivals)
+#
+# To install:
+#   crontab -e
+# Then add these lines:
+
+# Morning update at 2:00 AM
+0 2 * * * /home/enrico/projects/power_market_pipeline/update_ercot_cron.sh
+
+# Afternoon update at 2:00 PM
+0 14 * * * /home/enrico/projects/power_market_pipeline/update_ercot_cron.sh
+
+# View logs:
+#   tail -f /home/enrico/logs/ercot_update_latest.log
+#   ls -lht /home/enrico/logs/ercot_update_*.log | head -10

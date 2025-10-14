@@ -6,10 +6,14 @@ Generates quarterly, monthly, and YTD charts. Now supports 2025.
 
 import pandas as pd
 import polars as pl
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import numpy as np
 from pathlib import Path
 import logging
+import os
+from dotenv import load_dotenv
 from datetime import datetime, date
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(message)s')
@@ -36,13 +40,13 @@ def create_chart(df_period: pd.DataFrame, period_name: str, year: int, output_di
 
     # Colors matching market report
     colors = {
-        'da': '#8B7BC8',      # Purple
-        'rt': '#5FD4AF',      # Teal
-        'regup': '#F4E76E',   # Yellow
-        'regdown': '#F4A6A6', # Pink
-        'reserves': '#5DADE2', # Blue
-        'ecrs': '#D7BDE2',    # Light purple
-        'nonspin': '#34495E'  # Dark
+        'da': '#8B7BC8',       # Purple
+        'rt': '#5FD4AF',       # Teal
+        'regup': '#F4E76E',    # Yellow
+        'regdown': '#F4A6A6',  # Pink
+        'rrs': '#5DADE2',      # Blue
+        'ecrs': '#D7BDE2',     # Light purple
+        'nonspin': '#34495E'   # Dark
     }
 
     # Build stacked bars
@@ -163,14 +167,20 @@ def _period_revenue_exact(year: int, month_start: int, month_end: int, df_map: p
         # Exact components
         rt_net = float(df_dp.select(pl.col('rt_net_revenue_hour').sum()).item() or 0.0)
         da_energy = float(df_dp.select(pl.col('da_energy_revenue_hour').sum()).item() or 0.0)
-        # AS revenues (hourly awards × MCPC)
-        for c_mw, c_p in [('regup_mw','regup_mcpc'),('regdown_mw','regdown_mcpc'),('rrs_mw','rrs_mcpc'),('ecrs_mw','ecrs_mcpc'),('nonspin_mw','nonspin_mcpc')]:
+        # AS revenues (hourly awards × MCPC), tracked per product
+        comp_cols = {
+            'regup':   ('regup_mw','regup_mcpc'),
+            'regdown': ('regdown_mw','regdown_mcpc'),
+            'rrs':     ('rrs_mw','rrs_mcpc'),  # system reserves
+            'ecrs':    ('ecrs_mw','ecrs_mcpc'),
+            'nonspin': ('nonspin_mw','nonspin_mcpc'),
+        }
+        as_comp_sums = {k: 0.0 for k in comp_cols}
+        for key, (c_mw, c_p) in comp_cols.items():
             if c_mw in df_aw.columns and c_p in df_aw.columns:
-                df_aw = df_aw.with_columns((pl.col(c_mw).fill_null(0.0) * pl.col(c_p).fill_null(0.0)).alias(f'{c_mw}_rev'))
-        as_total = 0.0
-        for c in ['regup_mw_rev','regdown_mw_rev','rrs_mw_rev','ecrs_mw_rev','nonspin_mw_rev']:
-            if c in df_aw.columns:
-                as_total += float(df_aw.select(pl.col(c).sum()).item() or 0.0)
+                df_aw = df_aw.with_columns((pl.col(c_mw).fill_null(0.0) * pl.col(c_p).fill_null(0.0)).alias(f'{key}_rev'))
+                as_comp_sums[key] = float(df_aw.select(pl.col(f'{key}_rev').sum()).item() or 0.0)
+        as_total = sum(as_comp_sums.values())
         total = da_energy + rt_net + as_total
         rows.append({'bess_name': bess,
                      'capacity_mw': float(cap),
@@ -178,6 +188,11 @@ def _period_revenue_exact(year: int, month_start: int, month_end: int, df_map: p
                      'da_revenue': da_energy,
                      'rt_revenue': rt_net,
                      'as_revenue': as_total,
+                     'regup_revenue': as_comp_sums['regup'],
+                     'regdown_revenue': as_comp_sums['regdown'],
+                     'rrs_revenue': as_comp_sums['rrs'],
+                     'ecrs_revenue': as_comp_sums['ecrs'],
+                     'nonspin_revenue': as_comp_sums['nonspin'],
                      'total_revenue': total})
     # Always return a DataFrame with the expected schema so downstream joins don't fail
     expected_cols = [
@@ -187,6 +202,7 @@ def _period_revenue_exact(year: int, month_start: int, month_end: int, df_map: p
         'da_revenue',
         'rt_revenue',
         'as_revenue',
+        'regup_revenue', 'regdown_revenue', 'rrs_revenue', 'ecrs_revenue', 'nonspin_revenue',
         'total_revenue',
     ]
     if not rows:
@@ -238,8 +254,10 @@ def create_period_charts(year: int, df_revenue_all: pd.DataFrame, tb2_daily: pl.
     logger.info(f"{'='*100}")
 
     # Load raw revenue file for the year if present (not strictly required for exact parquets aggregation)
-    revenue_file_telem = f"bess_revenue_{year}_TELEMETERED.csv"
-    revenue_file_regular = f"bess_revenue_{year}.csv"
+    ercot_dir = Path(os.getenv('ERCOT_DATA_DIR', '/pool/ssd8tb/data/iso/ERCOT/ercot_market_data/ERCOT_data'))
+    rev_dir = ercot_dir / 'bess_revenue'
+    revenue_file_telem = rev_dir / f"bess_revenue_{year}_TELEMETERED.csv"
+    revenue_file_regular = rev_dir / f"bess_revenue_{year}.csv"
     df_year_detail = pd.DataFrame()
     try:
         if Path(revenue_file_telem).exists():
@@ -326,6 +344,11 @@ def create_period_charts(year: int, df_revenue_all: pd.DataFrame, tb2_daily: pl.
             pl.col('da_revenue').cast(pl.Float64, strict=False),
             pl.col('rt_revenue').cast(pl.Float64, strict=False),
             pl.col('as_revenue').cast(pl.Float64, strict=False),
+            pl.col('regup_revenue').cast(pl.Float64, strict=False),
+            pl.col('regdown_revenue').cast(pl.Float64, strict=False),
+            pl.col('rrs_revenue').cast(pl.Float64, strict=False),
+            pl.col('ecrs_revenue').cast(pl.Float64, strict=False),
+            pl.col('nonspin_revenue').cast(pl.Float64, strict=False),
             pl.col('total_revenue').cast(pl.Float64, strict=False),
         ])
         df_q_with_tb2 = df_q_pl.join(tb2_q_by_unit, on='bess_name', how='left')
@@ -346,14 +369,26 @@ def create_period_charts(year: int, df_revenue_all: pd.DataFrame, tb2_daily: pl.
               .then(pl.col('rt_revenue') / (pl.col('capacity_mw') * 1000.0) * _scale_q_expr)
               .otherwise(0.0)
               .alias('rt_per_kw'),
-            pl.lit(0.0).alias('regup_per_kw'),
-            pl.lit(0.0).alias('regdown_per_kw'),
             pl.when(pl.col('capacity_mw') > 0)
-              .then(pl.col('as_revenue') / (pl.col('capacity_mw') * 1000.0) * _scale_q_expr)
+              .then(pl.col('regup_revenue') / (pl.col('capacity_mw') * 1000.0) * _scale_q_expr)
               .otherwise(0.0)
-              .alias('reserves_per_kw'),
-            pl.lit(0.0).alias('ecrs_per_kw'),
-            pl.lit(0.0).alias('nonspin_per_kw'),
+              .alias('regup_per_kw'),
+            pl.when(pl.col('capacity_mw') > 0)
+              .then(pl.col('regdown_revenue') / (pl.col('capacity_mw') * 1000.0) * _scale_q_expr)
+              .otherwise(0.0)
+              .alias('regdown_per_kw'),
+            pl.when(pl.col('capacity_mw') > 0)
+              .then(pl.col('rrs_revenue') / (pl.col('capacity_mw') * 1000.0) * _scale_q_expr)
+              .otherwise(0.0)
+              .alias('rrs_per_kw'),
+            pl.when(pl.col('capacity_mw') > 0)
+              .then(pl.col('ecrs_revenue') / (pl.col('capacity_mw') * 1000.0) * _scale_q_expr)
+              .otherwise(0.0)
+              .alias('ecrs_per_kw'),
+            pl.when(pl.col('capacity_mw') > 0)
+              .then(pl.col('nonspin_revenue') / (pl.col('capacity_mw') * 1000.0) * _scale_q_expr)
+              .otherwise(0.0)
+              .alias('nonspin_per_kw'),
             pl.when(pl.col('capacity_mw') > 0)
               .then(pl.col('total_revenue') / (pl.col('capacity_mw') * 1000.0) * _scale_q_expr)
               .otherwise(0.0)
@@ -406,6 +441,11 @@ def create_period_charts(year: int, df_revenue_all: pd.DataFrame, tb2_daily: pl.
             pl.col('da_revenue').cast(pl.Float64, strict=False),
             pl.col('rt_revenue').cast(pl.Float64, strict=False),
             pl.col('as_revenue').cast(pl.Float64, strict=False),
+            pl.col('regup_revenue').cast(pl.Float64, strict=False),
+            pl.col('regdown_revenue').cast(pl.Float64, strict=False),
+            pl.col('rrs_revenue').cast(pl.Float64, strict=False),
+            pl.col('ecrs_revenue').cast(pl.Float64, strict=False),
+            pl.col('nonspin_revenue').cast(pl.Float64, strict=False),
             pl.col('total_revenue').cast(pl.Float64, strict=False),
         ])
         df_m_with_tb2 = df_m_pl.join(tb2_m_by_unit, on='bess_name', how='left')
@@ -425,14 +465,26 @@ def create_period_charts(year: int, df_revenue_all: pd.DataFrame, tb2_daily: pl.
               .then(pl.col('rt_revenue') / (pl.col('capacity_mw') * 1000.0) * _scale_m_expr)
               .otherwise(0.0)
               .alias('rt_per_kw'),
-            pl.lit(0.0).alias('regup_per_kw'),
-            pl.lit(0.0).alias('regdown_per_kw'),
             pl.when(pl.col('capacity_mw') > 0)
-              .then(pl.col('as_revenue') / (pl.col('capacity_mw') * 1000.0) * _scale_m_expr)
+              .then(pl.col('regup_revenue') / (pl.col('capacity_mw') * 1000.0) * _scale_m_expr)
               .otherwise(0.0)
-              .alias('reserves_per_kw'),
-            pl.lit(0.0).alias('ecrs_per_kw'),
-            pl.lit(0.0).alias('nonspin_per_kw'),
+              .alias('regup_per_kw'),
+            pl.when(pl.col('capacity_mw') > 0)
+              .then(pl.col('regdown_revenue') / (pl.col('capacity_mw') * 1000.0) * _scale_m_expr)
+              .otherwise(0.0)
+              .alias('regdown_per_kw'),
+            pl.when(pl.col('capacity_mw') > 0)
+              .then(pl.col('rrs_revenue') / (pl.col('capacity_mw') * 1000.0) * _scale_m_expr)
+              .otherwise(0.0)
+              .alias('rrs_per_kw'),
+            pl.when(pl.col('capacity_mw') > 0)
+              .then(pl.col('ecrs_revenue') / (pl.col('capacity_mw') * 1000.0) * _scale_m_expr)
+              .otherwise(0.0)
+              .alias('ecrs_per_kw'),
+            pl.when(pl.col('capacity_mw') > 0)
+              .then(pl.col('nonspin_revenue') / (pl.col('capacity_mw') * 1000.0) * _scale_m_expr)
+              .otherwise(0.0)
+              .alias('nonspin_per_kw'),
             pl.when(pl.col('capacity_mw') > 0)
               .then(pl.col('total_revenue') / (pl.col('capacity_mw') * 1000.0) * _scale_m_expr)
               .otherwise(0.0)
@@ -489,6 +541,11 @@ def create_period_charts(year: int, df_revenue_all: pd.DataFrame, tb2_daily: pl.
                 pl.col('da_revenue').cast(pl.Float64, strict=False),
                 pl.col('rt_revenue').cast(pl.Float64, strict=False),
                 pl.col('as_revenue').cast(pl.Float64, strict=False),
+                pl.col('regup_revenue').cast(pl.Float64, strict=False),
+                pl.col('regdown_revenue').cast(pl.Float64, strict=False),
+                pl.col('rrs_revenue').cast(pl.Float64, strict=False),
+                pl.col('ecrs_revenue').cast(pl.Float64, strict=False),
+                pl.col('nonspin_revenue').cast(pl.Float64, strict=False),
                 pl.col('total_revenue').cast(pl.Float64, strict=False),
             ])
             df_ytd_with_tb2 = df_ytd_pl.join(tb2_ytd_by_unit, on='bess_name', how='left')
@@ -507,14 +564,26 @@ def create_period_charts(year: int, df_revenue_all: pd.DataFrame, tb2_daily: pl.
                   .then(pl.col('rt_revenue') / (pl.col('capacity_mw') * 1000.0) * pl.lit(_scale_ytd))
                   .otherwise(0.0)
                   .alias('rt_per_kw'),
-                pl.lit(0.0).alias('regup_per_kw'),
-                pl.lit(0.0).alias('regdown_per_kw'),
                 pl.when(pl.col('capacity_mw') > 0)
-                  .then(pl.col('as_revenue') / (pl.col('capacity_mw') * 1000.0) * pl.lit(_scale_ytd))
+                  .then(pl.col('regup_revenue') / (pl.col('capacity_mw') * 1000.0) * pl.lit(_scale_ytd))
                   .otherwise(0.0)
-                  .alias('reserves_per_kw'),
-                pl.lit(0.0).alias('ecrs_per_kw'),
-                pl.lit(0.0).alias('nonspin_per_kw'),
+                  .alias('regup_per_kw'),
+                pl.when(pl.col('capacity_mw') > 0)
+                  .then(pl.col('regdown_revenue') / (pl.col('capacity_mw') * 1000.0) * pl.lit(_scale_ytd))
+                  .otherwise(0.0)
+                  .alias('regdown_per_kw'),
+                pl.when(pl.col('capacity_mw') > 0)
+                  .then(pl.col('rrs_revenue') / (pl.col('capacity_mw') * 1000.0) * pl.lit(_scale_ytd))
+                  .otherwise(0.0)
+                  .alias('rrs_per_kw'),
+                pl.when(pl.col('capacity_mw') > 0)
+                  .then(pl.col('ecrs_revenue') / (pl.col('capacity_mw') * 1000.0) * pl.lit(_scale_ytd))
+                  .otherwise(0.0)
+                  .alias('ecrs_per_kw'),
+                pl.when(pl.col('capacity_mw') > 0)
+                  .then(pl.col('nonspin_revenue') / (pl.col('capacity_mw') * 1000.0) * pl.lit(_scale_ytd))
+                  .otherwise(0.0)
+                  .alias('nonspin_per_kw'),
                 pl.when(pl.col('capacity_mw') > 0)
                   .then(pl.col('total_revenue') / (pl.col('capacity_mw') * 1000.0) * pl.lit(_scale_ytd))
                   .otherwise(0.0)
@@ -530,6 +599,7 @@ def create_period_charts(year: int, df_revenue_all: pd.DataFrame, tb2_daily: pl.
 
 
 def main():
+    load_dotenv()
     logger.info("=" * 100)
     logger.info("BESS QUARTERLY, MONTHLY & YTD REVENUE CHARTS (2022-2025)")
     logger.info("=" * 100)
@@ -545,7 +615,8 @@ def main():
         known = type('K', (), {'years': None, 'base_dir': None})()
 
     # Create output directory
-    output_dir = Path("bess_revenue_charts_periods")
+    charts_root = os.getenv('CHARTS_OUTPUT_DIR', 'charts_output')
+    output_dir = Path(charts_root) / "bess_revenue_charts_periods"
     output_dir.mkdir(exist_ok=True)
 
     # Load all revenue data (prefer TELEMETERED)
@@ -571,9 +642,11 @@ def main():
 
     # Load TB2 daily data (try 2019-2025, fallback to 2019-2024)
     tb2_path_candidates = [
+        str(Path(os.getenv('ERCOT_DATA_DIR', '/pool/ssd8tb/data/iso/ERCOT/ercot_market_data/ERCOT_data')) / 'tbx' / 'tb2_daily_2019_2025.parquet'),
+        str(Path(os.getenv('ERCOT_DATA_DIR', '/pool/ssd8tb/data/iso/ERCOT/ercot_market_data/ERCOT_data')) / 'tbx' / 'tb2_daily_2019_2024.parquet'),
         'tb2_daily_2019_2025.parquet',
         'tb2_daily_2019_2024.parquet',
-        'tb2_daily.parquet',
+        'tb2_daily.parquet'
     ]
     tb2_daily = None
     for p in tb2_path_candidates:

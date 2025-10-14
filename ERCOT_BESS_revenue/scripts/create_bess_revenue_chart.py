@@ -2,18 +2,34 @@
 """
 Create stacked bar chart visualization of BESS revenue by source (2019-2024).
 Matches format from Gridmatic market report.
+
+I/O locations are driven by .env:
+- Input CSVs:   $ERCOT_DATA_DIR/bess_revenue/bess_revenue_{year}.csv
+- Output chart: $CHARTS_OUTPUT_DIR/bess_revenue_stacked_chart.png
+- Output CSV:   $CHARTS_OUTPUT_DIR/bess_revenue_summary_by_source.csv
 """
 
+import os
+from dotenv import load_dotenv
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 from pathlib import Path
 
+load_dotenv()
+
+ERCOT_DATA_DIR = Path(os.getenv('ERCOT_DATA_DIR', '/pool/ssd8tb/data/iso/ERCOT/ercot_market_data/ERCOT_data'))
+CHARTS_OUTPUT_DIR = Path(os.getenv('CHARTS_OUTPUT_DIR', 'charts_output'))
+CHARTS_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+
 # Load all years
 dfs = []
 for year in range(2019, 2025):
-    file = f"bess_revenue_{year}.csv"
-    if Path(file).exists():
+    # Prefer $ERCOT_DATA_DIR/bess_revenue, fallback to CWD
+    file_env = ERCOT_DATA_DIR / 'bess_revenue' / f"bess_revenue_{year}.csv"
+    file_cwd = Path(f"bess_revenue_{year}.csv")
+    file = file_env if file_env.exists() else file_cwd
+    if file.exists():
         df = pd.read_csv(file)
         dfs.append(df)
     else:
@@ -144,8 +160,9 @@ ax.axhline(y=0, color='black', linewidth=0.8)
 ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda y, _: f'${int(y)}'))
 
 plt.tight_layout()
-plt.savefig('bess_revenue_stacked_chart.png', dpi=300, bbox_inches='tight')
-print("\n✅ Saved: bess_revenue_stacked_chart.png")
+out_png = CHARTS_OUTPUT_DIR / 'bess_revenue_stacked_chart.png'
+plt.savefig(out_png, dpi=300, bbox_inches='tight')
+print(f"\n✅ Saved: {out_png}")
 
 # Also save summary data
 summary = revenue_components[[
@@ -154,8 +171,9 @@ summary = revenue_components[[
     'reserves_per_kw', 'ecrs_per_kw', 'nonspin_per_kw', 'total_per_kw'
 ]].copy()
 
-summary.to_csv('bess_revenue_summary_by_source.csv', index=False)
-print("✅ Saved: bess_revenue_summary_by_source.csv")
+out_csv = CHARTS_OUTPUT_DIR / 'bess_revenue_summary_by_source.csv'
+summary.to_csv(out_csv, index=False)
+print(f"✅ Saved: {out_csv}")
 
 # Print summary stats
 print(f"\n📊 Fleet Statistics:")

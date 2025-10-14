@@ -684,16 +684,18 @@ env-check:
 	@echo -n "ERCOT_PASSWORD: "; [ -n "${ERCOT_PASSWORD}" ] && echo "✅ Set" || echo "❌ Not set"
 	@echo -n "ERCOT_SUBSCRIPTION_KEY: "; [ -n "${ERCOT_SUBSCRIPTION_KEY}" ] && echo "✅ Set" || echo "❌ Not set"
 
-env-template:
-	@echo "📝 Creating .env template..."
-	@echo "# ERCOT Power Market Pipeline Environment Variables" > .env.template
-	@echo "DATABASE_URL=postgresql://user:pass@localhost/power_market" >> .env.template
-	@echo "ERCOT_USERNAME=" >> .env.template
-	@echo "ERCOT_PASSWORD=" >> .env.template
-	@echo "ERCOT_SUBSCRIPTION_KEY=" >> .env.template
-	@echo "CAISO_USERNAME=" >> .env.template
-	@echo "CAISO_PASSWORD=" >> .env.template
-	@echo "✅ Created .env.template"
+	env-template:
+		@echo "📝 Creating .env template..."
+		@echo "# ERCOT Power Market Pipeline Environment Variables" > .env.template
+		@echo "DATABASE_URL=postgresql://user:pass@localhost/power_market" >> .env.template
+		@echo "# Root directory for all weather datasets" >> .env.template
+		@echo "WEATHER_DATA_DIR=/pool/ssd8tb/data/weather_data" >> .env.template
+		@echo "ERCOT_USERNAME=" >> .env.template
+		@echo "ERCOT_PASSWORD=" >> .env.template
+		@echo "ERCOT_SUBSCRIPTION_KEY=" >> .env.template
+		@echo "CAISO_USERNAME=" >> .env.template
+		@echo "CAISO_PASSWORD=" >> .env.template
+		@echo "✅ Created .env.template"
 
 # ============= Performance Monitoring =============
 
