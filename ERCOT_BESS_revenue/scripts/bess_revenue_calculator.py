@@ -19,6 +19,119 @@ Data Sources:
 - Prices: DAM SPP, RT SPP, AS MCPCs at Resource Nodes
 """
 
+"""
+PARQUET FILE SCHEMA DOCUMENTATION
+
+All parquet files are under BASE_DIR/rollup_files/ unless otherwise noted.
+Column names and types are EXACT - no fallback logic exists.
+
+## Input Files
+
+### DAM_Gen_Resources/{year}.parquet
+- ResourceName: string
+- DeliveryDate: date or string
+- hour: int (0-23)
+- AwardedQuantity: double (MWh)
+- EnergySettlementPointPrice: double ($/MWh)
+- RegUpAwarded, RegDownAwarded, RRSPFRAwarded, RRSFFRAwarded, RRSUFRAwarded, RRSAwarded: double (MW)
+- ECRSSDAwarded, ECRSMDAwarded, ECRSAwarded, NonSpinAwarded: double (MW)
+
+### DAM_Load_Resources/{year}.parquet
+- Load Resource Name: string
+- DeliveryDate: date or string
+- hour: int (0-23)
+- RegUp Awarded, RegDown Awarded, RRSFFR Awarded, RRSPFR Awarded, RRSUFR Awarded: double (MW)
+- ECRSSD Awarded, ECRSMD Awarded, NonSpin Awarded: double (MW)
+- RegUp MCPC, RegDown MCPC, RRS MCPC, ECRS MCPC, NonSpin MCPC: double ($/MW)
+
+### SCED_Gen_Resources/{year}.parquet
+- SCEDTimeStamp: timestamp
+- ResourceName: string
+- TelemeteredNetOutput: double (MW, preferred)
+- BasePoint: double (MW, fallback)
+
+### SCED_Load_Resources/{year}.parquet
+- SCEDTimeStamp: timestamp
+- ResourceName: string
+- BasePoint: double (MW)
+
+### DA_prices/{year}.parquet (long format)
+- HourEnding: string ("HH:MM", 1-24)
+- SettlementPoint: string
+- DeliveryDate: date32
+- DeliveryDateStr: string (RFC3339 with offset)
+- SettlementPointPrice: double ($/MWh)
+- hour: string
+- DSTFlag: string
+- datetime_ms: int64
+
+### RT_prices/{year}.parquet (long format, 5-min)
+- DeliveryDate: string
+- DeliveryHour: int64
+- DeliveryInterval: int64
+- SettlementPointName: string
+- SettlementPointPrice: double ($/MWh)
+- SettlementPointType: string
+- DSTFlag: string
+- datetime: int64
+
+### AS_prices/{year}.parquet
+- DeliveryDate: date or string
+- hour: string ("HH:MM", 1-24 hour ending)
+- AncillaryType: string (REGUP, REGDN, RRS, ECRS, NSPIN)
+- MCPC: double ($/MW)
+
+### DAM_Energy_Bid_Awards/{year}.parquet
+- SettlementPoint: string
+- EnergyBidAwardMW: double (negative = DA charging)
+- DeliveryDate: date or string
+- hour: int or HourEnding: string
+
+### flattened/DA_prices_{year}.parquet (wide format, hubs/zones only)
+- DeliveryDate: date32
+- DeliveryDateStr: string
+- datetime_ts: int64
+- {HubName}: double (e.g., HB_BUSAVG, LZ_HOUSTON)
+Note: Does NOT include individual resource nodes like CHISMGRD_RN.
+
+## Output Files (under BASE_DIR/bess_analysis/)
+
+### hourly/awards/{BESS}_{year}_awards.parquet
+- local_date: date (CT)
+- local_hour: int32 (0-23)
+- da_energy_award_mw: double
+- regup_mw, regdown_mw, rrs_mw, ecrs_mw, nonspin_mw: double
+- ecrs_mcpc, rrs_mcpc, regup_mcpc, nonspin_mcpc, regdown_mcpc: double ($/MW)
+
+### hourly/dispatch/{BESS}_{year}_dispatch.parquet
+- local_date: date (CT)
+- local_hour: int32 (0-23)
+- net_actual_mwh, basepoint_gen_mwh, basepoint_load_mwh: double
+- rt_price_avg, da_price_hour: double ($/MWh)
+- rt_net_revenue_hour, rt_gross_revenue_hour, da_spread_revenue_hour, da_energy_revenue_hour: double ($)
+
+### settlement_15min/{BESS}_{year}_settlement_15min.parquet
+EXACT schema (no variations across files):
+- ts_utc: timestamp[us, tz=UTC]
+- local_date: date32 (CT date)
+- local_hour: int32 (0-23, CT hour)
+- gen_mw, load_mw, actual_mw: double
+- bp_gen_mw, bp_load_mw: double
+- dam_award_mw, deviation_mw: double
+- rt_price: double ($/MWh) - 15-min averaged RT price
+- da_price: double ($/MWh) - DA price for the hour
+- rt_net_revenue_15m, rt_gross_revenue_15m, da_spread_revenue_15m, da_energy_revenue_15m: double ($)
+
+## Critical Notes
+
+1. **NO FALLBACK LOGIC**: Column names are exact. Scripts fail loudly if columns missing.
+2. **Type Matching**: Polars joins require exact type matches (e.g., date vs object fails).
+3. **Hour Conventions**: HourEnding 1-24, hour/local_hour 0-23 (convert HE-1 to get hour).
+4. **Timezone**: All ERCOT data is America/Chicago. Use DeliveryDateStr (RFC3339) when available.
+5. **DA Charging**: Found in DAM_Energy_Bid_Awards (negative EnergyBidAwardMW), NOT in DAM_Load_Resources.
+6. **Resource Nodes**: Individual BESS nodes (e.g., CHISMGRD_RN) only in DA_prices/{year}.parquet long format, NOT in flattened/ wide format.
+"""
+
 import os
 import polars as pl
 import pandas as pd
@@ -112,7 +225,8 @@ class BESSRevenueCalculator:
             'BESS_Load_Resource': 'Load_Resource',
             'Settlement_Point': 'Resource_Node',
             'IQ_Capacity_MW': 'Capacity_MW',
-            'True_Operational_Status': 'Status'
+            'True_Operational_Status': 'Status',
+            'COD_Date': 'COD_Date'  # Required for V5 mapping
         }
 
         # Verify columns exist
@@ -122,6 +236,11 @@ class BESSRevenueCalculator:
 
         # Rename to standard names
         df = df.rename(expected_cols)
+
+        # Parse COD_Date to date type
+        df = df.with_columns([
+            pl.col('COD_Date').str.strptime(pl.Date, "%Y-%m-%d", strict=False).alias('COD_Date')
+        ])
 
         # Filter to operational units with Load Resources
         df = df.filter(
@@ -164,30 +283,53 @@ class BESSRevenueCalculator:
         return total_revenue
 
     def _load_da_price_series(self, resource_node: str) -> pl.DataFrame:
-        """Load hourly DA price series for a single settlement point.
+        """Load hourly Day-Ahead price series for a single settlement point.
 
-        Returns columns: local_date, local_hour, da_price
+        Timezone rules and rationale:
+        - ERCOT source data for DAM uses Central Time (CT) hour blocks. Some
+          rollups include an explicit RFC3339 string (e.g., ``DeliveryDateStr``)
+          with the ``-06:00/-05:00`` offset. Others store a timestamp column
+          (``datetime``/``datetime_ts``) that represents CT wall-clock as a
+          naive Arrow timestamp (no tz metadata).
+        - For absolute correctness, when ``DeliveryDateStr`` exists we parse it
+          and convert using the embedded offset. When it does not exist, we
+          treat timestamp columns as America/Chicago local time (attach
+          ``America/Chicago`` tz) rather than assuming UTC. This prevents a
+          6-hour shift that would occur if we incorrectly interpreted local CT
+          timestamps as UTC.
+
+        Returns columns: ``local_date`` (date, CT), ``local_hour`` (0–23, CT),
+        ``da_price`` ($/MWh).
         """
         # Try flattened wide format first
         flat1 = self.rollup_dir / f"flattened/DA_prices_{self.year}.parquet"
         flat2 = self.rollup_dir / f"flattened/DA_prices_flat_{self.year}.parquet"
         longp = self.rollup_dir / f"DA_prices/{self.year}.parquet"
 
+        logger.debug(f"Loading DA prices for {resource_node}")
         df = None
         if flat1.exists() or flat2.exists():
             path = flat1 if flat1.exists() else flat2
             df_flat = pl.read_parquet(path)
             # Pick the requested hub column, or fall back to HB_BUSAVG
             col = resource_node if resource_node in df_flat.columns else ("HB_BUSAVG" if "HB_BUSAVG" in df_flat.columns else None)
+            if col is None:
+                logger.warning(f"Settlement point {resource_node} not found in DA price columns: {df_flat.columns[:10]}...")
+            else:
+                if col != resource_node:
+                    logger.debug(f"Using {col} instead of {resource_node} for DA prices (flattened format)")
             if col is not None:
                 # Handle datetime column name variants
+                has_dt_str = "DeliveryDateStr" in df_flat.columns
                 dt_col = None
-                if "datetime" in df_flat.columns:
+                if has_dt_str:
+                    dt_col = "DeliveryDateStr"
+                elif "datetime" in df_flat.columns:
                     dt_col = "datetime"
                 elif "datetime_ts" in df_flat.columns:
                     dt_col = "datetime_ts"
                 elif "DeliveryDate" in df_flat.columns:
-                    # Daily file with date only; will still convert to midnight local
+                    # Date-only; will be treated as midnight local
                     dt_col = "DeliveryDate"
 
                 if dt_col is not None:
@@ -199,34 +341,102 @@ class BESSRevenueCalculator:
         if df is None:
             # Long format: filter by settlement point
             if not longp.exists():
+                logger.warning(f"No DA price files found: {flat1}, {flat2}, {longp} do not exist")
                 return pl.DataFrame({"local_date": [], "local_hour": [], "da_price": []})
             df_long = pl.read_parquet(longp)
             # Column variants
             sp_col = "settlement_point" if "settlement_point" in df_long.columns else "SettlementPointName"
             price_col = "da_lmp" if "da_lmp" in df_long.columns else "SettlementPointPrice"
-            dt_col = "datetime" if "datetime" in df_long.columns else ("datetime_ts" if "datetime_ts" in df_long.columns else None)
-            if dt_col is None:
-                return pl.DataFrame({"local_date": [], "local_hour": [], "da_price": []})
-            df = df_long.filter(pl.col(sp_col) == resource_node).select([
-                pl.col(dt_col).alias("dt"),
-                pl.col(price_col).alias("da_price")
-            ])
 
-        # Convert to local date/hour for DAM alignment
-        # Ensure the timestamp is a proper datetime
-        df = df.with_columns([
-            pl.col("dt").cast(pl.Datetime).dt.replace_time_zone("UTC").dt.convert_time_zone("America/Chicago").dt.date().alias("local_date"),
-            pl.col("dt").cast(pl.Datetime).dt.replace_time_zone("UTC").dt.convert_time_zone("America/Chicago").dt.hour().alias("local_hour")
-        ]).select(["local_date", "local_hour", "da_price"]).group_by(["local_date", "local_hour"]).agg(pl.col("da_price").mean()).sort(["local_date", "local_hour"])
+            # 3 possible time representations in DA long format:
+            # 1) RFC3339 string with offset in DeliveryDateStr (preferred)
+            # 2) Timestamp column: datetime or datetime_ts (naive local time)
+            # 3) Separate DeliveryDate (date) + HourEnding/hour column (common) → need HE→HB fix
+            if "DeliveryDateStr" in df_long.columns:
+                dt_mode = "string"
+                dt_col = "DeliveryDateStr"
+                df = df_long.filter(pl.col(sp_col) == resource_node).select([
+                    pl.col(dt_col).alias("dt"),
+                    pl.col(price_col).alias("da_price"),
+                ])
+            elif "datetime" in df_long.columns or "datetime_ts" in df_long.columns:
+                dt_mode = "timestamp"
+                dt_col = "datetime" if "datetime" in df_long.columns else "datetime_ts"
+                df = df_long.filter(pl.col(sp_col) == resource_node).select([
+                    pl.col(dt_col).alias("dt"),
+                    pl.col(price_col).alias("da_price"),
+                ])
+            elif "DeliveryDate" in df_long.columns and ("HourEnding" in df_long.columns or "hour" in df_long.columns):
+                # Derive local_date/hour directly; HourEnding is 1–24 → convert to hour beginning 0–23
+                dt_mode = "date_hour"
+                he_col = "HourEnding" if "HourEnding" in df_long.columns else "hour"
+                df_he = df_long.filter(pl.col(sp_col) == resource_node).select([
+                    pl.col("DeliveryDate").cast(pl.Date).alias("local_date"),
+                    pl.col(he_col).alias("he_raw"),
+                    pl.col(price_col).alias("da_price"),
+                ])
+                # Support either "HH:MM" strings or ints in hour column
+                if df_he.schema.get("he_raw") == pl.Utf8:
+                    df_he = df_he.with_columns(
+                        pl.col("he_raw").str.slice(0, 2).cast(pl.Int32).alias("he")
+                    )
+                else:
+                    df_he = df_he.with_columns(pl.col("he_raw").cast(pl.Int32).alias("he"))
+
+                # Convert HourEnding → HourBeginning by subtracting 1 (no wrap across date here)
+                df = df_he.with_columns((pl.col("he") - 1).alias("local_hour")).select([
+                    "local_date",
+                    pl.col("local_hour").cast(pl.Int32),
+                    "da_price",
+                ])
+            else:
+                # Unknown schema
+                return pl.DataFrame({"local_date": [], "local_hour": [], "da_price": []})
+
+        # Convert to local date/hour for DAM alignment (Central Time)
+        # If we started from an RFC3339 string with offset, respect it; otherwise
+        # assume the timestamp column represents CT wall-clock and attach the
+        # America/Chicago timezone to avoid 6-hour shifts.
+        if "dt" in df.columns and df.schema.get("dt") in (pl.Utf8, pl.Categorical):
+            # Parse string datetimes (which may include offsets) and normalize to CT
+            # Use eager evaluation to avoid Polars lazy evaluation timezone inference issues
+            dt_series = df["dt"].str.strptime(pl.Datetime, format="%Y-%m-%dT%H:%M:%S%z")
+            df = df.with_columns([
+                dt_series.dt.convert_time_zone("America/Chicago").dt.date().alias("local_date"),
+                dt_series.dt.convert_time_zone("America/Chicago").dt.hour().alias("local_hour")
+            ])
+        elif "dt" in df.columns:
+            # Treat numeric/naive datetimes as America/Chicago local wall time
+            df = df.with_columns([
+                pl.col("dt").cast(pl.Datetime)
+                    .dt.replace_time_zone("America/Chicago")
+                    .dt.date().alias("local_date"),
+                pl.col("dt").cast(pl.Datetime)
+                    .dt.replace_time_zone("America/Chicago")
+                    .dt.hour().alias("local_hour")
+            ])
+        else:
+            # Already has local_date/local_hour (date_hour mode)
+            pass
+
+        df = (
+            df.select(["local_date", "local_hour", "da_price"]) 
+              .group_by(["local_date", "local_hour"]) 
+              .agg(pl.col("da_price").mean()) 
+              .sort(["local_date", "local_hour"]) 
+        )
 
         return df
 
-    def calculate_dam_charge_cost(self, gen_resource: str, load_resource: str, resource_node: str) -> float:
-        """Calculate DAM charging cost from two sources:
+    def calculate_dam_charge_cost(self, gen_resource: str, load_resource: str, resource_node: str) -> tuple[float, float]:
+        """Calculate DAM charging cost and MWh from two sources:
         1) Negative awards (if any) in DAM_Gen_Resources for this Gen resource.
         2) Energy Bid Awards at the resource node (negative MW indicate load purchases).
+
+        Returns (total_cost_usd, total_charge_mwh).
         """
         total_cost = 0.0
+        total_mwh = 0.0
 
         # 1) Negative awards in DAM Gen (rare but present for some BESS)
         dam_gen_file = self.rollup_dir / f"DAM_Gen_Resources/{self.year}.parquet"
@@ -238,8 +448,11 @@ class BESSRevenueCalculator:
                 df = df.with_columns([
                     (pl.col("AwardedQuantity") * pl.col("EnergySettlementPointPrice")).alias("cost")
                 ])
-                cost = df.select(pl.col("cost").abs().sum()).item()
-                total_cost += cost if cost else 0.0
+                # Negative awards are charging; sum absolute for MWh and dollars
+                mwh = df.select(pl.col("AwardedQuantity").abs().sum()).item() or 0.0
+                cost = df.select(pl.col("cost").abs().sum()).item() or 0.0
+                total_mwh += mwh
+                total_cost += cost
 
         # 2) Energy Bid Awards at the node
         eba_file = self.rollup_dir / f"DAM_Energy_Bid_Awards/{self.year}.parquet"
@@ -268,17 +481,18 @@ class BESSRevenueCalculator:
                     ])
 
                     if len(eba) > 0:
-                        # Join DA prices
+                        # Sum MWh directly from hourly MW
+                        total_mwh += eba.select(pl.col("mw").abs().sum()).item() or 0.0
+                        # Join DA prices to compute $ cost
                         da_prices = self._load_da_price_series(resource_node)
                         if len(da_prices) > 0:
                             joined = eba.join(da_prices, on=["local_date", "local_hour"], how="left")
-                            cost = joined.select((pl.col("mw").abs() * pl.col("da_price")).sum()).item()
-                            if cost:
-                                total_cost += cost
+                            cost = joined.select((pl.col("mw").abs() * pl.col("da_price")).sum()).item() or 0.0
+                            total_cost += cost
             except Exception as _:
                 pass
 
-        return total_cost
+        return total_cost, total_mwh
 
     def calculate_dam_as_revenue(self, resource: str, is_gen: bool) -> Dict[str, float]:
         """
@@ -555,21 +769,95 @@ class BESSRevenueCalculator:
 
         # Load RT prices strictly for this resource node (no hub fallback)
         df_rt_all = pl.read_parquet(rt_price_file)
-        df_prices = df_rt_all.filter(pl.col("SettlementPointName") == resource_node).select([
-            pl.col("datetime").alias("price_datetime"),
-            pl.col("SettlementPointPrice").alias("rt_price")
-        ])
 
-        if len(df_prices) == 0:
-            raise ValueError(
-                f"NO RT PRICES FOUND for resource node '{resource_node}' in {rt_price_file}."
+        # Handle possible schema variants for RT prices
+        sp_col = (
+            "SettlementPointName" if "SettlementPointName" in df_rt_all.columns
+            else ("settlement_point" if "settlement_point" in df_rt_all.columns else None)
+        )
+        dt_col = (
+            "datetime" if "datetime" in df_rt_all.columns
+            else ("datetime_ts" if "datetime_ts" in df_rt_all.columns else None)
+        )
+        price_col = (
+            "SettlementPointPrice" if "SettlementPointPrice" in df_rt_all.columns
+            else ("rt_lmp" if "rt_lmp" in df_rt_all.columns else None)
+        )
+
+        if not all([sp_col, dt_col, price_col]):
+            raise ValueError(f"Unexpected RT price schema in {rt_price_file}; missing one of settlement point, datetime, or price columns")
+
+        def _price_series_for_node(node: str) -> pl.DataFrame:
+            """Return 15‑min averaged UTC price series for a settlement point name."""
+            prices_raw = df_rt_all.filter(pl.col(sp_col) == node).select([
+                pl.col(dt_col).alias("price_datetime"),
+                pl.col(price_col).alias("rt_price")
+            ])
+            if len(prices_raw) == 0:
+                return pl.DataFrame(schema={
+                    "rounded_dt": pl.Datetime(time_unit="us", time_zone="UTC"),
+                    "rt_price": pl.Float64
+                })
+
+            dtype = prices_raw.schema.get("price_datetime")
+            if dtype == pl.Int64:
+                prices_ts = prices_raw.with_columns(
+                    (
+                        pl.when(pl.col("price_datetime") > 10**14)
+                        .then(pl.from_epoch(pl.col("price_datetime"), time_unit="us"))
+                        .when(pl.col("price_datetime") > 10**11)
+                        .then(pl.from_epoch(pl.col("price_datetime"), time_unit="ms"))
+                        .otherwise(pl.from_epoch(pl.col("price_datetime"), time_unit="s"))
+                    ).alias("price_dt")
+                )
+            elif dtype in (pl.Utf8, pl.Categorical):
+                # Parse string to naive Datetime, then assign UTC tz
+                prices_ts = prices_raw.with_columns(
+                    pl.col("price_datetime").str.strptime(pl.Datetime, strict=False).dt.replace_time_zone("UTC").alias("price_dt")
+                )
+            else:
+                # Treat as Datetime-like; cast to naive and assign UTC
+                prices_ts = prices_raw.with_columns(
+                    pl.col("price_datetime").cast(pl.Datetime).dt.replace_time_zone("UTC").alias("price_dt")
+                )
+
+            return (
+                prices_ts.with_columns(
+                    pl.col("price_dt")
+                      .dt.replace_time_zone("UTC")
+                      .dt.cast_time_unit("us")
+                      .dt.truncate("15m")
+                      .alias("rounded_dt")
+                )
+                .group_by("rounded_dt")
+                .agg(pl.col("rt_price").mean().alias("rt_price"))
+                .with_columns(
+                    pl.col("rounded_dt").cast(pl.Datetime(time_unit="us", time_zone="UTC"))
+                )
+                .sort("rounded_dt")
             )
+
+        # Note: price coverage is evaluated later with fallbacks; do not error here
 
         # Build 15‑min actual net output = Gen − Load
         # Convert SCED timestamps to UTC 15‑min bins and average within the bin
         def _to_15min(df: pl.DataFrame, value_col: str, alias: str) -> pl.DataFrame:
+            """Aggregate a SCED series to 15‑minute UTC bins with stable dtypes.
+
+            Returns a DataFrame with columns:
+              - rounded_dt: pl.Datetime(us, UTC)
+              - <alias>: pl.Float64
+
+            Ensures empty results still carry concrete dtypes to avoid join
+            errors where Polars infers Null dtypes for empty columns.
+            """
             if len(df) == 0:
-                return pl.DataFrame({"rounded_dt": [], alias: []})
+                return pl.DataFrame(
+                    schema={
+                        "rounded_dt": pl.Datetime(time_unit="us", time_zone="UTC"),
+                        alias: pl.Float64,
+                    }
+                )
             return (
                 df.with_columns([
                     pl.col("SCEDTimeStamp").str.strptime(pl.Datetime, "%m/%d/%Y %H:%M:%S")
@@ -594,9 +882,16 @@ class BESSRevenueCalculator:
         if len(load_15_bp) > 0:
             load_15 = load_15.join(load_15_bp, on="rounded_dt", how="left")
 
-        # Outer join and compute actual net MW
+        # Outer (full) join and compute actual net MW; ensure key dtypes align
+        gen_15 = gen_15.with_columns(
+            pl.col("rounded_dt").cast(pl.Datetime(time_unit="us", time_zone="UTC"))
+        )
+        load_15 = load_15.with_columns(
+            pl.col("rounded_dt").cast(pl.Datetime(time_unit="us", time_zone="UTC"))
+        )
+
         actual_15 = (
-            gen_15.join(load_15, on="rounded_dt", how="outer")
+            gen_15.join(load_15, on="rounded_dt", how="full")
                   .with_columns([
                       pl.col("gen_mw").fill_null(0.0),
                       pl.col("load_mw").fill_null(0.0),
@@ -623,7 +918,13 @@ class BESSRevenueCalculator:
             pl.read_parquet(dam_gen_file)
               .filter(pl.col("ResourceName") == gen_resource)
               .select([
-                  pl.col("DeliveryDate").cast(pl.Date).alias("local_date"),
+                  # Robustly parse DeliveryDate from string or date/datetime
+                  pl.col("DeliveryDate")
+                    .cast(pl.Utf8)
+                    .str.to_date(format="%m/%d/%Y", strict=False)
+                    .fill_null(pl.col("DeliveryDate").cast(pl.Utf8).str.to_date(format="%Y-%m-%d", strict=False))
+                    .fill_null(pl.col("DeliveryDate").cast(pl.Utf8).str.to_datetime(strict=False).dt.date())
+                    .alias("local_date"),
                   pl.col("hour").cast(pl.Int32).alias("local_hour"),
                   pl.col("AwardedQuantity").alias("dam_award_mw")
               ])
@@ -631,28 +932,70 @@ class BESSRevenueCalculator:
 
         if len(df_dam) == 0:
             # No DAM schedule -> entire actual settled at RT (should be rare)
+            logger.warning(f"No DAM award data found for {gen_resource} - all intervals will be settled at RT")
             df_dam = pl.DataFrame({"local_date": [], "local_hour": [], "dam_award_mw": []})
+        else:
+            # Log DAM data coverage
+            dam_days = df_dam.select(pl.col("local_date").n_unique()).item()
+            logger.debug(f"Found DAM awards for {gen_resource} covering {dam_days} days")
 
         dev_15 = actual_15.join(df_dam, on=["local_date", "local_hour"], how="left").with_columns([
-            pl.col("dam_award_mw").fill_null(0.0),
-            (pl.col("actual_mw") - pl.col("dam_award_mw")).alias("deviation_mw")
+            (pl.col("dam_award_mw").fill_null(0.0)).alias("dam_award_mw"),
+            # Fill potential nulls defensively before arithmetic to avoid null deviation
+            (pl.col("actual_mw").fill_null(0.0) - pl.col("dam_award_mw").fill_null(0.0)).alias("deviation_mw")
         ])
+        
+        # Verify deviation_mw was calculated
+        null_deviations = dev_15.filter(pl.col("deviation_mw").is_null()).height
+        if null_deviations > 0:
+            logger.error(f"WARNING: {null_deviations} intervals have null deviation_mw for {gen_resource}")
 
-        # Align strictly to price availability window for the resource node
-        price_bounds = df_prices.select([
-            pl.min("price_datetime").alias("min_ts"),
-            pl.max("price_datetime").alias("max_ts"),
-        ]).row(0)
-        min_ts, max_ts = price_bounds
-        dev_15 = dev_15.filter((pl.col("rounded_epoch") >= min_ts) & (pl.col("rounded_epoch") <= max_ts))
+        # Build price series for the mapped resource_node, then evaluate coverage.
+        df_prices = _price_series_for_node(resource_node)
 
-        # Join RT prices at 15‑min settlement timestamps
-        dev_15 = dev_15.join(
-            df_prices,
-            left_on="rounded_epoch",
-            right_on="price_datetime",
-            how="left"
-        )
+        # Helper to join and compute missing count
+        def _join_with_prices(dev_df: pl.DataFrame, prices_df: pl.DataFrame) -> tuple[pl.DataFrame, int]:
+            if len(prices_df) == 0:
+                return dev_df.with_columns(pl.lit(None).alias("rt_price")), len(dev_df)
+            # Direct left join on UTC 15-min rounded_dt; avoid timezone literal comparisons
+            joined = dev_df.join(prices_df, on="rounded_dt", how="left")
+            miss = joined.filter(pl.col("rt_price").is_null()).select(pl.len()).item()
+            return joined, miss
+
+        joined_dev_15, missing_prices = _join_with_prices(dev_15, df_prices)
+
+        # If coverage is poor, try alternative settlement point names
+        try_nodes: list[tuple[str, pl.DataFrame]] = []
+        # 1) From SCED Gen/Load frames if available
+        gen_sp = None
+        load_sp = None
+        if "SettlementPointName" in df_gen_raw_full.columns:
+            gen_sp = df_gen_raw_full.filter(pl.col("ResourceName") == gen_resource)["SettlementPointName"].unique().to_list()
+            gen_sp = gen_sp[0] if gen_sp else None
+        if "SettlementPointName" in df_load_full.columns:
+            load_sp = df_load_full.filter(pl.col("ResourceName") == load_resource)["SettlementPointName"].unique().to_list()
+            load_sp = load_sp[0] if load_sp else None
+        # 2) Simple suffix swap heuristics
+        alt1 = resource_node[:-4] + "_RN" if resource_node.endswith("_ALL") else None
+        alt2 = resource_node[:-3] + "_ALL" if resource_node.endswith("_RN") else None
+
+        for cand in [c for c in [gen_sp, load_sp, alt1, alt2] if c and c != resource_node]:
+            try_nodes.append((cand, _price_series_for_node(cand)))
+
+        # Evaluate candidates and pick the one with least missing intervals
+        best_node = resource_node
+        best_join = joined_dev_15
+        best_missing = missing_prices
+        for cand, prices_cand in try_nodes:
+            joined_c, miss_c = _join_with_prices(dev_15, prices_cand)
+            if miss_c < best_missing:
+                best_missing = miss_c
+                best_join = joined_c
+                best_node = cand
+
+        dev_15 = best_join
+        if best_node != resource_node:
+            logger.info(f"RT price node fallback: using {best_node} instead of mapping node {resource_node}")
 
         # Filter out rows without prices
         missing_prices = dev_15.filter(pl.col("rt_price").is_null()).select(pl.len()).item()
@@ -674,15 +1017,53 @@ class BESSRevenueCalculator:
 
         total_revenue = discharge_revenue - charge_cost
 
-        if missing_prices > 0:
-            logger.warning(f"Excluded {missing_prices:,} 15‑min intervals with missing RT prices for {resource_node}")
+        if best_missing > 0:
+            # Diagnostics to help understand coverage gaps
+            actual_min_max = actual_15.select([pl.min("rounded_dt").alias("min_dt"), pl.max("rounded_dt").alias("max_dt")]).row(0)
+
+            # Determine which price series was used (mapping vs fallback)
+            chosen_prices_df = df_prices if best_node == resource_node else next((df for cand, df in try_nodes if cand == best_node), pl.DataFrame(schema={"rounded_dt": pl.Datetime(time_unit="us", time_zone="UTC"), "rt_price": pl.Float64}))
+            price_min_max = chosen_prices_df.select([pl.min("rounded_dt").alias("min_dt"), pl.max("rounded_dt").alias("max_dt")]).row(0) if len(chosen_prices_df) > 0 else (None, None)
+            overlap_min = max(actual_min_max[0], price_min_max[0]) if all(actual_min_max) and all(price_min_max) else None
+            overlap_max = min(actual_min_max[1], price_min_max[1]) if all(actual_min_max) and all(price_min_max) else None
+
+            # Sample a few missing timestamps for quick inspection
+            missing_sample = (
+                best_join.filter(pl.col("rt_price").is_null())
+                         .select("rounded_dt")
+                         .head(5)
+                         .to_series()
+                         .to_list()
+            )
+
+            total_intervals = len(best_join)
+            miss_pct = (best_missing / total_intervals * 100.0) if total_intervals else 0.0
+
+            # Suppress noisy warnings unless we truly failed to match a usable node
+            found_any_prices = (len(df_prices) > 0) or any(len(p) > 0 for _, p in try_nodes)
+            no_effective_match = (not found_any_prices) or (total_intervals > 0 and best_missing == total_intervals)
+
+            if no_effective_match:
+                logger.warning(
+                    f"Excluded {best_missing:,} 15‑min intervals with missing RT prices for {best_node} (from mapping: {resource_node}) | "
+                    f"miss%={miss_pct:.1f}, actual_range=[{actual_min_max[0]}, {actual_min_max[1]}], "
+                    f"price_range=[{price_min_max[0]}, {price_min_max[1]}], overlap=[{overlap_min}, {overlap_max}], "
+                    f"examples={missing_sample}"
+                )
+            else:
+                # Downgrade to debug to avoid per-BESS noise for small, expected gaps
+                logger.debug(
+                    f"Minor RT price gaps: {best_missing} intervals ({miss_pct:.1f}%) for {best_node}; suppressed warning."
+                )
 
         stats = {
             "discharge_mwh": discharge_mwh,  # positive deviations
             "charge_mwh": charge_mwh,        # negative deviations (abs)
             "intervals": len(dev_15),
             "discharge_revenue": discharge_revenue,
-            "charge_cost": charge_cost
+            "charge_cost": charge_cost,
+            "rt_gross_revenue": 0.0,  # Will be calculated below after DA join
+            "da_spread_revenue": 0.0  # Will be calculated below after DA join
         }
 
         # Calculate round-trip efficiency
@@ -692,14 +1073,28 @@ class BESSRevenueCalculator:
             stats["efficiency"] = 0.0
 
         # Build hourly dispatch aggregates for parquet export
-        # Prepare DA price series for hourly/15-min revenue components
-        try:
-            da_price_series = self._load_da_price_series(resource_node).with_columns([
-                pl.col("local_hour").cast(pl.Int32)
-            ])
-            dev_15_da = dev_15.join(da_price_series, on=["local_date", "local_hour"], how="left")
-        except Exception:
-            dev_15_da = dev_15.with_columns([pl.lit(None).alias("da_price")])
+        # Prepare DA price series for hourly/15‑min revenue components (simple exact match)
+        # CRITICAL: Ensure local_date has proper Date type for join (not object type)
+        dev_15 = dev_15.with_columns([
+            pl.col("local_date").cast(pl.Date).alias("local_date"),
+            pl.col("local_hour").cast(pl.Int32).alias("local_hour")
+        ])
+
+        da_price_series = self._load_da_price_series(resource_node).with_columns([
+            pl.col("local_date").cast(pl.Date).alias("local_date"),
+            pl.col("local_hour").cast(pl.Int32).alias("local_hour")
+        ])
+
+        # Join DA prices - fail loudly if this fails (no silent exceptions)
+        dev_15_da = dev_15.join(da_price_series, on=["local_date", "local_hour"], how="left")
+
+        # Log if DA prices are missing
+        da_nulls = dev_15_da.filter(pl.col("da_price").is_null()).height
+        if da_nulls > 0:
+            logger.warning(
+                f"DA price join resulted in {da_nulls}/{dev_15_da.height} null values for {resource_node}. "
+                f"This may indicate missing price data for the resource node."
+            )
 
         # 15-min settlement dataset to be exported as-is
         settlement_15min = dev_15_da.select([
@@ -747,7 +1142,8 @@ class BESSRevenueCalculator:
         gen_resource: str,
         load_resource: str,
         resource_node: str,
-        capacity_mw: float
+        capacity_mw: float,
+        cod_date = None
     ) -> Dict:
         """
         Calculate complete revenue for a BESS unit
@@ -758,6 +1154,8 @@ class BESSRevenueCalculator:
             load_resource: Load Resource name
             resource_node: Resource Node
             capacity_mw: Nameplate capacity (MW)
+            cod_date: Commercial Operation Date 
+                     If provided, used to calculate operational days for normalization
 
         Returns:
             Dictionary with revenue breakdown and statistics
@@ -766,7 +1164,7 @@ class BESSRevenueCalculator:
 
         # 1. DAM Discharge Revenue and DAM Charging Cost
         dam_discharge = self.calculate_dam_discharge_revenue(gen_resource)
-        dam_charge_cost = self.calculate_dam_charge_cost(gen_resource, load_resource, resource_node)
+        dam_charge_cost, dam_charge_mwh = self.calculate_dam_charge_cost(gen_resource, load_resource, resource_node)
 
         # 2. DAM AS Revenue (Gen side)
         dam_as_gen = self.calculate_dam_as_revenue(gen_resource, is_gen=True)
@@ -790,15 +1188,52 @@ class BESSRevenueCalculator:
         revenue_per_mw_year = total_revenue / capacity_mw if capacity_mw > 0 else 0
         revenue_per_mw_month = revenue_per_mw_year / 12
 
-        # Normalized $/kW-year using active days (RT price window)
-        active_days = rt_stats.get("active_days", 0)
-        if capacity_mw > 0 and active_days and active_days > 0:
-            norm_scale = 365.0 / float(active_days)
-            normalized_total_per_kw_year = (total_revenue / capacity_mw) * norm_scale
-            normalized_energy_per_kw_year = ((da_net_energy + rt_revenue) / capacity_mw) * norm_scale
-            normalized_da_per_kw_year = (da_net_energy / capacity_mw) * norm_scale
-            normalized_rt_per_kw_year = (rt_revenue / capacity_mw) * norm_scale
-            normalized_as_per_kw_year = (total_dam_as / capacity_mw) * norm_scale
+        # Calculate operational days based on COD date
+        operational_days = 365.0  # default to full year
+        cod_year = None
+        
+        if cod_date:
+            if isinstance(cod_date, str):
+                try:
+                    cod_date = datetime.strptime(cod_date, "%Y-%m-%d").date()
+                except:
+                    cod_date = None
+            
+            if cod_date:
+                cod_year = cod_date.year
+                
+                # Determine if leap year
+                is_leap = (self.year % 4 == 0 and self.year % 100 != 0) or (self.year % 400 == 0)
+                days_in_year = 366 if is_leap else 365
+                
+                if cod_year == self.year:
+                    # Calculate days from COD to end of year
+                    year_end = datetime(self.year, 12, 31).date()
+                    if hasattr(cod_date, 'date'):
+                        cod_date = cod_date.date()
+                    operational_days = (year_end - cod_date).days + 1  # +1 to include COD day
+                    logger.info(f"COD in analysis year {self.year}: {cod_date} -> {operational_days} operational days")
+                elif cod_year < self.year:
+                    # Full year operation
+                    operational_days = days_in_year
+                    logger.info(f"COD before analysis year: using full {days_in_year} days")
+                else:
+                    # COD is after analysis year - shouldn't happen for operational units
+                    logger.warning(f"COD date {cod_date} is after analysis year {self.year}")
+                    operational_days = 0
+        
+        # Normalized $/kW-year using operational days based on COD
+        if capacity_mw > 0 and operational_days > 0:
+            # Determine total days in year for normalization
+            is_leap = (self.year % 4 == 0 and self.year % 100 != 0) or (self.year % 400 == 0)
+            days_in_year = 366 if is_leap else 365
+            
+            norm_scale = days_in_year / operational_days
+            normalized_total_per_kw_year = (total_revenue / capacity_mw) * norm_scale / 1000  # Convert to $/kW
+            normalized_energy_per_kw_year = ((da_net_energy + rt_revenue) / capacity_mw) * norm_scale / 1000
+            normalized_da_per_kw_year = (da_net_energy / capacity_mw) * norm_scale / 1000
+            normalized_rt_per_kw_year = (rt_revenue / capacity_mw) * norm_scale / 1000
+            normalized_as_per_kw_year = (total_dam_as / capacity_mw) * norm_scale / 1000
         else:
             normalized_total_per_kw_year = 0.0
             normalized_energy_per_kw_year = 0.0
@@ -825,6 +1260,7 @@ class BESSRevenueCalculator:
             # Revenue breakdown
             "dam_discharge_revenue": dam_discharge,
             "dam_charge_cost": dam_charge_cost,
+            "dam_charge_mwh": dam_charge_mwh,
             "da_net_energy": da_net_energy,
             "dam_as_gen_revenue": sum(dam_as_gen.values()),
             "dam_as_load_revenue": sum(dam_as_load.values()),
@@ -855,7 +1291,10 @@ class BESSRevenueCalculator:
             "rt_charge_mwh": rt_stats["charge_mwh"],
             "rt_efficiency": rt_stats["efficiency"],
             "rt_intervals": rt_stats["intervals"],
-            "active_days": active_days
+            "active_days": rt_stats.get("active_days", 0),
+            "operational_days": operational_days,
+            "cod_date": cod_date,
+            "cod_year": cod_year
         }
 
     def _export_hourly_dispatch(self, bess_name: str, hourly_df: pl.DataFrame):
@@ -969,16 +1408,24 @@ class BESSRevenueCalculator:
                 if all([sp_col,mw_col,date_col,hour_col]):
                     eba = eba.filter(pl.col(sp_col) == resource_node)
                     if hour_col == 'HourEnding':
-                        eba = eba.with_columns(pl.col(hour_col).str.slice(0,2).cast(pl.Int32).alias('local_hour'))
+                        # Convert Hour Ending (1-24) to Hour Beginning (0-23)
+                        eba = eba.with_columns((pl.col(hour_col).str.slice(0,2).cast(pl.Int32) - 1).alias('local_hour'))
                     else:
                         eba = eba.with_columns(pl.col(hour_col).cast(pl.Int32).alias('local_hour'))
-                    eba = eba.with_columns(pl.col(date_col).cast(pl.Date).alias('local_date'))
+                    eba = eba.with_columns(
+                        pl.col(date_col)
+                          .cast(pl.Utf8)
+                          .str.to_date(format="%m/%d/%Y", strict=False)
+                          .fill_null(pl.col(date_col).cast(pl.Utf8).str.to_date(format="%Y-%m-%d", strict=False))
+                          .fill_null(pl.col(date_col).cast(pl.Utf8).str.to_datetime(strict=False).dt.date())
+                          .alias('local_date')
+                    )
                     # Negative awards mean charging; keep as negative MW to plot below zero
                     eba_hourly = eba.group_by(['local_date','local_hour']).agg([
                         pl.col(mw_col).sum().alias('eba_mw')
                     ])
-                    # Outer-join so hours that appear only in EBA still show up
-                    awards = awards.join(eba_hourly, on=['local_date','local_hour'], how='outer')
+                    # Full outer join so hours that appear only in EBA still show up
+                    awards = awards.join(eba_hourly, on=['local_date','local_hour'], how='full')
                     # Fill missing award cols to 0 before combining
                     for c in ['da_energy_award_mw','regup_mw','regdown_mw','rrs_mw','ecrs_mw','nonspin_mw','eba_mw']:
                         if c in awards.columns:
@@ -991,14 +1438,23 @@ class BESSRevenueCalculator:
         if len(as_prices) > 0:
             mcpc = (as_prices.select([
                 pl.col("DeliveryDate").cast(pl.Date).alias("local_date"),
-                pl.col("hour").str.slice(0,2).cast(pl.Int32).alias("local_hour"),
+                # CRITICAL FIX: Convert Hour Ending (1-24) to Hour Beginning (0-23)
+                # HE 15:00 means hour 14:00-15:00, so subtract 1 to get hour 14
+                (pl.col("hour").str.slice(0,2).cast(pl.Int32) - 1).alias("local_hour"),
                 "AncillaryType",
                 pl.col("MCPC")
             ]).group_by(["local_date","local_hour","AncillaryType"]).agg(pl.col("MCPC").mean())
-               .pivot(values="MCPC", index=["local_date","local_hour"], columns="AncillaryType")
+               .pivot(values="MCPC", index=["local_date","local_hour"], on="AncillaryType")
                .rename({"REGUP":"regup_mcpc","REGDN":"regdown_mcpc","RRS":"rrs_mcpc","ECRS":"ecrs_mcpc","NSPIN":"nonspin_mcpc"})
             )
             awards = awards.join(mcpc, on=["local_date","local_hour"], how="left")
+
+        # Attach Day-Ahead price per hour for convenience (from DA price series)
+        try:
+            da_series = self._load_da_price_series(resource_node).rename({"da_price": "da_price_hour"})
+            awards = awards.join(da_series, on=["local_date","local_hour"], how="left")
+        except Exception:
+            pass
 
         out_dir = self.base_dir / "bess_analysis" / "hourly" / "awards"
         out_dir.mkdir(parents=True, exist_ok=True)
@@ -1013,7 +1469,7 @@ class BESSRevenueCalculator:
         out_path = out_dir / f"{bess_name}_{self.year}_settlement_15min.parquet"
         df_15.write_parquet(str(out_path))
 
-    def calculate_all_bess(self, mapping_file: str, output_file: str = None) -> pd.DataFrame:
+    def calculate_all_bess(self, mapping_file: str, output_file: str = None, limit: int | None = None) -> pd.DataFrame:
         """
         Calculate revenues for all BESS units in mapping file
 
@@ -1028,6 +1484,8 @@ class BESSRevenueCalculator:
 
         # Load mapping
         bess_mapping = self.load_bess_mapping(mapping_file)
+        if limit is not None and limit > 0:
+            bess_mapping = bess_mapping.head(limit)
 
         # Calculate revenue for each BESS
         results = []
@@ -1048,8 +1506,32 @@ class BESSRevenueCalculator:
                     gen_resource=row['Gen_Resource'],
                     load_resource=row['Load_Resource'],
                     resource_node=row['Resource_Node'],
-                    capacity_mw=float(row['Capacity_MW'])
+                    capacity_mw=float(row['Capacity_MW']),
+                    cod_date=row.get('COD_Date')  # Pass COD date if available
                 )
+                # Emit concise per‑kW‑year breakdown for this BESS/year
+                try:
+                    # Use the already calculated normalized values
+                    da_kw = float(revenue_data.get('normalized_da_per_kw_year', 0.0))
+                    rt_kw = float(revenue_data.get('normalized_rt_per_kw_year', 0.0))
+                    total_as_kw = float(revenue_data.get('normalized_as_per_kw_year', 0.0))
+                    total_kw = float(revenue_data.get('normalized_total_per_kw_year', 0.0))
+                    
+                    # Get operational days for logging
+                    operational_days = float(revenue_data.get('operational_days', 0.0))
+                    cod_date = revenue_data.get('cod_date', 'N/A')
+
+                    logger.info(
+                        (
+                            f"Summary {revenue_data.get('bess_name')} {revenue_data.get('year')}: "
+                            f"DA ${da_kw:,.1f}/kW-yr | RT ${rt_kw:,.1f}/kW-yr | "
+                            f"AS ${total_as_kw:,.1f}/kW-yr | Total ${total_kw:,.1f}/kW-yr | "
+                            f"COD: {cod_date} ({operational_days:.0f} days)"
+                        )
+                    )
+                except Exception:
+                    # Don't block on logging
+                    pass
                 results.append(revenue_data)
 
             except Exception as e:
@@ -1083,6 +1565,19 @@ class BESSRevenueCalculator:
 
     def _print_summary(self, df: pd.DataFrame):
         """Print revenue summary statistics"""
+        # Ensure expected numeric columns exist to avoid KeyError when some rows are error placeholders
+        required_cols = [
+            'dam_discharge_revenue','dam_as_gen_revenue','dam_as_load_revenue','rt_net_revenue',
+            'total_revenue'
+        ]
+        for c in required_cols:
+            if c not in df.columns:
+                df[c] = 0.0
+        # Ensure display columns exist
+        for c in ['capacity_mw', 'revenue_per_mw_year']:
+            if c not in df.columns:
+                df[c] = 0.0
+
         print("\n" + "="*80)
         print(f"BESS Revenue Analysis Summary - {self.year}")
         print("="*80)
@@ -1123,7 +1618,7 @@ def main():
     parser.add_argument(
         '--mapping',
         type=str,
-        default='bess_mapping/BESS_UNIFIED_MAPPING_V3_CLARIFIED.csv',
+        default='bess_mapping/BESS_UNIFIED_MAPPING_V5.csv',
         help='Path to BESS mapping file'
     )
     parser.add_argument(
@@ -1131,6 +1626,12 @@ def main():
         type=str,
         default=None,
         help='Output CSV file path (default: bess_revenue_{year}.csv)'
+    )
+    parser.add_argument(
+        '--limit',
+        type=int,
+        default=None,
+        help='Limit number of BESS units to process (for quick tests)'
     )
     parser.add_argument(
         '--base-dir',
@@ -1163,7 +1664,8 @@ def main():
     # Run calculation
     results = calc.calculate_all_bess(
         mapping_file=args.mapping,
-        output_file=args.output
+        output_file=args.output,
+        limit=args.limit
     )
 
     logger.info("✅ Revenue calculation complete!")
