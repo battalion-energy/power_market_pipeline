@@ -67,13 +67,18 @@ Column names and types are EXACT - no fallback logic exists.
 
 ### RT_prices/{year}.parquet (long format, 5-min)
 - DeliveryDate: string
-- DeliveryHour: int64
-- DeliveryInterval: int64
+- DeliveryHour: int64 (1-24, hour-ending in Central Time)
+- DeliveryInterval: int64 (1-12, 5-minute interval within hour)
 - SettlementPointName: string
 - SettlementPointPrice: double ($/MWh)
 - SettlementPointType: string
 - DSTFlag: string
-- datetime: int64
+- datetime: int64 (millisecond epoch - CRITICAL: represents Central Time, NOT UTC!)
+
+**CRITICAL TIMEZONE BUG**: The `datetime` epoch values represent Central Time timestamps
+but are stored as raw epoch integers without timezone info. When converted using
+`pl.from_epoch()`, they're incorrectly interpreted as UTC, causing 5-6 hour offset.
+Must convert to naive datetime, assign America/Chicago timezone, then convert to UTC.
 
 ### AS_prices/{year}.parquet
 - DeliveryDate: date or string
@@ -801,6 +806,9 @@ class BESSRevenueCalculator:
 
             dtype = prices_raw.schema.get("price_datetime")
             if dtype == pl.Int64:
+                # CRITICAL: RT price epoch timestamps represent Central Time but are stored as epoch values
+                # When interpreted as UTC epoch, they're off by 5-6 hours
+                # Fix: Convert from epoch, treat result as naive CT time, then convert to UTC
                 prices_ts = prices_raw.with_columns(
                     (
                         pl.when(pl.col("price_datetime") > 10**14)
@@ -808,7 +816,11 @@ class BESSRevenueCalculator:
                         .when(pl.col("price_datetime") > 10**11)
                         .then(pl.from_epoch(pl.col("price_datetime"), time_unit="ms"))
                         .otherwise(pl.from_epoch(pl.col("price_datetime"), time_unit="s"))
-                    ).alias("price_dt")
+                    )
+                    .dt.replace_time_zone(None)  # Convert to naive (remove incorrect UTC label)
+                    .dt.replace_time_zone("America/Chicago", ambiguous="earliest")  # Assign CT timezone
+                    .dt.convert_time_zone("UTC")  # Convert to actual UTC
+                    .alias("price_dt")
                 )
             elif dtype in (pl.Utf8, pl.Categorical):
                 # Parse string to naive Datetime, assign CT timezone, then convert to UTC
