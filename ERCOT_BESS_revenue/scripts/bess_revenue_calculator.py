@@ -811,14 +811,23 @@ class BESSRevenueCalculator:
                     ).alias("price_dt")
                 )
             elif dtype in (pl.Utf8, pl.Categorical):
-                # Parse string to naive Datetime, then assign UTC tz
+                # Parse string to naive Datetime, assign CT timezone, then convert to UTC
+                # CRITICAL: RT price timestamps are in Central Time, must convert to UTC
+                # to align with SCED data (which is also converted CT→UTC)
                 prices_ts = prices_raw.with_columns(
-                    pl.col("price_datetime").str.strptime(pl.Datetime, strict=False).dt.replace_time_zone("UTC").alias("price_dt")
+                    pl.col("price_datetime").str.strptime(pl.Datetime, strict=False)
+                        .dt.replace_time_zone("America/Chicago", ambiguous="earliest")
+                        .dt.convert_time_zone("UTC")
+                        .alias("price_dt")
                 )
             else:
-                # Treat as Datetime-like; cast to naive and assign UTC
+                # Treat as Datetime-like; cast to naive, assign CT timezone, then convert to UTC
+                # CRITICAL: Assume Datetime values are in Central Time (like all ERCOT data)
                 prices_ts = prices_raw.with_columns(
-                    pl.col("price_datetime").cast(pl.Datetime).dt.replace_time_zone("UTC").alias("price_dt")
+                    pl.col("price_datetime").cast(pl.Datetime)
+                        .dt.replace_time_zone("America/Chicago", ambiguous="earliest")
+                        .dt.convert_time_zone("UTC")
+                        .alias("price_dt")
                 )
 
             return (
