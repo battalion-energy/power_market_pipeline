@@ -90,6 +90,7 @@ def main():
     ap.add_argument('--pmax', type=float, default=250)
     ap.add_argument('--pstep', type=float, default=2.0)
     ap.add_argument('--out-dir', type=str, default=None, help='Directory to save image (defaults to tools/output/rt_bids_depth)')
+    ap.add_argument('--mapping', type=str, default='bess_mapping/BESS_UNIFIED_MAPPING_V5.csv', help='BESS mapping CSV to resolve Settlement_Point for DA/RT prices')
     # Colormap/normalization controls
     ap.add_argument('--kink-mw', type=float, default=1.0, help='Magnitude (MW) for fast transition from white to color (default 1 MW)')
     ap.add_argument('--fast-frac', type=float, default=0.9, help='Fraction of half-colormap used up to kink (0-1). Higher = faster transition (default 0.9)')
@@ -121,6 +122,54 @@ def main():
     prices15 = None
     if rt15_p.exists():
         prices15 = pl.read_parquet(rt15_p).filter(pl.col('local_date')==pl.lit(target)).sort('ts_utc')
+    # Fallback: derive RT prices directly from rollup_files/RT_prices if parquet is missing or empty
+    if (prices15 is None) or (len(prices15) == 0) or ('rt_price' not in prices15.columns):
+        try:
+            # Map BESS -> Settlement_Point
+            map_path = Path(args.mapping)
+            if not map_path.exists():
+                raise FileNotFoundError(f'Mapping not found: {map_path}')
+            mp = pl.read_csv(map_path)
+            # Column names in V4: BESS_Gen_Resource, Settlement_Point
+            if 'BESS_Gen_Resource' not in mp.columns or 'Settlement_Point' not in mp.columns:
+                raise ValueError('Mapping missing required columns: BESS_Gen_Resource, Settlement_Point')
+            rows = mp.filter(pl.col('BESS_Gen_Resource') == args.bess)
+            if len(rows) == 0:
+                raise ValueError(f'No mapping row for BESS {args.bess}')
+            node = rows.select('Settlement_Point').item()
+
+            # Load RT price long parquet and build 15-min UTC series for this node and date
+            rt_path = base / 'rollup_files' / 'RT_prices' / f'{args.year}.parquet'
+            if not rt_path.exists():
+                raise FileNotFoundError(f'Missing RT price file: {rt_path}')
+            df_rt = pl.read_parquet(rt_path)
+            sp_col = 'SettlementPointName' if 'SettlementPointName' in df_rt.columns else ('settlement_point' if 'settlement_point' in df_rt.columns else None)
+            dt_col = 'datetime' if 'datetime' in df_rt.columns else ('datetime_ts' if 'datetime_ts' in df_rt.columns else None)
+            price_col = 'SettlementPointPrice' if 'SettlementPointPrice' in df_rt.columns else ('rt_lmp' if 'rt_lmp' in df_rt.columns else None)
+            if not all([sp_col, dt_col, price_col]):
+                raise ValueError('Unexpected RT price schema; missing settlement point, datetime, or price column')
+
+            rt_raw = df_rt.filter(pl.col(sp_col) == node).select([
+                pl.col(dt_col).alias('dt'),
+                pl.col(price_col).alias('rt_price')
+            ])
+            if rt_raw.schema.get('dt') in (pl.Utf8, pl.Categorical):
+                rt_ts = rt_raw.with_columns(pl.col('dt').str.strptime(pl.Datetime, strict=False).dt.replace_time_zone('UTC').alias('ts'))
+            else:
+                rt_ts = rt_raw.with_columns(pl.col('dt').cast(pl.Datetime).dt.replace_time_zone('UTC').alias('ts'))
+            # Truncate to 15m UTC and filter target local date
+            rt_15 = (
+                rt_ts.with_columns([
+                    pl.col('ts').dt.truncate('15m').alias('ts_utc'),
+                    pl.col('ts').dt.convert_time_zone('America/Chicago').dt.date().alias('local_date')
+                ])
+                .filter(pl.col('local_date') == pl.lit(target))
+                .group_by('ts_utc').agg(pl.col('rt_price').mean())
+                .sort('ts_utc')
+            )
+            prices15 = rt_15
+        except Exception:
+            prices15 = None
 
     # Build price bins and grids
     bins = np.arange(args.pmin, args.pmax+args.pstep/2, args.pstep)
