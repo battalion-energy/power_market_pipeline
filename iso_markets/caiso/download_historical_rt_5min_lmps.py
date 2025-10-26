@@ -1,0 +1,225 @@
+#!/usr/bin/env python3
+"""
+Download historical CAISO Real-Time 5-Minute LMP data (nodal).
+Downloads data from 2019-01-01 to present, one file per day.
+
+Storage: One CSV file per day with all nodes
+Format: nodal_rt_5min_lmp_YYYY-MM-DD.csv
+"""
+
+import os
+import sys
+import logging
+import time
+from pathlib import Path
+from datetime import datetime, timedelta
+import pandas as pd
+from dotenv import load_dotenv
+
+from iso_markets.caiso.caiso_api_client import CAISOAPIClient, format_datetime_for_caiso
+
+load_dotenv()
+
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
+
+# Configuration
+CAISO_DATA_DIR = Path(os.getenv('CAISO_DATA_DIR', '/pool/ssd8tb/data/iso/CAISO_data'))
+OUTPUT_DIR = CAISO_DATA_DIR / "csv_files/rt_5min_nodal"
+OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+
+# Retry configuration
+MAX_RETRIES = 5
+BASE_RETRY_DELAY = 30  # seconds
+
+
+def get_latest_downloaded_date() -> datetime:
+    """
+    Find the latest date that has been successfully downloaded.
+
+    Returns:
+        Latest datetime, or None if no files exist
+    """
+    existing_files = list(OUTPUT_DIR.glob("nodal_rt_5min_lmp_*.csv"))
+
+    if not existing_files:
+        return None
+
+    # Extract dates from filenames
+    dates = []
+    for f in existing_files:
+        try:
+            date_str = f.stem.replace("nodal_rt_5min_lmp_", "")
+            dates.append(datetime.strptime(date_str, "%Y-%m-%d"))
+        except ValueError:
+            continue
+
+    if not dates:
+        return None
+
+    return max(dates)
+
+
+def download_day_chunked(client: CAISOAPIClient, date: datetime) -> bool:
+    """
+    Download real-time 5-minute LMP data for a single day in chunks.
+
+    CAISO RT data can be very large, so we download in 2-hour chunks.
+
+    Args:
+        client: CAISO API client
+        date: Date to download
+
+    Returns:
+        True if successful, False otherwise
+    """
+    date_str = date.strftime("%Y-%m-%d")
+    output_file = OUTPUT_DIR / f"nodal_rt_5min_lmp_{date_str}.csv"
+
+    # Check if already exists (quick skip)
+    if output_file.exists():
+        file_size = output_file.stat().st_size
+        if file_size > 10000:  # At least 10 KB means likely valid (RT data is larger)
+            logger.info(f"✓ {date_str}: Already exists ({file_size:,} bytes) - skipping")
+            return True
+
+    logger.info(f"⏳ Downloading RT 5-min LMPs for {date_str}...")
+
+    all_dfs = []
+
+    # Download in 2-hour chunks (12 chunks per day)
+    for hour_start in range(0, 24, 2):
+        hour_end = min(hour_start + 2, 24)
+
+        # Create time range for this chunk
+        start_dt = date.replace(hour=hour_start, minute=0, second=0, microsecond=0)
+
+        if hour_end == 24:
+            # End of day: use 23:59
+            end_dt = date.replace(hour=23, minute=59, second=0, microsecond=0)
+        else:
+            end_dt = date.replace(hour=hour_end, minute=0, second=0, microsecond=0)
+
+        start_str = format_datetime_for_caiso(start_dt)
+        end_str = format_datetime_for_caiso(end_dt)
+
+        # Retry loop with exponential backoff
+        chunk_success = False
+        for attempt in range(MAX_RETRIES):
+            try:
+                # Get data from API
+                df = client.get_rt_5min_lmps(start_str, end_str, node="ALL")
+
+                if df is not None and len(df) > 0:
+                    all_dfs.append(df)
+                    logger.info(f"   Chunk {hour_start:02d}:00-{hour_end:02d}:00: {len(df):,} rows")
+                    chunk_success = True
+                    break
+                else:
+                    logger.warning(f"   Chunk {hour_start:02d}:00-{hour_end:02d}:00: No data")
+                    chunk_success = True  # Empty chunk is OK
+                    break
+
+            except Exception as e:
+                error_msg = str(e)
+                if attempt < MAX_RETRIES - 1:
+                    wait_time = BASE_RETRY_DELAY * (2 ** attempt)
+                    logger.warning(f"⚠️  Chunk {hour_start:02d}:00 attempt {attempt + 1}/{MAX_RETRIES} failed: {error_msg}")
+                    logger.warning(f"⏳ Waiting {wait_time} seconds before retry...")
+                    time.sleep(wait_time)
+                else:
+                    logger.error(f"❌ All {MAX_RETRIES} attempts failed for chunk {hour_start:02d}:00: {error_msg}")
+                    chunk_success = False
+                    break
+
+        if not chunk_success:
+            logger.error(f"❌ Failed to download chunk {hour_start:02d}:00 for {date_str}")
+            return False
+
+    # Combine all chunks
+    if not all_dfs:
+        logger.warning(f"⚠️  No data downloaded for {date_str}")
+        return False
+
+    combined_df = pd.concat(all_dfs, ignore_index=True)
+
+    # Save to CSV
+    combined_df.to_csv(output_file, index=False)
+    file_size = output_file.stat().st_size
+
+    logger.info(f"✓ {date_str}: Saved {len(combined_df):,} rows ({file_size:,} bytes)")
+    return True
+
+
+def main():
+    """Main download loop."""
+    print("=" * 80)
+    print("CAISO Real-Time 5-Minute LMP Historical Download")
+    print("=" * 80)
+
+    # Create API client
+    client = CAISOAPIClient(min_delay_between_requests=5.0)
+
+    # Determine start date
+    latest_date = get_latest_downloaded_date()
+
+    if latest_date:
+        start_date = latest_date + timedelta(days=1)
+        logger.info(f"Latest downloaded date: {latest_date.strftime('%Y-%m-%d')}")
+        logger.info(f"Resuming from: {start_date.strftime('%Y-%m-%d')}")
+    else:
+        start_date = datetime(2019, 1, 1)
+        logger.info(f"No existing data found. Starting from: {start_date.strftime('%Y-%m-%d')}")
+
+    # Download up to yesterday (today's data may not be complete)
+    end_date = datetime.now() - timedelta(days=1)
+    end_date = end_date.replace(hour=0, minute=0, second=0, microsecond=0)
+
+    if start_date > end_date:
+        logger.info("✓ All data is up to date!")
+        return
+
+    total_days = (end_date - start_date).days + 1
+    logger.info(f"\nDownloading {total_days} days ({start_date.strftime('%Y-%m-%d')} to {end_date.strftime('%Y-%m-%d')})")
+    logger.info(f"Output directory: {OUTPUT_DIR}")
+    logger.info(f"Note: Each day is downloaded in 12 chunks (2-hour intervals)")
+    print("=" * 80)
+
+    # Download day by day
+    success_count = 0
+    fail_count = 0
+    current_date = start_date
+
+    while current_date <= end_date:
+        success = download_day_chunked(client, current_date)
+
+        if success:
+            success_count += 1
+        else:
+            fail_count += 1
+
+        current_date += timedelta(days=1)
+
+    # Summary
+    print("\n" + "=" * 80)
+    print("Download Summary")
+    print("=" * 80)
+    print(f"Total days processed: {total_days}")
+    print(f"Successful: {success_count}")
+    print(f"Failed: {fail_count}")
+    print(f"Output directory: {OUTPUT_DIR}")
+    print("=" * 80)
+
+    if fail_count > 0:
+        logger.warning(f"⚠️  {fail_count} days failed to download. You may want to retry.")
+        sys.exit(1)
+    else:
+        logger.info("✓ All data downloaded successfully!")
+        sys.exit(0)
+
+
+if __name__ == "__main__":
+    main()
