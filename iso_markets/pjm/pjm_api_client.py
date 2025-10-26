@@ -23,21 +23,34 @@ logger = logging.getLogger(__name__)
 class RateLimiter:
     """Rate limiter to enforce API request throttling."""
 
-    def __init__(self, max_requests: int = 8, time_window: int = 60):
+    def __init__(self, max_requests: int = 8, time_window: int = 60,
+                 min_delay_between_requests: float = 2.0):
         """
         Initialize rate limiter.
 
         Args:
             max_requests: Maximum number of requests allowed
             time_window: Time window in seconds
+            min_delay_between_requests: Minimum seconds to wait between requests (default 2.0)
         """
         self.max_requests = max_requests
         self.time_window = time_window
+        self.min_delay = min_delay_between_requests
         self.requests = []
+        self.last_request_time = None
 
     def wait_if_needed(self):
-        """Wait if necessary to comply with rate limits."""
+        """Wait if necessary to comply with rate limits and minimum delay."""
         now = time.time()
+
+        # Enforce minimum delay between requests (conservative approach)
+        if self.last_request_time is not None:
+            time_since_last = now - self.last_request_time
+            if time_since_last < self.min_delay:
+                wait_time = self.min_delay - time_since_last
+                logger.debug(f"Minimum delay: waiting {wait_time:.2f} seconds...")
+                time.sleep(wait_time)
+                now = time.time()
 
         # Remove requests outside the time window
         self.requests = [req_time for req_time in self.requests
@@ -49,10 +62,12 @@ class RateLimiter:
             wait_time = self.time_window - (now - oldest_request)
             if wait_time > 0:
                 logger.info(f"Rate limit reached. Waiting {wait_time:.2f} seconds...")
-                time.sleep(wait_time + 0.1)  # Add small buffer
+                time.sleep(wait_time + 0.5)  # Add buffer
+                now = time.time()
 
         # Record this request
-        self.requests.append(time.time())
+        self.requests.append(now)
+        self.last_request_time = now
 
 
 class PJMAPIClient:
@@ -61,13 +76,15 @@ class PJMAPIClient:
     BASE_URL = "https://api.pjm.com/api/v1"
 
     def __init__(self, api_key: Optional[str] = None,
-                 requests_per_minute: int = 6):
+                 requests_per_minute: int = 4,
+                 min_delay_between_requests: float = 3.0):
         """
         Initialize PJM API client.
 
         Args:
             api_key: PJM API key (will use PJM_API_KEY env var if not provided)
-            requests_per_minute: Maximum requests per minute (default 6 for non-members, 600 for members)
+            requests_per_minute: Maximum requests per minute (default 5 for safety, 6 is max for non-members)
+            min_delay_between_requests: Minimum seconds between requests (default 2.0 for conservative throttling)
         """
         self.api_key = api_key or os.getenv('PJM_API_KEY')
         if not self.api_key:
@@ -76,7 +93,11 @@ class PJMAPIClient:
                 "Register for free at: https://apiportal.pjm.com/signup/"
             )
 
-        self.rate_limiter = RateLimiter(max_requests=requests_per_minute, time_window=60)
+        self.rate_limiter = RateLimiter(
+            max_requests=requests_per_minute,
+            time_window=60,
+            min_delay_between_requests=min_delay_between_requests
+        )
         self.session = self._create_session()
 
     def _create_session(self) -> requests.Session:
@@ -84,10 +105,11 @@ class PJMAPIClient:
         session = requests.Session()
 
         # Configure retry strategy
+        # Don't retry 429 here - handle it in _make_request for better control
         retry_strategy = Retry(
             total=3,
             backoff_factor=2,
-            status_forcelist=[429, 500, 502, 503, 504],
+            status_forcelist=[500, 502, 503, 504],  # Removed 429 - handle separately
             allowed_methods=["GET"]
         )
 
@@ -139,9 +161,9 @@ class PJMAPIClient:
                     "Register at: https://apiportal.pjm.com/signup/"
                 )
             elif e.response.status_code == 429:
-                logger.warning("Rate limit exceeded. Waiting 60 seconds...")
-                time.sleep(60)
-                return self._make_request(endpoint, params)
+                # Don't retry recursively - let caller handle retries
+                logger.warning(f"Rate limit exceeded (429). Not retrying - caller should implement exponential backoff.")
+                raise
             else:
                 logger.error(f"HTTP error: {e}")
                 raise
@@ -220,6 +242,9 @@ class PJMAPIClient:
         """
         Get real-time 5-minute LMPs.
 
+        IMPORTANT: PJM only retains 5-minute data for ~6 months (186 days).
+        Historical data beyond this window is not available via API.
+
         Args:
             start_date: Start date/time (YYYY-MM-DD or YYYY-MM-DD HH:mm if use_exact_times=True)
             end_date: End date/time (YYYY-MM-DD or YYYY-MM-DD HH:mm if use_exact_times=True)
@@ -228,6 +253,9 @@ class PJMAPIClient:
 
         Returns:
             List of price records
+
+        Note:
+            Fixed endpoint: 'rt_fivemin_hrl_lmps' (was 'rt_fivemin_lmps' - caused 404)
         """
         # API requires date range in format: "YYYY-MM-DD HH:mm to YYYY-MM-DD HH:mm"
         if use_exact_times:
@@ -244,7 +272,8 @@ class PJMAPIClient:
         if pnode_id:
             params['pnode_id'] = pnode_id
 
-        return self._make_request('rt_fivemin_lmps', params)
+        # Fixed endpoint name: was 'rt_fivemin_lmps' (404), now 'rt_fivemin_hrl_lmps' (correct)
+        return self._make_request('rt_fivemin_hrl_lmps', params)
 
     def get_ancillary_services(self, start_date: str, end_date: str) -> List[Dict]:
         """
