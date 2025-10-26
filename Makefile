@@ -1,7 +1,14 @@
 # ERCOT Power Market Pipeline Makefile
 # Comprehensive build and data processing automation
 
-.PHONY: help build test clean install run-all extract rollup bess verify docker lint format check
+# Load variables from .env if present (e.g., ERCOT_DATA_DIR)
+ifneq (,$(wildcard .env))
+include .env
+# Export variables declared in .env to child processes
+export $(shell sed -n 's/^\([A-Za-z_][A-Za-z0-9_]*\)=.*/\1/p' .env)
+endif
+
+.PHONY: help build test clean install run-all extract rollup bess bess-revenue verify docker lint format check
 
 # Default target - show help
 help:
@@ -38,6 +45,7 @@ help:
 	@echo ""
 	@echo "Analysis:"
 	@echo "  make bess            Run BESS revenue analysis"
+	@echo "  make bess-revenue    Run Python BESS revenue calculator (defaults YEARS=2022 2023 2024 2025)"
 	@echo "  make bess-leaderboard Run BESS daily revenue leaderboard"
 	@echo "  make bess-match      Create BESS resource matching file"
 	@echo "  make bess-mapping    Run BESS mapping pipeline (location/IQ/EIA matching)"
@@ -47,6 +55,7 @@ help:
 	@echo "  make tbx-all-nodes   Calculate TBX for ALL 1,098 nodes (Rust V2)"
 	@echo "  make tbx-reports     Generate monthly/quarterly TBX reports"
 	@echo "  make tbx-custom      Calculate TBX with custom parameters"
+	@echo "  make bess-cod-mapping Populate COD_Date in V5 mapping from SCED parquet"
 	@echo "  make verify          Verify data quality of processed files"
 	@echo "  make verify-parquet  Check parquet files (Rust version)"
 	@echo "  make verify-all-parquet  Comprehensive parallel verification (Python)"
@@ -83,7 +92,9 @@ install: install-python install-rust
 	@echo "✅ All dependencies installed"
 
 install-python:
-	@echo "📦 Installing Python dependencies with uv..."
+	@echo "📦 Ensuring uv is installed..."
+	@command -v uv >/dev/null 2>&1 || python3 -m pip install --user uv
+	@echo "📦 Installing Python dependencies with uv (includes polars)..."
 	uv sync
 
 install-rust:
@@ -258,6 +269,27 @@ bess:
 		POLARS_MAX_THREADS=24 \
 		cargo run --release --bin ercot_data_processor -- --bess-unified
 	@echo "✅ BESS analysis complete. Check database_export/ for results."
+
+# Run the Python BESS revenue calculator script that uses polars
+# Params:
+#   YEARS?="2022 2023 2024 2025"  # default years processed if YEAR not provided
+#   YEAR?=                        # optional: single year override
+#   THREADS?=                     # optional: limit backend threads (e.g., 8)
+#   LIMIT?=                       # optional: only process first N units
+bess-revenue:
+	@echo "💰 Running Python BESS Revenue Calculator (historical forensic accounting)..."
+	@echo "📂 Data dir: $(DATA_DIR)"
+	@echo "📅 Years: $(if $(YEAR),$(YEAR),$(YEARS))  $(if $(LIMIT),(limit $(LIMIT)),) $(if $(THREADS),(threads $(THREADS)),)"
+	@for Y in $(if $(YEAR),$(YEAR),$(YEARS)); do \
+		echo "──▶ Year $$Y"; \
+		uv run python ERCOT_BESS_revenue/scripts/bess_revenue_calculator.py \
+			--year $$Y \
+			--base-dir $(DATA_DIR) \
+			--output bess_revenue_$$Y.csv \
+			$(if $(THREADS),--max-threads $(THREADS),) \
+			$(if $(LIMIT),--limit $(LIMIT),); \
+		echo "✅ Results saved to: bess_revenue_$$Y.csv"; \
+	done
 
 bess-leaderboard:
 	@echo "🏆 Running Unified BESS Revenue Calculator (Python Version)..."
@@ -731,5 +763,21 @@ cleanup-old-data:
 # Variables for common paths
 RUST_BIN := ercot_data_processor/target/debug/ercot_data_processor
 RUST_BIN_RELEASE := ercot_data_processor/target/release/ercot_data_processor
-DATA_DIR ?= $(shell echo $${ERCOT_DATA_DIR:-/home/enrico/data/ERCOT_data})
+# Prefer ERCOT_DATA_DIR from environment or .env; fallback to a local default
+DATA_DIR ?= $(if $(ERCOT_DATA_DIR),$(ERCOT_DATA_DIR),/home/enrico/data/ERCOT_data)
 ROLLUP_DIR := $(DATA_DIR)/rollup_files
+YEARS ?= 2022 2023 2024 2025
+
+# ============= BESS COD Mapping =============
+
+.PHONY: bess-cod-mapping
+bess-cod-mapping:
+	@echo "🗺️  Creating/updating V5 mapping with COD_Date (earliest activity) ..."
+	@echo "📂 Rollup dir: $(ROLLUP_DIR)"
+	uv run python scripts/add_cod_to_mapping_v5.py \
+		--v4 bess_mapping/BESS_UNIFIED_MAPPING_V4.csv \
+		--v5 bess_mapping/BESS_UNIFIED_MAPPING_V5.csv \
+		--rollup $(ROLLUP_DIR) \
+		$(if $(START_YEAR),--start-year $(START_YEAR),) \
+		$(if $(END_YEAR),--end-year $(END_YEAR),)
+	@echo "✅ Updated: bess_mapping/BESS_UNIFIED_MAPPING_V5.csv"
