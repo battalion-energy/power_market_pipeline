@@ -14,6 +14,7 @@ Open-Meteo Forecast Archive:
 Documentation: https://open-meteo.com/en/docs/ensemble-api
 """
 
+import os
 import pandas as pd
 import requests
 from datetime import datetime, timedelta
@@ -21,6 +22,7 @@ from pathlib import Path
 import time
 from typing import Optional, List
 import json
+from dotenv import load_dotenv
 
 # Open-Meteo Ensemble/Forecast API endpoint
 OPENMETEO_FORECAST_URL = "https://ensemble-api.open-meteo.com/v1/ensemble"
@@ -98,11 +100,12 @@ def download_forecast_archive(
 def main():
     """Main execution function."""
     # Setup directories
-    project_root = Path(__file__).parent
-    weather_dir = project_root / 'weather_data'
+    load_dotenv()
+    weather_dir = Path(os.getenv('WEATHER_DATA_DIR', '/pool/ssd8tb/data/weather_data'))
+    weather_dir.mkdir(exist_ok=True, parents=True)
 
     forecast_dir = weather_dir / 'openmeteo_forecasts'
-    forecast_dir.mkdir(exist_ok=True)
+    forecast_dir.mkdir(exist_ok=True, parents=True)
 
     forecast_csv_dir = forecast_dir / 'csv_files'
     forecast_csv_dir.mkdir(exist_ok=True)
@@ -112,6 +115,11 @@ def main():
 
     # Load locations
     locations_file = weather_dir / 'weather_locations.csv'
+    if not locations_file.exists():
+        print(f"ERROR: Locations file not found: {locations_file}")
+        print("Using ERCOT locations from weather_locations.csv")
+        return
+
     locations_df = pd.read_csv(locations_file)
 
     # Date range: Open-Meteo forecast archive starts June 2022
