@@ -57,15 +57,25 @@ class ISONEOperationalDataDownloader:
         if self.session:
             await self.session.aclose()
 
-    @retry(stop=stop_after_attempt(5), wait=wait_exponential(min=2, max=300))
+    @retry(stop=stop_after_attempt(3), wait=wait_exponential(min=2, max=60))
     async def fetch_data(self, endpoint: str, params: Optional[Dict] = None) -> Dict:
         """Fetch data from ISO-NE API with retry logic."""
         url = f"{BASE_URL}/{endpoint}"
 
         async with self.semaphore:
-            response = await self.session.get(url, auth=self.auth, params=params or {})
-            response.raise_for_status()
-            return response.json()
+            try:
+                response = await self.session.get(url, auth=self.auth, params=params or {}, timeout=30.0)
+                response.raise_for_status()
+                return response.json()
+            except httpx.HTTPStatusError as e:
+                # If it's a 404, don't retry - data doesn't exist
+                if e.response.status_code == 404:
+                    return {}
+                raise
+            except Exception as e:
+                # Log the actual error for debugging
+                print(f"    Error fetching {endpoint}: {type(e).__name__}: {str(e)[:100]}")
+                raise
 
     async def save_data(self, data: Dict, filepath: Path):
         """Save JSON data to file."""
@@ -594,7 +604,12 @@ class ISONEOperationalDataDownloader:
         data_types: List[str],
         reverse: bool = False,
     ):
-        """Download data for a date range."""
+        """
+        Download data for a date range.
+
+        If reverse=True, downloads newest first and stops a data type after 5 consecutive failures.
+        This handles cases where historical data doesn't exist for certain data types.
+        """
         # Generate list of dates
         dates = []
         current_date = start_date
@@ -607,31 +622,60 @@ class ISONEOperationalDataDownloader:
 
         print(f"\nDownloading {len(dates)} days of data for {len(data_types)} data types")
         print(f"Data types: {', '.join(data_types)}")
-        print(f"Date range: {start_date.date()} to {end_date.date()}\n")
+        print(f"Date range: {start_date.date()} to {end_date.date()}")
+        print(f"Order: {'Newest first (reverse)' if reverse else 'Oldest first'}\n")
 
         total_success = 0
         total_failed = 0
 
+        # Track consecutive failures per data type
+        consecutive_failures = {dtype: 0 for dtype in data_types}
+        disabled_types = set()
+        MAX_CONSECUTIVE_FAILURES = 5
+
         for i, date in enumerate(dates, 1):
             print(f"[{i}/{len(dates)}] Processing {date.date()}...")
 
-            results = await self.download_for_date(date, data_types)
+            # Filter out disabled data types
+            active_types = [dt for dt in data_types if dt not in disabled_types]
 
-            day_success = sum(1 for r in results.values() if r["success"])
-            day_failed = len(results) - day_success
+            if not active_types:
+                print("  All data types disabled due to consecutive failures. Stopping.")
+                break
+
+            results = await self.download_for_date(date, active_types)
+
+            day_success = 0
+            day_failed = 0
+
+            # Update failure tracking
+            for dtype, result in results.items():
+                if result["success"]:
+                    consecutive_failures[dtype] = 0  # Reset on success
+                    day_success += 1
+                    status = "✓"
+                else:
+                    consecutive_failures[dtype] += 1
+                    day_failed += 1
+                    status = "✗"
+
+                    # Check if we should disable this data type
+                    if consecutive_failures[dtype] >= MAX_CONSECUTIVE_FAILURES:
+                        disabled_types.add(dtype)
+                        print(f"  ⚠ Disabling {dtype} after {MAX_CONSECUTIVE_FAILURES} consecutive failures")
+
+                print(f"  {status} {dtype}: {result['count']} records")
+
             total_success += day_success
             total_failed += day_failed
-
-            # Print summary for this day
-            for dtype, result in results.items():
-                status = "✓" if result["success"] else "✗"
-                print(f"  {status} {dtype}: {result['count']} records")
 
         print(f"\n{'='*80}")
         print(f"Download Summary")
         print(f"{'='*80}")
         print(f"Total successful: {total_success}")
         print(f"Total failed: {total_failed}")
+        if disabled_types:
+            print(f"Disabled data types: {', '.join(disabled_types)}")
         print(f"{'='*80}\n")
 
 
@@ -696,6 +740,12 @@ async def main():
     )
 
     args = parser.parse_args()
+
+    # Check credentials
+    if not USERNAME or not PASSWORD:
+        print("ERROR: ISONE_USERNAME and ISONE_PASSWORD must be set in .env file!")
+        print(f"Current values: USERNAME={'SET' if USERNAME else 'NOT SET'}, PASSWORD={'SET' if PASSWORD else 'NOT SET'}")
+        return
 
     start_date = datetime.strptime(args.start_date, "%Y-%m-%d")
     end_date = datetime.strptime(args.end_date, "%Y-%m-%d")
