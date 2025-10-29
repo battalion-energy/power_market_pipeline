@@ -68,5 +68,68 @@
     "start_date": "2019-01-01",
     "end_date": "2025-10-29",
     "last_updated": "2025-10-29T00:34:15.393491"
+  },
+  "NP4-33-CD": {
+    "name": "DAM Ancillary Service Plan",
+    "url": "https://data.ercot.com/data-product-archive/NP4-33-CD",
+    "start_date": "2019-01-01",
+    "end_date": "2025-10-29",
+    "last_updated": "2025-10-29T00:36:23.136365"
+  },
+  "NP4-188-CD": {
+    "name": "DAM Clearing Prices for Capacity",
+    "url": "https://data.ercot.com/data-product-archive/NP4-188-CD",
+    "start_date": "2019-01-01",
+    "end_date": "2025-10-29",
+    "last_updated": "2025-10-29T00:38:24.853895"
+  },
+  "NP4-183-CD": {
+    "name": "DAM Hourly LMPs",
+    "url": "https://data.ercot.com/data-product-archive/NP4-183-CD",
+    "start_date": "2019-01-01",
+    "end_date": "2025-10-29",
+    "last_updated": "2025-10-29T00:42:41.247285"
+  },
+  "NP4-196-M": {
+    "name": "DAM Price Corrections",
+    "url": "https://data.ercot.com/data-product-archive/NP4-196-M",
+    "start_date": "2019-01-01",
+    "end_date": "2025-10-29",
+    "last_updated": "2025-10-29T00:43:46.577707"
+  },
+  "NP4-190-CD": {
+    "name": "DAM Settlement Point Prices",
+    "url": "https://data.ercot.com/data-product-archive/NP4-190-CD",
+    "start_date": "2019-01-01",
+    "end_date": "2025-10-29",
+    "last_updated": "2025-10-29T00:46:47.870321"
+  },
+  "NP4-191-CD": {
+    "name": "DAM Shadow Prices",
+    "url": "https://data.ercot.com/data-product-archive/NP4-191-CD",
+    "start_date": "2019-01-01",
+    "end_date": "2025-10-29",
+    "last_updated": "2025-10-29T00:48:44.727711"
+  },
+  "NP4-523-CD": {
+    "name": "DAM System Lambda",
+    "url": "https://data.ercot.com/data-product-archive/NP4-523-CD",
+    "start_date": "2019-01-01",
+    "end_date": "2025-10-29",
+    "last_updated": "2025-10-29T00:50:52.221981"
+  },
+  "NP4-765-ER": {
+    "name": "ESR Integration Report",
+    "url": "https://data.ercot.com/data-product-archive/NP4-765-ER",
+    "start_date": "2019-01-01",
+    "end_date": "2025-10-29",
+    "last_updated": "2025-10-29T00:52:16.386913"
+  },
+  "NP4-494-ER": {
+    "name": "Exceptional Fuel Cost Submission Report",
+    "url": "https://data.ercot.com/data-product-archive/NP4-494-ER",
+    "start_date": "2019-01-01",
+    "end_date": "2025-10-29",
+    "last_updated": "2025-10-29T00:54:01.730618"
   }
 }
