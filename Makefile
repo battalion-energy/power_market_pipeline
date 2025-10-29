@@ -8,7 +8,7 @@ include .env
 export $(shell sed -n 's/^\([A-Za-z_][A-Za-z0-9_]*\)=.*/\1/p' .env)
 endif
 
-.PHONY: help build test clean install run-all extract rollup bess bess-revenue verify docker lint format check
+.PHONY: help build test clean install run-all extract rollup bess bess-revenue verify docker lint format check build-extractor build-extractor-release extract-ercot
 
 # Default target - show help
 help:
@@ -19,10 +19,13 @@ help:
 	@echo "  make install          Install Python and Rust dependencies"
 	@echo "  make build           Build Rust processor (debug mode)"
 	@echo "  make build-release   Build Rust processor (release mode)"
+	@echo "  make build-extractor Build ERCOT ZIP extractor (debug mode)"
+	@echo "  make build-extractor-release Build ERCOT ZIP extractor (release mode)"
 	@echo "  make clean           Clean build artifacts and temp files"
 	@echo ""
 	@echo "Data Processing - Full:"
 	@echo "  make extract         Extract all ERCOT CSV files from zips"
+	@echo "  make extract-ercot   Extract ERCOT data with high-performance Rust extractor"
 	@echo "  make rollup          Run annual rollup with gap tracking (debug)"
 	@echo "  make rollup-release  Run annual rollup (ALL datasets, optimized)"
 	@echo "  make rollup-test     Test rollup on 2011 data (DST flag test)"
@@ -100,6 +103,7 @@ install-python:
 install-rust:
 	@echo "📦 Installing Rust dependencies..."
 	cd ercot_data_processor && cargo fetch
+	cd iso_markets/ercot/ercot_extractor && cargo fetch
 
 build:
 	@echo "🔨 Building Rust processor (debug) with 24 cores..."
@@ -120,9 +124,26 @@ build-release:
 		cargo build --release --jobs 24
 	@echo "✅ Release build complete: ercot_data_processor/target/release/ercot_data_processor"
 
+build-extractor:
+	@echo "🔨 Building ERCOT ZIP extractor (debug mode)..."
+	cd iso_markets/ercot/ercot_extractor && \
+		PATH="$$HOME/.cargo/bin:$$PATH" \
+		cargo build
+	@echo "✅ Debug build complete: iso_markets/ercot/ercot_extractor/target/debug/ercot_extractor"
+
+build-extractor-release:
+	@echo "🔨 Building ERCOT ZIP extractor (release mode)..."
+	@echo "🚀 Optimizing for maximum performance..."
+	cd iso_markets/ercot/ercot_extractor && \
+		PATH="$$HOME/.cargo/bin:$$PATH" \
+		RUSTFLAGS="-C target-cpu=native" \
+		cargo build --release
+	@echo "✅ Release build complete: iso_markets/ercot/ercot_extractor/target/release/ercot_extractor"
+
 clean:
 	@echo "🧹 Cleaning build artifacts..."
 	cd ercot_data_processor && cargo clean
+	cd iso_markets/ercot/ercot_extractor && cargo clean
 	rm -rf __pycache__ .pytest_cache .mypy_cache
 	rm -rf /tmp/test_2011_ercot /tmp/test_2011_rt_prices
 	find . -type f -name "*.pyc" -delete
@@ -159,6 +180,16 @@ rollup-validated: build-release
 extract:
 	@echo "📂 Extracting all ERCOT CSV files from zips..."
 	cd ercot_data_processor && ./target/debug/ercot_data_processor --extract-all-ercot $(DATA_DIR)
+
+extract-ercot: build-extractor-release
+	@echo "📂 Extracting ERCOT data with high-performance Rust extractor..."
+	@echo "📁 Directory: $(DATA_DIR)"
+	@echo "🚀 Using parallel extraction with all CPU cores..."
+	cd iso_markets/ercot/ercot_extractor && \
+		./target/release/ercot_extractor \
+		--directory $(DATA_DIR) \
+		--skip-existing true
+	@echo "✅ Extraction complete!"
 
 # ============= Price Data Flattening & Combining =============
 

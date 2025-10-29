@@ -1,0 +1,135 @@
+{
+  "NP3-911-ER": {
+    "name": "2-Day Ancillary Services Reports",
+    "url": "https://data.ercot.com/data-product-archive/NP3-911-ER",
+    "start_date": "2019-01-01",
+    "end_date": "2025-10-29",
+    "last_updated": "2025-10-29T00:07:24.977266"
+  },
+  "NP3-910-ER": {
+    "name": "2-Day Real Time Gen and Load Data Reports",
+    "url": "https://data.ercot.com/data-product-archive/NP3-910-ER",
+    "start_date": "2019-01-01",
+    "end_date": "2025-10-29",
+    "last_updated": "2025-10-29T00:10:13.057191"
+  },
+  "NP1-301": {
+    "name": "60-Day COP Adjustment Period Snapshot",
+    "url": "https://data.ercot.com/data-product-archive/NP1-301",
+    "start_date": "2019-01-01",
+    "end_date": "2025-10-29",
+    "last_updated": "2025-10-29T00:13:51.865430"
+  },
+  "NP3-991-EX": {
+    "name": "60-Day COP All Updates",
+    "url": "https://data.ercot.com/data-product-archive/NP3-991-EX",
+    "start_date": "2019-01-01",
+    "end_date": "2025-10-29",
+    "last_updated": "2025-10-29T00:16:23.597992"
+  },
+  "NP3-966-ER": {
+    "name": "60-Day DAM Disclosure Reports",
+    "url": "https://data.ercot.com/data-product-archive/NP3-966-ER",
+    "start_date": "2019-01-01",
+    "end_date": "2025-10-29",
+    "last_updated": "2025-10-29T00:18:39.240394"
+  },
+  "NP3-990-EX": {
+    "name": "60-Day SASM Disclosure Reports",
+    "url": "https://data.ercot.com/data-product-archive/NP3-990-EX",
+    "start_date": "2019-01-01",
+    "end_date": "2025-10-29",
+    "last_updated": "2025-10-29T00:20:44.967318"
+  },
+  "NP3-965-ER": {
+    "name": "60-Day SCED Disclosure Reports",
+    "url": "https://data.ercot.com/data-product-archive/NP3-965-ER",
+    "start_date": "2019-01-01",
+    "end_date": "2025-10-29",
+    "last_updated": "2025-10-29T00:23:17.835830"
+  },
+  "NP6-346-CD": {
+    "name": "Actual System Load by Forecast Zone",
+    "url": "https://data.ercot.com/data-product-archive/NP6-346-CD",
+    "start_date": "2019-01-01",
+    "end_date": "2025-10-29",
+    "last_updated": "2025-10-29T00:25:16.210892"
+  },
+  "NP6-345-CD": {
+    "name": "Actual System Load by Weather Zone",
+    "url": "https://data.ercot.com/data-product-archive/NP6-345-CD",
+    "start_date": "2019-01-01",
+    "end_date": "2025-10-29",
+    "last_updated": "2025-10-29T00:27:18.490059"
+  },
+  "NP3-765-CD": {
+    "name": "Approved DC Tie Schedules",
+    "url": "https://data.ercot.com/data-product-archive/NP3-765-CD",
+    "start_date": "2019-01-01",
+    "end_date": "2025-10-29",
+    "last_updated": "2025-10-29T00:34:15.393491"
+  },
+  "NP4-33-CD": {
+    "name": "DAM Ancillary Service Plan",
+    "url": "https://data.ercot.com/data-product-archive/NP4-33-CD",
+    "start_date": "2019-01-01",
+    "end_date": "2025-10-29",
+    "last_updated": "2025-10-29T00:36:23.136365"
+  },
+  "NP4-188-CD": {
+    "name": "DAM Clearing Prices for Capacity",
+    "url": "https://data.ercot.com/data-product-archive/NP4-188-CD",
+    "start_date": "2019-01-01",
+    "end_date": "2025-10-29",
+    "last_updated": "2025-10-29T00:38:24.853895"
+  },
+  "NP4-183-CD": {
+    "name": "DAM Hourly LMPs",
+    "url": "https://data.ercot.com/data-product-archive/NP4-183-CD",
+    "start_date": "2019-01-01",
+    "end_date": "2025-10-29",
+    "last_updated": "2025-10-29T00:42:41.247285"
+  },
+  "NP4-196-M": {
+    "name": "DAM Price Corrections",
+    "url": "https://data.ercot.com/data-product-archive/NP4-196-M",
+    "start_date": "2019-01-01",
+    "end_date": "2025-10-29",
+    "last_updated": "2025-10-29T00:43:46.577707"
+  },
+  "NP4-190-CD": {
+    "name": "DAM Settlement Point Prices",
+    "url": "https://data.ercot.com/data-product-archive/NP4-190-CD",
+    "start_date": "2019-01-01",
+    "end_date": "2025-10-29",
+    "last_updated": "2025-10-29T00:46:47.870321"
+  },
+  "NP4-191-CD": {
+    "name": "DAM Shadow Prices",
+    "url": "https://data.ercot.com/data-product-archive/NP4-191-CD",
+    "start_date": "2019-01-01",
+    "end_date": "2025-10-29",
+    "last_updated": "2025-10-29T00:48:44.727711"
+  },
+  "NP4-523-CD": {
+    "name": "DAM System Lambda",
+    "url": "https://data.ercot.com/data-product-archive/NP4-523-CD",
+    "start_date": "2019-01-01",
+    "end_date": "2025-10-29",
+    "last_updated": "2025-10-29T00:50:52.221981"
+  },
+  "NP4-765-ER": {
+    "name": "ESR Integration Report",
+    "url": "https://data.ercot.com/data-product-archive/NP4-765-ER",
+    "start_date": "2019-01-01",
+    "end_date": "2025-10-29",
+    "last_updated": "2025-10-29T00:52:16.386913"
+  },
+  "NP4-494-ER": {
+    "name": "Exceptional Fuel Cost Submission Report",
+    "url": "https://data.ercot.com/data-product-archive/NP4-494-ER",
+    "start_date": "2019-01-01",
+    "end_date": "2025-10-29",
+    "last_updated": "2025-10-29T00:54:01.730618"
+  }
+}
