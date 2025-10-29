@@ -573,7 +573,8 @@ fn main() -> Result<()> {
         println!("  DAM_Gen_Resources  60-Day DAM Generation Resources");
         println!("  SCED_Gen_Resources 60-Day SCED Generation Resources");
         println!("  COP_Snapshots      60-Day COP Adjustment Period Snapshots");
-        println!("  RT_prices          Real-Time Settlement Point Prices");
+        println!("  RT_prices          Real-Time Settlement Point Prices (15-minute)");
+        println!("  RT5minutes         Real-Time LMP Prices (5-minute)");
         println!("\nExamples:");
         println!("  {} --annual-rollup", args[0]);
         println!("  {} --annual-rollup --dataset DA_prices", args[0]);

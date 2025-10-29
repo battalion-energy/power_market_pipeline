@@ -419,8 +419,9 @@ def scrape_and_download_by_date(url, download_dir, end_date="2024-08-24", start_
         # Try to go to the next page with exponential backoff
         wait_time = 5  # Start with 5 seconds
         max_wait_time = 120  # Max 2 minutes
-        max_attempts = 1000  # Maximum attempts before giving up on this page
-        
+        max_attempts = 2  # Maximum attempts before giving up on this page
+        end_of_pages = False
+
         for attempt in range(max_attempts):
             try:
                 next_button = WebDriverWait(driver, 45).until(
@@ -436,24 +437,52 @@ def scrape_and_download_by_date(url, download_dir, end_date="2024-08-24", start_
                     time.sleep(wait_time)
                     wait_time = min(wait_time * 2, max_wait_time)  # Exponential backoff, max 2 minutes
             except (NoSuchElementException, TimeoutException):
-                print(f"No more pages to scrape or timed out waiting for next page (attempt {attempt + 1}/{max_attempts}). Waiting {wait_time} seconds...")
-                time.sleep(wait_time)
-                wait_time = min(wait_time * 2, max_wait_time)  # Exponential backoff, max 2 minutes
+                # Quick DOM check to distinguish true end-of-pages vs slow load
+                spans = driver.find_elements(By.XPATH, "//span[@class='page-link' and text()='»']")
+                if not spans:
+                    print("No more pages to scrape. Exiting.")
+                    end_of_pages = True
+                    break
+                else:
+                    try:
+                        parent_li = spans[0].find_element(By.XPATH, "./ancestor::li[1]")
+                        parent_classes = (parent_li.get_attribute("class") or "").split()
+                        aria_disabled = parent_li.get_attribute("aria-disabled")
+                        if "disabled" in parent_classes or (aria_disabled and aria_disabled.lower() == "true"):
+                            print("Next page control is disabled. Exiting.")
+                            end_of_pages = True
+                            break
+                    except Exception:
+                        # If we cannot inspect the parent, fall back to backoff
+                        pass
+                    print(f"No more pages to scrape or timed out waiting for next page (attempt {attempt + 1}/{max_attempts}). Waiting {wait_time} seconds...")
+                    time.sleep(wait_time)
+                    wait_time = min(wait_time * 2, max_wait_time)  # Exponential backoff, max 2 minutes
         else:
-            # If we've exhausted all attempts, wait the max time and try again
-            print(f"Exhausted all attempts for page {page_count + 1}. Waiting {max_wait_time} seconds before retrying...")
-            time.sleep(max_wait_time)
-            # Don't break - keep trying infinitely
+            # If we've exhausted all attempts, decide whether to exit pagination now
+            spans = driver.find_elements(By.XPATH, "//span[@class='page-link' and text()='»']")
+            if not spans:
+                print("No more pages to scrape. Exiting.")
+                end_of_pages = True
+            else:
+                try:
+                    parent_li = spans[0].find_element(By.XPATH, "./ancestor::li[1]")
+                    parent_classes = (parent_li.get_attribute("class") or "").split()
+                    aria_disabled = parent_li.get_attribute("aria-disabled")
+                    if "disabled" in parent_classes or (aria_disabled and aria_disabled.lower() == "true"):
+                        print("Next page control is disabled. Exiting.")
+                        end_of_pages = True
+                except Exception:
+                    pass
+                if not end_of_pages:
+                    print(f"Failed to move to next page after {max_attempts} attempts. Giving up pagination.")
+                    end_of_pages = True
 
-    # Keep the browser open indefinitely for human intervention
-    print("Script completed but keeping browser open for manual intervention...")
-    print("Press Ctrl+C to close the browser manually.")
-    try:
-        while True:
-            time.sleep(60)  # Check every minute
-    except KeyboardInterrupt:
-        print("Manual interruption detected. Closing browser...")
-        driver.quit()
+        if end_of_pages:
+            break
+
+    # Exit the browser once pagination is complete
+    driver.quit()
 
 
 def findNextDownload(download_directory):
@@ -485,26 +514,53 @@ if __name__ == "__main__":
     download_directory = os.path.join(user_home_dir, "data", "ERCOT_data") + os.sep
 
 
-    scrape_and_download_by_date("https://data.ercot.com/data-product-archive/np4-732-cd", 
-            download_directory + "Wind Power Production - Hourly Averaged Actual and Forecasted Values",
-            end_date="2025-10-10", 
-            start_date="2010-01-01")
+    #DataSets for Machine Learning Model Training: 
+    #scrape_and_download_by_date("https://data.ercot.com/data-product-archive/np4-732-cd", 
+    #        download_directory + "Wind Power Production - Hourly Averaged Actual and Forecasted Values",
+    #        end_date="2025-10-28", 
+    #        start_date="2019-01-01")
 
-    scrape_and_download_by_date("https://data.ercot.com/data-product-archive/np4-737-cd", 
-            download_directory + "Solar Power Production - Hourly Averaged Actual and Forecasted Values",
-            end_date="2025-10-10", 
-            start_date="2010-01-01")
+    #scrape_and_download_by_date("https://data.ercot.com/data-product-archive/np4-737-cd", 
+    #        download_directory + "Solar Power Production - Hourly Averaged Actual and Forecasted Values",
+    #        end_date="2025-10-28",     
+    #        start_date="2019-01-01")
 
-
-    scrape_and_download_by_date("https://data.ercot.com/data-product-archive/np3-560-cd", 
-            download_directory + "Seven-Day Load Forecast by Forecast Zone",
-            end_date="2025-10-10", 
-            start_date="2010-01-01")
-
-    scrape_and_download_by_date("https://data.ercot.com/data-product-archive/np4-193-cd", 
-            download_directory + "DAM Total Energy Sold",
-            end_date="2025-10-10", 
-            start_date="2010-01-01")
+    #scrape_and_download_by_date("https://data.ercot.com/data-product-archive/NP3-566-CD", 
+    #        download_directory + "Seven-Day Load Forecast by Model and Study Area",
+    #        end_date="2025-10-28", 
+    #        start_date="2019-01-01")
+    
+    #scrape_and_download_by_date("https://data.ercot.com/data-product-archive/NP6-346-CD", 
+    #        download_directory + "Actual_System_Load_by_Forecast_Zone",
+    #        end_date="2025-10-28", 
+    #        start_date="2019-01-01")
+    
+    #scrape_and_download_by_date("https://data.ercot.com/data-product-archive/NP3-233-CD", 
+    #        download_directory + "Hourly_Resource_Outage_Capacity",
+    #        end_date="2025-10-28", 
+    #        start_date="2019-01-01")
+    
+    #scrape_and_download_by_date("https://data.ercot.com/data-product-archive/NP1-346-ER", 
+    #        download_directory + "Unplanned_Resource_Outages_Report",
+    #        end_date="2025-10-28", 
+    #        start_date="2019-01-01")
+    
+    scrape_and_download_by_date("https://data.ercot.com/data-product-archive/NP6-792-ER", 
+            download_directory + "Historical_Real-Time_ORDC_and_Reliability_Deployment_Price_Adders_and_Reserves",
+            end_date="2025-10-28", 
+            start_date="2019-01-01")
+    
+    scrape_and_download_by_date("https://data.ercot.com/data-product-archive/NP6-793-ER", 
+            download_directory + "Historical_Real-Time_ORDC_and_Reliability_Deployment_Prices_for_15-minute_Settlement_Interval",
+            end_date="2025-10-28", 
+            start_date="2019-01-01")
+    
+    scrape_and_download_by_date("https://data.ercot.com/data-product-archive/NP4-191-CD", 
+            download_directory + "DAM_Shadow_Prices",
+            end_date="2025-10-28", 
+            start_date="2019-01-01")
+    
+    
 
 
     #TODO: Grab all the historical data listed here: 
@@ -585,6 +641,17 @@ if __name__ == "__main__":
     #                           download_directory + "60-Day_DAM_Disclosure_Reports",
     #                           end_date="2016-11-11", 
     #                          start_date="2011-12-30",pageSize=25)
+    
+    
+        #This isn't in the data archive catalog
+#There is only about 30 days of data for this dataset, so we can't use the date-based method
+# https://www.ercot.com/mp/data-products/data-product-details?id=NP4-193-CD
+    #scrape_and_download_by_date("https://data.ercot.com/data-product-archive/np4-193-cd", 
+    #        download_directory + "DAM_Total_Energy_Sold",
+    #        end_date="2025-10-28", 
+    #        start_date="2019-01-01")
+    
+
     
     
     

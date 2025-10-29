@@ -25,6 +25,7 @@ pub struct ProcessingStats {
     total_rows: usize,
     years_covered: Vec<i32>,
     gaps: Vec<DataGap>,
+    gaps_by_year: HashMap<i32, Vec<DataGap>>,
 }
 
 pub struct EnhancedAnnualProcessor {
@@ -75,6 +76,7 @@ impl EnhancedAnnualProcessor {
             ("SCED_Load_Resources", "60-Day_SCED_Disclosure_Reports", ProcessorType::SCEDLoadResource),
             ("COP_Snapshots", "60-Day_COP_Adjustment_Period_Snapshot", ProcessorType::COPSnapshot),
             ("RT_prices", "Settlement_Point_Prices_at_Resource_Nodes,_Hubs_and_Load_Zones", ProcessorType::RealTimePrice),
+            ("RT5minutes", "LMPs_by_Resource_Nodes,_Load_Zones_and_Trading_Hubs", ProcessorType::RealTime5MinutePrice),
         ];
         
         // Filter to selected dataset if specified
@@ -91,7 +93,8 @@ impl EnhancedAnnualProcessor {
                 println!("  - SCED_Gen_Resources (60-Day SCED Generation Resources)");
                 println!("  - SCED_Load_Resources (60-Day SCED Load Resources)");
                 println!("  - COP_Snapshots (60-Day COP Adjustment Period Snapshots)");
-                println!("  - RT_prices (Real-Time Settlement Point Prices)");
+                println!("  - RT_prices (Real-Time Settlement Point Prices - 15 minute)");
+                println!("  - RT5minutes (Real-Time LMP Prices - 5 minute)");
                 return Ok(());
             }
         }
@@ -111,6 +114,7 @@ impl EnhancedAnnualProcessor {
             
             match processor_type {
                 ProcessorType::RealTimePrice => self.process_rt_prices(&source_path, &output_path)?,
+                ProcessorType::RealTime5MinutePrice => self.process_rt5minutes(&source_path, &output_path)?,
                 ProcessorType::DayAheadPrice => self.process_da_prices(&source_path, &output_path)?,
                 ProcessorType::AncillaryService => self.process_as_prices(&source_path, &output_path)?,
                 ProcessorType::DAMGenResource => self.process_dam_gen_resources(&source_path, &output_path)?,
@@ -297,7 +301,152 @@ impl EnhancedAnnualProcessor {
         
         Ok(df)
     }
-    
+
+    fn process_rt5minutes(&self, source_dir: &Path, output_dir: &Path) -> Result<()> {
+        // Use csv2/csv subdirectory for the new data
+        let csv_dir = source_dir.join("csv2").join("csv");
+        if !csv_dir.exists() {
+            println!("⚠️  No csv2/csv directory found at {}", source_dir.display());
+            return Ok(());
+        }
+
+        // Get all CSV files
+        let pattern = csv_dir.join("*.csv");
+        let files = glob::glob(pattern.to_str().unwrap())?
+            .filter_map(Result::ok)
+            .collect::<Vec<_>>();
+
+        println!("  Found {} RT 5-minute LMP files", files.len());
+
+        // Group by year and process
+        let mut files_by_year: BTreeMap<i32, Vec<PathBuf>> = BTreeMap::new();
+        for file in files {
+            if let Some(year) = extract_year_from_filename(&file) {
+                files_by_year.entry(year).or_default().push(file);
+            }
+        }
+
+        for (year, year_files) in files_by_year {
+            println!("  Processing year {}: {} files", year, year_files.len());
+
+            let pb = ProgressBar::new(year_files.len() as u64);
+            pb.set_style(ProgressStyle::default_bar()
+                .template("[{elapsed_precise}] {bar:40.cyan/blue} {pos}/{len} {msg}")
+                .unwrap());
+
+            // Process in parallel batches and combine incrementally
+            // Reduced batch size to avoid "too many open files" error on macOS
+            let batch_size = 100;  // Conservative batch size for file descriptors
+            let mut combined_batches = Vec::new();
+
+            for (batch_idx, batch) in year_files.chunks(batch_size).enumerate() {
+                let batch_dfs: Vec<DataFrame> = batch
+                    .par_iter()
+                    .filter_map(|file| {
+                        pb.inc(1);
+                        match self.read_rt5minute_file(file) {
+                            Ok(df) => Some(df),
+                            Err(e) => {
+                                eprintln!("    Error reading {}: {}", file.display(), e);
+                                None
+                            }
+                        }
+                    })
+                    .collect();
+
+                // Combine this batch's dataframes
+                if !batch_dfs.is_empty() {
+                    if batch_idx % 10 == 9 {
+                        pb.set_message(format!("combining batch {}", batch_idx + 1));
+                    }
+                    match self.combine_dataframes(batch_dfs) {
+                        Ok(batch_df) => combined_batches.push(batch_df),
+                        Err(e) => eprintln!("    Error combining batch {}: {}", batch_idx, e),
+                    }
+                }
+            }
+
+            pb.finish_with_message("done");
+
+            if !combined_batches.is_empty() {
+                println!("    Performing final combination of {} batch results...", combined_batches.len());
+                // Final combination of all batch results
+                let combined_df = self.combine_dataframes(combined_batches)?;
+
+                // Check for gaps
+                let gaps = self.detect_gaps(&combined_df, "datetime")?;
+
+                // Save to parquet
+                let output_file = output_dir.join(format!("{}.parquet", year));
+                let mut file = std::fs::File::create(&output_file)?;
+                ParquetWriter::new(&mut file).finish(&mut combined_df.clone())?;
+
+                println!("    ✅ Saved {} rows to {}", combined_df.height(), output_file.display());
+
+                // Save gaps report
+                self.save_gaps_report(output_dir, year, &gaps)?;
+
+                // Update stats
+                self.update_stats("RT5minutes", year, year_files.len(), combined_df.height(), gaps);
+            }
+        }
+
+        // Save schema
+        self.save_schema(output_dir, "RT5minutes", r#"{
+  "description": "Real-time 5-minute LMP prices by resource nodes, load zones and trading hubs",
+  "columns": {
+    "datetime": {"type": "Datetime", "description": "SCED timestamp (5-minute intervals)"},
+    "SCEDTimestamp": {"type": "Utf8", "description": "Original SCED timestamp string"},
+    "RepeatedHourFlag": {"type": "Utf8", "description": "Flag for repeated hour during DST"},
+    "SettlementPoint": {"type": "Utf8", "description": "Settlement point name"},
+    "LMP": {"type": "Float64", "description": "Locational Marginal Price in $/MWh"}
+  }
+}"#)?;
+
+        Ok(())
+    }
+
+    fn read_rt5minute_file(&self, file: &Path) -> Result<DataFrame> {
+        // Read CSV with Float64 for LMP column
+        let schema_overrides = Schema::from_iter([
+            Field::new("LMP", DataType::Float64),
+            Field::new("SCEDTimestamp", DataType::String),
+        ]);
+
+        let df = CsvReader::from_path(file)?
+            .has_header(true)
+            .with_try_parse_dates(false)  // Don't auto-parse dates
+            .with_dtypes(Some(Arc::new(schema_overrides)))
+            .finish()?;
+
+        // Parse SCEDTimestamp to create datetime column
+        // Format: "12/01/2010 14:40:32"
+        let sced_timestamps = df.column("SCEDTimestamp")?;
+
+        let mut datetimes = Vec::new();
+        for i in 0..df.height() {
+            if let Some(timestamp_str) = sced_timestamps.str()?.get(i) {
+                // Try to parse MM/DD/YYYY HH:MM:SS format
+                if let Ok(datetime) = chrono::NaiveDateTime::parse_from_str(timestamp_str, "%m/%d/%Y %H:%M:%S") {
+                    datetimes.push(Some(datetime.and_utc().timestamp_millis()));
+                } else {
+                    datetimes.push(None);
+                }
+            } else {
+                datetimes.push(None);
+            }
+        }
+
+        let datetime_series = Series::new("datetime", datetimes);
+        let mut df = df;
+        df.with_column(datetime_series)?;
+
+        // Ensure LMP is Float64
+        df.with_column(df.column("LMP")?.cast(&DataType::Float64)?)?;
+
+        Ok(df)
+    }
+
     fn process_da_prices(&self, source_dir: &Path, output_dir: &Path) -> Result<()> {
         let csv_dir = source_dir.join("csv");
         let csv_dir = if csv_dir.exists() { csv_dir } else { source_dir.to_path_buf() };
@@ -2148,8 +2297,9 @@ impl EnhancedAnnualProcessor {
             total_rows: 0,
             years_covered: Vec::new(),
             gaps: Vec::new(),
+            gaps_by_year: HashMap::new(),
         });
-        
+
         entry.total_files += files;
         entry.processed_files += files;
         entry.total_rows += rows;
@@ -2157,26 +2307,29 @@ impl EnhancedAnnualProcessor {
             entry.years_covered.push(year);
             entry.years_covered.sort();
         }
-        entry.gaps.extend(gaps);
+
+        // Store gaps both in overall list and by year
+        entry.gaps.extend(gaps.clone());
+        entry.gaps_by_year.entry(year).or_insert_with(Vec::new).extend(gaps);
     }
     
     fn generate_status_report(&self) -> Result<()> {
         let stats = self.processing_stats.lock().unwrap();
         let report_file = self.output_dir.join("processing_status_report.md");
-        
+
         let mut content = String::new();
         content.push_str("# ERCOT Annual Parquet Processing Status Report\n\n");
         content.push_str(&format!("Generated: {}\n\n", Utc::now().format("%Y-%m-%d %H:%M:%S UTC")));
-        
+
         content.push_str("## Summary\n\n");
-        content.push_str("| Dataset | Files | Rows | Years | Gaps |\n");
-        content.push_str("|---------|-------|------|-------|------|\n");
-        
+        content.push_str("| Dataset | Files | Rows | Years | Total Gaps |\n");
+        content.push_str("|---------|-------|------|-------|------------|\n");
+
         for (dataset, stat) in stats.iter() {
-            let gaps_str = if stat.gaps.is_empty() { 
-                "None".to_string() 
-            } else { 
-                format!("{} gaps", stat.gaps.len()) 
+            let gaps_str = if stat.gaps.is_empty() {
+                "None".to_string()
+            } else {
+                format!("{} gaps", stat.gaps.len())
             };
             content.push_str(&format!(
                 "| {} | {} | {} | {} | {} |\n",
@@ -2187,19 +2340,66 @@ impl EnhancedAnnualProcessor {
                 gaps_str
             ));
         }
-        
-        content.push_str("\n## Data Quality Notes\n\n");
+
+        // Add detailed gaps by year section
+        content.push_str("\n## Gap Details by Year\n\n");
+
+        for (dataset, stat) in stats.iter() {
+            if !stat.gaps_by_year.is_empty() {
+                content.push_str(&format!("### {}\n\n", dataset));
+                content.push_str("| Year | Gap Count | Total Missing Days | Example Gaps |\n");
+                content.push_str("|------|-----------|-------------------|---------------|\n");
+
+                let mut years: Vec<_> = stat.gaps_by_year.keys().collect();
+                years.sort();
+
+                for year in years {
+                    if let Some(year_gaps) = stat.gaps_by_year.get(year) {
+                        let total_missing: i64 = year_gaps.iter().map(|g| g.missing_days).sum();
+                        let example_gaps = if year_gaps.len() <= 3 {
+                            year_gaps.iter()
+                                .map(|g| format!("{} to {} ({} days)",
+                                    g.start_date.format("%Y-%m-%d"),
+                                    g.end_date.format("%Y-%m-%d"),
+                                    g.missing_days))
+                                .collect::<Vec<_>>()
+                                .join("; ")
+                        } else {
+                            let samples: Vec<_> = year_gaps.iter().take(2)
+                                .map(|g| format!("{} to {} ({} days)",
+                                    g.start_date.format("%Y-%m-%d"),
+                                    g.end_date.format("%Y-%m-%d"),
+                                    g.missing_days))
+                                .collect();
+                            format!("{}; ... and {} more", samples.join("; "), year_gaps.len() - 2)
+                        };
+
+                        content.push_str(&format!(
+                            "| {} | {} | {} | {} |\n",
+                            year,
+                            year_gaps.len(),
+                            total_missing,
+                            example_gaps
+                        ));
+                    }
+                }
+                content.push_str("\n");
+            }
+        }
+
+        content.push_str("## Data Quality Notes\n\n");
         content.push_str("- All price columns enforced as Float64 to prevent type mismatches\n");
         content.push_str("- Datetime columns created from delivery date and hour/interval\n");
         content.push_str("- Files processed in parallel for performance\n");
         content.push_str("- Gap detection performed on temporal data\n");
-        
+        content.push_str("- Gaps represent periods where consecutive timestamps are missing\n");
+
         fs::write(report_file, &content)?;
-        
+
         // Also print to stdout
         println!("\n{}", "=".repeat(80));
         println!("{}", content);
-        
+
         Ok(())
     }
 }
@@ -2207,6 +2407,7 @@ impl EnhancedAnnualProcessor {
 #[derive(Debug)]
 enum ProcessorType {
     RealTimePrice,
+    RealTime5MinutePrice,
     DayAheadPrice,
     AncillaryService,
     DAMGenResource,
