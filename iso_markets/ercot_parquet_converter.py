@@ -169,7 +169,7 @@ class ERCOTParquetConverter(UnifiedISOParquetConverter):
             dfs = []
             for csv_file in batch_files:
                 try:
-                    df_temp = pd.read_csv(csv_file, header=None, names=['DeliveryDate', 'HourEnding', 'SettlementPoint', 'SettlementPointPrice', 'RepeatedHour'], skiprows=1)
+                    df_temp = pd.read_csv(csv_file, header=None, names=['DeliveryDate', 'HourEnding', 'SettlementPoint', 'SettlementPointPrice', 'DSTFlag'], skiprows=1)
                     dfs.append(df_temp)
                 except Exception as e:
                     self.logger.error(f"Error reading {csv_file}: {e}")
@@ -202,15 +202,36 @@ class ERCOTParquetConverter(UnifiedISOParquetConverter):
         # Create datetime (hour ending 1 = hour 0 in datetime, hour ending 24 = hour 23)
         df['datetime_local'] = df['DeliveryDate'] + pd.to_timedelta(df['hour_num'] - 1, unit='h')
 
-        # Deduplicate datetimes for timezone conversion (many rows have same datetime)
-        unique_dt = df['datetime_local'].drop_duplicates()
-        unique_dt_utc = self.normalize_datetime_to_utc(unique_dt)
-        dt_mapping = pd.Series(unique_dt_utc.values, index=unique_dt.values)
-        df['datetime_utc'] = df['datetime_local'].map(dt_mapping)
+        # Handle DST using ERCOT's DSTFlag column
+        # CRITICAL: DSTFlag is NOT a general DST indicator!
+        # DSTFlag='Y' ONLY appears on the SECOND occurrence of the repeated hour during fall-back
+        # DSTFlag='N' is used for ALL other hours (including summer DST hours!)
+        #
+        # Strategy: Use America/Chicago timezone with ambiguous parameter
+        # - For non-ambiguous times: pandas handles DST automatically
+        # - For ambiguous times (Nov fall-back): DSTFlag tells us which occurrence
+        #   - DSTFlag='N' = first occurrence (still in CDT before 2am fall-back)
+        #   - DSTFlag='Y' = second occurrence (now in CST after fall-back)
+
+        # Convert using America/Chicago with DST handling
+        # Schema v2.0.0: Keep both datetime_utc and datetime_local timezone-aware!
+        # Vectorized approach: most times are unambiguous, handle separately
+        try:
+            # Try to localize all at once with ambiguous='infer' (works for 99% of rows)
+            df['datetime_local'] = df['datetime_local'].dt.tz_localize('America/Chicago', ambiguous='infer')
+            df['datetime_utc'] = df['datetime_local'].dt.tz_convert('UTC')
+        except:
+            # If inference fails (fall-back day), use DSTFlag to distinguish
+            # DSTFlag='N' = first occurrence (CDT), 'Y' = second occurrence (CST)
+            df['datetime_local'] = df['datetime_local'].dt.tz_localize(
+                'America/Chicago',
+                ambiguous=(df['DSTFlag'] == 'N')  # True=first (CDT), False=second (CST)
+            )
+            df['datetime_utc'] = df['datetime_local'].dt.tz_convert('UTC')
 
         df_unified = pd.DataFrame({
             'datetime_utc': df['datetime_utc'],
-            'datetime_local': df['datetime_local'],
+            'datetime_local': df['datetime_local'],  # Now timezone-aware!
             'interval_start_utc': df['datetime_utc'],
             'interval_end_utc': df['datetime_utc'] + pd.Timedelta(hours=1),
             'delivery_date': df['DeliveryDate'].dt.date,
@@ -229,7 +250,7 @@ class ERCOTParquetConverter(UnifiedISOParquetConverter):
             'lmp_congestion': None,
             'lmp_loss': None,
             'system_lambda': None,
-            'dst_flag': df.get('DSTFlag', None),
+            'dst_flag': df['DSTFlag'].astype(str) if 'DSTFlag' in df.columns else None,
             'data_source': 'ERCOT DAM',
             'version': 1,
             'is_current': True
@@ -270,8 +291,10 @@ class ERCOTParquetConverter(UnifiedISOParquetConverter):
         df['hour_offset'] = df['DeliveryHour'] - 1
         df['interval_offset'] = (df['DeliveryInterval'] - 1) * 15  # 0, 15, 30, 45 minutes
 
+        # Schema v2.0.0: Keep timezone-aware timestamps
         df['datetime_local'] = df['DeliveryDate'] + pd.to_timedelta(df['hour_offset'], unit='h') + pd.to_timedelta(df['interval_offset'], unit='m')
-        df['datetime_utc'] = self.normalize_datetime_to_utc(df['datetime_local'])
+        df['datetime_local'] = df['datetime_local'].dt.tz_localize('America/Chicago', ambiguous='infer')
+        df['datetime_utc'] = df['datetime_local'].dt.tz_convert('UTC')
 
         # Get settlement point type if available
         settlement_type = df.get('SettlementPointType', 'NODE')
@@ -297,7 +320,7 @@ class ERCOTParquetConverter(UnifiedISOParquetConverter):
             'lmp_congestion': None,
             'lmp_loss': None,
             'system_lambda': None,
-            'dst_flag': df.get('DSTFlag', None),
+            'dst_flag': df['DSTFlag'].astype(str) if 'DSTFlag' in df.columns else None,
             'data_source': 'ERCOT SCED',
             'version': 1,
             'is_current': True
@@ -328,11 +351,12 @@ class ERCOTParquetConverter(UnifiedISOParquetConverter):
             self.logger.warning("No ERCOT AS data found")
             return
 
-        # Parse datetime
+        # Parse datetime (Schema v2.0.0: keep timezone-aware)
         df['DeliveryDate'] = pd.to_datetime(df['DeliveryDate'])
         df['hour_num'] = df['HourEnding'].str.split(':').str[0].astype(int)
         df['datetime_local'] = df['DeliveryDate'] + pd.to_timedelta(df['hour_num'] - 1, unit='h')
-        df['datetime_utc'] = self.normalize_datetime_to_utc(df['datetime_local'])
+        df['datetime_local'] = df['datetime_local'].dt.tz_localize('America/Chicago', ambiguous='infer')
+        df['datetime_utc'] = df['datetime_local'].dt.tz_convert('UTC')
 
         df_unified = pd.DataFrame({
             'datetime_utc': df['datetime_utc'],

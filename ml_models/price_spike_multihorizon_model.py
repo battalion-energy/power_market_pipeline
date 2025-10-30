@@ -150,6 +150,9 @@ class MultiHorizonDataset(Dataset):
         target_row = self.data.iloc[idx+self.sequence_length]
         targets = target_row[self.all_label_cols].values
 
+        # Ensure targets are numeric (pandas sometimes returns object dtype)
+        targets = targets.astype(np.float32)
+
         return (
             torch.FloatTensor(feature_seq),
             torch.FloatTensor(targets)

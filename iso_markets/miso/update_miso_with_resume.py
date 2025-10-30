@@ -17,10 +17,14 @@ Usage:
 import asyncio
 import argparse
 import logging
+import os
 import sys
 from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Optional, Dict, List
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Configure logging
 logging.basicConfig(
@@ -30,7 +34,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Data directory
-MISO_DATA_DIR = Path("/pool/ssd8tb/data/iso/MISO")
+MISO_DATA_DIR = Path(os.getenv("MISO_DATA_DIR", "/pool/ssd8tb/data/iso/MISO"))
 
 # Data types and their directory structures
 DATA_TYPES = {

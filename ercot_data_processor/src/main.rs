@@ -258,10 +258,23 @@ fn main() -> Result<()> {
     
     // Check Rust version requirement
     check_rust_version()?;
-    
-    // Set Rayon to use all available cores
+
+    // Set Rayon thread pool with limits
+    // Check for RAYON_NUM_THREADS env var, otherwise use min(10, available cores)
+    let num_threads = if let Ok(env_threads) = std::env::var("RAYON_NUM_THREADS") {
+        env_threads.parse::<usize>().unwrap_or_else(|_| {
+            eprintln!("⚠️  Invalid RAYON_NUM_THREADS value, using default");
+            std::cmp::min(10, num_cpus::get())
+        })
+    } else {
+        // Default to maximum 10 cores to prevent resource exhaustion
+        std::cmp::min(10, num_cpus::get())
+    };
+
+    println!("🔧 Using {} CPU threads for parallel processing", num_threads);
+
     rayon::ThreadPoolBuilder::new()
-        .num_threads(num_cpus::get())
+        .num_threads(num_threads)
         .build_global()
         .unwrap();
     
@@ -508,15 +521,22 @@ fn main() -> Result<()> {
     } else if args.len() > 1 && args[1] == "--annual-rollup" {
         // Enhanced annual rollup with gap tracking and schema normalization
         use enhanced_annual_processor::EnhancedAnnualProcessor;
-        
+
         // Parse arguments
         let mut base_dir = get_ercot_data_dir();
         let mut dataset = None;
-        
+        let mut years = None;
+
         let mut i = 2;
         while i < args.len() {
             if args[i] == "--dataset" && i + 1 < args.len() {
                 dataset = Some(args[i + 1].clone());
+                i += 2;
+            } else if args[i] == "--years" && i + 1 < args.len() {
+                years = Some(args[i + 1]
+                    .split(',')
+                    .filter_map(|y| y.parse::<i32>().ok())
+                    .collect::<Vec<i32>>());
                 i += 2;
             } else if !args[i].starts_with("--") {
                 base_dir = PathBuf::from(&args[i]);
@@ -525,10 +545,13 @@ fn main() -> Result<()> {
                 i += 1;
             }
         }
-        
+
         let mut processor = EnhancedAnnualProcessor::new(base_dir);
         if let Some(ds) = dataset {
             processor = processor.with_dataset(ds);
+        }
+        if let Some(yrs) = years {
+            processor = processor.with_years(yrs);
         }
         processor.process_all_data()?;
         return Ok(());
@@ -560,13 +583,13 @@ fn main() -> Result<()> {
         // Default to annual rollup with enhanced processor
         println!("Usage: {} [command] [options]", args[0]);
         println!("\nCommands:");
-        println!("  --annual-rollup [dir] [--dataset NAME]  Process ERCOT data (optional: specific dataset)");
-        println!("  --verify-parquet [dir]                  Verify parquet files for integrity & duplicates");
-        println!("  --bess-parquet                          Analyze BESS revenues from parquet files");
-        println!("  --bess-parquet-revenue                  High-performance BESS revenue processor (parallel)");
-        println!("  --extract-all-ercot dir                 Extract all ERCOT CSV files from zips");
-        println!("  --process-annual                        Process extracted CSV to annual parquet");
-        println!("  --verify-results                        Verify data quality of processed files");
+        println!("  --annual-rollup [dir] [--dataset NAME] [--years Y1,Y2,...]  Process ERCOT data");
+        println!("  --verify-parquet [dir]                                       Verify parquet files");
+        println!("  --bess-parquet                                               Analyze BESS revenues");
+        println!("  --bess-parquet-revenue                                       BESS revenue processor");
+        println!("  --extract-all-ercot dir                                      Extract ERCOT CSV files");
+        println!("  --process-annual                                             Process CSV to parquet");
+        println!("  --verify-results                                             Verify data quality");
         println!("\nDataset options for --annual-rollup:");
         println!("  DA_prices          Day-Ahead Settlement Point Prices");
         println!("  AS_prices          Ancillary Services Clearing Prices");
@@ -578,7 +601,8 @@ fn main() -> Result<()> {
         println!("\nExamples:");
         println!("  {} --annual-rollup", args[0]);
         println!("  {} --annual-rollup --dataset DA_prices", args[0]);
-        println!("  {} --annual-rollup /path/to/data --dataset COP_Snapshots", args[0]);
+        println!("  {} --annual-rollup --years 2024,2025", args[0]);
+        println!("  {} --annual-rollup --dataset SCED_Gen_Resources --years 2024,2025", args[0]);
         println!("\nRunning default: --annual-rollup");
         
         // Run enhanced annual processor as default

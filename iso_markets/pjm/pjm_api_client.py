@@ -38,6 +38,8 @@ class RateLimiter:
         self.min_delay = min_delay_between_requests
         self.requests = []
         self.last_request_time = None
+        self.response_times = []  # Track response times for smart backoff
+        self.max_response_samples = 50  # Keep last 50 response times
 
     def wait_if_needed(self):
         """Wait if necessary to comply with rate limits and minimum delay."""
@@ -69,6 +71,30 @@ class RateLimiter:
         self.requests.append(now)
         self.last_request_time = now
 
+    def record_response_time(self, duration: float):
+        """Record a response time for calculating smart backoff."""
+        self.response_times.append(duration)
+        if len(self.response_times) > self.max_response_samples:
+            self.response_times.pop(0)
+
+    def get_average_response_time(self) -> float:
+        """Get average response time, or estimated time if no samples."""
+        if not self.response_times:
+            return 3.0  # Default estimate
+        return sum(self.response_times) / len(self.response_times)
+
+    def get_smart_429_backoff(self) -> float:
+        """
+        Calculate smart backoff for 429 errors based on actual response times.
+
+        Logic: If we're hitting rate limits with 6 req/min (10s average interval),
+        and we already wait ~min_delay between requests, a small additional wait
+        should be enough. We use 2x the average response time as initial backoff.
+        """
+        avg_response = self.get_average_response_time()
+        # Start with 2x average response time, minimum 5 seconds
+        return max(5.0, avg_response * 2)
+
 
 class PJMAPIClient:
     """Client for interacting with PJM Data Miner 2 API."""
@@ -76,8 +102,8 @@ class PJMAPIClient:
     BASE_URL = "https://api.pjm.com/api/v1"
 
     def __init__(self, api_key: Optional[str] = None,
-                 requests_per_minute: int = 4,
-                 min_delay_between_requests: float = 3.0):
+                 requests_per_minute: int = 6,
+                 min_delay_between_requests: float = 2.0):
         """
         Initialize PJM API client.
 
@@ -143,6 +169,7 @@ class PJMAPIClient:
         url = f"{self.BASE_URL}/{endpoint}"
         logger.info(f"Requesting: {url}")
 
+        request_start = time.time()
         try:
             response = self.session.get(
                 url,
@@ -150,6 +177,10 @@ class PJMAPIClient:
                 params=params,
                 timeout=30
             )
+
+            # Record response time for successful and rate-limited requests
+            response_time = time.time() - request_start
+            self.rate_limiter.record_response_time(response_time)
 
             response.raise_for_status()
             return response.json()
@@ -161,8 +192,17 @@ class PJMAPIClient:
                     "Register at: https://apiportal.pjm.com/signup/"
                 )
             elif e.response.status_code == 429:
-                # Don't retry recursively - let caller handle retries
-                logger.warning(f"Rate limit exceeded (429). Not retrying - caller should implement exponential backoff.")
+                # Check for Retry-After header
+                retry_after = e.response.headers.get('Retry-After')
+                if retry_after:
+                    logger.warning(f"Rate limit exceeded (429). API says retry after: {retry_after} seconds")
+                    e.retry_after = int(retry_after) if retry_after and retry_after.isdigit() else None
+                else:
+                    logger.warning(f"Rate limit exceeded (429). No Retry-After header provided.")
+                    # Use smart backoff based on observed response times
+                    smart_backoff = self.rate_limiter.get_smart_429_backoff()
+                    e.retry_after = smart_backoff
+                    logger.warning(f"Suggesting {smart_backoff:.1f}s backoff (based on avg response time: {self.rate_limiter.get_average_response_time():.1f}s)")
                 raise
             else:
                 logger.error(f"HTTP error: {e}")

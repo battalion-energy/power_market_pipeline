@@ -33,6 +33,7 @@ pub struct EnhancedAnnualProcessor {
     output_dir: PathBuf,
     processing_stats: Arc<Mutex<HashMap<String, ProcessingStats>>>,
     selected_dataset: Option<String>,
+    year_filter: Option<Vec<i32>>,
 }
 
 impl EnhancedAnnualProcessor {
@@ -43,22 +44,38 @@ impl EnhancedAnnualProcessor {
             output_dir,
             processing_stats: Arc::new(Mutex::new(HashMap::new())),
             selected_dataset: None,
+            year_filter: None,
         }
     }
-    
+
     pub fn with_dataset(mut self, dataset: String) -> Self {
         self.selected_dataset = Some(dataset);
         self
     }
-    
+
+    pub fn with_years(mut self, years: Vec<i32>) -> Self {
+        self.year_filter = Some(years);
+        self
+    }
+
+    fn should_process_year(&self, year: i32) -> bool {
+        match &self.year_filter {
+            Some(years) => years.contains(&year),
+            None => true,
+        }
+    }
+
     pub fn process_all_data(&self) -> Result<()> {
         let start_time = std::time::Instant::now();
-        
+
         println!("🚀 Enhanced Annual Parquet Processor");
         println!("📁 Base directory: {}", self.base_dir.display());
         println!("📂 Output directory: {}", self.output_dir.display());
         if let Some(ref dataset) = self.selected_dataset {
             println!("🎯 Selected dataset: {}", dataset);
+        }
+        if let Some(ref years) = self.year_filter {
+            println!("📅 Year filter: {:?}", years);
         }
         println!("{}", "=".repeat(80));
         
@@ -163,6 +180,10 @@ impl EnhancedAnnualProcessor {
         }
         
         for (year, year_files) in files_by_year {
+            if !self.should_process_year(year) {
+                println!("  Skipping year {} (not in filter)", year);
+                continue;
+            }
             println!("  Processing year {}: {} files", year, year_files.len());
             
             let pb = ProgressBar::new(year_files.len() as u64);
@@ -472,6 +493,10 @@ impl EnhancedAnnualProcessor {
         }
         
         for (year, year_files) in files_by_year {
+            if !self.should_process_year(year) {
+                println!("  Skipping year {} (not in filter)", year);
+                continue;
+            }
             println!("  Processing year {}: {} files", year, year_files.len());
             
             let pb = ProgressBar::new(year_files.len() as u64);
@@ -649,6 +674,10 @@ impl EnhancedAnnualProcessor {
         }
         
         for (year, year_files) in files_by_year {
+            if !self.should_process_year(year) {
+                println!("  Skipping year {} (not in filter)", year);
+                continue;
+            }
             println!("  Processing year {}: {} files", year, year_files.len());
             
             let pb = ProgressBar::new(year_files.len() as u64);
@@ -809,6 +838,10 @@ impl EnhancedAnnualProcessor {
         }
         
         for (year, year_files) in files_by_year {
+            if !self.should_process_year(year) {
+                println!("  Skipping year {} (not in filter)", year);
+                continue;
+            }
             println!("  Processing year {}: {} files", year, year_files.len());
             
             let pb = ProgressBar::new(year_files.len() as u64);
@@ -1122,10 +1155,15 @@ impl EnhancedAnnualProcessor {
         }
 
         for (year, year_files) in files_by_year {
+            if !self.should_process_year(year) {
+                println!("  Skipping year {} (not in filter)", year);
+                continue;
+            }
             println!("  Processing year {}: {} files", year, year_files.len());
 
             // STREAMING SOLUTION: Process large years in batches to avoid massive concat
-            let batch_size = if year_files.len() > 100 { 40 } else { year_files.len() };
+            // Reduced batch size to 20 to keep memory under 40GB limit
+            let batch_size = if year_files.len() > 100 { 20 } else { year_files.len() };
 
             if batch_size < year_files.len() {
                 println!("    Using streaming batch processing: {} files per batch", batch_size);
@@ -1150,8 +1188,10 @@ impl EnhancedAnnualProcessor {
             all_columns.sort();
             println!("    Normalizing to {} columns", all_columns.len());
 
-            // Second pass: process files in batches and combine incrementally
-            let mut batch_dfs = Vec::new();
+            // Second pass: process files in batches and write to temp files to avoid memory overflow
+            let temp_dir = output_dir.join(format!("temp_{}", year));
+            fs::create_dir_all(&temp_dir)?;
+            let mut temp_files = Vec::new();
 
             for (batch_idx, batch) in year_files.chunks(batch_size).enumerate() {
                 println!("    Processing batch {}/{} ({} files)...",
@@ -1178,15 +1218,40 @@ impl EnhancedAnnualProcessor {
                     let normalized_batch = self.normalize_to_schema(batch_file_dfs, &all_columns)?;
 
                     // Combine files within this batch
-                    let batch_combined = self.combine_dataframes(normalized_batch)?;
+                    let mut batch_combined = self.combine_dataframes(normalized_batch)?;
                     println!("      Batch {} combined: {} rows", batch_idx + 1, batch_combined.height());
 
-                    batch_dfs.push(batch_combined);
+                    // Write batch to temporary parquet file to free memory
+                    let temp_file = temp_dir.join(format!("batch_{}.parquet", batch_idx));
+                    let mut file = std::fs::File::create(&temp_file)?;
+                    ParquetWriter::new(&mut file).finish(&mut batch_combined)?;
+                    temp_files.push(temp_file);
+                    println!("      Batch {} written to temp file (memory freed)", batch_idx + 1);
                 }
             }
 
-            if !batch_dfs.is_empty() {
-                println!("    Combining {} batches into final parquet...", batch_dfs.len());
+            if !temp_files.is_empty() {
+                println!("    Reading and combining {} temp files into final parquet...", temp_files.len());
+
+                // Read back temp files and combine (still memory efficient due to streaming)
+                let batch_dfs: Vec<DataFrame> = temp_files.iter()
+                    .filter_map(|temp_file| {
+                        match LazyFrame::scan_parquet(temp_file, Default::default()) {
+                            Ok(lf) => match lf.collect() {
+                                Ok(df) => Some(df),
+                                Err(e) => {
+                                    eprintln!("    Error reading temp file: {}", e);
+                                    None
+                                }
+                            },
+                            Err(e) => {
+                                eprintln!("    Error scanning temp file: {}", e);
+                                None
+                            }
+                        }
+                    })
+                    .collect();
+
                 let combined_df = if batch_dfs.len() == 1 {
                     batch_dfs.into_iter().next().unwrap()
                 } else {
@@ -1199,6 +1264,9 @@ impl EnhancedAnnualProcessor {
 
                 println!("    ✅ Saved {} rows to {}", combined_df.height(), output_file.display());
 
+                // Clean up temp files
+                let _ = fs::remove_dir_all(&temp_dir);
+
                 // SCED files are 5-minute, gap detection would be complex
                 self.update_stats("SCED_Gen_Resources", year, year_files.len(), combined_df.height(), vec![]);
             }
@@ -1207,28 +1275,6 @@ impl EnhancedAnnualProcessor {
         Ok(())
     }
     
-    fn normalize_sced_dataframes(&self, dfs: Vec<DataFrame>) -> Result<Vec<DataFrame>> {
-        if dfs.is_empty() {
-            return Ok(vec![]);
-        }
-
-        // Find all unique columns across all DataFrames
-        let mut all_columns = std::collections::HashSet::new();
-        for df in &dfs {
-            for col in df.get_column_names() {
-                all_columns.insert(col.to_string());
-            }
-        }
-
-        // Sort columns for consistent ordering
-        let mut all_columns: Vec<String> = all_columns.into_iter().collect();
-        all_columns.sort();
-
-        println!("    Normalizing to {} columns", all_columns.len());
-
-        self.normalize_to_schema(dfs, &all_columns)
-    }
-
     /// Normalize DataFrames to a pre-computed schema (more efficient for batch processing)
     fn normalize_to_schema(&self, dfs: Vec<DataFrame>, all_columns: &[String]) -> Result<Vec<DataFrame>> {
         if dfs.is_empty() {
@@ -1425,6 +1471,10 @@ impl EnhancedAnnualProcessor {
         }
         
         for (year, year_files) in files_by_year {
+            if !self.should_process_year(year) {
+                println!("  Skipping year {} (not in filter)", year);
+                continue;
+            }
             println!("  Processing year {}: {} files", year, year_files.len());
             
             let mut all_dfs = Vec::new();
@@ -1579,6 +1629,10 @@ impl EnhancedAnnualProcessor {
         }
         
         for (year, year_files) in files_by_year {
+            if !self.should_process_year(year) {
+                println!("  Skipping year {} (not in filter)", year);
+                continue;
+            }
             println!("  Processing year {}: {} files", year, year_files.len());
             
             let pb = ProgressBar::new(year_files.len() as u64);
@@ -1985,6 +2039,10 @@ impl EnhancedAnnualProcessor {
         }
         
         for (year, year_files) in files_by_year {
+            if !self.should_process_year(year) {
+                println!("  Skipping year {} (not in filter)", year);
+                continue;
+            }
             println!("  Processing year {}: {} files", year, year_files.len());
             
             let mut all_dfs = Vec::new();

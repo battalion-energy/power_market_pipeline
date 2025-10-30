@@ -104,7 +104,7 @@ class CAISOParquetConverter(UnifiedISOParquetConverter):
         return df
 
     def convert_da_energy(self, year: Optional[int] = None) -> None:
-        """Convert Day-Ahead energy prices (MEMORY OPTIMIZED)."""
+        """Convert Day-Ahead energy prices (TRUE STREAMING MODE)."""
         self.logger.info("Converting DA Energy (Nodal) prices...")
 
         csv_dir = self.csv_data_dir / "da_nodal"
@@ -117,112 +117,141 @@ class CAISOParquetConverter(UnifiedISOParquetConverter):
             self.logger.warning("No DA nodal data to convert")
             return
 
-        year_data = {}
+        self._process_da_nodal_streaming(csv_files, year)
 
-        for batch_df in self._process_csv_files_in_batches(csv_files, year):
-            # Parse datetimes
-            batch_df = self._parse_caiso_datetime(batch_df)
+    def _process_da_nodal_streaming(self, csv_files: List[Path], year: Optional[int]):
+        """Process DA nodal files in TRUE streaming mode (write batch by batch)."""
+        import pyarrow.parquet as pq
+        import pyarrow as pa
 
-            # Determine interval duration
-            interval_duration = (batch_df['interval_end_utc'] - batch_df['datetime_utc']).dt.total_seconds() / 60
-            interval_minutes = interval_duration.mode()[0] if len(interval_duration.mode()) > 0 else 60
+        year_writers = {}
+        year_files = {}
+        metadata_df = None  # Keep first batch for metadata extraction
 
-            # Pivot if needed for components
-            if 'MW' in batch_df.columns and 'XML_DATA_ITEM' in batch_df.columns:
-                df_pivot = batch_df.pivot_table(
-                    index=['datetime_utc', 'interval_end_utc', 'NODE', 'NODE_ID'],
-                    columns='XML_DATA_ITEM',
-                    values='MW',
-                    aggfunc='first'
-                ).reset_index()
+        try:
+            for batch_df in self._process_csv_files_in_batches(csv_files, year):
+                # Parse datetimes
+                batch_df = self._parse_caiso_datetime(batch_df)
 
-                lmp_total = df_pivot.get('LMP_PRC', None)
-                lmp_energy = df_pivot.get('LMP_ENE_PRC', None)
-                lmp_congestion = df_pivot.get('LMP_CONG_PRC', None)
-                lmp_loss = df_pivot.get('LMP_LOSS_PRC', None)
-            else:
-                lmp_total = batch_df['MW']
-                lmp_energy = None
-                lmp_congestion = None
-                lmp_loss = None
-                df_pivot = batch_df.copy()
+                # Determine interval duration
+                interval_duration = (batch_df['interval_end_utc'] - batch_df['datetime_utc']).dt.total_seconds() / 60
+                interval_minutes = interval_duration.mode()[0] if len(interval_duration.mode()) > 0 else 60
 
-            df_unified = pd.DataFrame({
-                'datetime_utc': df_pivot['datetime_utc'],
-                'datetime_local': df_pivot['datetime_utc'].dt.tz_convert(self.iso_timezone).dt.tz_localize(None),
-                'interval_start_utc': df_pivot['datetime_utc'],
-                'interval_end_utc': df_pivot['interval_end_utc'],
-                'delivery_date': df_pivot['datetime_utc'].dt.tz_convert(self.iso_timezone).dt.date,
-                'delivery_hour': df_pivot['datetime_utc'].dt.tz_convert(self.iso_timezone).dt.hour + 1,
-                'delivery_interval': np.uint8(0),
-                'interval_minutes': np.uint8(int(interval_minutes)),
-                'iso': 'CAISO',
-                'market_type': 'DA',
-                'settlement_location': df_pivot['NODE'] if 'NODE' in df_pivot.columns else df_pivot['NODE_ID'],
-                'settlement_location_type': 'NODE',
-                'settlement_location_id': df_pivot['NODE_ID'].astype(str) if 'NODE_ID' in df_pivot.columns else None,
-                'zone': None,
-                'voltage_kv': None,
-                'lmp_total': lmp_total,
-                'lmp_energy': lmp_energy,
-                'lmp_congestion': lmp_congestion,
-                'lmp_loss': lmp_loss,
-                'system_lambda': None,
-                'dst_flag': None,
-                'data_source': 'CAISO OASIS',
-                'version': 1,
-                'is_current': True
-            })
+                # Pivot if needed for components
+                if 'MW' in batch_df.columns and 'XML_DATA_ITEM' in batch_df.columns:
+                    df_pivot = batch_df.pivot_table(
+                        index=['datetime_utc', 'interval_end_utc', 'NODE', 'NODE_ID'],
+                        columns='XML_DATA_ITEM',
+                        values='MW',
+                        aggfunc='first'
+                    ).reset_index()
 
-            df_unified = self.enforce_price_types(df_unified)
-            df_unified = df_unified.sort_values('datetime_utc')
-            df_unified = df_unified.drop_duplicates(subset=['datetime_utc', 'settlement_location'], keep='last')
+                    lmp_total = df_pivot.get('LMP_PRC', None)
+                    lmp_energy = df_pivot.get('LMP_ENE_PRC', None)
+                    lmp_congestion = df_pivot.get('LMP_CONG_PRC', None)
+                    lmp_loss = df_pivot.get('LMP_LOSS_PRC', None)
+                else:
+                    lmp_total = batch_df['MW']
+                    lmp_energy = None
+                    lmp_congestion = None
+                    lmp_loss = None
+                    df_pivot = batch_df.copy()
 
-            # Accumulate by year
-            for yr in df_unified['delivery_date'].apply(lambda x: x.year).unique():
-                if year and yr != year:
-                    continue
+                # Convert UTC to local timezone (keep timezone-aware)
+                datetime_local = df_pivot['datetime_utc'].dt.tz_convert(self.iso_timezone)
 
-                df_year = df_unified[df_unified['delivery_date'].apply(lambda x: x.year) == yr]
+                df_unified = pd.DataFrame({
+                    'datetime_utc': df_pivot['datetime_utc'],
+                    'datetime_local': datetime_local,  # Schema v2.0.0: timezone-aware!
+                    'interval_start_utc': df_pivot['datetime_utc'],
+                    'interval_end_utc': df_pivot['interval_end_utc'],
+                    'delivery_date': datetime_local.dt.date,
+                    'delivery_hour': datetime_local.dt.hour + 1,
+                    'delivery_interval': np.uint8(0),
+                    'interval_minutes': np.uint8(int(interval_minutes)),
+                    'iso': 'CAISO',
+                    'market_type': 'DA',
+                    'settlement_location': df_pivot['NODE'] if 'NODE' in df_pivot.columns else df_pivot['NODE_ID'],
+                    'settlement_location_type': 'NODE',
+                    'settlement_location_id': df_pivot['NODE_ID'].astype(str) if 'NODE_ID' in df_pivot.columns else None,
+                    'zone': None,
+                    'voltage_kv': None,
+                    'lmp_total': lmp_total,
+                    'lmp_energy': lmp_energy,
+                    'lmp_congestion': lmp_congestion,
+                    'lmp_loss': lmp_loss,
+                    'system_lambda': None,
+                    'dst_flag': None,
+                    'data_source': 'CAISO OASIS',
+                    'version': 1,
+                    'is_current': True
+                })
 
-                if yr not in year_data:
-                    year_data[yr] = []
+                df_unified = self.enforce_price_types(df_unified)
+                # Batch-level dedup only (lightweight)
+                df_unified = df_unified.drop_duplicates(subset=['datetime_utc', 'settlement_location'], keep='last')
 
-                year_data[yr].append(df_year)
+                # Save first batch for metadata extraction
+                if metadata_df is None:
+                    metadata_df = df_unified.head(1000).copy()
 
-            del df_unified, batch_df, df_pivot
-            gc.collect()
+                # Group by year and write batch by batch (TRUE STREAMING!)
+                for yr in df_unified['delivery_date'].apply(lambda x: x.year).unique():
+                    if year and yr != year:
+                        continue
 
-        # Write accumulated data
-        for yr, dfs in year_data.items():
-            if dfs:
-                self.logger.info(f"Combining {len(dfs)} batches for year {yr}")
-                final_df = pd.concat(dfs, ignore_index=True)
-                final_df = final_df.sort_values('datetime_utc')
-                final_df = final_df.drop_duplicates(subset=['datetime_utc', 'settlement_location'], keep='last')
+                    df_year = df_unified[df_unified['delivery_date'].apply(lambda x: x.year) == yr]
 
-                output_dir = self.parquet_output_dir / "da_energy_hourly_nodal"
-                output_file = output_dir / f"da_energy_hourly_nodal_{yr}.parquet"
+                    if yr not in year_writers:
+                        # First batch for this year - create writer
+                        output_dir = self.parquet_output_dir / "da_energy_hourly_nodal"
+                        output_dir.mkdir(parents=True, exist_ok=True)
+                        output_file = output_dir / f"da_energy_hourly_nodal_{yr}.parquet.tmp"
+                        year_files[yr] = output_file
 
-                self.write_parquet_atomic(final_df, output_file, self.ENERGY_SCHEMA, compression='snappy')
+                        self.logger.info(f"Started streaming write for year {yr}: {output_file}")
+                        table = pa.Table.from_pandas(df_year, schema=self.ENERGY_SCHEMA)
+                        year_writers[yr] = pq.ParquetWriter(output_file, self.ENERGY_SCHEMA, compression='snappy')
+                        year_writers[yr].write_table(table)
+                    else:
+                        # Append batch to existing writer
+                        table = pa.Table.from_pandas(df_year, schema=self.ENERGY_SCHEMA)
+                        year_writers[yr].write_table(table)
 
-                # Extract node metadata (first year only)
-                if yr == list(year_data.keys())[0]:
-                    nodes = self.extract_unique_locations(
-                        final_df,
-                        location_col='settlement_location',
-                        location_type_col='settlement_location_type',
-                        location_id_col='settlement_location_id'
-                    )
-                    self.save_metadata_json('nodes', {
-                        'iso': 'CAISO',
-                        'last_updated': datetime.now().isoformat(),
-                        'total_nodes': len(nodes),
-                        'nodes': nodes
-                    })
+                    del df_year, table
 
-                del final_df, dfs
+                del df_unified, batch_df, df_pivot
                 gc.collect()
+
+        finally:
+            # Close all writers and atomically move files
+            for yr, writer in year_writers.items():
+                try:
+                    writer.close()
+
+                    # Atomic move from .tmp to final file
+                    tmp_file = year_files[yr]
+                    final_file = tmp_file.parent / tmp_file.name.replace('.tmp', '')
+                    tmp_file.replace(final_file)
+                    self.logger.info(f"Successfully wrote {final_file}")
+
+                except Exception as e:
+                    self.logger.error(f"Error closing writer for year {yr}: {e}")
+
+            # Extract node metadata (from first batch)
+            if metadata_df is not None:
+                nodes = self.extract_unique_locations(
+                    metadata_df,
+                    location_col='settlement_location',
+                    location_type_col='settlement_location_type',
+                    location_id_col='settlement_location_id'
+                )
+                self.save_metadata_json('nodes', {
+                    'iso': 'CAISO',
+                    'last_updated': datetime.now().isoformat(),
+                    'total_nodes': len(nodes),
+                    'nodes': nodes
+                })
 
     def convert_rt_energy(self, year: Optional[int] = None) -> None:
         """Convert Real-Time energy prices (NOT IMPLEMENTED - reduces memory)."""

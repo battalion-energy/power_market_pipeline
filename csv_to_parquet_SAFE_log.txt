@@ -1,0 +1,1 @@
+/home/enrico/projects/power_market_pipeline/.venv/bin/python: can't open file '/home/enrico/projects/power_market_pipeline/csv_to_parquet_SAFE.py': [Errno 2] No such file or directory

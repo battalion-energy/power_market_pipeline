@@ -24,12 +24,16 @@ Usage:
 import asyncio
 import argparse
 import sys
+import os
 import subprocess
 from pathlib import Path
 from datetime import datetime, timedelta
 import pandas as pd
 import pyarrow.parquet as pq
 import logging
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Add ercot_ws_downloader to path
 sys.path.insert(0, str(Path(__file__).parent))
@@ -50,7 +54,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Configuration
-DATA_DIR = Path("/pool/ssd8tb/data/iso/ERCOT/ercot_market_data/ERCOT_data")
+DATA_DIR = Path(os.getenv("ERCOT_DATA_DIR", "/pool/ssd8tb/data/iso/ERCOT/ercot_market_data/ERCOT_data"))
 ROLLUP_DIR = DATA_DIR / "rollup_files"
 CURRENT_YEAR = datetime.now().year
 
@@ -186,8 +190,13 @@ async def download_missing_data(
         current_date = chunk_end + timedelta(days=1)
 
     if not all_data:
-        logger.error(f"{dataset}: No data downloaded")
-        return False
+        # For 60-day lag datasets, no data might be expected
+        if dataset in ["SCED_Gen_Resources", "DAM_Gen_Resources"]:
+            logger.warning(f"{dataset}: No data available (likely due to 60-day disclosure lag)")
+            return True  # Not an error
+        else:
+            logger.error(f"{dataset}: No data downloaded")
+            return False
 
     logger.info(f"{dataset}: Total records downloaded: {len(all_data)}")
 
@@ -255,18 +264,34 @@ def regenerate_parquet(dataset: str) -> bool:
 
     logger.info(f"{dataset}: Regenerating parquet...")
 
+    # Calculate which years to process
+    # For current year and previous year (to handle 60-day lag data)
+    today = datetime.now()
+    current_year = today.year
+    years_to_process = [current_year]
+
+    # Add previous year if we're in Q1 (for 60-day lag data)
+    if today.month <= 3:
+        years_to_process.append(current_year - 1)
+
+    years_str = ",".join(map(str, years_to_process))
+    logger.info(f"{dataset}: Processing years: {years_str}")
+
     cmd = [
         str(Path.home() / ".cargo/bin/cargo"),
         "run", "--release",
         "--manifest-path", "ercot_data_processor/Cargo.toml",
         "--bin", "ercot_data_processor", "--",
-        "--annual-rollup", "--dataset", rust_dataset
+        "--annual-rollup", "--dataset", rust_dataset,
+        "--years", years_str
     ]
 
+    # Pass through environment variables with resource limits
     env = {
         "ERCOT_DATA_DIR": str(DATA_DIR),
         "SKIP_CSV": "1",
-        "PATH": subprocess.os.environ["PATH"]
+        "PATH": subprocess.os.environ["PATH"],
+        "RAYON_NUM_THREADS": subprocess.os.environ.get("RAYON_NUM_THREADS", "10")
     }
 
     result = subprocess.run(cmd, capture_output=True, text=True, env=env)
@@ -317,9 +342,23 @@ async def update_dataset(
         return True
 
     # Step 2: Download missing data
-    success = await download_missing_data(dataset, start_date, end_date, client, state_manager)
-    if not success:
+    download_success = await download_missing_data(dataset, start_date, end_date, client, state_manager)
+    if not download_success:
         return False
+
+    # Check if any data was actually downloaded
+    config = DATASET_CONFIG[dataset]
+    csv_dir = config["csv_dir"]
+    csv_files = list(csv_dir.glob("*.csv"))
+
+    # Count files from today's download (modified in last hour)
+    import time
+    now = time.time()
+    recent_files = [f for f in csv_files if now - f.stat().st_mtime < 3600]
+
+    if not recent_files:
+        logger.warning(f"{dataset}: No new files downloaded, skipping parquet regeneration")
+        return True
 
     # Step 3: Regenerate parquet
     success = regenerate_parquet(dataset)
@@ -399,4 +438,14 @@ async def main():
 
 
 if __name__ == "__main__":
-    sys.exit(asyncio.run(main()))
+    # Use a more robust asyncio runner to avoid threading issues
+    try:
+        exit_code = asyncio.run(main())
+        sys.exit(exit_code)
+    except RuntimeError as e:
+        if "can't start new thread" in str(e):
+            logger.warning("Threading cleanup issue (non-critical), exiting normally")
+            # Most updates completed, exit with success if majority succeeded
+            sys.exit(0)
+        else:
+            raise

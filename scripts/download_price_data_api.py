@@ -15,10 +15,14 @@ Usage:
 
 import asyncio
 import sys
+import os
 from pathlib import Path
 from datetime import datetime, timedelta
 import pandas as pd
 import logging
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Add ercot_ws_downloader to path
 sys.path.insert(0, str(Path(__file__).parent))
@@ -34,7 +38,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Configuration
-DATA_DIR = Path("/pool/ssd8tb/data/iso/ERCOT/ercot_market_data/ERCOT_data")
+DATA_DIR = Path(os.getenv("ERCOT_DATA_DIR", "/pool/ssd8tb/data/iso/ERCOT/ercot_market_data/ERCOT_data"))
 
 DATASET_CONFIG = {
     "DAM_Prices": {

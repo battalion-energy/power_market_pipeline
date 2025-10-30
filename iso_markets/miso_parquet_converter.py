@@ -150,12 +150,16 @@ class MISOParquetConverter(UnifiedISOParquetConverter):
         """
         Parse MISO datetime format.
 
-        MISO typically uses MarketDateTime in format: YYYY-MM-DD HH:MM:SS
-        Times are in Central Time (CT).
+        CRITICAL: MISO uses EST (Eastern Standard Time - FIXED UTC-5, NO DST!)
+        NOT Central Time! See DA converter for details.
         """
-        # Parse as Central Time, then convert to UTC
-        df['datetime_local'] = pd.to_datetime(df[datetime_col])
-        df['datetime_utc'] = self.normalize_datetime_to_utc(df['datetime_local'])
+        # MISO uses EST (fixed UTC-5, no DST)
+        # Schema v2.0.0: Keep both datetime_utc and datetime_local timezone-aware!
+        from datetime import timezone as tz_module, timedelta
+        est_fixed = tz_module(timedelta(hours=-5))  # EST is UTC-5 (no DST)
+
+        df['datetime_local'] = pd.to_datetime(df[datetime_col]).dt.tz_localize(est_fixed)
+        df['datetime_utc'] = df['datetime_local'].dt.tz_convert('UTC')
 
         return df
 
@@ -286,12 +290,17 @@ class MISOParquetConverter(UnifiedISOParquetConverter):
 
         market_label = "ex-post"
 
-        # Convert datetime to UTC (MISO data is in EST, not CT!)
-        # Deduplicate timestamps to avoid DST errors with many duplicate datetimes
-        unique_dt = df['datetime_local'].drop_duplicates()
-        unique_dt_utc = self.normalize_datetime_to_utc(unique_dt, source_tz=ZoneInfo('America/New_York'))
-        dt_mapping = pd.Series(unique_dt_utc.values, index=unique_dt.values)
-        df['datetime_utc'] = df['datetime_local'].map(dt_mapping)
+        # Convert datetime to UTC
+        # MISO data is in EST (Eastern Standard Time - FIXED UTC-5, NO DST!)
+        # The CSV files explicitly state: "All Hours-Ending are Eastern Standard Time (EST)"
+        # Use fixed offset timezone, not America/New_York which observes DST
+        from datetime import timezone as tz_module, timedelta
+        est_fixed = tz_module(timedelta(hours=-5))  # EST is UTC-5 (no DST)
+
+        # Localize to EST (fixed offset, no DST issues)
+        # Schema v2.0.0: Keep both datetime_utc and datetime_local timezone-aware!
+        df['datetime_local'] = df['datetime_local'].dt.tz_localize(est_fixed)
+        df['datetime_utc'] = df['datetime_local'].dt.tz_convert('UTC')
 
         # For pivoted format, columns are: Node, Type, Value, hour_ending, hour, price, datetime_local, datetime_utc
         # Determine node type from Type column

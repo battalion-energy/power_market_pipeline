@@ -56,12 +56,13 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Data directory
-PJM_DATA_DIR = Path(os.getenv('PJM_DATA_DIR', '/home/enrico/data/PJM_data'))
+PJM_DATA_DIR = Path(os.getenv('PJM_DATA_DIR', '/pool/ssd8tb/data/iso/PJM_data'))
 
 # Retry configuration
 MAX_RETRIES = 10  # Increased from 5 to 10 for better resilience
-BASE_RETRY_DELAY = 30  # Start with 30 seconds
-RATE_LIMIT_BASE_DELAY = 120  # Start with 2 minutes for 429 errors (more aggressive)
+BASE_RETRY_DELAY = 30  # Start with 30 seconds for general errors
+RATE_LIMIT_BASE_DELAY = 10  # Start with 10 seconds for 429 errors (6 req/min = ~10s interval)
+MAX_BACKOFF = 120  # Cap exponential backoff at 2 minutes (was 5 min)
 
 # Data types and their directory structures
 DATA_TYPES = {
@@ -77,23 +78,17 @@ DATA_TYPES = {
         "description": "Real-Time Hourly Nodal LMPs",
         "priority": 2
     },
-    "rt_5min_nodal": {
-        "dir": PJM_DATA_DIR / "csv_files/rt_5min_nodal",
-        "pattern": "nodal_rt_5min_lmp_*.csv",
-        "description": "Real-Time 5-Min Nodal LMPs",
-        "priority": 3
-    },
     "ancillary_services": {
         "dir": PJM_DATA_DIR / "csv_files/da_ancillary_services",
         "pattern": "ancillary_services_*.csv",
         "description": "DA Ancillary Services",
-        "priority": 4
+        "priority": 3
     },
     "rt_5min_nodal": {
         "dir": PJM_DATA_DIR / "csv_files/rt_5min_nodal",
         "pattern": "nodal_rt_5min_lmp_*.csv",
         "description": "Real-Time 5-Min Nodal LMPs (last 6 months)",
-        "priority": 5,
+        "priority": 4,
         "retention_days": 186  # PJM only keeps 6 months
     }
 }
@@ -210,8 +205,7 @@ def update_da_nodal(client: PJMAPIClient, start_date: datetime, end_date: dateti
                                 df = pd.DataFrame(items)
                                 all_dfs.append(df)
                                 chunk_success = True
-                                # Add delay between successful requests to avoid rate limits
-                                time.sleep(2)
+                                # Rate limiter in API client handles delays
                                 break
                         else:
                             break  # No data available, not a retry-able error
@@ -221,10 +215,17 @@ def update_da_nodal(client: PJMAPIClient, start_date: datetime, end_date: dateti
                         is_rate_limit = '429' in error_msg or 'rate limit' in error_msg.lower()
 
                         if attempt < MAX_RETRIES - 1:
-                            # Use much longer backoff for rate limit errors (429)
+                            # Use backoff for rate limit errors (429)
                             if is_rate_limit:
-                                wait_time = RATE_LIMIT_BASE_DELAY * (2 ** attempt)  # 2min, 4min, 8min, 16min, 32min...
-                                logger.warning(f"  ⚠️  Rate limit (429) on attempt {attempt + 1}/{MAX_RETRIES} for {hour_start:02d}:00")
+                                # API client now provides smart retry_after based on response times or Retry-After header
+                                retry_after = getattr(e, 'retry_after', None)
+                                if retry_after:
+                                    wait_time = retry_after + 2  # Small buffer
+                                    logger.warning(f"  ⚠️  Rate limit (429) on attempt {attempt + 1}/{MAX_RETRIES} for {hour_start:02d}:00 - waiting {wait_time:.1f}s")
+                                else:
+                                    # Fallback: exponential backoff with cap (10s, 20s, 40s, 80s, 120s max)
+                                    wait_time = min(RATE_LIMIT_BASE_DELAY * (2 ** attempt), MAX_BACKOFF)
+                                    logger.warning(f"  ⚠️  Rate limit (429) on attempt {attempt + 1}/{MAX_RETRIES} for {hour_start:02d}:00")
                             else:
                                 wait_time = BASE_RETRY_DELAY * (2 ** attempt)  # 30s, 60s, 120s, 240s...
                                 logger.warning(f"  ⚠️  Attempt {attempt + 1}/{MAX_RETRIES} failed for {hour_start:02d}:00: {error_msg}")
@@ -326,8 +327,7 @@ def update_rt_hourly_nodal(client: PJMAPIClient, start_date: datetime, end_date:
                                 df = pd.DataFrame(items)
                                 all_dfs.append(df)
                                 chunk_success = True
-                                # Add delay between successful requests to avoid rate limits
-                                time.sleep(2)
+                                # Rate limiter in API client handles delays
                                 break
                         else:
                             break  # No data available
@@ -337,10 +337,17 @@ def update_rt_hourly_nodal(client: PJMAPIClient, start_date: datetime, end_date:
                         is_rate_limit = '429' in error_msg or 'rate limit' in error_msg.lower()
 
                         if attempt < MAX_RETRIES - 1:
-                            # Use much longer backoff for rate limit errors (429)
+                            # Use backoff for rate limit errors (429)
                             if is_rate_limit:
-                                wait_time = RATE_LIMIT_BASE_DELAY * (2 ** attempt)  # 2min, 4min, 8min, 16min, 32min...
-                                logger.warning(f"  ⚠️  Rate limit (429) on attempt {attempt + 1}/{MAX_RETRIES} for {hour_start:02d}:00")
+                                # API client now provides smart retry_after based on response times or Retry-After header
+                                retry_after = getattr(e, 'retry_after', None)
+                                if retry_after:
+                                    wait_time = retry_after + 2  # Small buffer
+                                    logger.warning(f"  ⚠️  Rate limit (429) on attempt {attempt + 1}/{MAX_RETRIES} for {hour_start:02d}:00 - waiting {wait_time:.1f}s")
+                                else:
+                                    # Fallback: exponential backoff with cap (10s, 20s, 40s, 80s, 120s max)
+                                    wait_time = min(RATE_LIMIT_BASE_DELAY * (2 ** attempt), MAX_BACKOFF)
+                                    logger.warning(f"  ⚠️  Rate limit (429) on attempt {attempt + 1}/{MAX_RETRIES} for {hour_start:02d}:00")
                             else:
                                 wait_time = BASE_RETRY_DELAY * (2 ** attempt)  # 30s, 60s, 120s, 240s...
                                 logger.warning(f"  ⚠️  Attempt {attempt + 1}/{MAX_RETRIES} failed for {hour_start:02d}:00: {error_msg}")
@@ -511,8 +518,7 @@ def update_rt_5min_nodal(client: PJMAPIClient, start_date: datetime, end_date: d
                                 df = pd.DataFrame(items)
                                 all_dfs.append(df)
                                 chunk_success = True
-                                # Add delay between successful requests to avoid rate limits
-                                time.sleep(2)
+                                # Rate limiter in API client handles delays
                                 break
                         else:
                             break  # No data available
@@ -522,10 +528,17 @@ def update_rt_5min_nodal(client: PJMAPIClient, start_date: datetime, end_date: d
                         is_rate_limit = '429' in error_msg or 'rate limit' in error_msg.lower()
 
                         if attempt < MAX_RETRIES - 1:
-                            # Use much longer backoff for rate limit errors (429)
+                            # Use backoff for rate limit errors (429)
                             if is_rate_limit:
-                                wait_time = RATE_LIMIT_BASE_DELAY * (2 ** attempt)  # 2min, 4min, 8min, 16min, 32min...
-                                logger.warning(f"  ⚠️  Rate limit (429) on attempt {attempt + 1}/{MAX_RETRIES} for {hour_start:02d}:{min_start:02d}")
+                                # Check if API provided Retry-After hint
+                                retry_after = getattr(e, 'retry_after', None)
+                                if retry_after:
+                                    wait_time = retry_after + 5  # Add 5 second buffer
+                                    logger.warning(f"  ⚠️  Rate limit (429) on attempt {attempt + 1}/{MAX_RETRIES} for {hour_start:02d}:{min_start:02d} - API says retry after {retry_after}s")
+                                else:
+                                    # Exponential backoff with cap
+                                    wait_time = min(RATE_LIMIT_BASE_DELAY * (2 ** attempt), MAX_BACKOFF)  # 45s, 90s, 180s, capped at 300s
+                                    logger.warning(f"  ⚠️  Rate limit (429) on attempt {attempt + 1}/{MAX_RETRIES} for {hour_start:02d}:{min_start:02d}")
                             else:
                                 wait_time = BASE_RETRY_DELAY * (2 ** attempt)  # 30s, 60s, 120s, 240s...
                                 logger.warning(f"  ⚠️  Attempt {attempt + 1}/{MAX_RETRIES} failed for {hour_start:02d}:{min_start:02d}: {error_msg}")
@@ -649,9 +662,9 @@ def main():
         logger.info(f"\n[DRY RUN] Would update {len(data_types)} data types")
         return 0
 
-    # Initialize API client
+    # Initialize API client (optimized settings)
     try:
-        client = PJMAPIClient(requests_per_minute=6)
+        client = PJMAPIClient(requests_per_minute=6, min_delay_between_requests=2.0)
     except ValueError as e:
         logger.error(f"Failed to initialize API client: {e}")
         logger.error("Please set PJM_API_KEY in your .env file")

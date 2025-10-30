@@ -40,7 +40,7 @@ echo "" | tee -a "${LOG_FILE}"
 # Downloads all data types: LMP (DA & RT), AS (DA & RT), Load, Fuel Mix
 nice -n 19 timeout 3600 /home/enrico/.local/bin/uv run python scripts/download_nyiso_gridstatus.py \
   --auto-resume \
-  --output-dir /pool/ssd8tb/data/iso >> "${LOG_FILE}" 2>&1
+  --output-dir "${ISO_DATA_DIR}" >> "${LOG_FILE}" 2>&1
 
 EXIT_CODE=$?
 

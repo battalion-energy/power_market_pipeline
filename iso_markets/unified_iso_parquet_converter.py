@@ -36,57 +36,11 @@ class UnifiedISOParquetConverter(ABC):
     """Base class for converting ISO data to unified parquet format."""
 
     # Define schema version
-    SCHEMA_VERSION = "1.0.0"
+    SCHEMA_VERSION = "2.0.0"  # Updated: datetime_local now timezone-aware
 
-    # Unified energy prices schema
-    ENERGY_SCHEMA = pa.schema([
-        ('datetime_utc', pa.timestamp('ns', tz='UTC')),
-        ('datetime_local', pa.timestamp('ns')),
-        ('interval_start_utc', pa.timestamp('ns', tz='UTC')),
-        ('interval_end_utc', pa.timestamp('ns', tz='UTC')),
-        ('delivery_date', pa.date32()),
-        ('delivery_hour', pa.uint8()),
-        ('delivery_interval', pa.uint8()),
-        ('interval_minutes', pa.uint8()),
-        ('iso', pa.string()),
-        ('market_type', pa.string()),
-        ('settlement_location', pa.string()),
-        ('settlement_location_type', pa.string()),
-        ('settlement_location_id', pa.string()),
-        ('zone', pa.string()),
-        ('voltage_kv', pa.float64()),
-        ('lmp_total', pa.float64()),
-        ('lmp_energy', pa.float64()),
-        ('lmp_congestion', pa.float64()),
-        ('lmp_loss', pa.float64()),
-        ('system_lambda', pa.float64()),
-        ('dst_flag', pa.string()),
-        ('data_source', pa.string()),
-        ('version', pa.uint32()),
-        ('is_current', pa.bool_()),
-    ])
-
-    # Unified ancillary services schema
-    AS_SCHEMA = pa.schema([
-        ('datetime_utc', pa.timestamp('ns', tz='UTC')),
-        ('datetime_local', pa.timestamp('ns')),
-        ('interval_start_utc', pa.timestamp('ns', tz='UTC')),
-        ('interval_end_utc', pa.timestamp('ns', tz='UTC')),
-        ('delivery_date', pa.date32()),
-        ('delivery_hour', pa.uint8()),
-        ('interval_minutes', pa.uint8()),
-        ('iso', pa.string()),
-        ('market_type', pa.string()),
-        ('as_product', pa.string()),
-        ('as_product_standard', pa.string()),
-        ('as_region', pa.string()),
-        ('market_clearing_price', pa.float64()),
-        ('cleared_quantity_mw', pa.float64()),
-        ('unit', pa.string()),
-        ('data_source', pa.string()),
-        ('version', pa.uint32()),
-        ('is_current', pa.bool_()),
-    ])
+    # NOTE: ENERGY_SCHEMA and AS_SCHEMA are now created dynamically in __init__
+    # to include the ISO's specific timezone for datetime_local
+    # See _create_schemas() method below
 
     def __init__(
         self,
@@ -130,10 +84,14 @@ class UnifiedISOParquetConverter(ABC):
         self.parquet_output_dir = Path(parquet_output_dir)
         self.metadata_dir = Path(metadata_dir)
         self.iso_timezone = ZoneInfo(iso_timezone)
+        self.iso_timezone_str = iso_timezone  # Store string representation for PyArrow
         self.memory_limit_gb = memory_limit_gb
 
         # Setup logger
         self.logger = logger or self._setup_logger()
+
+        # Create ISO-specific schemas with timezone-aware datetime_local
+        self._create_schemas()
 
         # Create output directories
         self.parquet_output_dir.mkdir(parents=True, exist_ok=True)
@@ -160,6 +118,67 @@ class UnifiedISOParquetConverter(ABC):
         logger.addHandler(handler)
 
         return logger
+
+    def _create_schemas(self) -> None:
+        """
+        Create PyArrow schemas with timezone-aware timestamps.
+
+        CRITICAL: datetime_local is now timezone-aware using the ISO's native timezone.
+        This prevents any ambiguity about what timezone the local timestamps are in.
+
+        Schema v2.0.0 changes:
+        - datetime_utc: timezone-aware UTC (unchanged)
+        - datetime_local: NOW timezone-aware with ISO's native timezone (was naive)
+        - interval_start_utc: timezone-aware UTC (unchanged)
+        - interval_end_utc: timezone-aware UTC (unchanged)
+        """
+        self.ENERGY_SCHEMA = pa.schema([
+            ('datetime_utc', pa.timestamp('ns', tz='UTC')),
+            ('datetime_local', pa.timestamp('ns', tz=self.iso_timezone_str)),  # ← NOW TIMEZONE-AWARE!
+            ('interval_start_utc', pa.timestamp('ns', tz='UTC')),
+            ('interval_end_utc', pa.timestamp('ns', tz='UTC')),
+            ('delivery_date', pa.date32()),
+            ('delivery_hour', pa.uint8()),
+            ('delivery_interval', pa.uint8()),
+            ('interval_minutes', pa.uint8()),
+            ('iso', pa.string()),
+            ('market_type', pa.string()),
+            ('settlement_location', pa.string()),
+            ('settlement_location_type', pa.string()),
+            ('settlement_location_id', pa.string()),
+            ('zone', pa.string()),
+            ('voltage_kv', pa.float64()),
+            ('lmp_total', pa.float64()),
+            ('lmp_energy', pa.float64()),
+            ('lmp_congestion', pa.float64()),
+            ('lmp_loss', pa.float64()),
+            ('system_lambda', pa.float64()),
+            ('dst_flag', pa.string()),
+            ('data_source', pa.string()),
+            ('version', pa.uint32()),
+            ('is_current', pa.bool_()),
+        ])
+
+        self.AS_SCHEMA = pa.schema([
+            ('datetime_utc', pa.timestamp('ns', tz='UTC')),
+            ('datetime_local', pa.timestamp('ns', tz=self.iso_timezone_str)),  # ← NOW TIMEZONE-AWARE!
+            ('interval_start_utc', pa.timestamp('ns', tz='UTC')),
+            ('interval_end_utc', pa.timestamp('ns', tz='UTC')),
+            ('delivery_date', pa.date32()),
+            ('delivery_hour', pa.uint8()),
+            ('interval_minutes', pa.uint8()),
+            ('iso', pa.string()),
+            ('market_type', pa.string()),
+            ('as_product', pa.string()),
+            ('as_product_standard', pa.string()),
+            ('as_region', pa.string()),
+            ('market_clearing_price', pa.float64()),
+            ('cleared_quantity_mw', pa.float64()),
+            ('unit', pa.string()),
+            ('data_source', pa.string()),
+            ('version', pa.uint32()),
+            ('is_current', pa.bool_()),
+        ])
 
     @abstractmethod
     def convert_da_energy(self, year: Optional[int] = None) -> None:

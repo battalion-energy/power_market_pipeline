@@ -15,6 +15,7 @@ Usage:
 """
 
 import argparse
+import os
 import pyarrow.parquet as pq
 import pandas as pd
 from pathlib import Path
@@ -22,6 +23,9 @@ import subprocess
 import sys
 from datetime import datetime, timedelta
 import logging
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Setup logging
 logging.basicConfig(
@@ -31,8 +35,8 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Configuration
-ROLLUP_DIR = Path("/pool/ssd8tb/data/iso/ERCOT/ercot_market_data/ERCOT_data/rollup_files")
-DATA_DIR = Path("/pool/ssd8tb/data/iso/ERCOT/ercot_market_data/ERCOT_data")
+DATA_DIR = Path(os.getenv("ERCOT_DATA_DIR", "/pool/ssd8tb/data/iso/ERCOT/ercot_market_data/ERCOT_data"))
+ROLLUP_DIR = DATA_DIR / "rollup_files"
 CURRENT_YEAR = datetime.now().year
 
 DATASET_CONFIG = {

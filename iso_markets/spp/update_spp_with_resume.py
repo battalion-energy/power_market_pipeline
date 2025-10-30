@@ -17,10 +17,14 @@ Usage:
 import asyncio
 import argparse
 import logging
+import os
 import sys
 from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Optional, Dict, List
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Configure logging
 logging.basicConfig(
@@ -30,7 +34,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Data directory
-SPP_DATA_DIR = Path("/pool/ssd8tb/data/iso/SPP")
+SPP_DATA_DIR = Path(os.getenv("SPP_DATA_DIR", "/pool/ssd8tb/data/iso/SPP"))
 
 # Data types and their directory structures
 DATA_TYPES = {
@@ -122,7 +126,7 @@ async def update_lmp_data(start_date: datetime, end_date: datetime, market_types
     logger.info(f"{'='*80}")
 
     # Import here to avoid circular dependencies
-    from download_lmp import SPPLMPDownloader
+    from .download_lmp import SPPLMPDownloader
 
     async with SPPLMPDownloader() as downloader:
         await downloader.download_date_range(
@@ -140,7 +144,7 @@ async def update_ancillary_data(start_date: datetime, end_date: datetime, market
     logger.info(f"Updating Ancillary Services: {start_date.date()} to {end_date.date()}")
     logger.info(f"{'='*80}")
 
-    from download_ancillary_services import SPPAncillaryServicesDownloader
+    from .download_ancillary_services import SPPAncillaryServicesDownloader
 
     async with SPPAncillaryServicesDownloader() as downloader:
         await downloader.download_date_range(

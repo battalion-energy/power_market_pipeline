@@ -155,22 +155,23 @@ class NYISOParquetConverter(UnifiedISOParquetConverter):
             return
 
         # NYISO datetime parsing (data is timezone-aware, convert directly to UTC)
+        # Schema v2.0.0: Keep datetime_local timezone-aware!
         if 'Time' in df.columns:
             df['datetime_utc'] = pd.to_datetime(df['Time'], utc=True)
-            df['datetime_local'] = df['datetime_utc'].dt.tz_convert('America/New_York').dt.tz_localize(None)
+            df['datetime_local'] = df['datetime_utc'].dt.tz_convert('America/New_York')
         elif 'Time Stamp' in df.columns:
             df['datetime_utc'] = pd.to_datetime(df['Time Stamp'], utc=True)
-            df['datetime_local'] = df['datetime_utc'].dt.tz_convert('America/New_York').dt.tz_localize(None)
+            df['datetime_local'] = df['datetime_utc'].dt.tz_convert('America/New_York')
         elif 'Timestamp' in df.columns:
             df['datetime_utc'] = pd.to_datetime(df['Timestamp'], utc=True)
-            df['datetime_local'] = df['datetime_utc'].dt.tz_convert('America/New_York').dt.tz_localize(None)
+            df['datetime_local'] = df['datetime_utc'].dt.tz_convert('America/New_York')
         elif 'Date' in df.columns:
-            df['datetime_local'] = pd.to_datetime(df['Date'])
-            df['datetime_utc'] = self.normalize_datetime_to_utc(df['datetime_local'])
+            df['datetime_local'] = pd.to_datetime(df['Date']).dt.tz_localize('America/New_York')
+            df['datetime_utc'] = df['datetime_local'].dt.tz_convert('UTC')
         else:
             # Try first column
             df['datetime_utc'] = pd.to_datetime(df.iloc[:, 0], utc=True)
-            df['datetime_local'] = df['datetime_utc'].dt.tz_convert('America/New_York').dt.tz_localize(None)
+            df['datetime_local'] = df['datetime_utc'].dt.tz_convert('America/New_York')
 
         # Zone and price columns
         zone_col = 'Location' if 'Location' in df.columns else next((col for col in df.columns if 'zone' in col.lower() or 'name' in col.lower()), 'Zone')
@@ -284,15 +285,15 @@ class NYISOParquetConverter(UnifiedISOParquetConverter):
             self.logger.warning("No RT data to convert")
             return
 
-        # Parse datetime
+        # Parse datetime (Schema v2.0.0: keep timezone-aware)
         if 'Time Stamp' in df.columns:
-            df['datetime_local'] = pd.to_datetime(df['Time Stamp'])
+            df['datetime_local'] = pd.to_datetime(df['Time Stamp']).dt.tz_localize('America/New_York')
         elif 'Timestamp' in df.columns:
-            df['datetime_local'] = pd.to_datetime(df['Timestamp'])
+            df['datetime_local'] = pd.to_datetime(df['Timestamp']).dt.tz_localize('America/New_York')
         else:
-            df['datetime_local'] = pd.to_datetime(df.iloc[:, 0])
+            df['datetime_local'] = pd.to_datetime(df.iloc[:, 0]).dt.tz_localize('America/New_York')
 
-        df['datetime_utc'] = self.normalize_datetime_to_utc(df['datetime_local'])
+        df['datetime_utc'] = df['datetime_local'].dt.tz_convert('UTC')
 
         # Detect interval
         time_diff = (df['datetime_local'].diff().dt.total_seconds() / 60).mode()

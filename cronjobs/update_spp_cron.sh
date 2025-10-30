@@ -7,12 +7,17 @@
 # Set working directory
 cd /home/enrico/projects/power_market_pipeline || exit 1
 
+# Load environment variables from .env
+if [ -f .env ]; then
+    export $(grep -v '^#' .env | xargs)
+fi
+
 # Set up environment
 export PATH="/home/enrico/.cargo/bin:/home/enrico/.local/bin:$PATH"
-export SPP_DATA_DIR="/pool/ssd8tb/data/iso/SPP"
 
-# Log file with timestamp
-LOG_DIR="/home/enrico/logs"
+# Log file with timestamp - use LOGS_DIR from .env or default
+LOG_DIR="${LOGS_DIR:-/pool/ssd8tb/logs}"
+mkdir -p "$LOG_DIR"
 TIMESTAMP=$(date +%Y%m%d_%H%M%S)
 LOG_FILE="${LOG_DIR}/spp_update_${TIMESTAMP}.log"
 
@@ -31,7 +36,7 @@ echo "" | tee -a "${LOG_FILE}"
 # - Find the last downloaded date for each data type
 # - Resume from that point
 # - Catch up any gaps if cron job failed for a few days
-nice -n 19 timeout 3600 /home/enrico/.local/bin/uv run python iso_markets/spp/update_spp_with_resume.py >> "${LOG_FILE}" 2>&1
+nice -n 19 timeout 3600 /home/enrico/.local/bin/uv run python -m iso_markets.spp.update_spp_with_resume >> "${LOG_FILE}" 2>&1
 
 OVERALL_SUCCESS=$?
 

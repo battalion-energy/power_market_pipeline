@@ -100,9 +100,10 @@ class SPPParquetConverter(UnifiedISOParquetConverter):
             return
 
         # Parse datetime (SPP data is timezone-aware, convert directly to UTC)
+        # Schema v2.0.0: Keep datetime_local timezone-aware!
         datetime_col = next((col for col in df.columns if 'date' in col.lower() or 'time' in col.lower() or 'interval' in col.lower()), df.columns[0])
         df['datetime_utc'] = pd.to_datetime(df[datetime_col], utc=True)
-        df['datetime_local'] = df['datetime_utc'].dt.tz_convert('America/Chicago').dt.tz_localize(None)
+        df['datetime_local'] = df['datetime_utc'].dt.tz_convert('America/Chicago')
 
         location_col = next((col for col in df.columns if 'settlement' in col.lower() or 'pnode' in col.lower() or 'location' in col.lower()), 'Settlement Location')
         lmp_col = next((col for col in df.columns if 'lmp' in col.lower() or 'price' in col.lower()), 'LMP')
@@ -198,10 +199,10 @@ class SPPParquetConverter(UnifiedISOParquetConverter):
             self.logger.warning("No RT data to convert")
             return
 
-        # Similar structure to DA
+        # Similar structure to DA (Schema v2.0.0: keep timezone-aware)
         datetime_col = next((col for col in df.columns if 'date' in col.lower() or 'time' in col.lower() or 'interval' in col.lower()), df.columns[0])
-        df['datetime_local'] = pd.to_datetime(df[datetime_col])
-        df['datetime_utc'] = self.normalize_datetime_to_utc(df['datetime_local'])
+        df['datetime_local'] = pd.to_datetime(df[datetime_col]).dt.tz_localize('America/Chicago')
+        df['datetime_utc'] = df['datetime_local'].dt.tz_convert('UTC')
 
         location_col = next((col for col in df.columns if 'settlement' in col.lower() or 'pnode' in col.lower() or 'location' in col.lower()), 'Settlement Location')
         lmp_col = next((col for col in df.columns if 'lmp' in col.lower() or 'price' in col.lower()), 'LMP')

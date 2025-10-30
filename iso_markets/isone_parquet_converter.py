@@ -102,10 +102,27 @@ class ISONEParquetConverter(UnifiedISOParquetConverter):
             self.logger.warning("No DA data to convert")
             return
 
-        # Parse datetime (adjust based on actual ISONE format)
-        datetime_col = next((col for col in df.columns if 'date' in col.lower() or 'time' in col.lower()), df.columns[0])
-        df['datetime_local'] = pd.to_datetime(df[datetime_col])
-        df['datetime_utc'] = self.normalize_datetime_to_utc(df['datetime_local'])
+        # CRITICAL FIX: ISONE provides separate 'Date' and 'Hour Ending' columns
+        # Hour Ending 1 = 00:00-01:00 (start time 00:00)
+        # Hour Ending 2 = 01:00-02:00 (start time 01:00)
+        # etc.
+        # So: interval_start = Date + (Hour Ending - 1) hours
+        if 'Date' in df.columns and 'Hour Ending' in df.columns:
+            self.logger.info("Combining ISONE 'Date' and 'Hour Ending' columns")
+            df['datetime_local'] = pd.to_datetime(df['Date']) + pd.to_timedelta(df['Hour Ending'].astype(int) - 1, unit='h')
+        else:
+            # Fallback for different ISONE data formats
+            datetime_col = next((col for col in df.columns if 'date' in col.lower() or 'time' in col.lower()), df.columns[0])
+            df['datetime_local'] = pd.to_datetime(df[datetime_col])
+            self.logger.warning(f"Using fallback datetime parsing from column: {datetime_col}")
+
+        # Convert local time to UTC using America/New_York timezone
+        # ISONE uses Eastern Time (ET) which observes DST
+        df['datetime_local'] = df['datetime_local'].dt.tz_localize('America/New_York', ambiguous='infer')
+        df['datetime_utc'] = df['datetime_local'].dt.tz_convert('UTC')
+
+        # KEEP datetime_local timezone-aware (America/New_York)
+        # Schema v2.0.0: Both datetime_utc and datetime_local are now timezone-aware!
 
         location_col = next((col for col in df.columns if 'location' in col.lower() or 'node' in col.lower()), 'Location')
         lmp_col = next((col for col in df.columns if 'lmp' in col.lower() or 'price' in col.lower()), 'LMP')
@@ -201,10 +218,22 @@ class ISONEParquetConverter(UnifiedISOParquetConverter):
             self.logger.warning("No RT data to convert")
             return
 
-        # Similar structure to DA
-        datetime_col = next((col for col in df.columns if 'date' in col.lower() or 'time' in col.lower()), df.columns[0])
-        df['datetime_local'] = pd.to_datetime(df[datetime_col])
-        df['datetime_utc'] = self.normalize_datetime_to_utc(df['datetime_local'])
+        # CRITICAL FIX: ISONE RT may also use separate Date/Hour columns
+        if 'Date' in df.columns and 'Hour Ending' in df.columns:
+            self.logger.info("Combining ISONE RT 'Date' and 'Hour Ending' columns")
+            df['datetime_local'] = pd.to_datetime(df['Date']) + pd.to_timedelta(df['Hour Ending'].astype(int) - 1, unit='h')
+        else:
+            # Fallback for different ISONE data formats
+            datetime_col = next((col for col in df.columns if 'date' in col.lower() or 'time' in col.lower()), df.columns[0])
+            df['datetime_local'] = pd.to_datetime(df[datetime_col])
+            self.logger.warning(f"Using fallback RT datetime parsing from column: {datetime_col}")
+
+        # Convert local time to UTC using America/New_York timezone
+        df['datetime_local'] = df['datetime_local'].dt.tz_localize('America/New_York', ambiguous='infer')
+        df['datetime_utc'] = df['datetime_local'].dt.tz_convert('UTC')
+
+        # KEEP datetime_local timezone-aware (America/New_York)
+        # Schema v2.0.0: Both datetime_utc and datetime_local are now timezone-aware!
 
         location_col = next((col for col in df.columns if 'location' in col.lower() or 'node' in col.lower()), 'Location')
         lmp_col = next((col for col in df.columns if 'lmp' in col.lower() or 'price' in col.lower()), 'LMP')

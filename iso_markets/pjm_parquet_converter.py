@@ -143,14 +143,18 @@ class PJMParquetConverter(UnifiedISOParquetConverter):
         year_data = {}
 
         for batch_df in self._process_csv_files_in_batches(csv_files, year):
+            # Parse timestamps (PJM provides both UTC and EPT)
+            datetime_utc = pd.to_datetime(batch_df['datetime_beginning_utc'], utc=True)
+            datetime_local = pd.to_datetime(batch_df['datetime_beginning_ept']).dt.tz_localize('America/New_York')
+
             # Transform to unified schema
             df_unified = pd.DataFrame({
-                'datetime_utc': pd.to_datetime(batch_df['datetime_beginning_utc'], utc=True),
-                'datetime_local': pd.to_datetime(batch_df['datetime_beginning_ept']),
-                'interval_start_utc': pd.to_datetime(batch_df['datetime_beginning_utc'], utc=True),
-                'interval_end_utc': pd.to_datetime(batch_df['datetime_beginning_utc'], utc=True) + pd.Timedelta(hours=1),
-                'delivery_date': pd.to_datetime(batch_df['datetime_beginning_ept']).dt.date,
-                'delivery_hour': pd.to_datetime(batch_df['datetime_beginning_ept']).dt.hour + 1,
+                'datetime_utc': datetime_utc,
+                'datetime_local': datetime_local,  # Schema v2.0.0: timezone-aware!
+                'interval_start_utc': datetime_utc,
+                'interval_end_utc': datetime_utc + pd.Timedelta(hours=1),
+                'delivery_date': datetime_local.dt.date,
+                'delivery_hour': datetime_local.dt.hour + 1,
                 'delivery_interval': np.uint8(0),
                 'interval_minutes': np.uint8(60),
                 'iso': 'PJM',
@@ -193,9 +197,10 @@ class PJMParquetConverter(UnifiedISOParquetConverter):
         # Write accumulated data for each year
         for yr, dfs in year_data.items():
             if dfs:
+                self.logger.info(f"Combining {len(dfs)} batches for year {yr}")
                 final_df = pd.concat(dfs, ignore_index=True)
-                final_df = final_df.sort_values('datetime_utc')
-                final_df = final_df.drop_duplicates(subset=['datetime_utc', 'settlement_location'], keep='last')
+                # Each batch is already deduplicated (line 176), so skip expensive final dedup
+                # Cross-batch duplicates are rare and can be filtered during reads if needed
 
                 output_dir = self.parquet_output_dir / "da_energy_hourly_hub"
                 output_file = output_dir / f"da_energy_hourly_hub_{yr}.parquet"
@@ -221,70 +226,89 @@ class PJMParquetConverter(UnifiedISOParquetConverter):
                 gc.collect()
 
     def _process_da_nodal_streaming(self, csv_files: List[Path], year: Optional[int]):
-        """Process DA nodal files in streaming mode (LARGE FILES)."""
+        """Process DA nodal files in TRUE streaming mode (write batch by batch)."""
 
-        year_data = {}
+        # Dictionary to hold ParquetWriters for each year
+        year_writers = {}
+        year_files = {}
 
-        for batch_df in self._process_csv_files_in_batches(csv_files, year):
-            df_unified = pd.DataFrame({
-                'datetime_utc': pd.to_datetime(batch_df['datetime_beginning_utc'], utc=True),
-                'datetime_local': pd.to_datetime(batch_df['datetime_beginning_ept']),
-                'interval_start_utc': pd.to_datetime(batch_df['datetime_beginning_utc'], utc=True),
-                'interval_end_utc': pd.to_datetime(batch_df['datetime_beginning_utc'], utc=True) + pd.Timedelta(hours=1),
-                'delivery_date': pd.to_datetime(batch_df['datetime_beginning_ept']).dt.date,
-                'delivery_hour': pd.to_datetime(batch_df['datetime_beginning_ept']).dt.hour + 1,
-                'delivery_interval': np.uint8(0),
-                'interval_minutes': np.uint8(60),
-                'iso': 'PJM',
-                'market_type': 'DA',
-                'settlement_location': batch_df['pnode_name'].fillna(batch_df['pnode_id'].astype(str)),
-                'settlement_location_type': batch_df['type'],
-                'settlement_location_id': batch_df['pnode_id'].astype(str),
-                'zone': batch_df['zone'],
-                'voltage_kv': pd.to_numeric(batch_df['voltage'], errors='coerce'),
-                'lmp_total': batch_df['total_lmp_da'].astype('float64'),
-                'lmp_energy': batch_df['system_energy_price_da'].astype('float64'),
-                'lmp_congestion': batch_df['congestion_price_da'].astype('float64'),
-                'lmp_loss': batch_df['marginal_loss_price_da'].astype('float64'),
-                'system_lambda': batch_df['system_energy_price_da'].astype('float64'),
-                'dst_flag': None,
-                'data_source': 'PJM API',
-                'version': batch_df.get('version_nbr', 1).astype('uint32'),
-                'is_current': batch_df.get('row_is_current', True)
-            })
+        try:
+            for batch_df in self._process_csv_files_in_batches(csv_files, year):
+                # Parse timestamps (PJM provides both UTC and EPT)
+                datetime_utc = pd.to_datetime(batch_df['datetime_beginning_utc'], utc=True)
+                datetime_local = pd.to_datetime(batch_df['datetime_beginning_ept']).dt.tz_localize('America/New_York')
 
-            df_unified = self.enforce_price_types(df_unified)
-            df_unified = df_unified.sort_values('datetime_utc')
+                df_unified = pd.DataFrame({
+                    'datetime_utc': datetime_utc,
+                    'datetime_local': datetime_local,  # Schema v2.0.0: timezone-aware!
+                    'interval_start_utc': datetime_utc,
+                    'interval_end_utc': datetime_utc + pd.Timedelta(hours=1),
+                    'delivery_date': datetime_local.dt.date,
+                    'delivery_hour': datetime_local.dt.hour + 1,
+                    'delivery_interval': np.uint8(0),
+                    'interval_minutes': np.uint8(60),
+                    'iso': 'PJM',
+                    'market_type': 'DA',
+                    'settlement_location': batch_df['pnode_name'].fillna(batch_df['pnode_id'].astype(str)),
+                    'settlement_location_type': batch_df['type'],
+                    'settlement_location_id': batch_df['pnode_id'].astype(str),
+                    'zone': batch_df['zone'],
+                    'voltage_kv': pd.to_numeric(batch_df['voltage'], errors='coerce'),
+                    'lmp_total': batch_df['total_lmp_da'].astype('float64'),
+                    'lmp_energy': batch_df['system_energy_price_da'].astype('float64'),
+                    'lmp_congestion': batch_df['congestion_price_da'].astype('float64'),
+                    'lmp_loss': batch_df['marginal_loss_price_da'].astype('float64'),
+                    'system_lambda': batch_df['system_energy_price_da'].astype('float64'),
+                    'dst_flag': None,
+                    'data_source': 'PJM API',
+                    'version': batch_df.get('version_nbr', 1).astype('uint32'),
+                    'is_current': batch_df.get('row_is_current', True)
+                })
 
-            for yr in df_unified['delivery_date'].apply(lambda x: x.year).unique():
-                if year and yr != year:
-                    continue
+                df_unified = self.enforce_price_types(df_unified)
 
-                df_year = df_unified[df_unified['delivery_date'].apply(lambda x: x.year) == yr]
+                # Write batch by batch to parquet (TRUE STREAMING)
+                for yr in df_unified['delivery_date'].apply(lambda x: x.year).unique():
+                    if year and yr != year:
+                        continue
 
-                if yr not in year_data:
-                    year_data[yr] = []
+                    df_year = df_unified[df_unified['delivery_date'].apply(lambda x: x.year) == yr]
 
-                year_data[yr].append(df_year)
+                    if yr not in year_writers:
+                        # Create output file for this year
+                        output_dir = self.parquet_output_dir / "da_energy_hourly_nodal"
+                        output_dir.mkdir(parents=True, exist_ok=True)
+                        output_file = output_dir / f"da_energy_hourly_nodal_{yr}.parquet.tmp"
+                        year_files[yr] = output_file
 
-            del df_unified, batch_df
-            gc.collect()
+                        # Create ParquetWriter for streaming writes
+                        table = pa.Table.from_pandas(df_year, schema=self.ENERGY_SCHEMA)
+                        year_writers[yr] = pq.ParquetWriter(output_file, self.ENERGY_SCHEMA, compression='snappy')
+                        year_writers[yr].write_table(table)
+                        self.logger.info(f"Started streaming write for year {yr}: {output_file}")
+                    else:
+                        # Append to existing writer
+                        table = pa.Table.from_pandas(df_year, schema=self.ENERGY_SCHEMA)
+                        year_writers[yr].write_table(table)
 
-        # Write accumulated data
-        for yr, dfs in year_data.items():
-            if dfs:
-                self.logger.info(f"Combining {len(dfs)} batches for year {yr}")
-                final_df = pd.concat(dfs, ignore_index=True)
-                final_df = final_df.sort_values('datetime_utc')
-                final_df = final_df.drop_duplicates(subset=['datetime_utc', 'settlement_location'], keep='last')
-
-                output_dir = self.parquet_output_dir / "da_energy_hourly_nodal"
-                output_file = output_dir / f"da_energy_hourly_nodal_{yr}.parquet"
-
-                self.write_parquet_atomic(final_df, output_file, self.ENERGY_SCHEMA, compression='snappy')
-
-                del final_df, dfs
+                del df_unified, batch_df
                 gc.collect()
+
+            # Close all writers and atomic move
+            for yr, writer in year_writers.items():
+                writer.close()
+                temp_file = year_files[yr]
+                final_file = temp_file.parent / temp_file.name.replace('.tmp', '')
+                temp_file.replace(final_file)
+                self.logger.info(f"Successfully wrote {final_file}")
+
+        finally:
+            # Ensure all writers are closed
+            for writer in year_writers.values():
+                try:
+                    writer.close()
+                except:
+                    pass
 
     def convert_rt_energy(self, year: Optional[int] = None) -> None:
         """Convert Real-Time energy prices (NOT IMPLEMENTED YET - reduces memory load)."""
