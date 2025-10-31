@@ -1,0 +1,29 @@
+{
+  "created": "2025-10-30T20:10:33.536299",
+  "model_type": "UnifiedDART_Forecaster",
+  "quantiles": [
+    0.1,
+    0.25,
+    0.5,
+    0.75,
+    0.9
+  ],
+  "forecast_horizon": 48,
+  "metrics": {
+    "da": {
+      "best_val_mae": 11.658824920654297,
+      "test_mae": 20.999801635742188
+    },
+    "rt": {
+      "best_val_mae": 13.774402618408203,
+      "test_mae": 13.002861976623535
+    }
+  },
+  "training_history": [
+    {
+      "epoch": 1,
+      "train_loss_da": 17.868923335605196,
+      "train_loss_rt": 9.476177138752407,
+      "val_loss_da": 4.575404488378101,
+      "val_loss_rt": 6.0119352704948845,
+      "val_mae_da": 
