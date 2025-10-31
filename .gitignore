@@ -99,3 +99,10 @@ credentials/
 
 #Rust
 target
+
+# ML Models
+*.pth
+*.joblib
+ml_models/
+models/*.joblib
+models/*.pth
