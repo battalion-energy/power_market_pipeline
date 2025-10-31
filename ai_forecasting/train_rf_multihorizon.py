@@ -15,7 +15,7 @@ used to pick the best demo vintages or to build a backup forecaster for the dash
 from __future__ import annotations
 
 import json
-from dataclasses import asdict, dataclass
+from dataclasses import dataclass
 from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Dict, Iterable, List, Sequence
@@ -98,7 +98,6 @@ class SplitResult:
 # -----------------------------------------------------------------------------
 
 def load_hourly_dataframe(path: str) -> pd.DataFrame:
-    """Read the parquet file and return a clean hourly pandas DataFrame."""
     print(f"Loading data from {path} ...")
     columns = list({*BASE_FEATURES, "timestamp"})
     pl_df = pl.read_parquet(path, columns=columns)

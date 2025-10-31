@@ -1,0 +1,177 @@
+================================================================================
+BESS REVENUE CALCULATION - QUICK REFERENCE GUIDE
+================================================================================
+
+PROJECT LOCATION:
+  /home/enrico/projects/power_market_pipeline/
+
+MAIN SCRIPTS:
+  1. bess_revenue_calculator.py              (Production - ~1000 lines)
+     Location: ERCOT_BESS_revenue/scripts/
+     Purpose: Main historical revenue calculator
+  
+  2. complete_bess_calculator_final.py       (Production)
+     Location: ERCOT_BESS_revenue/scripts/
+     Purpose: Handles DAM/RT/AS in one script
+  
+  3. unified_bess_revenue_calculator.py      (Development)
+     Location: ERCOT_BESS_revenue/scripts/
+     Purpose: Next-gen unified calculator with dataclass output
+
+OUTPUT FILES (Results):
+  - bess_revenue_2022.csv  (152 BESS, 44 columns)
+  - bess_revenue_2023.csv  (152 BESS, 44 columns)
+  - bess_revenue_2024.csv  (152 BESS, 44 columns)
+  - bess_revenue_2025.csv  (152 BESS, 44 columns)
+  
+  Database: output/bess_database_complete.db
+
+DATA FILES:
+  Base Path: /pool/ssd8tb/data/iso/ERCOT/ercot_market_data/ERCOT_data/rollup_files/
+  
+  DAM_Gen_Resources/2024.parquet      11.8M rows, 41 cols, 110 MB
+    - Discharge awards, AS awards for Gen side
+    - Columns: ResourceName, AwardedQuantity, EnergySettlementPointPrice
+    - Granularity: Hourly (hour 0-23)
+  
+  DAM_Load_Resources/2024.parquet     5.8M rows, 21 cols, 10 MB
+    - AS awards for Load side ONLY (NO energy awards)
+    - Columns: Load Resource Name, RegUp Awarded, RegDown Awarded, etc.
+    - Granularity: Hourly (HourEnding "01:00" to "24:00")
+  
+  SCED_Gen_Resources/2024.parquet     31.6M rows, 152 cols, 943 MB
+    - RT dispatch for discharge
+    - Columns: ResourceName, BasePoint, TelemeteredNetOutput
+    - Granularity: 5-minute intervals
+  
+  SCED_Load_Resources/2024.parquet    19.1M rows, 32 cols, 137 MB
+    - RT dispatch for charging (recently fixed: now has ResourceName)
+    - Columns: ResourceName, BasePoint, RealPowerConsumption
+    - Granularity: 5-minute intervals
+  
+  flattened/DA_prices_2024.parquet    8,783 rows, 23 cols, 0.7 MB
+    - Hour-by-hour DAM prices (wide format)
+    - Columns: HB_BUSAVG, HB_HOUSTON, HB_NORTH, LZ_*, etc.
+    - Granularity: Hourly
+  
+  flattened/AS_prices_2024.parquet    8,783 rows, 8 cols, 0.2 MB
+    - Hourly MCPC for AS services
+    - Columns: REGUP, REGDN, RRS, ECRS, NSPIN
+    - Granularity: Hourly
+  
+  RT_prices/2024.parquet              ~6M rows, ~500 MB
+    - 5-minute RT prices (long format)
+    - Columns: DeliveryDate, DeliveryHour, DeliveryInterval, SettlementPointPrice
+    - Granularity: 5-minute (WARNING: timezone bug in datetime field)
+
+REVENUE FORMULA:
+  Total = DAM_Discharge + DAM_AS_Gen + DAM_AS_Load + RT_Net
+  
+  DAM_Discharge = Σ(AwardedQuantity × EnergySettlementPointPrice)
+  DAM_AS_Gen    = Σ(Awards × MCPC) for all AS types (Gen Resource side)
+  DAM_AS_Load   = Σ(Awards × MCPC) for all AS types (Load Resource side)
+  RT_Net        = Σ((BasePoint_Gen - BasePoint_Load) × RT_Price × 5/60)
+
+KEY INSIGHTS:
+  1. BESS split into Gen Resource (discharge) and Load Resource (charging)
+     until December 2025 RTC+B implementation
+  
+  2. Load Resource gets NO DAM energy awards - charging is RT-only
+  
+  3. Each BESS has TWO resource IDs that must be paired:
+     - Gen: BATCAVE_UNIT1
+     - Load: BATCAVE_LD1
+  
+  4. RT granularity is 5-minute (288 intervals/day)
+     DAM granularity is hourly (24 hours/day)
+  
+  5. Revenue dominated by AS (especially ECRS: ~40-50% of total)
+  
+  6. RT efficiency typically 55-87% (discharge / charge ratio)
+  
+  7. RT has timezone bug: datetime field is Central Time stored as UTC epoch
+
+ANCILLARY SERVICES OFFERED:
+  - RegUp: Regulation Up (increase output)
+  - RegDown: Regulation Down (decrease output)
+  - RRS: Responsive Reserve Service (3 variants: PFR, FFR, UFR)
+  - ECRS: ERCOT Contingency Reserve Service (2 variants: SD, MD)
+  - NonSpin: Non-Spinning Reserve
+
+RESOURCE MAPPING:
+  File: bess_mapping/BESS_UNIFIED_MAPPING_V3_CLARIFIED.csv
+  Total: 197 BESS units
+  Columns: battery_name, gen_resources, load_resources, settlement_points,
+           max_power_mw, duration_hours, cod_date
+
+COLUMN COUNTS:
+  Output CSV: 44 columns × 152 rows/year
+  
+  Key metrics:
+  - dam_discharge_revenue, dam_charge_cost, da_net_energy
+  - dam_as_gen_revenue (breakdown by service)
+  - dam_as_load_revenue (breakdown by service)
+  - rt_discharge_revenue, rt_charge_cost, rt_net_revenue
+  - total_revenue
+  - revenue_per_mw_year, revenue_per_mw_month (normalized)
+  - rt_discharge_mwh, rt_charge_mwh, rt_efficiency
+  - operational_days, active_days
+
+DOCUMENTATION:
+  - BESS_REVENUE_METHODOLOGY.md        (Revenue formula)
+  - BESS_CHARGING_FINAL_ANSWER.md      (Where to find charging data)
+  - BESS_DATA_PIPELINE_COMPLETE.md     (Data pipeline details)
+  - BESS_COMPREHENSIVE_ANALYSIS.md     (Full technical analysis - THIS DOCUMENT)
+  - CLAUDE.md                           (Project setup)
+
+TIME COVERAGE:
+  - DAM data: 2019-2025+
+  - SCED data: 2019-2025+
+  - Currently processing: 2022-2025
+  - Output files available: 2022, 2023, 2024, 2025 (partial)
+
+TYPICAL RUNTIME:
+  - 5 minutes to process all 152 BESS for one year
+  - Memory: 4-8 GB
+
+EXAMPLE RESULT (2024, RRANCHES_UNIT2):
+  Total Revenue: $11,416,871
+  Capacity: 150 MW
+  Revenue/MW-year: $76,112
+  
+  Breakdown:
+    DAM Discharge: $2,408,935
+    DAM AS (Gen): $5,707,785
+    DAM AS (Load): $327,736
+    RT Net: $2,972,415
+  
+  Operations:
+    Discharged: 38,323 MWh
+    Charged: 68,587 MWh
+    Efficiency: 55.88%
+    Active days: 351/366
+
+IMPORTANT WARNINGS:
+  1. RT prices have timezone bug: Central Time epoch stored as UTC
+     Must convert manually before joining with SCED timestamps
+  
+  2. Some BESS (~5) have missing settlement point data
+     These show $0 revenue and should be ignored
+  
+  3. Load resources have VERY LIMITED AS awards
+     Only RegDown typically available for Load side
+  
+  4. DAM Load Resources get NO energy awards
+     All charging is priced at RT prices only
+  
+  5. Column names vary between files
+     Code uses defensive checks (if col exists...)
+
+NEXT STEPS FOR USER:
+  1. Read BESS_COMPREHENSIVE_ANALYSIS.md for full technical details
+  2. Review bess_revenue_calculator.py to understand calculation flow
+  3. Check example output in bess_revenue_2024.csv
+  4. Understand Gen/Load resource pairing from BESS_UNIFIED_MAPPING_V3_CLARIFIED.csv
+  5. For modifications, note timezone bug in RT prices and column naming
+
+================================================================================
