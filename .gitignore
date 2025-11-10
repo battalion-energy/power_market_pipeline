@@ -104,6 +104,11 @@ target
 *.pth
 *.joblib
 ml_models/
+models/*
 models/*.joblib
 models/*.pth
-models/unified_da_rt_best.pth
+models/*.cbm
+
+# ESR data collection
+ercot_battery_storage_data/esr_backups/
+ercot_battery_storage_data/esr_historical_data.csv
