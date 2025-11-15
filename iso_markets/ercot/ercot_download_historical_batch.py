@@ -145,20 +145,58 @@ def verify_zip_integrity(download_dir):
         except Exception as e:
             print(f"ERROR checking {os.path.basename(zip_path)}: {e}")
 
+def log_page_date_range(driver):
+    """
+    Extract and log the date range of files on the current page.
+    Looks at the 'Posted' column (3rd column) of the first and last rows.
+    """
+    try:
+        # Wait for the table to be present
+        WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.XPATH, "//table[contains(@class, 'table')]//tbody//tr"))
+        )
+
+        # Find all table rows in tbody
+        rows = driver.find_elements(By.XPATH, "//table[contains(@class, 'table')]//tbody//tr")
+
+        if len(rows) == 0:
+            print("  [Date Range] No data rows found on this page")
+            return
+
+        # Extract Posted date from first row (3rd td element)
+        first_row_cells = rows[0].find_elements(By.TAG_NAME, "td")
+        if len(first_row_cells) >= 3:
+            first_posted = first_row_cells[2].text.strip()
+        else:
+            first_posted = "Unknown"
+
+        # Extract Posted date from last row (3rd td element)
+        last_row_cells = rows[-1].find_elements(By.TAG_NAME, "td")
+        if len(last_row_cells) >= 3:
+            last_posted = last_row_cells[2].text.strip()
+        else:
+            last_posted = "Unknown"
+
+        # Log the date range
+        print(f"  [Date Range] Page shows {len(rows)} files from {last_posted} to {first_posted}")
+
+    except Exception as e:
+        print(f"  [Date Range] Could not extract date range: {str(e)}")
+
 def check_downloads_complete(download_dir, timeout=600):
     # Wait for a short time to allow downloads to start
     time.sleep(1)
-    
+
     # Check for any .crdownload or .tmp files
     incomplete_downloads = glob.glob(os.path.join(download_dir, '*.crdownload')) + glob.glob(os.path.join(download_dir, '*.tmp'))
-    
+
     # Wait up to timeout seconds for downloads to complete (default 10 minutes)
     start_time = time.time()
     while incomplete_downloads and (time.time() - start_time) < timeout:
         print(f"Waiting for downloads to complete... {len(incomplete_downloads)} files still downloading")
         time.sleep(1)
         incomplete_downloads = glob.glob(os.path.join(download_dir, '*.crdownload')) + glob.glob(os.path.join(download_dir, '*.tmp'))
-    
+
     return len(incomplete_downloads) == 0
 
 def scrape_and_download_batch(url, download_dir, skipPages=None):
@@ -372,6 +410,12 @@ def scrape_and_download_by_date(url, download_dir, end_date="2024-08-24", start_
         EC.presence_of_element_located((By.XPATH, "//button[@class='btn btn-link align-baseline' and contains(., 'Download')]"))
     )
 
+    # Log the date range on the initial page
+    print(f"\n{'='*80}")
+    print(f"Initial page after date filtering:")
+    log_page_date_range(driver)
+    print(f"{'='*80}\n")
+
     page_count = 0
     while True:
         # Wait for the All checkbox to be clickable
@@ -430,7 +474,12 @@ def scrape_and_download_by_date(url, download_dir, end_date="2024-08-24", start_
                 if click_button_safely(driver, next_button):
                     time.sleep(1)  # Wait for buttons to disappear and reappear
                     page_count += 1
-                    print(f"Successfully moved to page {page_count + 1}")
+                    print(f"\nSuccessfully moved to page {page_count + 1}")
+
+                    # Log the date range on the new page
+                    log_page_date_range(driver)
+                    print("")  # Add blank line for readability
+
                     break  # Success, move to next iteration
                 else:
                     print(f"Failed to click next page button (attempt {attempt + 1}/{max_attempts}). Waiting {wait_time} seconds...")

@@ -1,233 +1,233 @@
 {
-  "NP3-911-ER": {
-    "name": "2-Day Ancillary Services Reports",
-    "url": "https://data.ercot.com/data-product-archive/NP3-911-ER",
-    "start_date": "2019-03-10",
-    "end_date": "2025-10-29",
-    "last_updated": "2025-11-09T00:44:30.392502"
-  },
-  "NP3-910-ER": {
-    "name": "2-Day Real Time Gen and Load Data Reports",
-    "url": "https://data.ercot.com/data-product-archive/NP3-910-ER",
-    "start_date": "2019-01-01",
-    "end_date": "2025-10-29",
-    "last_updated": "2025-11-09T00:57:18.569110"
-  },
   "NP3-991-EX": {
     "name": "60-Day COP All Updates",
     "url": "https://data.ercot.com/data-product-archive/NP3-991-EX",
     "start_date": "2019-01-01",
-    "end_date": "2025-08-26",
-    "last_updated": "2025-11-09T00:58:20.687661"
+    "end_date": "2025-08-30",
+    "last_updated": "2025-11-08T14:06:50.203065"
   },
   "NP3-966-ER": {
     "name": "60-Day DAM Disclosure Reports",
     "url": "https://data.ercot.com/data-product-archive/NP3-966-ER",
     "start_date": "2019-01-01",
-    "end_date": "2025-09-01",
-    "last_updated": "2025-11-09T00:59:24.631637"
-  },
-  "NP3-990-EX": {
-    "name": "60-Day SASM Disclosure Reports",
-    "url": "https://data.ercot.com/data-product-archive/NP3-990-EX",
-    "start_date": "2019-01-01",
-    "end_date": "2022-11-21",
-    "last_updated": "2025-11-09T01:00:29.992474"
+    "end_date": "2025-08-30",
+    "last_updated": "2025-11-08T14:07:57.699454"
   },
   "NP3-965-ER": {
     "name": "60-Day SCED Disclosure Reports",
     "url": "https://data.ercot.com/data-product-archive/NP3-965-ER",
     "start_date": "2019-01-01",
-    "end_date": "2025-09-01",
-    "last_updated": "2025-11-09T01:01:42.288640"
+    "end_date": "2025-08-30",
+    "last_updated": "2025-11-08T14:09:03.592199"
   },
   "NP3-765-CD": {
     "name": "Approved DC Tie Schedules",
     "url": "https://data.ercot.com/data-product-archive/NP3-765-CD",
-    "start_date": "2019-01-01",
-    "end_date": "2025-11-07",
-    "last_updated": "2025-11-09T01:02:47.874811"
+    "start_date": null,
+    "end_date": null,
+    "last_updated": "2025-11-08T13:50:49.748061"
   },
   "NP4-188-CD": {
     "name": "DAM Clearing Prices for Capacity",
     "url": "https://data.ercot.com/data-product-archive/NP4-188-CD",
     "start_date": "2019-01-01",
-    "end_date": "2025-11-01",
-    "last_updated": "2025-11-09T01:03:44.190172"
+    "end_date": "2025-10-30",
+    "last_updated": "2025-11-08T14:09:55.995228"
   },
   "NP4-183-CD": {
     "name": "DAM Hourly LMPs",
     "url": "https://data.ercot.com/data-product-archive/NP4-183-CD",
     "start_date": "2019-01-01",
-    "end_date": "2025-11-01",
-    "last_updated": "2025-11-09T01:04:51.904863"
+    "end_date": "2025-10-30",
+    "last_updated": "2025-11-08T14:11:27.293765"
   },
   "NP4-196-M": {
     "name": "DAM Price Corrections",
     "url": "https://data.ercot.com/data-product-archive/NP4-196-M",
     "start_date": "2019-01-01",
-    "end_date": "2025-06-27",
-    "last_updated": "2025-11-09T01:05:53.631404"
+    "end_date": "2025-06-28",
+    "last_updated": "2025-11-08T14:12:24.090696"
   },
   "NP4-190-CD": {
     "name": "DAM Settlement Point Prices",
     "url": "https://data.ercot.com/data-product-archive/NP4-190-CD",
     "start_date": "2019-01-01",
-    "end_date": "2025-11-01",
-    "last_updated": "2025-11-09T01:06:46.078141"
+    "end_date": "2025-10-30",
+    "last_updated": "2025-11-08T14:13:16.442247"
   },
   "NP4-191-CD": {
     "name": "DAM Shadow Prices",
     "url": "https://data.ercot.com/data-product-archive/NP4-191-CD",
     "start_date": "2019-01-01",
-    "end_date": "2025-11-01",
-    "last_updated": "2025-11-09T01:07:40.273849"
+    "end_date": "2025-10-30",
+    "last_updated": "2025-11-08T14:14:09.109250"
   },
   "NP4-523-CD": {
     "name": "DAM System Lambda",
     "url": "https://data.ercot.com/data-product-archive/NP4-523-CD",
     "start_date": "2019-01-01",
-    "end_date": "2025-11-01",
-    "last_updated": "2025-11-09T01:08:32.749028"
+    "end_date": "2025-10-30",
+    "last_updated": "2025-11-08T14:15:03.088811"
   },
   "NP4-765-ER": {
     "name": "ESR Integration Report",
     "url": "https://data.ercot.com/data-product-archive/NP4-765-ER",
     "start_date": null,
     "end_date": null,
-    "last_updated": "2025-11-09T00:44:30.392545"
+    "last_updated": "2025-11-08T13:50:49.748076"
   },
   "NP4-494-ER": {
     "name": "Exceptional Fuel Cost Submission Report",
     "url": "https://data.ercot.com/data-product-archive/NP4-494-ER",
     "start_date": null,
     "end_date": null,
-    "last_updated": "2025-11-09T00:44:30.392547"
+    "last_updated": "2025-11-08T13:50:49.748078"
   },
   "NP6-792-ER": {
     "name": "Historical Real-Time ORDC and Reliability Deployment Price Adders and Reserves",
     "url": "https://data.ercot.com/data-product-archive/NP6-792-ER",
     "start_date": null,
     "end_date": null,
-    "last_updated": "2025-11-09T00:44:30.392549"
+    "last_updated": "2025-11-08T13:50:49.748080"
   },
   "NP6-793-ER": {
     "name": "Historical Real-Time ORDC and Reliability Deployment Prices for 15-minute Settlement Interval",
     "url": "https://data.ercot.com/data-product-archive/NP6-793-ER",
     "start_date": null,
     "end_date": null,
-    "last_updated": "2025-11-09T00:44:30.392550"
-  },
-  "NP3-233-CD": {
-    "name": "Hourly Resource Outage Capacity",
-    "url": "https://data.ercot.com/data-product-archive/NP3-233-CD",
-    "start_date": "2019-01-01",
-    "end_date": "2025-11-08",
-    "last_updated": "2025-11-09T01:16:55.139285"
+    "last_updated": "2025-11-08T13:50:49.748082"
   },
   "NP4-442-CD": {
     "name": "Hourly System-wide and Regional Wind Forecasts by Model",
     "url": "https://data.ercot.com/data-product-archive/NP4-442-CD",
     "start_date": "2019-01-01",
-    "end_date": "2025-11-08",
-    "last_updated": "2025-11-09T01:17:59.257195"
-  },
-  "NP6-787-CD": {
-    "name": "LMPs by Electrical Bus",
-    "url": "https://data.ercot.com/data-product-archive/NP6-787-CD",
-    "start_date": null,
-    "end_date": null,
-    "last_updated": "2025-11-09T00:44:30.392557"
+    "end_date": "2025-11-05",
+    "last_updated": "2025-11-08T14:15:56.551885"
   },
   "NP6-788-CD": {
     "name": "LMPs by Resource Nodes, Load Zones and Trading Hubs",
     "url": "https://data.ercot.com/data-product-archive/NP6-788-CD",
     "start_date": "2019-01-01",
-    "end_date": "2022-02-13",
-    "last_updated": "2025-11-09T03:30:42.767740"
+    "end_date": "2025-11-02",
+    "last_updated": "2025-11-08T14:42:54.033001"
   },
   "NP4-159-CD": {
     "name": "Load Distribution Factors",
     "url": "https://data.ercot.com/data-product-archive/NP4-159-CD",
-    "start_date": "2019-01-01",
-    "end_date": "2025-11-05",
-    "last_updated": "2025-11-09T03:31:53.459832"
+    "start_date": null,
+    "end_date": null,
+    "last_updated": "2025-11-08T13:50:49.748090"
   },
   "NP3-108": {
     "name": "Monthly ERCOT Demand Response from Load Resources",
     "url": "https://data.ercot.com/data-product-archive/NP3-108",
     "start_date": null,
     "end_date": null,
-    "last_updated": "2025-11-09T00:44:30.392564"
+    "last_updated": "2025-11-08T13:50:49.748091"
   },
   "NP6-970-CD": {
     "name": "RTD Indicative LMPs by Resource Nodes, Load Zones and Hubs",
     "url": "https://data.ercot.com/data-product-archive/NP6-970-CD",
     "start_date": "2019-01-01",
-    "end_date": "2025-11-01",
-    "last_updated": "2025-11-09T06:32:19.063253"
+    "end_date": "2023-01-01",
+    "last_updated": "2025-11-08T15:31:43.037398"
   },
   "NP4-197-M": {
     "name": "RTM Price Corrections",
     "url": "https://data.ercot.com/data-product-archive/NP4-197-M",
     "start_date": "2019-01-01",
     "end_date": "2025-10-14",
-    "last_updated": "2025-11-09T06:33:22.021768"
+    "last_updated": "2025-11-08T15:32:44.590547"
+  },
+  "NP6-86-CD": {
+    "name": "SCED Shadow Prices and Binding Transmission Constraints",
+    "url": "https://data.ercot.com/data-product-archive/NP6-86-CD",
+    "start_date": "2019-01-01",
+    "end_date": "2025-10-29",
+    "last_updated": "2025-11-08T15:40:44.480141"
   },
   "NP6-322-CD": {
     "name": "SCED System Lambda",
     "url": "https://data.ercot.com/data-product-archive/NP6-322-CD",
     "start_date": "2019-01-01",
-    "end_date": "2025-11-01",
-    "last_updated": "2025-11-09T07:03:43.654252"
+    "end_date": "2025-10-29",
+    "last_updated": "2025-11-08T20:02:41.847057"
+  },
+  "NP6-905-CD": {
+    "name": "Settlement Point Prices at Resource Nodes, Hubs and Load Zones",
+    "url": "https://data.ercot.com/data-product-archive/NP6-905-CD",
+    "start_date": "2019-01-01",
+    "end_date": "2025-11-02",
+    "last_updated": "2025-11-08T20:05:11.099275"
   },
   "NP3-566-CD": {
     "name": "Seven-Day Load Forecast by Model and Study Area",
     "url": "https://data.ercot.com/data-product-archive/NP3-566-CD",
-    "start_date": null,
-    "end_date": null,
-    "last_updated": "2025-11-09T00:44:30.392575"
+    "start_date": "2019-01-01",
+    "end_date": "2025-11-09",
+    "last_updated": "2025-11-08T20:06:14.069473"
+  },
+  "NP3-565-CD": {
+    "name": "Seven-Day Load Forecast by Model and Weather Zone",
+    "url": "https://data.ercot.com/data-product-archive/NP3-565-CD",
+    "start_date": "2019-01-01",
+    "end_date": "2025-11-05",
+    "last_updated": "2025-11-08T20:52:51.993002"
   },
   "NP4-738-CD": {
     "name": "Solar Power Production - Actual 5-Minute Averaged Values",
     "url": "https://data.ercot.com/data-product-archive/NP4-738-CD",
-    "start_date": "2019-01-01",
-    "end_date": "2024-08-14",
-    "last_updated": "2025-11-09T11:09:03.449007"
+    "start_date": null,
+    "end_date": null,
+    "last_updated": "2025-11-08T13:50:49.748107"
   },
   "NP4-746-CD": {
     "name": "Solar Power Production - Actual 5-Minute Averaged Values by Geographical Region",
     "url": "https://data.ercot.com/data-product-archive/NP4-746-CD",
-    "start_date": "2019-01-01",
-    "end_date": "2025-11-01",
-    "last_updated": "2025-11-09T11:10:06.721334"
+    "start_date": null,
+    "end_date": null,
+    "last_updated": "2025-11-08T13:50:49.748109"
   },
   "NP4-745-CD": {
     "name": "Solar Power Production - Hourly Averaged Actual and Forecasted Values by Geographical Region",
     "url": "https://data.ercot.com/data-product-archive/NP4-745-CD",
     "start_date": "2019-01-01",
-    "end_date": "2025-11-08",
-    "last_updated": "2025-11-09T11:22:35.972063"
+    "end_date": "2025-11-05",
+    "last_updated": "2025-11-08T20:53:57.769559"
   },
   "NP4-179-CD": {
     "name": "Total Ancillary Service Offers",
     "url": "https://data.ercot.com/data-product-archive/NP4-179-CD",
     "start_date": "2019-01-01",
-    "end_date": "2025-11-02",
-    "last_updated": "2025-11-09T11:23:28.621396"
+    "end_date": "2025-10-30",
+    "last_updated": "2025-11-08T20:54:50.524381"
   },
   "NP1-346-ER": {
     "name": "Unplanned Resource Outages Report",
     "url": "https://data.ercot.com/data-product-archive/NP1-346-ER",
-    "start_date": null,
-    "end_date": null,
-    "last_updated": "2025-11-09T00:44:30.392589"
+    "start_date": "2019-01-01",
+    "end_date": "2025-10-26",
+    "last_updated": "2025-11-08T20:55:53.399336"
   },
   "NP4-733-CD": {
     "name": "Wind Power Production - Actual 5-Minute Averaged Values",
     "url": "https://data.ercot.com/data-product-archive/NP4-733-CD",
+    "start_date": null,
+    "end_date": null,
+    "last_updated": "2025-11-08T13:50:49.748117"
+  },
+  "NP4-743-CD": {
+    "name": "Wind Power Production - Actual 5-Minute Averaged Values by Geographical Region",
+    "url": "https://data.ercot.com/data-product-archive/NP4-743-CD",
+    "start_date": null,
+    "end_date": null,
+    "last_updated": "2025-11-08T13:50:49.748119"
+  },
+  "NP4-732-CD": {
+    "name": "Wind Power Production - Hourly Averaged Actual and Forecasted Values",
+    "url": "https://data.ercot.com/data-product-archive/NP4-732-CD",
     "start_date": "2019-01-01",
-    "end_date": "2025-11-01",
-    "last_updated": "2025-11-09T13:39:42.578501"
+    "end_date": "2025-11-05",
+    "last_updated": "2025-11-08T21:07:40.312280"
   }
 }
